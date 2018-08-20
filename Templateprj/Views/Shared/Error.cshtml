@@ -1,0 +1,29 @@
+﻿
+@{
+    Layout = null;
+}
+<link href="~/assets/css/UnAutorized.css" rel="stylesheet" />
+
+<div id="clouds">
+    <div class="cloud x1"></div>
+    <div class="cloud x1_5"></div>
+    <div class="cloud x2"></div>
+    <div class="cloud x3"></div>
+    <div class="cloud x4"></div>
+    <div class="cloud x5"></div>
+</div>
+<div class='c'>
+    <div class='_404'>500</div>
+    <div class='_4'>
+    @if (ViewBag.Message != null)
+    {
+        <span>@ViewBag.Message</span>
+    }
+    else
+    {
+        <span>Sorry, an error occurred while processing your request. </span>
+    }
+    </div>
+    <hr>    
+    @Html.ActionLink("Login", "Login", new { controller = "Account" }, new { @class = "" })
+</div>

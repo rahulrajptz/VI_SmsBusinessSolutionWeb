@@ -1,0 +1,211 @@
+﻿
+<div class="sidebar-wrapper ps-container ps-theme-default ps-active-y" data-ps-id="131e9311-ee64-0e96-773f-c47a19cdc8dc">
+    <div class="user">
+        <div class="photo">
+            <img src="~/assets/img/james.jpg" />
+        </div>
+        
+        <div class="info">            
+            <a class="collapsed" aria-expanded="false" href="#collapseExample" data-toggle="collapse">
+                <span>
+                    Rohit Vijayakumar
+                    <b class="caret"></b>
+                </span>
+            </a>
+            <div class="clearfix"></div>
+            <div class="collapse" id="collapseExample">
+                <ul class="nav">
+                    <li>
+                        <a href="#">
+                            <span class="sidebar-mini-icon">MP</span>
+                            <span class="sidebar-normal">My Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="sidebar-mini-icon">EP</span>
+                            <span class="sidebar-normal">Edit Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="sidebar-mini-icon">S</span>
+                            <span class="sidebar-normal">Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <ul class="nav">
+        <li class="not-close">
+            <a data-toggle="collapse" href="#Index">
+                <i class="now-ui-icons loader_gear spin"></i>
+                <p>
+                    Home <b class="caret"></b>
+                </p>
+            </a>
+            <div class="@((ViewContext.RouteData.Values["Action"].ToString() == "Index") ? "collapse show" : "collapse ") not-close" id="Index">
+                <ul class="nav">
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "") not-close">
+                        <a href="Home/Index" class="not-close">
+                            <span class="sidebar-mini-icon">I</span>
+                            <span class="sidebar-normal"> Index </span>
+                        </a>
+                    </li>   
+                   
+                </ul>
+            </div>           
+        </li>
+    </ul>
+    <ul class="nav">
+        <li class="not-close">
+            <a data-toggle="collapse" href="#contact">
+                <i class="now-ui-icons tech_laptop"></i>
+                <p>
+                    Contact <b class="caret"></b>
+                </p>
+            </a>
+            <div class="@((ViewContext.RouteData.Values["Action"].ToString() == "Contact") ? "collapse show" : "collapse") not-close" id="contact">
+                <ul class="nav">
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "") not-close">
+                        <a href="Home/Contact" class="not-close">
+                            <span class="sidebar-mini-icon">C</span>
+                            <span class="sidebar-normal"> Contact </span>
+                        </a>
+                    </li>                   
+                </ul>
+            </div>
+        </li>
+    </ul>
+    <ul class="nav">
+        <li class="not-close">
+            <a data-toggle="collapse" href="#About">
+                <i class="now-ui-icons gestures_tap-01"></i>
+                <p>
+                    About <b class="caret"></b>
+                </p>
+            </a>
+            <div class="@((ViewContext.RouteData.Values["Action"].ToString() == "About") || (ViewContext.RouteData.Values["Action"].ToString() == "Buttons") ? "collapse show" : "collapse") not-close" id="About">
+                <ul class="nav">
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "") not-close">
+                        <a href="Home/About" class="not-close">
+                            <span class="sidebar-mini-icon">A</span>
+                            <span class="sidebar-normal"> About </span>
+                        </a>
+                    </li>
+                </ul>   
+                <ul class="nav">
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Buttons" ? "active" : "") not-close">
+                        <a href="Home/Buttons" class="not-close">
+                            <span class="sidebar-mini-icon">B</span>
+                            <span class="sidebar-normal"> Buttons </span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav">
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "ExtraPage" ? "active" : "") not-close">
+                        <a href="Home/ExtraPage" class="not-close">
+                            <span class="sidebar-mini-icon">E</span>
+                            <span class="sidebar-normal"> ExtraPage </span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav">
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "DashBoard" ? "active" : "") not-close">
+                        <a href="Home/DashBoard" class="not-close">
+                            <span class="sidebar-mini-icon">D</span>
+                            <span class="sidebar-normal"> DashBoard </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>   
+
+    <ul class="nav">
+        <li class="not-close">
+            <a data-toggle="collapse" href="#SystemAlerts">
+                <i class="now-ui-icons loader_gear spin"></i>
+                <p>
+                   Alerts <b class="caret"></b>
+                </p>
+            </a>
+            <div class="@((ViewContext.RouteData.Values["Action"].ToString() == "SystemAlerts") || (ViewContext.RouteData.Values["Action"].ToString() == "FlipkartAlerts") ? "collapse show" : "collapse ") not-close" id="SystemAlerts">
+                <ul class="nav">
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "SystemAlerts" ? "active" : "") not-close">
+                        <a href="Incident/SystemAlerts" class="not-close">
+                            <span class="sidebar-mini-icon">S</span>
+                            <span class="sidebar-normal"> SystemAlerts </span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav">
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "FlipkartAlerts" ? "active" : "") not-close">
+                        <a href="Incident/FlipkartAlerts" class="not-close">
+                            <span class="sidebar-mini-icon">F</span>
+                            <span class="sidebar-normal"> FlipkartAlerts </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+    <ul class="nav">
+        <li class="not-close">
+            <a data-toggle="collapse" href="#Report">
+                <i class="now-ui-icons gestures_tap-01"></i>
+                <p>
+                    Report <b class="caret"></b>
+                </p>
+            </a>
+            <div class="@((ViewContext.RouteData.Values["Action"].ToString() == "IncidentView") || (ViewContext.RouteData.Values["Action"].ToString() == "QrcView") || (ViewContext.RouteData.Values["Action"].ToString() == "ProjectTrackerView") ? "collapse show" : "collapse") not-close" id="Report">
+                <ul class="nav">
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "IncidentView" ? "active" : "") not-close">
+                        <a href="Incident/IncidentView" class="not-close">
+                            <span class="sidebar-mini-icon">I</span>
+                            <span class="sidebar-normal"> Incident </span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav">
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "QrcView" ? "active" : "") not-close">
+                        <a href="Incident/QrcView" class="not-close">
+                            <span class="sidebar-mini-icon">Q</span>
+                            <span class="sidebar-normal"> Qrc </span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav">
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "ProjectTrackerView" ? "active" : "") not-close">
+                        <a href="Incident/ProjectTrackerView" class="not-close">
+                            <span class="sidebar-mini-icon">P</span>
+                            <span class="sidebar-normal"> ProjectTracker</span>
+                        </a>
+                    </li>
+                </ul>              
+            </div>
+        </li>
+    </ul>   
+
+    <ul class="nav">
+        <li class="not-close">
+            <a data-toggle="collapse" href="#ProjectTracker">
+                <i class="now-ui-icons gestures_tap-01"></i>
+                <p>
+                    ProjectTracker <b class="caret"></b>
+                </p>
+            </a>
+            <div class="@((ViewContext.RouteData.Values["Action"].ToString() == "ProjectTracker") ? "collapse show" : "collapse") not-close" id="ProjectTracker">
+                <ul class="nav">
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "ProjectTracker" ? "active" : "") not-close">
+                        <a href="Incident/ProjectTracker" class="not-close">
+                            <span class="sidebar-mini-icon">P</span>
+                            <span class="sidebar-normal"> ProjectTracker </span>
+                        </a>
+                    </li>
+                </ul>               
+            </div>
+        </li>
+    </ul>   
+</div>

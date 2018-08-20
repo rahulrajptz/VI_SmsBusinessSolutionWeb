@@ -1,0 +1,118 @@
+﻿@using CaptchaMvc.HtmlHelpers
+@model Templateprj.Models.AuthenticateUserModel
+<style>
+    .img-circle {
+        border-radius: 50%;
+    }
+</style>
+@{
+    bool isDoubleCard = false;
+    if (Session["PasswordFlag"] == null)
+    {
+        isDoubleCard = true;
+    }
+    else if (Session["PasswordFlag"].ToString() != "0" && Session["PasswordFlag"].ToString() != "7")
+    {
+        isDoubleCard = true;
+    }
+
+    ViewBag.Title = ViewBag.Head == "Forgot Password" ? "Forgot Password" : "Reset Password";
+    if (Session["PasswordFlag"] != null && (Session["PasswordFlag"].ToString() == "0" || Session["PasswordFlag"].ToString() == "7"))
+    {
+        ViewBag.ActLink = "Change Password";
+        Layout = "~/Views/Account/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Account/_Layout.cshtml";
+    }
+}
+<div class="row">
+    <div class="col-md-6 ml-auto mr-auto">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="card card-lock text-center @(@isDoubleCard ? "card-double" : "")">
+                @if (isDoubleCard)
+                {
+                    <div class="card-header">
+                        <img src="~/assets/img/emilyz.jpg" />
+                    </div>
+                    @*<div class="header header-orange center">
+                            <img class="img-circle" src="~/Content/Images/notification.png" />
+                            <h4 class="card-title no-margin blue-text darken-4">@ViewBag.Head</h4>
+                        </div>*@
+                }
+                <div class="card-body">
+                    <h4 class="card-title">@ViewBag.Head</h4>
+                    @if (!isDoubleCard)
+                    {
+                        <span class="card-title hide-on-med-and-down">@ViewBag.Head</span>
+                    }
+                    @if (ViewBag.Head == "Forgot Password")
+                    {
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.Username, new { @class = "form-control", placeholder = "Username..", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false" })
+                        </div>
+                    }
+                    else
+                    {
+                        <span class="h5">@ViewBag.Desc</span><br /><br />
+                        @Html.HiddenFor(m => m.Username)
+                    }
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.SelectedSecurityQuestion, new { @class = "active" })
+                        @Html.DropDownListFor(m => m.SelectedSecurityQuestion, new SelectList(Model.SecurityQuestions, "Value", "Text"), new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.Answer, new { @class = "form-control", placeholder = "Answer..", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false" })
+                    </div>
+                    @if (ViewBag.Title == "Forgot Password")
+                    {
+                        <input type="hidden" name="OldPwd" value="cX(8~7Jdn@5N9mE)" />
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            @Html.PasswordFor(m => m.OldPwd, new { @class = "form-control", placeholder = "Old Password..", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false" })
+                        </div>
+                    }
+                    @Html.Captcha(6, "_CaptchaLayout")
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary btn-round btn-lg">Generate OTP</button>
+                </div>
+                @if (ViewBag.ErrorMsg != null)
+                {
+                    <div id="message" class="full-width center">
+                        <br /><span class="now-ui-icons ui-1_simple-remove text-danger"> @ViewBag.ErrorMsg</span><br />
+                    </div>
+                }
+                <div class="card-footer">
+                    @if (ViewBag.CanLater != null)
+                    {
+                        @Html.ActionLink("Do it Later", MVC.Home.Index(), new { @class = "btn btn-primary btn-sm not-close" });
+                    }
+                    else if (Session["PasswordFlag"] == null)
+                    {
+                        @Html.ActionLink("LOGIN", MVC.Account.Login(), new { @class = "now-ui-icons arrows-1_minimal-left btn btn-primary btn-sm not-close" });
+                    }
+                    else
+                    {
+                        @:&nbsp;
+					}
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if (typeof onReady !== 'undefined' && $.isFunction(onReady)) {
+                onReady();
+            }
+        });
+    </script>
+}

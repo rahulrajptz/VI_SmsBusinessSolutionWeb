@@ -1,0 +1,132 @@
+﻿@model IBS.Mvc4.Models.QrcModel
+@{
+    ViewBag.ActLink = ViewBag.Title = "Qrc";
+}
+@if (Session["RoleID"].ToString() == "1")
+{
+    <div class="row">
+        <div class="col s12">
+            <div class="card animated slideInLeft">               
+                <div class="card-content">
+
+                    @using (Html.BeginForm(MVC.Incident.Qrc(), FormMethod.Post))
+                {
+
+                        <div class="row" style="display:none">
+                            <div class="input-field col s2">
+                                @Html.LabelFor(m => m.QrcId, new { @class = "active" })
+                                @Html.TextBoxFor(m => m.QrcId, new { @class = "iyellow numeric", type = "text" });
+                            </div>
+                            <div class="input-field col s2">
+                                @Html.LabelFor(m => m.AlertId, new { @class = "active" })
+                                @Html.TextBoxFor(m => m.AlertId, new { @class = "iyellow numeric", type = "text" });
+                            </div>
+                            <div class="input-field col s2">
+                                @Html.LabelFor(m => m.SystemId, new { @class = "active" })
+                                @Html.TextBoxFor(m => m.SystemId, new { @class = "iyellow numeric", type = "text" });
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s2">
+                                @Html.LabelFor(m => m.ComplaintType, new { @class = "active" })
+                                @Html.DropDownListFor(m => m.ComplaintType, Model.ComplaintTypeList, new { @class = "browser-default iyellow" })
+                            </div>
+                            <div class="input-field col s2">
+                                @Html.LabelFor(m => m.Type, new { @class = "active" })
+                                @Html.DropDownListFor(m => m.Type, Model.TypeList, new { @class = "browser-default iyellow" })
+                            </div>
+                            <div class="input-field col s2">
+                                @Html.LabelFor(m => m.Location, new { @class = "active" })
+                                @Html.DropDownListFor(m => m.Location, Model.LocationList, new { @class = "browser-default iyellow" })
+                            </div>
+                            <div class="input-field col s2">
+                                @Html.LabelFor(m => m.CusName, new { @class = "active" })
+                                @Html.DropDownListFor(m => m.CusName, Model.CusNameList, new { @class = " browser-default iyellow" })
+                            </div>
+                            <div class="input-field col s2">
+                                @Html.LabelFor(m => m.SelectedStatus, new { @class = "active" })
+                                @Html.DropDownListFor(m => m.SelectedStatus, Model.StatusList, new { @class = " browser-default iyellow" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s5">
+                                @Html.LabelFor(m => m.ComplaintDate)
+                                @Html.TextBoxFor(m => m.ComplaintDate, new { @class = "iyellow highlighted", data_max_date = DateTime.Today.ToString("yyyy-MM-dd H-i"), data_min_date = DateTime.Today.ToString("yyyy-MM-dd H-i") })
+                            </div>
+                            <div class="input-field col s5">
+                                @Html.LabelFor(m => m.ClosingDate)
+                                @Html.TextBoxFor(m => m.ClosingDate, new { @class = "iyellow highlighted", data_max_date = DateTime.Today.ToString("yyyy-MM-dd H-i"), data_min_date = DateTime.Today.ToString("yyyy-MM-dd H-i") })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s5">
+                                @Html.LabelFor(m => m.Rdn)
+                                @Html.TextBoxFor(m => m.Rdn, new { @class = "iyellow numeric", @onkeypress = "return ((event.charCode >= 48 && event.charCode <= 57) || event.charCode == 44 || event.which == 8)" })
+                                @*@Html.ValidationMessageFor(m => m.Rdn, "", new { @class = "text - danger" })*@
+                            </div>
+
+                            <div class="input-field col s5">
+                                @Html.LabelFor(m => m.Rca)
+                                @Html.TextBoxFor(m => m.Rca, new { @class = "iyellow numeric", type = "text" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s10">
+                                @Html.LabelFor(m => m.ProblemStmt)
+                                @Html.TextBoxFor(m => m.ProblemStmt, new { @class = "iyellow numeric", type = "text" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s10">
+                                @Html.LabelFor(m => m.Solution)
+                                @Html.TextBoxFor(m => m.Solution, new { @class = "iyellow numeric", type = "text" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="footer left">
+                                <br />
+                                <br />
+                                <button id="btn_show" class="orange btn btn-ion not-close" type="submit" name="action">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $("#ComplaintDate").flatpickr({ enableTime: true });
+            $("#ClosingDate").flatpickr({ enableTime: true });
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-bottom-full-width",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+           if ('@ViewBag.Status' == 1 )
+             toastr.success('@ViewBag.Message');
+            else if( '@ViewBag.Status' == -1)
+                 toastr.error('@ViewBag.Message');
+        });
+    </script>
+}

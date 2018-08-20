@@ -1,0 +1,62 @@
+﻿@model Templateprj.Models.FirstTimeLoginModel
+@if (Session["IsMob"] == null)
+{
+    ViewBag.Title = "Change Credentials";
+    Layout = "~/Views/Account/_Layout.cshtml";
+}
+<style>
+    .img-circle {
+        border-radius: 50%;
+    }
+</style>
+<div class="row">
+    <div class="col-md-6 ml-auto mr-auto">
+        @using (Html.BeginForm(MVC.Account.FirstTimeLogin()))
+        {
+            @Html.AntiForgeryToken()
+            <div class="card card-lock text-center">
+                <div class="card-header">
+                    <img src="~/assets/img/emilyz.jpg" />
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">First Time Login</h4>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.SelectedSecurityQuestion, new { @class = "active" })
+                        @Html.DropDownListFor(m => m.SelectedSecurityQuestion, Model.SecurityQuestions, new { @class = "form-control" })                    
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Answer)
+                        @Html.TextBoxFor(m => m.Answer, new { @class = "form-control", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false" })
+                                        </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.NewPassword)
+                        @Html.PasswordFor(m => m.NewPassword, new { @class = "form-control", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false" })
+                                        </div>
+                    <div id="pwdbubble" style="width:100%">
+                        <table class="pwdbubble">
+                            <tr><td><i id="strgLgth" class="ion ion-close-round red-text"></i></td><td>Use atleast 8 characters</td></tr>
+                            <tr><td><i id="strgCase" class="ion ion-close-round red-text"></i></td><td>Mix lower and upper case letters</td></tr>
+                            <tr><td><i id="strgNumb" class="ion ion-close-round red-text"></i></td><td>Use numbers</td></tr>
+                            <tr><td><i id="strgSpec" class="ion ion-close-round red-text"></i></td><td>Use special characters</td></tr>
+                        </table>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ConfirmPassword)
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false" })
+                    </div>                   
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary btn-round btn-lg not-close">Change Password</button>
+                </div>
+                @if (TempData["ErrorMsg"] != null)
+                {
+                    <div id="message" class="full-width center">
+                        <br /><span class="now-ui-icons ui-1_simple-remove text-danger"> @TempData["ErrorMsg"]</span>
+                    </div>
+                }<br />
+            </div>}
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/PwdStrg.min.js"></script>
+}

@@ -1,0 +1,43 @@
+﻿@model Templateprj.Models.VerifySecurityQnModel
+@if (Session["IsMob"] == null)
+{
+	ViewBag.Title = "Security Question";
+	Layout = "~/Views/Account/_Layout.cshtml";
+}
+<style>
+    .img-circle {
+        border-radius: 50%;
+    }
+</style>
+<div class="row">
+	<div class="col-md-6 ml-auto mr-auto">
+		@using (Html.BeginForm())
+		{
+			@Html.AntiForgeryToken()
+			<div class="card card-lock text-center">
+                <div class="card-header">
+                    <img src="~/assets/img/emilyz.jpg" />
+                </div>
+				<div class="card-body">
+                    <h4 class="card-title">Security Question</h4>
+                    <div class="form-group">
+                        @Html.DropDownListFor(m => m.SelectedSecurityQuestion, Model.SecurityQuestions, new { @class = "form-control", @readonly = "true" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Answer)
+                        @Html.TextBoxFor(m => m.Answer, new { @class = "form-control", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false" })
+                    </div>					
+				</div>
+				<div class="card-footer">
+					<button type="submit" class="btn btn-primary btn-round btn-lg not-close">Submit</button>
+				</div>
+				@if (ViewBag.ErrorMsg != null)
+				{
+					<div id="message" class="full-width center">
+						<br /><span class="now-ui-icons ui-1_simple-remove text-danger"> @ViewBag.ErrorMsg</span><br />
+					</div>
+				}<br />
+			</div>
+		}
+	</div>
+</div>
