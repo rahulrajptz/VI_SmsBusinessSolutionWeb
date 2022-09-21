@@ -14,6 +14,7 @@ namespace Templateprj.Ioc
             var container = new UnityContainer();
 
             container.RegisterType<IInstantSmsRepository, InstantSmsRepository>();
+            container.RegisterType<IAccountManagemntRepository, AccountManagemntRepository>();
             container.RegisterType<ISmsService, SmsService>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));

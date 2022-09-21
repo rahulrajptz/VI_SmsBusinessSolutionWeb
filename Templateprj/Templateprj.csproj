@@ -304,6 +304,7 @@
     <Compile Include="Controllers\CampaignController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InstantSmsController.cs" />
+    <Compile Include="Controllers\ManagementController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="DataAccess\AccountDbPrcs.cs" />
@@ -330,6 +331,9 @@
     <Compile Include="InstantSmsController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
+    <Compile Include="ManagementController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\APIModels.cs" />
     <Compile Include="Models\ApiModels\BulkSms.cs" />
@@ -343,6 +347,7 @@
     <Compile Include="Models\InstantSms\SmsCountModel.cs" />
     <Compile Include="Models\InstantSms\Variable.cs" />
     <Compile Include="Models\MailModel.cs" />
+    <Compile Include="Models\Managements\ManagementModel.cs" />
     <Compile Include="Models\ReportsModels.cs" />
     <Compile Include="Models\TestModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -350,7 +355,9 @@
     <Compile Include="ReportsController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\Interfaces\IAccountManagemntRepository.cs" />
     <Compile Include="Repositories\Interfaces\IInstantSmsRepository.cs" />
+    <Compile Include="Repositories\Services\AccountManagemntRepository.cs" />
     <Compile Include="Repositories\Services\InstantSmsRepository.cs" />
     <Compile Include="Services\ISmsService.cs" />
     <Compile Include="Services\SmsService.cs" />
@@ -710,6 +717,7 @@
     <Content Include="Views\InstantSms\InstantSmsReciver.cshtml" />
     <Content Include="Views\InstantSms\InstantSms_Copy.cshtml" />
     <Content Include="Views\Reports\DetailedReport.cshtml" />
+    <Content Include="Views\Management\Account.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
