@@ -1,0 +1,23 @@
+﻿
+.bg-blue {
+    background-color: #609BEB;
+}
+
+ul {
+    list-style-type: circle;
+}
+
+.bor {
+    border: 2px solid #000000;
+}
+
+.h {
+    height: 360px;
+}
+
+.pad {
+    padding-top: 70px;
+}
+.logo-img{
+    height:40px;
+}

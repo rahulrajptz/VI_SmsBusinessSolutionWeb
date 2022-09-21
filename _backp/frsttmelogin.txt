@@ -1,0 +1,54 @@
+﻿public int FirstTimeChangePassword(FirstTimeLoginModel model, out string mailID)
+        {
+            mailID = "";
+
+            //sec_first_time_login(n_userid_in   IN VARCHAR2,
+            //                                     v_newpswd_in  IN VARCHAR2,
+            //                                     n_questid_in  IN NUMBER,
+            //                                     v_answer_in   IN VARCHAR2,
+            //                                     n_appln_id_in IN NUMBER,
+            //                                     v_email_out   OUT VARCHAR2,
+            //                                     n_mid_out     OUT NUMBER,
+            //                                     n_status_out  OUT NUMBER)
+
+                try
+                {
+                    using (OracleCommand cmd = new OracleCommand("sec_first_time_login"))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("n_userid_in", OracleDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"]);
+                        cmd.Parameters.Add("v_newpswd_in", OracleDbType.Varchar2).Value = _EncDec.GetHashSha1(model.NewPassword.Trim());
+                        cmd.Parameters.Add("n_questid_in", OracleDbType.Int32).Value = model.SelectedSecurityQuestion;
+                        cmd.Parameters.Add("v_answer_in", OracleDbType.Varchar2).Value = _EncDec.EncryptDes(model.Answer.Trim().ToLower());
+                        cmd.Parameters.Add("n_appln_id_in", OracleDbType.Int32).Value = GlobalValues.AppId;
+
+                        cmd.Parameters.Add("v_email_out", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
+                        cmd.Parameters.Add("n_mid_out", OracleDbType.Int32).Direction = ParameterDirection.Output;
+                        cmd.Parameters.Add("n_status_out", OracleDbType.Int32).Direction = ParameterDirection.Output;
+
+                        using (OracleConnection con = new OracleConnection(GlobalValues.ConnStr))
+                        {
+                            con.Open();
+                            cmd.Connection = con;
+                            cmd.ExecuteNonQuery();
+                        }
+                        int status = Convert.ToInt32(cmd.Parameters["n_status_out"].Value.ToString());
+                        if (status == 1)
+                        {
+                            mailID = cmd.Parameters["v_email_out"].Value.ToString();
+                            return Convert.ToInt32(cmd.Parameters["n_mid_out"].Value.ToString());
+                        }
+                        else
+                        {
+                            return -status;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogWriter.Write("DataAccess.AccountDbPrcs.FirstTimeChangePassword :: Exception :: " + ex.Message);
+                    return -1;
+                }
+           
+        }

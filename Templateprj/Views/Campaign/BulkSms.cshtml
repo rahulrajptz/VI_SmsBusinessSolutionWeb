@@ -1,0 +1,2327 @@
+﻿@model Templateprj.Models.SMSCampaignModel
+@{
+    System.Data.DataTable project = ViewBag.inboundData;
+
+    ViewBag.Title = "BUlk SMS";
+}
+
+<style>
+    table.dataTable thead > tr > td.sorting, table.dataTable thead > tr > td.sorting_asc, table.dataTable thead > tr > td.sorting_desc, table.dataTable thead > tr > th.sorting, table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sorting_desc {
+        font-size: 9.5pt;
+        text-align: center;
+        font-weight: bold;
+        white-space: nowrap !important;
+        table-layout: fixed;
+        color: #5f004b;
+    }
+
+
+    .alert-danger {
+        color: white;
+    }
+
+    .alert-success {
+        color: white;
+    }
+
+    hr {
+        border: 1px solid #5f004b
+    }
+
+    .box {
+        /*border: 1px solid #878080;*/
+        padding: 20px;
+        box-shadow: rgba(0, 0, 0, 0.35) 1px 5px 10px;
+        /*min-height: 150px;*/
+        /*width:25%;*/
+    }
+
+    .blue {
+        width: 60%;
+        background-color: #57b4eb;
+    }
+
+    .yellow {
+        width: 30%;
+        background-color: yellow;
+    }
+
+    .red {
+        width: 10%;
+        background-color: red;
+    }
+
+    .head {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+    }
+
+    body {
+        font-size: 13px !important;
+    }
+
+    .form-control {
+        height: 20px !important;
+        padding: 0px 5px !important;
+        font-size: 12px !important;
+        background-color: white !important;
+        
+        /*color:#5f004b;*/
+    }
+
+    .form-group {
+        margin-bottom: 4px;
+    }
+
+    /*.card {
+        width: 420px;
+        height: 100px;
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        background: #ded0da;
+    }*/
+
+    .navstyle {
+        border: 0px solid black;
+    }
+
+        .navstyle > ul > li {
+            border: 1px solid black;
+            background-color: #5f004b;
+            margin-left: 5px;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+            width: 200px;
+        }
+
+    a {
+        color: white;
+    }
+
+        a:hover {
+            color: white;
+        }
+
+    .active {
+        background-color: white;
+        color: black;
+    }
+
+        .active:hover {
+            background-color: white;
+            color: black;
+        }
+
+    .nav-link {
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+    }
+
+    label {
+        color: #5f004b;
+        font-size: 12px;
+    }
+
+    .navclr:hover {
+        background-color: #ebecf1;
+    }
+
+    .navclr {
+        background-color: #ebecf1;
+    }
+    /*.dropdown-toggle {
+        float: right;
+    }*/
+    .cl-black {
+        color: #495057 !important;
+    }
+
+    .text-danger {
+        width: 109px;
+        font-size: 10px;
+        height: 0px;
+    }
+
+    labelvariable {
+        color: #5f004b;
+        font-size: 12px;
+    }
+</style>
+
+<div class="row" style="margin-top:50px">
+
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "Idform" }))
+    {
+        @*<form id="abcd">*@
+
+        <div class="container" style="margin-left:10px">
+            <div class="row">
+                <div class="wizard-navigation">
+                    <div class="col-xs-12 navstyle">
+                        <ul class="nav">
+                            <li class="nav-item" style="width: 100px;height:35px">
+                                <a style="font-size:9.2846px" id="campaigncreationnavitem" onclick="resetfunction()" class="nav-link active" href="#campaignnav" data-toggle="tab" role="tab" aria-controls="about" aria-selected="true">
+                                    <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                    CAMPAIGN
+                                </a>
+                            </li>
+                            @*<li class="nav-item"  style="width: 118px;height:35px">
+                                    <a style="font-size:9.2846px" id="campaignlistnavitem" class="nav-link" href="#campaignlistnav" data-toggle="tab" role="tab" aria-controls="account" aria-selected="false">
+                                        <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                        CAMPAIGN LIST
+                                    </a>
+                                </li>*@
+                            <li class="nav-item " style="width: 111px;height:35px">
+                                <a style="font-size:9.2846px" id="uploadlistnavitem" class="nav-link" href="#uploadbasenav" data-toggle="tab" role="tab" aria-controls="account" aria-selected="false">
+                                    <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                    UPLOAD BASE
+                                </a>
+                            </li>
+                            <li class="nav-item arrow" style="width: 131px;height:35px">
+                                <a style="font-size:9.2846px" id="campaignstatusnavitem" class="nav-link" href="#campaignstatusnav" data-toggle="tab" role="tab" aria-controls="address" aria-selected="false">
+                                    <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                    CAMPAIGN STATUS
+                                </a>
+                            </li>
+                            <li class="nav-item" style="width:133px;height:35px">
+                                <a style="font-size:9.2846px" id="campaignreportsnavitem" class="nav-link" href="#campaignreportsnav" data-toggle="tab" role="tab" aria-controls="about" aria-selected="false">
+                                    <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                    CAMPAIGN REPORTS
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="tab-pane show active navclr" id="campaignnav">
+                <div style="margin-top:5px;background:#ebecf1" class="col-md-12">
+                    <p>
+                        <a class="btn btn-block text-white dropdown-toggle" style="width:1000px;height:25px;text-align:left;background-color:#5f004b;font-size:9.2846px;vertical-align:middle;"
+                           data-toggle="collapse" href="#collapseCreateCampaign" role="button" aria-expanded="false">
+                            CREATE  NEW CAMPAIGN
+                        </a>
+                    </p>
+                    <div class="collapse  ml-5" id="collapseCreateCampaign" style="width: 88%;">
+
+
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        @Html.HiddenFor(m => m.campaignId)
+
+                                        <div class="col-md-2">
+                                            @Html.Label("Name*")
+
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.TextBoxFor(m => m.campaignName, new { @class = " form-control", @onkeypress = "return (event.which!==32)", style = "background:white", required = "required", placeholder = "-Campaign Name-", MaxLength = "20", autocomplete = "off" })
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.Label(" Type*")
+
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <div class="form-group" style="width:100px">
+                                                @Html.DropDownListFor(m => m.campaignType, Model.campaignTypeList, new { @class = "form-control cl-black", @style = "width:117px", @required = "required" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            @Html.Label("Date Window*")
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(m => m.fromDate, new { @class = " form-control mask-date", style = "background:white", required = "required", placeholder = "-From Date-", @readonly = "@readonly" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(m => m.toDate, new { @class = " form-control mask-date", style = "background:white", required = "required", placeholder = "-To Date-", @readonly = "@readonly" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            @Html.Label("Time Window*")
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(m => m.fromTime, new { @class = " form-control", style = "background:white", required = "required", placeholder = "-From Time-", @readonly = "@readonly" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(m => m.toTime, new { @class = " form-control", style = "background:white", required = "required", placeholder = "-To Time-", @readonly = "@readonly" })
+                                        </div>
+                                    </div>
+
+
+                                    @*<div class="card" style="padding: 10px 0px 0px;">
+                                            <div class="row mt-4 pl-4 pr-4">
+
+                                                <div class="col-md-2 p-0">
+                                                    TPS
+                                                </div>
+                                                <div class="col-md-4 p-0" style="margin-left: -13px;">
+                                                    <div class="form-group">
+                                                        <select class="form-control" id="exampleFormControlSelect1">
+                                                            <option>-Select-</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                            <option>5</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 p-0 pl-1">
+                                                    Gateway
+                                                </div>
+                                                <div class="col-md-4 p-0">
+                                                    <div class="form-group">
+                                                        <select class="form-control" id="exampleFormControlSelect1">
+                                                            <option>-Select-</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                            <option>5</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                        </div>*@
+
+
+
+
+                                </div>
+                                <div class="ml-3 mr-2" style="border:1px solid #5f004b ;"></div>
+                                <div class="col-md-5">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            @Html.Label("SMS Type*")
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                @Html.DropDownListFor(m => m.smsType, Model.smsTypeList, new { @class = "form-control cl-black", @required = "required" })
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+
+                                            @Html.Label("Sender*")
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.DropDownListFor(m => m.senderId, Model.senderIdList, new { @class = "form-control cl-black", @required = "required" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" id="templateidnamediv">
+                                            @Html.Label("Template*", new { style = "margin-left:-7px" })
+
+                                        </div>
+                                        <div class="col-md-3" id="templateiddiv">
+                                            <div class="form-group">
+                                                @Html.DropDownListFor(m => m.templateId, Model.templateIdList, new { @class = "form-control cl-black", @required = "required" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="StaticSmsDiv">
+                                        <div class="row">
+                                            <div class="col-md-12 offset-5"> SMS Count: <span id="smscount"></span> (*W/o variables)</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-12">
+                                                @Html.TextAreaFor(m => m.smsContent, new { @class = "form-control", required = "required", @style = "height: auto !important;background:white;", @readonly = "readonly", @rows = "5" })
+
+                                                @*<textarea class="form-control" style="height: auto !important;" id="" rows="3"></textarea>*@
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="dynamicSmsDiv">
+                                        <div class="row">
+                                            <div class="col-md offset-3"><b>Define Parameters</b></div>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                From Message Script
+                                            </div>
+                                            <div class="col-md-6">
+                                                Rename Variable
+                                            </div>
+                                            <div class="col-md-12" id="generated">
+
+                                                @*@Html.TextBoxFor(m => m.SMSvariable[0].variableName, new { @class = " form-control", required = "required" })
+                                                    @Html.TextBoxFor(m => m.SMSvariable[0].renameVariable, new { @class = " form-control", required = "required"})*@
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    @*<div id="fileUploadm2m">
+                                            <div class="d-flex">
+                                                <span class="mt-3">@Html.Label("Upload Base", new { style = "width:75px" }) </span>
+
+                                                <div style="margin-left:20px">
+
+                                                    <input style="width:234px;font-size:13px;color:#5f004b;" type="file" name="file" required="required" class="btn">
+
+                                                </div>
+                                                <div class="mr-3 mt-4 col-6">
+                                                    <i class="now-ui-icons files_single-copy-04"></i>
+                                                    <span style="color:#5f004b;font-size:13px"><i> <a style="color:#5f004b;" href="Campaign/DownloadsampleFile?id=1">Sample File</a></i></span>
+                                                </div>
+
+                                            </div>
+                                        </div>*@
+
+
+                                    <div class="row">
+                                        <div class="col-md-3" id="savecampaignM2M">
+                                            <button class="btn-success mt-1" style="margin-left:251px;width:132px" type="button" id="SaveCampaign">Save Campaign</button>
+
+                                        </div>
+                                        <div class="col-md-12 offset-3">
+                                            @*<button class="btn-success mt-1" style="margin-left:250px" type="reset" id="configreset" value="Reset">Reset</button>*@
+                                            <button class="btn-success mt-1" style="margin-left:251px" type="button" id="campaignsubmit">Test SMS</button>
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+
+
+
+                    </div>
+
+
+
+                </div>
+
+
+
+
+                <div id="testsmsdiv" style="display:none">
+                    <div style="margin-top:0px;background:#ebecf1" class="col-md-12">
+                        <p>
+                            <a class="btn btn-block text-white dropdown-toggle" style="width:1000px;height:25px;text-align:left;background-color:#5f004b;font-size:9.2846px"
+                               data-toggle="collapse" href="#collapseTestSms" role="button" aria-expanded="false">
+                                TEST SMS
+                            </a>
+                        </p>
+                        <div class="collapse  ml-5" id="collapseTestSms" style="width: 88%;">
+
+                            @*<div class="col-md-12" id="generated2">
+
+                                                    @Html.TextBoxFor(m => m.SMSvariable[0].variableName, new { @class = " form-control", required = "required" })
+                                                    @Html.TextBoxFor(m => m.SMSvariable[0].renameVariable, new { @class = " form-control", required = "required"})
+
+                                </div>*@
+                            <div class="row col-md-9 ml-3" id="SMSTestingCompleteDiv">
+                                <div class="col-md-2">
+
+                                    <div class="form-group">
+
+                                        @Html.Label("Test Numbers*")
+                                    </div>
+
+                                    <div class="form-group" id="variablesnameid">
+                                        <label><b><u>Variables</u></b></label>
+
+                                    </div>
+
+                                    <div id="generatelabel" class="mt-2">
+
+
+                                    </div>
+
+
+
+                                </div>
+                                <div class="col-md-4">
+
+                                    @Html.TextBoxFor(m => m.SMSTest[0].mobileNumber, new { @class = " form-control NumFld", required = "required" })
+
+
+                                    <div class="form-group mt-5">
+                                        <div id="messageto1stnumber">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+
+
+                                    @Html.TextBoxFor(m => m.SMSTest[1].mobileNumber, new { @class = " form-control NumFld", required = "required" })
+
+                                    <div class="form-group mt-5">
+                                        <div id="messageto2ndnumber">
+
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-12">
+                                        <button class="btn-success mt-1" style="margin-left:482px" type="button" id="createsms">Create SMS</button>
+
+                                    </div>
+
+                                </div>
+                                <div class="row" id="messageScriptdiv">
+                                    <div id="messagescriptlabeldiv" class="form-group">
+                                        @Html.Label("Message Script", new { style = "font-weight:bold;margin-left:27px" })
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group mt-3" style="margin-left:147px"> SMS Count: <span id="smscountmessage1"></span></div>
+                                        <div class="form-group mt-3" style="margin-left:134px"> SMS Count: <span id="smscountmessage2"></span></div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div id="message0" class="col-md-6">
+                                            @Html.TextAreaFor(m => m.SMSTest[0].message, new { @class = "form-control", @style = "height: auto !important;background:white;width:207px;margin-left:146px;", @readonly = "@readonly", @rows = "5" })
+
+                                        </div>
+
+
+                                        <div id="message1" class="col-md-6">
+                                            @Html.TextAreaFor(m => m.SMSTest[1].message, new { @class = "form-control", @readonly = "@readonly", @style = "height: auto !important;background:white;width:211px;margin-left:45px", @rows = "5" })
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row col-md-12">
+                                <div class="col-md-2 mt-3" id="sendsmsdiv" style="display:none">
+                                    <button class="btn-success mt-1" style="margin-left:785px;width:96px" type="button" id="SendSms">Send SMS</button>
+                                </div>
+                                <div class="col-md-4 mt-3" id="CampaignCreationButtondiv" style="display:none">
+                                    <button class="btn-success mt-1" style="margin-left:746px;width:128px" id="SaveCampaignnew" type="button">Save Campaign</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane mt-3 navclr" style="background:#ebecf1" id="campaignlistnav">
+
+                <div class="row ml-3 mt-4">
+
+                    <div class="col-md-3">
+                        @Html.Label("Campaign Name")
+                        <div class="form-group">
+                            @Html.DropDownListFor(m => m.listcampaignName, Model.listcampaignNameList, new { @class = "form-control cl-black", @required = "required" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.Label("Created Date")
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.listCreatedDate, new { @class = " form-control", style = "background:white", required = "required", placeholder = "-Date-", @readonly = "@readonly" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.Label("Status")
+                        <div class="form-group">
+                            @Html.DropDownListFor(m => m.listCampaignStatus, Model.listCampaignStatusList, new { @class = "form-control cl-black", @required = "required" })
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        @Html.Label("Campaign Type")
+                        <div class="form-group">
+                            @Html.DropDownListFor(m => m.listCampaignType, Model.listCampaignTypeList, new { @class = "form-control cl-black", @required = "required" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" id="btn_show" style="height:36px" class="btn btn-outline-success">Search</button>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card ">
+
+
+                            <div class="card-body col-sm-12">
+                                <div class="col-sm-12" id="divTable" style="overflow-x:auto !important;">
+                                    <table id="tbl_rpt" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
+                                </div>
+                                <div class="alert alert-info" id="divNoData" style="display:none;">
+                                    <span>No data found for the search</span>
+                                </div>
+                                @*<div class="row">
+                                        <div id="loading" class="col-sm-12" style="display:none;text-align:center;" st><img src="~/Content/Images/loading.gif" style="width:100px;height:50px;" /></div>
+                                    </div>*@
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    @*<button id="upload"  type="button">asdasd</button>*@
+
+                    @*<a href='@Url.Action("uploadbasenav",new{})'>go</a>*@
+                    @*<a href="/#uploadlistnavitem">Take me to the opening paragraph.</a>
+                        @*<p>
+                            <a class="btn btn-block text-white dropdown-toggle" style="width:1000px;height:25px;text-align:left;background-color:#5f004b;font-size:9.2846px;vertical-align:middle;"
+                               data-toggle="collapse" id="asdasd" href="#uploadbasenav" role="button" aria-expanded="false">
+                                CREATE  NEW CAMPAIGN
+                            </a>
+                        </p>*@
+
+                </div>
+                @*<ul class="nav">
+                        <li class="nav-item" style="width: 100px;height:35px">
+                            <a style="font-size:9.2846px" id="uploadlistnavitem" class="nav-link active" href="#uploadbasenav" data-toggle="tab" role="tab" aria-controls="about" aria-selected="true">
+                                Go
+                            </a>
+                        </li>
+                    </ul>*@
+
+            </div>
+
+
+            <div class="tab-pane navclr" style="background:#ebecf1" id="uploadbasenav">
+
+
+
+                <div style="margin-top:5px;" class="col-md-12">
+
+                    <div class="row col-md-6 ml-4 mt-3">
+
+                        <div class="col-md-4">
+                            @Html.Label("Campaign Name*")
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.DropDownListFor(m => m.uploadCampaignName, Model.uploadCampaignNameList, new { @class = "form-control cl-black", @required = "required" })
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <p>
+
+                        <a class="btn btn-block text-white dropdown-toggle" style="width:1000px;height:25px;text-align:left;background-color:#5f004b;font-size:9.2846px"
+                           data-toggle="collapse" href="#collapseCampaignDetails" role="button" aria-expanded="false">
+                            CAMPAIGN DETAILS
+                        </a>
+
+                    </p>
+                    <div class="collapse  ml-5" id="collapseCampaignDetails" style="width: 88%;">
+
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            @Html.Label("Name:")
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <span id="bindcampaignname"></span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.Label("Type:")
+                                        </div>
+                                        <div class="form-group" style="margin-left:-28px">
+                                            <span id="bindcampaigntype"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            @Html.Label("From Date:")
+                                        </div>
+                                        <div class="col-md-2" style="margin-left:-51px">
+                                            <span id="bindfromdate"></span>
+                                        </div>
+                                        <div class="col-md-2" style="margin-left:14px">
+                                            @Html.Label("To Date:")
+                                        </div>
+                                        <div class="col-md-2" style="margin-left:-29px">
+                                            <span id="bindtodate"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            @Html.Label("From Time:")
+                                        </div>
+                                        <div class="col-md-3" style="margin-left:-50px">
+                                            <span id="bindfromtime"></span>
+                                        </div>
+                                        <div class="col-md-3" style="margin-left:-23px">
+                                            @Html.Label("To Time:")
+                                        </div>
+                                        <div class="col-md-3" style="margin-left:-68px">
+                                            <span id="bindtotime"></span>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+                                </div>
+                                <div class="ml-3 mr-2" style="border:1px solid rgb(61, 61, 61) ;"></div>
+
+                                <div class="col-md-5">
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            @Html.Label("Sender ID:")
+                                        </div>
+                                        <div class="col-md-3" style="margin-left:-35px">
+                                            <span id="bindsenderid"></span>
+                                        </div>
+                                        <div class="col-md-4" style="margin-left:29px">
+                                            @Html.Label("Template ID:")
+                                        </div>
+                                        <div class="col-md" style="margin-left:-57px">
+                                            <span id="bindtemplateid"></span>
+                                        </div>
+                                    </div>
+
+
+                                    @*<div class="row">
+                                            <div class="col-md offset-5"></div>
+                                        </div>*@
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            @Html.Label("Message Content:")
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <textarea class="form-control" readonly="readonly" style="height: auto !important;" id="bindmsgcontent" rows="5"></textarea>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr />
+
+
+                    </div>
+
+
+
+                </div>
+
+
+                <div class="col-md-12" id="Uploadingdiv">
+                    <p>
+
+
+                        <a class="btn btn-block text-white dropdown-toggle" style="width:1000px;height:25px;text-align:left;background-color:#5f004b;font-size:9.2846px"
+                           data-toggle="collapse" href="#collapseupload" role="button" aria-expanded="false">
+                            BASE UPLOAD
+                        </a>
+                    </p>
+                    <div class="collapse  ml-5" id="collapseupload" style="width: 88%;">
+                        <div class="row">
+                            <div class="col-md-4">
+                                @Html.Label("Campaign Start Type*")
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-left:-139px">
+                                    @Html.DropDownListFor(m => m.uploadCampaignstarttype, Model.uploadCampaignstarttypeList, new { @class = "form-control cl-black", @required = "required", @style = "width:105px" })
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                @Html.Label("Schedule Time")
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-left:-139px">
+                                    @Html.TextBoxFor(m => m.scheduleDate, new { @class = "form-control cl-black", @style = "width:105px" })
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                @Html.Label("Priority*")
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-left:-139px">
+                                    @Html.DropDownListFor(m => m.priority, Model.priorityList, new { @class = "form-control cl-black", @required = "required", @style = "width:105px" })
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id="fileUploadm2m">
+                            <div class="d-flex">
+                                <span class="mt-3">@Html.Label("Upload Base", new { style = "width:75px" }) </span>
+
+                                <div style="margin-left:20px">
+
+                                    <input style="width:234px;font-size:13px;color:#5f004b;" id="fileToUpload" type="file" name="file" required="required" class="btn">
+
+                                </div>
+                                <div class="mr-3 mt-4 col-6">
+
+                                    <button id="samplefiledownlod" style="color:#5f004b;font-size:13px"> <i class="now-ui-icons files_single-copy-04"></i>Sample Template</button>
+                                </div>
+                                @*<button type="button" id="uploadfileid" class="btn btn-primary">Upload</button>*@
+                                <div class="col-md-4 mt-3" id="">
+                                    <button class="btn-success mt-1" style="margin-left: -298px;" id="uploadfileid" type="button">Upload</button>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="tab-pane navclr" id="campaignstatusnav">
+
+                <div class="row ml-3 mt-3">
+
+                    <div class="col-md-2">
+                        @Html.Label("Campaign Name")
+                        <div class="form-group">
+                            @Html.DropDownListFor(m => m.statuscampaignName, Model.statuscampaignNameList, new { @class = "form-control cl-black", @required = "required" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.Label("Created Date")
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.statusCreatedDate, new { @class = " form-control", style = "background:white", required = "required", placeholder = "-Date-", @readonly = "@readonly" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.Label("Status")
+                        <div class="form-group">
+                            @Html.DropDownListFor(m => m.statusCampaignStatus, Model.statusCampaignStatusList, new { @class = "form-control cl-black", @required = "required" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.Label("Priority")
+                        <div class="form-group">
+                            @Html.DropDownListFor(m => m.statusPriority, Model.statusPriorityList, new { @class = "form-control cl-black", @required = "required" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.Label("Campaign Type")
+                        <div class="form-group">
+                            @Html.DropDownListFor(m => m.statusCampaignType, Model.statusCampaignTypeList, new { @class = "form-control cl-black", @required = "required" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" id="btn_showstatus" style="height:36px" class="btn btn-outline-success">Search</button>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card ">
+
+
+                            <div class="card-body col-sm-12" style="width:1100px">
+                                <div class="col-sm-12" id="divTablestatus" style="overflow-x:auto !important;">
+                                    <table id="tbl_rptstatus" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
+                                </div>
+                                <div class="alert alert-info" id="divNoData" style="display:none;">
+                                    <span>No data found for the search</span>
+                                </div>
+                                @*<div class="row">
+                                        <div id="loading" class="col-sm-12" style="display:none;text-align:center;" st><img src="~/Content/Images/loading.gif" style="width:100px;height:50px;" /></div>
+                                    </div>*@
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="tab-pane navclr" id="campaignreportsnav">
+                <div class="row ml-3 mt-3">
+
+                    <div class="col-md-2">
+                        @Html.Label("Campaign Name")
+                        <div class="form-group">
+                            @Html.DropDownListFor(m => m.reportcampaignName, Model.reportcampaignNameList, new { @class = "form-control cl-black", @required = "required" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.Label("Created Date")
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.reportCreatedDate, new { @class = " form-control", style = "background:white", required = "required", placeholder = "-Date-", @readonly = "@readonly" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.Label("Status")
+                        <div class="form-group">
+                            @Html.DropDownListFor(m => m.reportCampaignStatus, Model.reportCampaignStatusList, new { @class = "form-control cl-black", @required = "required" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.Label("Priority")
+                        <div class="form-group">
+                            @Html.DropDownListFor(m => m.reportCampaignPriority, Model.reportCampaignPriorityList, new { @class = "form-control cl-black", @required = "required" })
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button type="button" id="btn_showreport" style="height:36px" class="btn btn-outline-success">Search</button>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card ">
+
+
+                            <div class="card-body col-sm-12" style="width:1100px">
+                                <div class="col-sm-12" id="divTablereport" style="overflow-x:auto !important;">
+                                    <table id="tbl_rptreport" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
+                                </div>
+                                <div class="alert alert-info" id="divNoData" style="display:none;">
+                                    <span>No data found for the search</span>
+                                </div>
+                                @*<div class="row">
+                                        <div id="loading" class="col-sm-12" style="display:none;text-align:center;" st><img src="~/Content/Images/loading.gif" style="width:100px;height:50px;" /></div>
+                                    </div>*@
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+
+
+
+
+
+        @*</form>*@
+
+    }
+</div>
+
+
+
+
+
+
+
+
+
+
+@section scripts {
+
+    <script>
+
+
+        $(document).ready(function () {
+
+            $('#StaticSmsDiv').hide();
+            $('#dynamicSmsDiv').hide();
+            $('#messageScriptdiv').hide();
+            $('#savecampaignM2M').hide();
+            $('#campaignsubmit').hide();
+            $("#Uploadingdiv").hide();
+            //$('#samplefiledownlod').attr('formnovalidate', '');
+            //$('#SMSTest_1__mobileNumber').attr('formnovalidate', '');
+
+
+
+        });
+
+        @*function testsmsfunction() {
+
+
+            if ($("#Idform").valid()) {
+
+                $('#testsmsdiv').show();
+
+                var data2 = $("#Idform").serialize();
+
+                    $.ajax({
+                    url: "@Url.Action(MVC.Campaign.CreatebulksmsCampaign())",
+                    type: 'POST',
+                    data: data2,
+                    success: function (e) {
+
+                        var jsondata = JSON.parse(e)
+
+                    }
+                });
+
+                functionafterajax();
+
+            }
+
+            function functionafterajax() {
+
+                console.log(jsondata.SMSvariable.count);
+
+
+            }
+
+        }*@
+
+        //$("#Idform").validate({
+
+        //});
+
+        $('#senderId').on('change', function () {
+            if ($('#smsType').val() != "3") {
+
+                gettemplateidfromsenderidsmstype($("#senderId").val(), $('#smsType').val());
+            }
+        });
+
+
+        $('#campaignsubmit').on('click', function () {
+
+            var a = $("#Idform").val();
+            console.log(a);
+            var jsondata;
+
+            if ($("#Idform").valid()) {
+
+                $('#campaignsubmit').hide();
+
+                const container1 = document.querySelector('#generatelabel');
+                removeAllChildNodes(container1);
+                const container2 = document.querySelector('#messageto1stnumber');
+                removeAllChildNodes(container2);
+                const container3 = document.querySelector('#messageto2ndnumber');
+                removeAllChildNodes(container3);
+                $('#messageScriptdiv').hide();
+                document.getElementById('SMSTest_0__message').innerHTML = "";
+                document.getElementById('SMSTest_1__message').innerHTML = "";
+                document.getElementById('smscountmessage1').innerHTML = "";
+                document.getElementById('smscountmessage2').innerHTML = "";
+
+                $('#testsmsdiv').show();
+
+                if ($("#smsType").val() == "1") {
+                    $("#variablesnameid").hide();
+                }
+                else if ($("#smsType").val() == "2") {
+                    $("#variablesnameid").show();
+
+                }
+
+                var data2 = $("#Idform").serialize();
+
+                $.ajax({
+                    url: "@Url.Action(MVC.Campaign.CreatebulksmsCampaign())",
+                    type: 'POST',
+                    data: data2,
+                    success: function (e) {
+
+                        jsondata = JSON.parse(e);
+                        //console.lo
+
+                        for (i = 0; i < jsondata.SMSvariable.length; i++) {
+
+                            var div = document.createElement('div');
+                            div.innerHTML = '<labelvariable>' + jsondata.SMSvariable[i].renameVariable +'*'+ '</labelvariable>';
+                            document.getElementById("generatelabel").appendChild(div);
+
+
+
+                        }
+                        for (i = 0; i < jsondata.SMSvariable.length; i++) {
+                            var div1 = document.createElement('div');
+                            div1.innerHTML = '<input class="form-control " id="SMSTest_0__variableData_' + i + '__variableContent" name="SMSTest[0].variableData[' + i + '].variableContent" required="required" type="text" value=""><input type="hidden" id="SMSTest_0__variableData_' + i + 'variableLabel" name="SMSTest[0].variableData[' + i + '].variableLabel" required="required" type="text" value="' + jsondata.SMSvariable[i].renameVariable + '">';
+                            document.getElementById("messageto1stnumber").appendChild(div1);
+
+
+                        }
+
+                        for (i = 0; i < jsondata.SMSvariable.length; i++) {
+                            var div2 = document.createElement('div');
+                            div2.innerHTML = '<input class=" form-control" id="SMSTest_1__variableData_' + i + '__variableContent" name="SMSTest[1].variableData[' + i + '].variableContent" required="required" type="text" value=""><input type="hidden" id="SMSTest_1__variableData_' + i + 'variableLabel" name="SMSTest[1].variableData[' + i + '].variableLabel" required="required" type="text" value="' + jsondata.SMSvariable[i].renameVariable + '">';
+                            document.getElementById("messageto2ndnumber").appendChild(div2);
+
+
+                        }
+
+
+
+                        document.getElementById('SMSTest_0__message').innerHTML = jsondata.smsContent;
+                        document.getElementById('SMSTest_1__message').innerHTML = jsondata.smsContent;
+
+
+
+                        //console.log(jsondata.SMSvariable.length);
+
+                    }
+                });
+
+                //functionafterajax(jsondata);
+
+            }
+            else {
+                ErrorMsg("Please fill in all fields.")
+
+            }
+
+         });
+
+
+        $('#createsms').on('click', function () {
+
+            var a = $("#Idform").val();
+            console.log(a);
+            var jsondata;
+
+            if ($("#Idform").valid()) {
+                var data2 = $("#Idform").serialize();
+                $('#messageScriptdiv').show();
+                $('#sendsmsdiv').show();
+
+                if ($("#smsType").val() == "1") {
+
+                    $.ajax({
+                        url: "@Url.Action(MVC.Campaign.createsms())",
+                        type: 'POST',
+                        data: data2,
+                        success: function (e) {
+
+                            jsondata = JSON.parse(e);
+                            console.log(jsondata);
+                            // [{ "SmsId": "1", "Sms_Leg": 136, "Sms_Parts": 1 }, { "SmsId": "2", "Sms_Leg": 136, "Sms_Parts": 1 }]
+
+                            if (jsondata[0].SmsId == "1") {
+                                document.getElementById("SMSTest_0__message").innerHTML = jsondata[0].message;
+                                document.getElementById("smscountmessage1").innerHTML = '' + jsondata[0].Sms_Leg + '/' + jsondata[0].Sms_Parts + '';
+
+                            }
+                            if (jsondata[1].SmsId == "2") {
+
+                                document.getElementById("SMSTest_1__message").innerHTML = jsondata[1].message;
+                                document.getElementById("smscountmessage2").innerHTML = '' + jsondata[1].Sms_Leg + '/' + jsondata[1].Sms_Parts + '';
+
+                            }
+
+
+
+
+
+
+                            //console.log(jsondata.SMSvariable.length);
+
+                        }
+                    });
+                }
+                else if ($("#smsType").val() == "2") {
+
+                    $.ajax({
+                        url: "@Url.Action(MVC.Campaign.createsms())",
+                        type: 'POST',
+                        data: data2,
+                        success: function (e) {
+
+                            jsondata = JSON.parse(e);
+                            console.log(jsondata);
+                            // [{ "SmsId": "1", "Sms_Leg": 136, "Sms_Parts": 1 }, { "SmsId": "2", "Sms_Leg": 136, "Sms_Parts": 1 }]
+
+                            if (jsondata[0].SmsId == "1") {
+                                document.getElementById("SMSTest_0__message").innerHTML = jsondata[0].message;
+                                document.getElementById("smscountmessage1").innerHTML = '' + jsondata[0].Sms_Leg + '/' + jsondata[0].Sms_Parts + '';
+
+                            }
+                            if (jsondata[1].SmsId == "2") {
+
+                                document.getElementById("SMSTest_1__message").innerHTML = jsondata[1].message;
+                                document.getElementById("smscountmessage2").innerHTML = '' + jsondata[1].Sms_Leg + '/' + jsondata[1].Sms_Parts + '';
+
+                            }
+
+
+
+
+
+
+                            //console.log(jsondata.SMSvariable.length);
+
+                        }
+                    });
+                }
+
+
+                //functionafterajax(jsondata);
+
+            }
+            else {
+                ErrorMsg("Please fill in all fields.")
+            }
+
+
+        });
+
+
+
+        $('#SendSms').on('click', function () {
+
+            var a = $("#Idform").val();
+
+
+            if ($("#Idform").valid()) {
+                var data2 = $("#Idform").serialize();
+                $('#CampaignCreationButtondiv').show();
+
+
+                if ($("#smsType").val() == "1") {
+
+                    $.ajax({
+                        url: "@Url.Action(MVC.Campaign.SendSMS())",
+                        type: 'POST',
+                        data: data2,
+                        success: function (e) {
+
+
+
+                            jsondata = JSON.parse(e);
+                            $("#campaignId").val(jsondata.campaignId);
+                            var pushedCount = jsondata.smsPushed;
+                            console.log(pushedCount, "count")
+                            var remainingcount = 6 - pushedCount;
+                            console.log(remainingcount);
+
+                            if (remainingcount > 0) {
+                                SuccessMsg(jsondata.response + " ,Remaining SMS: " + remainingcount + "");
+                            }
+                            else {
+                                $("#SMSTestingCompleteDiv").hide()
+                                $('#sendsmsdiv').hide();
+
+                                SuccessMsg(jsondata.response + " ,Remaining SMS: " + remainingcount + ", Please Save Campaign");
+                            }
+
+
+
+
+
+
+                            //console.log(jsondata.SMSvariable.length);
+
+                        }
+                    });
+                }
+                else if ($("#smsType").val() == "2") {
+
+                    $.ajax({
+                        url: "@Url.Action(MVC.Campaign.SendSMS())",
+                        type: 'POST',
+                        data: data2,
+                        success: function (e) {
+
+                            jsondata = JSON.parse(e);
+
+                            $("#campaignId").val(jsondata.campaignId);
+                            var pushedCount = jsondata.smsPushed;
+                            console.log(pushedCount,"count")
+                            var remainingcount = 6 - pushedCount;
+
+
+                            console.log(remainingcount);
+
+                            if (remainingcount > 0) {
+                                SuccessMsg(jsondata.response + " ,Remaining SMS: " + remainingcount + "");
+                            }
+                            else {
+                                $("#SMSTestingCompleteDiv").hide()
+                                $('#sendsmsdiv').hide();
+
+                                SuccessMsg(jsondata.response + " ,Remaining SMS: " + remainingcount + ", Please Save Campaign");
+                            }
+
+
+                        }
+                    });
+                }
+
+
+                //functionafterajax(jsondata);
+
+            }
+            else {
+                ErrorMsg("Please fill in all fields.")
+            }
+
+
+        });
+
+
+
+        $('#SaveCampaign').on('click', function () {
+
+            var a = $("#Idform").val();
+            console.log("tseting");
+            var jsondata;
+
+            if ($("#Idform").valid()) {
+                var data2 = $("#Idform").serialize();
+
+                //$("#SMSTestingCompleteDiv").hide()
+                //$('#sendsmsdiv').hide();
+
+
+
+
+                    $.ajax({
+                        url: "@Url.Action(MVC.Campaign.SaveCampaign())",
+                        type: 'POST',
+                        data: data2,
+                        success: function (e) {
+
+                            jsondata = JSON.parse(e);
+                            console.log(jsondata);
+
+                            if (jsondata.status == "1") {
+                                //("#campaignName").find("input").val("");
+                                //("#campaignType").find("select").val("");
+                                //("#fromDate").find("input").val("");
+                                //("#toDate").find("input").val("");
+                                //("#fromTime").find("input").val("");
+                                //("#toTime").find("input").val("");
+
+                                //("#smsType").find("select").val("");
+                                //("#senderId").find("select").val("");
+                                //("#templateId").find("select").val("");
+
+
+
+
+
+                                SuccessMsg(jsondata.response);
+                                getcampigndrowpdown();
+                                redirectToBaseupload();
+
+
+
+                            }
+                            else {
+                                ErrorMsg(jsondata.response);
+                            }
+
+
+
+
+
+
+
+
+                        }
+                    });
+
+
+
+
+            }
+            else {
+                ErrorMsg("Please fill in all fields.")
+            }
+
+
+        });
+
+
+        $('#SaveCampaignnew').on('click', function () {
+
+            var a = $("#Idform").val();
+            console.log("tseting");
+            var jsondata;
+
+            if ($("#Idform").valid()) {
+                var data2 = $("#Idform").serialize();
+
+                $("#SMSTestingCompleteDiv").hide()
+                $('#sendsmsdiv').hide();
+
+
+
+
+                    $.ajax({
+                        url: "@Url.Action(MVC.Campaign.SaveCampaign())",
+                        type: 'POST',
+                        data: data2,
+                        success: function (e) {
+
+                            jsondata = JSON.parse(e);
+                            console.log(jsondata);
+
+                            //if (jsondata.status == "1") {
+                            //}
+
+                            if (jsondata.status == "1") {
+                                $("#testsmsdiv").hide();
+                                //("#campaignName").find("input").val("");
+                                //("#campaignType").find("select").val("");
+                                //("#fromDate").find("input").val("");
+                                //("#toDate").find("input").val("");
+                                //("#fromTime").find("input").val("");
+                                //("#toTime").find("input").val("");
+
+                                //("#smsType").find("select").val("");
+                                //("#senderId").find("select").val("");
+                                //("#templateId").find("select").val("");
+                                SuccessMsg(jsondata.response);
+                                getcampigndrowpdown();
+                                redirectToBaseupload();
+
+                            }
+                            else {
+                                ErrorMsg(jsondata.response);
+                            }
+
+
+
+
+
+
+                        }
+                    });
+
+
+
+
+            }
+            else {
+                ErrorMsg("Please fill in all fields.")
+            }
+
+
+        });
+
+        //
+        function gettemplateidfromsenderidsmstype(senderId,smstype)
+        {
+
+            $.ajax({
+                url: "@Url.Action(MVC.Campaign.GetTemplateIdfromSenderId())",
+                type: 'GET',
+                data: { senderId: senderId, smstype: smstype },
+                success: function (minames) {
+                    //console.log(minames);
+                        $("#templateId").html("");
+                        $("#templateId").append(
+                            $('<option></option>').val('').html('-Select-'));
+                        $.each(minames, function (i, minames) {
+                            $("#templateId").append(
+                                $('<option></option>').val(minames.VALUE).html(minames.TEXT));
+                        });
+                }
+            });
+        }
+
+
+        $('#smsType').on('change', function () {
+
+            $('#testsmsdiv').hide();
+            $('#messageScriptdiv').hide();
+            $('#sendsmsdiv').hide();
+
+            document.getElementById('SMSTest_0__message').innerHTML = "";
+            document.getElementById('SMSTest_1__message').innerHTML = "";
+            document.getElementById('SMSTest_0__mobileNumber').innerHTML = "";
+            document.getElementById('SMSTest_1__mobileNumber').innerHTML = "";
+
+
+            var container = document.querySelector('#generatelabel');
+            removeAllChildNodes(container);
+            var container2 = document.querySelector('#messageto1stnumber');
+            removeAllChildNodes(container2);
+            var container3 = document.querySelector('#messageto2ndnumber');
+            removeAllChildNodes(container3);
+
+            document.getElementById("smsContent").innerHTML = "";
+
+
+            if ($('#smsType').val() =="") {
+                gettemplateidfromsenderidsmstype($("#senderId").val(), $('#smsType').val());
+
+
+            }
+
+            getsenderidfromsmstype($("#smsType").val());
+
+
+        });
+
+
+
+        //
+        function getsenderidfromsmstype(smstype)
+        {
+
+            $.ajax({
+                url: "@Url.Action(MVC.Campaign.GetSenderIdFromSmsType())",
+                type: 'GET',
+                data: { smstype: smstype},
+                success: function (minames) {
+                    //console.log(minames);
+                    $("#senderId").html("");
+                    $("#senderId").append(
+                            $('<option></option>').val('').html('-Select-'));
+                        $.each(minames, function (i, minames) {
+                            $("#senderId").append(
+                                $('<option></option>').val(minames.VALUE).html(minames.TEXT));
+                        });
+                }
+            });
+        }
+
+
+        $("#fromDate").flatpickr({
+            dateFormat: "d/m/Y",
+            minDate: "today",
+                //enableTime: true,
+                //noCalendar: true,
+                //dateFormat: "H:i",
+
+        });
+        //$("#toDate").flatpickr({
+        //    dateFormat: "d/m/Y",
+        //    minDate: "today",
+
+        //});
+        $('#fromDate').on('change', function () {
+            var datevalue = $('#fromDate').val();
+            $("#toDate").flatpickr({
+                dateFormat: "d/m/Y",
+                minDate: datevalue,
+
+            });
+        });
+
+
+        $("#listCreatedDate").flatpickr({
+            dateFormat: "d/m/Y",
+            maxDate: "today",
+
+        });
+
+        $("#statusCreatedDate").flatpickr({
+            dateFormat: "d/m/Y",
+            maxDate: "today",
+
+        });
+        $("#reportCreatedDate").flatpickr({
+            dateFormat: "d/m/Y",
+            maxDate: "today",
+
+        });
+        $("#scheduleDate").flatpickr({
+            //dateFormat: "d/m/Y",
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            minDate: "today",
+
+        });
+        
+        
+
+        $("#fromTime").flatpickr({
+
+            enableTime: true,
+            noCalendar: true,
+            minuteIncrement:1,
+
+            dateFormat: "h:i K",
+            time_24hr: false,
+            defaultHour: 00,
+            defaultMinute:00
+
+
+
+        });
+
+            $('#fromTime').on('change', function () {
+
+                var timevalue = $('#fromTime').val();
+                console.log(timevalue);
+                $("#toTime").flatpickr({
+
+                    enableTime: true,
+                    noCalendar: true,
+                    minuteIncrement: 1,
+                    defaultHour: 23,
+                    defaultMinute: 59,
+                    dateFormat: "h:i K",
+                    time_24hr: false,
+                    minTime: timevalue
+                });
+
+            });
+        var timevalue1 = $('#fromTime').val();
+
+        $("#toTime").flatpickr({
+
+            enableTime: true,
+            noCalendar: true,
+            minuteIncrement: 1,
+            defaultHour: 23,
+            defaultMinute: 59,
+            dateFormat: "h:i K",
+            time_24hr: false,
+            minTime: timevalue1
+        });
+
+        //fromTime
+        
+
+        $('#templateId').on('change', function () {
+
+            var template = $('#templateId').val();
+            var smstype = $('#smsType').val();
+            var variablecnt;
+            //var variableNames;
+            document.getElementById("smsContent").innerHTML="";
+
+             $.ajax({
+                url: "@Url.Action(MVC.Campaign.GetmessagecontentfromTemplate())",
+                type: 'GET',
+                 data: { template: template},
+                 success: function (minames) {
+                     var obj = JSON.parse(minames);
+                     //console.log(obj);
+                     if (smstype == "1") {
+                         document.getElementById("smsContent").innerHTML = obj[0].templateContent;
+                         variablecnt = obj[0].variableCount;
+                         document.getElementById("smscount").innerHTML = obj[0].smsLength;
+                     }
+                     else if (smstype == "2") {
+                            document.getElementById("smsContent").innerHTML = obj[0].templateContent;
+                            variablecnt = obj[0].variableCount;
+                            document.getElementById("smscount").innerHTML = obj[0].smsLength;
+                     }
+
+                     afterAjax()
+                }
+            });
+
+            function afterAjax() {
+
+                const container = document.querySelector('#generated');
+                removeAllChildNodes(container);
+                //console.log(variablecnt,"sdfd")
+                //console.log(variableNames,"variableNames")
+
+
+                for (i = 0, j = 1; i < variablecnt; i++,j++) {
+
+                    var div = document.createElement('row');
+                    div.innerHTML = '<div class="row"><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName" required="required" readonly="readonly" style="background:white;" type="text" value="VAR'+j+'"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable" required="required" type="text" value=""></div></div>';
+
+                    document.getElementById("generated").appendChild(div);
+                }
+            }
+        });
+        function removeAllChildNodes(parent) {
+            while (parent.firstChild) {
+                parent.removeChild(parent.firstChild);
+            }
+        }
+
+        $('#configreset').click(function () {
+            $('#Idform')[0].reset();
+        });
+
+        //$(document).ready(function () {
+        //    // show the alert
+        //    setTimeout(function () {
+        //        $(".alert").alert('close');
+        //    }, 2000);
+        //});
+
+
+
+        $('#smsType').on('change', function () {
+
+            if ($('#smsType').val() == "1") {
+
+                $('#StaticSmsDiv').show();
+                $('#dynamicSmsDiv').hide();
+                $('#templateiddiv').show();
+                $('#templateidnamediv').show();
+                $('#savecampaignM2M').hide();
+                $('#campaignsubmit').show();
+            }
+            else if ($('#smsType').val() == "2") {
+                $('#StaticSmsDiv').show();
+                $('#dynamicSmsDiv').show();
+                $('#templateiddiv').show();
+                $('#templateidnamediv').show();
+                $('#savecampaignM2M').hide();
+                $('#campaignsubmit').show();
+
+            }
+            else if ($('#smsType').val() == "3") {
+
+                $('#StaticSmsDiv').hide();
+                $('#dynamicSmsDiv').hide();
+                $('#templateiddiv').hide();
+                $('#templateidnamediv').hide();
+                $('#savecampaignM2M').show();
+                $('#campaignsubmit').hide();
+
+            }
+            else {
+                $('#StaticSmsDiv').hide();
+                $('#dynamicSmsDiv').hide();
+                $('#templateiddiv').show();
+                $('#templateidnamediv').show();
+                $('#savecampaignM2M').hide();
+                $('#campaignsubmit').hide();
+
+                 const container = document.querySelector('#generated');
+                removeAllChildNodes(container);
+                document.getElementById("smsContent").innerHTML = "";
+                //$('#templateId').find("input").val("");
+
+            }
+        });
+        $('#btn_show').click(function () {
+
+            if ($("#Idform").valid()) {
+                reinitializeDataTable(tbl_rpt);
+                loadReport();
+
+            }
+            else {
+                ErrorMsg("Please select all fields")
+            }
+
+        });
+
+        $('#btn_showstatus').click(function () {
+
+
+            if ($("#Idform").valid()) {
+                reinitializeDataTable(tbl_rptstatus);
+                loadReportstatus();
+            }
+
+            else {
+                ErrorMsg("Please select all fields")
+            }
+
+
+        });
+        $('#btn_showreport').click(function () {
+
+
+            if ($("#Idform").valid()) {
+                reinitializeDataTable(tbl_rptreport);
+                loadReportreport();
+            }
+
+            else {
+                ErrorMsg("Please select all fields")
+            }
+
+        });
+        function reinitializeDataTable(table) {
+            var $table = $(table);
+            if ($.fn.dataTable.isDataTable(table)) {
+                dt = $table.DataTable();
+                dt.destroy();
+            }
+            $(table).empty();
+            $table.hide();
+
+
+        }
+
+        function loadReport() {
+
+            $("#loading").show();
+            $("#divNoData").hide();
+
+            // $("#divTable").html("<table class=\"table table-bordered dataTable dtr-inline \" id=\"tbl_rpt\" role=\"grid\" aria-describedby=\"datatable_info\" style=\"width:100 % !important;\" cellspacing=\"0\"><thead style= \"font-size:11px;width:auto;text-align:center;\" ><tr></tr> </thead ></table >");
+            $("input[type=button]").attr("disabled", "disabled");
+            $.post("@Url.Action(MVC.Campaign.getcampaigncreatedlist())", $("form").serialize(), function (resp) {
+                if (jQuery.isEmptyObject(resp.tdata)) {
+
+                    $("#divNoData span").text(" No data available");
+                    //$("#divNoData").show();
+                    $("input[type=button]").removeAttr("disabled");
+                    $("#loading").hide();
+                    $("#divTable").hide();
+                    ErrorMsg('No data available');
+                }
+                else {
+                    $("#tbl_rpt").show();
+                    $("#divTable").show();
+                    rpt_datatable = $("#tbl_rpt").DataTable({
+                        responsive: true,
+                        deferRender: true,
+                        "destroy": true,
+
+                        data: resp.tdata,
+                        columns: resp.thead,
+                        'columnDefs': [
+
+                        {
+                            "targets": 10,
+                                "className": "text-left",
+
+                                "mRender": function (data, type, full) {
+                                    if (full[10] == 0) {
+                                        return "NA";
+                                    }
+                                    else {
+
+
+                                        //return '<a class="btn fa fa-upload" id="upload"  ' + full[10] + '>' + '' + '</a>';
+                                        return '<button class="btn fa fa-upload" id="upload" onclick="fileupload();"  type="button"></button>';
+                                    }
+                                }
+
+
+                        },
+                        ],
+                        order: [],
+                        fnInitComplete: function (o) {
+                            $("#loading").hide();
+                            $("input[type=button]").removeAttr("disabled");
+
+                        },
+
+                    });
+                }
+                $("#loading").hide();
+                $("input[type=button]").removeAttr("disabled");
+            }).fail(function (xhr, status, error) {
+                $("#loading").hide();
+                $("input[type=button]").removeAttr("disabled");
+                if (xhr.status == 401) {
+                    alert("Click to continue", "Session Timedout", function () {
+                        closing = false;
+                        window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                    })
+                }
+                else if (xhr.status == 507) {
+                    $("#divNoData span").text(" Result is too large.");
+                    $("#divNoData").show();
+                    $("input[type=button]").removeAttr("disabled");
+                } else {
+                    alert("Unable to fetch data from server", "Failed");
+
+                }
+            });
+        }
+
+
+         function loadReportstatus() {
+
+            $("#loading").show();
+            $("#divNoData").hide();
+
+            // $("#divTable").html("<table class=\"table table-bordered dataTable dtr-inline \" id=\"tbl_rpt\" role=\"grid\" aria-describedby=\"datatable_info\" style=\"width:100 % !important;\" cellspacing=\"0\"><thead style= \"font-size:11px;width:auto;text-align:center;\" ><tr></tr> </thead ></table >");
+            $("input[type=button]").attr("disabled", "disabled");
+            $.post("@Url.Action(MVC.Campaign.getcampaignstatusReport())", $("form").serialize(), function (resp) {
+                if (jQuery.isEmptyObject(resp.tdata)) {
+
+                    $("#divNoData span").text(" No data available");
+                    //$("#divNoData").show();
+                    $("input[type=button]").removeAttr("disabled");
+                    $("#loading").hide();
+                    $("#divTable").hide();
+                    ErrorMsg('No data available');
+                }
+                else {
+                    $("#tbl_rptstatus").show();
+                    $("#divTable").show();
+                    rpt_datatable = $("#tbl_rptstatus").DataTable({
+                        responsive: true,
+                        deferRender: true,
+                        "destroy": true,
+
+                        data: resp.tdata,
+                        columns: resp.thead,
+                        'columnDefs': [
+                            {
+                                "targets": 0,
+                                "className": "text-left",
+                                "visible": false,
+                                "searchable": false
+                            },
+                            {
+                                "targets": 15,
+                                "className": "text-left",
+
+                                "mRender": function (data, type, full) {
+                                  if (full[15] == "4") {
+                                    return `<i class="btn fa fa-play" style="color:green;font-size:10px;" id="${full[0]}" onclick="changestatus(event,1)"  type="button"></i><i class="btn fa fa-pause" style="color:grey;font-size:10px;" id="${full[0]}" onclick="changestatus(event,2)"  type="button"></i><i class="btn fa fa-undo" style="color:yellow;font-size:10px;" id="${full[0]}" onclick="changestatus(event,3)"  type="button"></i><i class="btn fa fa-stop" style="color:red;font-size:10px;" id="${full[0]}" onclick="changestatus(event,4)" type="button"></i>`;
+                                   }
+                                  else {
+
+                                      return "";
+
+                                   }
+                             }
+
+
+                            },
+                        ],
+                        order: [],
+                        fnInitComplete: function (o) {
+                            $("#loading").hide();
+                            $("input[type=button]").removeAttr("disabled");
+
+                        },
+
+                    });
+                }
+                $("#loading").hide();
+                $("input[type=button]").removeAttr("disabled");
+            }).fail(function (xhr, status, error) {
+                $("#loading").hide();
+                $("input[type=button]").removeAttr("disabled");
+                if (xhr.status == 401) {
+                    alert("Click to continue", "Session Timedout", function () {
+                        closing = false;
+                        window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                    })
+                }
+                else if (xhr.status == 507) {
+                    $("#divNoData span").text(" Result is too large.");
+                    $("#divNoData").show();
+                    $("input[type=button]").removeAttr("disabled");
+                } else {
+                    alert("Unable to fetch data from server", "Failed");
+
+                }
+            });
+        }
+
+        function loadReportreport() {
+
+            $("#loading").show();
+            $("#divNoData").hide();
+
+            // $("#divTable").html("<table class=\"table table-bordered dataTable dtr-inline \" id=\"tbl_rpt\" role=\"grid\" aria-describedby=\"datatable_info\" style=\"width:100 % !important;\" cellspacing=\"0\"><thead style= \"font-size:11px;width:auto;text-align:center;\" ><tr></tr> </thead ></table >");
+            $("input[type=button]").attr("disabled", "disabled");
+            $.post("@Url.Action(MVC.Campaign.getcampaigndetailReport())", $("form").serialize(), function (resp) {
+                if (jQuery.isEmptyObject(resp.tdata)) {
+
+                    $("#divNoData span").text(" No data available");
+                    //$("#divNoData").show();
+                    $("input[type=button]").removeAttr("disabled");
+                    $("#loading").hide();
+                    $("#divTable").hide();
+                    ErrorMsg('No data available');
+                }
+                else {
+                    $("#tbl_rptreport").show();
+                    $("#divTable").show();
+                    rpt_datatable = $("#tbl_rptreport").DataTable({
+                        responsive: true,
+                        deferRender: true,
+                        "destroy": true,
+
+                        data: resp.tdata,
+                        columns: resp.thead,
+                        //'columnDefs': [
+
+                        //    {
+                        //        "targets": 0,
+                        //        "className": "text-left",
+                        //        "visible": false,
+                        //        "searchable": false
+
+
+
+
+                        //    },
+                        //{
+                        //        "targets": 16,
+                        //        "className": "text-left",
+
+                        //        "mRender": function (data, type, full) {
+                        //            if (full[10] == 0) {
+                        //                return "NA";
+                        //            }
+                        //            else {
+
+
+                        //                return '<a class="btn fa fa-upload" id="upload"  ' + full[10] + '>' + '' + '</a>';
+                        //                return '<button class="btn fa fa-upload" id="upload" "  type="button"></button>';
+                        //            }
+                        //        }
+
+
+                        //},
+                        //],
+                        order: [],
+                        fnInitComplete: function (o) {
+                            $("#loading").hide();
+                            $("input[type=button]").removeAttr("disabled");
+
+                        },
+
+                    });
+                }
+                $("#loading").hide();
+                $("input[type=button]").removeAttr("disabled");
+            }).fail(function (xhr, status, error) {
+                $("#loading").hide();
+                $("input[type=button]").removeAttr("disabled");
+                if (xhr.status == 401) {
+                    alert("Click to continue", "Session Timedout", function () {
+                        closing = false;
+                        window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                    })
+                }
+                else if (xhr.status == 507) {
+                    $("#divNoData span").text(" Result is too large.");
+                    $("#divNoData").show();
+                    $("input[type=button]").removeAttr("disabled");
+                } else {
+                    alert("Unable to fetch data from server", "Failed");
+
+                }
+            });
+        }
+
+        $(".NumFld").inputFilter(function (value) {
+            return /^\d*$/.test(value);
+        });
+
+        $('#upload').on('click', function () {
+
+            console.log("called");
+            //document.getElementById("campaignlistnavitem").classList.remove("active");
+            //document.getElementById("uploadlistnavitem").classList.add("active");
+
+            $("#campaignlistnavitem").removeClass("show  active");
+            $("#uploadlistnavitem").addClass("show  active");
+            $("#campaignlistnav").removeClass("show active");
+            $("#uploadbasenav").addClass("show active");
+        });
+
+
+        function redirectToBaseupload() {
+            $("#campaigncreationnavitem").removeClass("show  active");
+            $("#uploadlistnavitem").addClass("show  active");
+            $("#campaignnav").removeClass("show active");
+            $("#uploadbasenav").addClass("show active");
+        }
+
+        function fileupload() {
+            $("#campaignlistnavitem").removeClass("show  active");
+            $("#uploadlistnavitem").addClass("show  active");
+            $("#campaignnav").removeClass("show active");
+            $("#uploadbasenav").addClass("show active");
+        }
+
+        function changestatus(event,cstatus) {
+            var campaignid = event.target.id;
+             $.ajax({
+                url: "@Url.Action(MVC.Campaign.changeCampaignStatus())",
+                type: 'GET',
+                 data: { campaignid: campaignid, cstatus: cstatus },
+                success: function (minames) {
+                    //var obj = JSON.parse(minames);
+                    //if (obj.status == "1") {
+                    //    SuccessMsg("Status Changed Successfully")
+                    //    reinitializeDataTable(tbl_rptstatus);
+                    //    loadReportstatus();
+                    //}
+                    //else {
+                    //    ErrorMsg("Status not changed")
+                    //    reinitializeDataTable(tbl_rptstatus);
+                    //    loadReportstatus();
+                    //}
+                    SuccessMsg("Status stopped Successfully")
+                    reinitializeDataTable(tbl_rptstatus);
+                    loadReportstatus();
+
+                }
+            });
+
+
+
+        }
+
+        $('#uploadCampaignName').on('change', function () {
+
+
+            if ($('#uploadCampaignName').val() != "") {
+                $("#collapseCampaignDetails").addClass(" show");
+                $("#Uploadingdiv").show();
+
+                geteachcampaigndetails($('#uploadCampaignName').val());
+
+            }
+            else {
+                $("#collapseCampaignDetails").removeClass("show");
+                $("#Uploadingdiv").hide();
+
+            }
+
+
+        });
+
+        $('#uploadlistnavitem').on('click', function () {
+
+            getcampigndrowpdown();
+
+        });
+
+        function getcampigndrowpdown() {
+             $.ajax({
+                url: "@Url.Action(MVC.Campaign.getcampaignnames())",
+                type: 'GET',
+                data: { },
+                success: function (minames) {
+                    //console.log(minames);
+                    $("#uploadCampaignName").html("");
+                    $("#uploadCampaignName").append(
+                            $('<option></option>').val('').html('-Select-'));
+                        $.each(minames, function (i, minames) {
+                            $("#uploadCampaignName").append(
+                                $('<option></option>').val(minames.VALUE).html(minames.TEXT));
+                        });
+                }
+            });
+        }
+
+
+
+
+
+
+
+
+
+
+
+            //samplefiledownlod
+        $('#samplefiledownlod').on('click', function () {
+            var id = $("#uploadCampaignName").val();
+
+            $.ajax({
+                type: "get",
+                url: '@Url.Action("DownloadsampleFile", "Campaign")',
+                data: { id: id },
+                success: function (response) {
+                    console.log(response, "response");
+                    if (response != null && response != "") {
+                        download(response, "Upload.xls");
+                    }
+                }
+            });
+
+        });
+
+
+
+
+
+
+        function geteachcampaigndetails(campaignid) {
+
+            $.ajax({
+                url: "@Url.Action(MVC.Campaign.getcampaigndetailsfromid())",
+                type: 'GET',
+                data: { campaignid: campaignid},
+                 success: function (minames) {
+                     var obj = JSON.parse(minames);
+                     console.log(obj);
+                     document.getElementById("bindcampaignname").innerHTML = obj[0].campaignName;
+                     document.getElementById("bindcampaigntype").innerHTML = obj[0].campaignType;
+                     document.getElementById("bindfromdate").innerHTML = obj[0].fromDate;
+                     document.getElementById("bindtodate").innerHTML = obj[0].toDate;
+                     document.getElementById("bindfromtime").innerHTML = obj[0].fromTime;
+                     document.getElementById("bindtotime").innerHTML = obj[0].toTime;
+                     document.getElementById("bindsenderid").innerHTML = obj[0].senderId;
+                     document.getElementById("bindtemplateid").innerHTML = obj[0].templateId;
+                     document.getElementById("bindmsgcontent").innerHTML = obj[0].smsContent;
+
+                     /*bindcampaignname
+                            bindcampaigntype
+                            bindfromdate
+                            bindtodate
+                            bindfromtime
+                            bindtotime
+                            bindmsgcontent
+
+                            campaignName: "jghjghj"
+                            campaignType: "Transactional"
+                            fromDate: "04/07/2022"
+                            fromTime: "12:00 PM"
+                            senderId: "ABALRT"
+                            smsContent: ""
+                            templateId: ""
+                            toDate: "04/07/2022"
+                            toTime: "12:00 PM"*/
+
+                    // variablecnt = obj[0].variableCount;
+
+
+                }
+            });
+        }
+
+        function resetfunction() {
+            console.log("reset");
+            document.getElementById("Idform").reset();
+            $('#StaticSmsDiv').hide();
+            $('#dynamicSmsDiv').hide();
+            $('#messageScriptdiv').hide();
+            $('#savecampaignM2M').hide();
+            $('#campaignsubmit').hide();
+            $("#Uploadingdiv").hide();
+            $('#testsmsdiv').hide();
+
+            $("#senderId").html("");
+            $("#senderId").append(
+                $('<option></option>').val('').html('-Select-'));
+
+
+            $("#templateId").html("");
+            $("#templateId").append(
+                $('<option></option>').val('').html('-Select-'));
+        }
+
+
+
+
+        const download = (function () {
+            const a = document.createElement("a");
+            document.body.appendChild(a);
+            a.style = "display: none";
+            return function (data, fileName) {
+                const blob = new Blob([data], { type: "octet/stream" }),
+                    url = window.URL.createObjectURL(blob);
+                a.href = url;
+                a.download = fileName;
+                a.click();
+                window.URL.revokeObjectURL(url);
+            };
+        }());
+
+        $('#uploadfileid').on('click', function () {
+            if ($("#Idform").valid()) {
+
+                var fileUpload = $("#fileToUpload").get(0);
+
+                var files = fileUpload.files;
+
+                var fileData = new FormData();
+                const fsize = files[0].size;
+                console.log(fsize);
+                const filesizeinkb = Math.round((fsize / 1024));
+
+                if (filesizeinkb >= 100000) {
+                    ErrorMsg("File is too large,Please upload file less than 100 MB")
+                }
+                else {
+                    fileData.append(files[0].name, files[0]);
+                    fileData.append("CampaignId", $("#uploadCampaignName").val());
+                    fileData.append("starttype", $("#uploadCampaignstarttype").val());
+                    $.ajax({
+                        url: '@Url.Action(MVC.Campaign.CampaignBase())',
+                        type: 'post',
+                        datatype: 'json',
+                        contentType: false,
+                        processData: false,
+                        async: false,
+                        data: fileData,
+                        success: function (response) {
+                            var obj = JSON.parse(response);
+                            console.log(obj);
+                            if (obj.status == "1") {
+                                SuccessMsg(obj.response)
+                            }
+                            else {
+                                ErrorMsg(obj.response);
+                            }
+                        }
+                    });
+                }
+
+
+
+
+            }
+            else {
+                ErrorMsg("Please fill in all fields.")
+
+
+            }
+
+
+        });
+
+
+    </script>
+
+
+}

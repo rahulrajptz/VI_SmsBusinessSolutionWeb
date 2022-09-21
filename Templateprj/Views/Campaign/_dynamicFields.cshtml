@@ -1,0 +1,66 @@
+﻿
+
+@model  Templateprj.Models.CampaignModel
+
+
+
+<table class="table table-responsive-md">
+    @*<tr style="background-color:#D6D6DC">
+        <th> Customer Feedback Form Builder</th>
+        <th></th>
+    </tr>*@
+    @for (var i = 0; i < Model.dynamic.Count(); i++)
+    {
+        <tr>
+            <td>
+
+                @Html.HiddenFor(m => m.dynamic[i].fieldId)
+
+                @{
+                    var j = i + 1;
+                }
+                <div class="">
+                    <span class="text  h6 mr-3 mt-2">Field @j :</span>
+                    <div class="form-group d-flex">
+
+                        @*@Html.Label("Header ")*@
+                        <label for="Header" class="mt-2 h5">Header</label>
+                        @*@Html.TextBoxFor(X => Model.dynamic[i].header, new { @class = "form-control " })*@
+                        <input class="test-class form-control ml-2 mr-3" id="dynamic_0__header" name="dynamic[@i].header" type="text" value="@Model.dynamic[i].header" placeholder="Max-Length 40 Characters" maxlength="40" required="required">
+
+                        @*@Html.Label("Content Type")*@
+                        <label for="Content_Type" style="width:35%" class="mt-2 h5">Content Type</label>
+                        @Html.DropDownListFor(X => Model.dynamic[i].contentType, new SelectList(Model.dynamic[i].contentTypeList, "Value", "Text", Model.dynamic[i].contentType), new { @class = "form-control" })
+
+                    </div>
+                </div>
+            </td>
+            <td class="w-25">
+                @if (i != 0)
+                {
+                    @*<button class="btn btn-remove btn-danger" type="button" onclick="$(this).closest('tr').remove();"><i class="now-ui-icons ui-1_simple-delete"></i></button>*@
+                    @*<button class="btn  btn-danger" type="button" onclick="$(this).closest('tr').remove();">Remove Question</button>*@
+                    @*<button class="btn  btn-danger" id="btnDeletefield" onclick="deleteField(@i)" type="button">Delete Field</button>*@
+                    <img class="btn btn-outline-light" src="~/assets/img/bin.png" height="40px" onclick="deleteField(@i)">
+
+                }
+            </td>
+        </tr>
+    }
+    <tr>
+        <td></td>
+        @if(Model.dynamic.Count() < 10)
+        {
+        <td>
+            @*<button class="btn btn-success" id="btnAddField" onclick="AddDynamicField()" type="button">Add New Field</button>*@
+            <img class="btn btn-outline-light" src="~/assets/img/add.png" height="36px" onclick="AddDynamicField()">
+
+        </td>
+        }
+    </tr>
+</table>
+
+
+
+
+

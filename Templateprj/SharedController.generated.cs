@@ -40,10 +40,14 @@ namespace T4MVC
             {
                 public readonly string _DeskNavLinks = "_DeskNavLinks";
                 public readonly string _Layout = "_Layout";
+                public readonly string _LayoutPageCampaign = "_LayoutPageCampaign";
+                public readonly string _navlinksms = "_navlinksms";
                 public readonly string Error = "Error";
             }
             public readonly string _DeskNavLinks = "~/Views/Shared/_DeskNavLinks.cshtml";
             public readonly string _Layout = "~/Views/Shared/_Layout.cshtml";
+            public readonly string _LayoutPageCampaign = "~/Views/Shared/_LayoutPageCampaign.cshtml";
+            public readonly string _navlinksms = "~/Views/Shared/_navlinksms.cshtml";
             public readonly string Error = "~/Views/Shared/Error.cshtml";
         }
     }

@@ -11,13 +11,15 @@ using System.IO;
 using System.Data.OleDb;
 using System.Web.Mvc;
 using System.Text;
-using Oracle.DataAccess.Client;
+using Oracle.ManagedDataAccess.Client;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using System.Web.UI;
 using ClosedXML.Excel;
 using Templateprj.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using MySql.Data.MySqlClient;
 
 namespace Templateprj.Helpers
 {
@@ -25,6 +27,57 @@ namespace Templateprj.Helpers
     {
         private const string xlsContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
         private const string csvContentType = "text/csv";
+        public void ExportToSpreadsheet_neww(DataTable table, string name)
+        {
+            HttpContext context = HttpContext.Current;
+            context.Response.Clear();
+            foreach (DataColumn column in table.Columns)
+            {
+                context.Response.Write(column.ColumnName + ",");
+            }
+            context.Response.Write(Environment.NewLine);
+            foreach (DataRow row in table.Rows)
+            {
+                for (int i = 0; i < table.Columns.Count; i++)
+                {
+                    context.Response.Write(row[i].ToString().Replace(",", string.Empty) + ",");
+                }
+                context.Response.Write(Environment.NewLine);
+            }
+            context.Response.ContentType = "text/csv";
+            context.Response.AppendHeader("Content-Disposition", "attachment; filename=" + name);
+            context.Response.End();
+        }
+
+        public void ExportToExcel(DataTable table, string name)
+        {
+            HttpContext context = HttpContext.Current;
+            context.Response.Clear();
+
+            string csv = string.Empty;
+            foreach (DataColumn column in table.Columns)
+            {
+                csv += column.ColumnName + ",";
+            }
+            csv += "\r\n";
+            foreach (DataRow row in table.Rows)
+            {
+                for (int i = 0; i < table.Columns.Count; i++)
+                {
+                    csv += row[i].ToString().Replace(",", string.Empty) + ",";
+                }
+                csv += "\r\n";
+            }
+
+            context.Response.ContentType = "application/ms-excel";
+            context.Response.AppendHeader("Content-Disposition", "attachment; filename=" + name);
+            context.Response.ContentEncoding = System.Text.Encoding.Unicode;
+            context.Response.Charset = "";
+            context.Response.Output.Write(csv);
+            context.Response.End();
+
+
+        }
 
         #region ExportToCSV
 
@@ -313,7 +366,7 @@ namespace Templateprj.Helpers
 
                 if (dtSchema != null)
                 {
-                    for (i = 1; i < colCount; i++)
+                    for (i = 0; i < colCount; i++)
                     {
                         value = dtSchema.Rows[i]["ColumnName"].ToString();
                         if (!string.IsNullOrWhiteSpace(value))
@@ -334,7 +387,106 @@ namespace Templateprj.Helpers
                         {
                             rowCount++;
                             data = "";
-                            for (i = 1; i < colCount; i++)
+                            for (i = 0; i < colCount; i++)
+                            {
+                                temp = reader[i];
+                                if (temp is DateTime)
+                                {
+                                    value = ((DateTime)temp).ToString("dd MMM yyyy HH:mm:ss");
+                                }
+                                else
+                                {
+                                    value = temp.ToString();
+                                    if (!string.IsNullOrWhiteSpace(value))
+                                        value = value.Replace('\'', ' ').Replace('"', ' ').Replace(',', ' ');
+                                }
+                                data += value + ",";
+                            }
+                            context.Response.Write(data + Environment.NewLine);
+
+                            if (rowCount >= flushFreq)
+                            {
+                                HttpContext.Current.Response.Flush();
+                                rowCount = 0;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        data = "";
+                        for (i = 1; i < colCount / 2; i++)
+                        {
+                            data += ",";
+                        }
+                        data += "No Data found";
+                        for (i = colCount / 2; i < colCount; i++)
+                        {
+                            data += ",";
+                        }
+                        context.Response.Write(data + Environment.NewLine);
+                    }
+                    context.Response.Flush();
+                    context.Response.End();
+                }
+                catch (Exception ex)
+                { LogWriter.Write("ExcelExtension.ExportToCSV:Exception:" + ex.Message); }
+            }
+        }
+        public void ExportToCSV(MySqlDataReader reader, string fileName)
+        {
+            //LogWriter.Write("ExcelExtension.ExportToCSV::" + fileName);
+            using (reader)
+            {
+                fileName = fileName.Replace("\\", "_").Replace("/", "_").Replace(":", "_").Replace("?", "_").Replace("<", "_").Replace(">", "_").Replace("|", "_") + ".csv";
+                string attachment = "attachment; filename=\"" + fileName + "\"";
+
+                HttpContext.Current.Response.Clear();
+                HttpContext.Current.Response.AddHeader("content-disposition", attachment);
+                HttpContext.Current.Response.ContentType = csvContentType;
+                HttpContext.Current.Response.AddHeader("Pragma", "public");
+                HttpContext.Current.Response.Headers.Add("Set-Cookie", "fileDownload=true; path=/");
+
+                //LogWriter.Write("ExcelExtension.ExportToCSV:1:");
+                string value, data = "";
+                int i, rowCount = 0, colCount = reader.FieldCount, flushFreq = 1000;
+                DataTable dtSchema = reader.GetSchemaTable();
+                //LogWriter.Write("ExcelExtension.ExportToCSV:dtSchema:" + dtSchema.Rows.Count);
+
+                //try
+                //{
+                //    FieldInfo fi = reader.GetType().GetField("m_rowSize", BindingFlags.Instance | BindingFlags.NonPublic);
+                //    int rowSize = (int)fi.GetValue(reader);
+                //    reader.FetchSize = rowSize * 10;
+                //}
+                //catch (Exception ex)
+                //{
+                //    LogWriter.Write("ExcelExtension.ExportToCSV2 :: Unable to set FetchSize :: Exception ::" + ex.Message);
+                //}
+
+                if (dtSchema != null)
+                {
+                    for (i = 0; i < colCount; i++)
+                    {
+                        value = dtSchema.Rows[i]["ColumnName"].ToString();
+                        if (!string.IsNullOrWhiteSpace(value))
+                            value = value.Replace('\'', ' ').Replace('"', ' ').Replace(',', ' ');
+                        data += value + ",";
+                    }
+                }
+
+                HttpContext context = HttpContext.Current;
+
+                context.Response.Write(data + Environment.NewLine);
+                try
+                {
+                    if (reader.HasRows)
+                    {
+                        object temp;
+                        while (reader.Read())
+                        {
+                            rowCount++;
+                            data = "";
+                            for (i = 0; i < colCount; i++)
                             {
                                 temp = reader[i];
                                 if (temp is DateTime)
@@ -616,14 +768,15 @@ namespace Templateprj.Helpers
                 Response.Buffer = true;
                 Response.Charset = "";
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", ""+filename+".xls"));
+                Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "" + filename + ".xls"));
                 //Response.AddHeader("content-disposition", "attachment;filename="+filename+".xlsx");
                 using (MemoryStream MyMemoryStream = new MemoryStream())
                 {
-                    try {
+                    try
+                    {
                         wb.SaveAs(MyMemoryStream);
-                        MyMemoryStream.WriteTo(Response.OutputStream);                       
-                    }                     
+                        MyMemoryStream.WriteTo(Response.OutputStream);
+                    }
                     catch { }
                     Response.Flush();
                     //Response.Clear();
@@ -643,7 +796,7 @@ namespace Templateprj.Helpers
 
             if (extension.ToLower().Equals(".xls") || extension.ToLower().Equals(".xlsx"))
             {
-                return GetDataSetFromExcel(FilePath, out isError);
+                return GetDataSetFromExcel(FilePath, true, out isError);
             }
             else if (extension.ToLower().Equals(".csv"))
             {
@@ -658,11 +811,12 @@ namespace Templateprj.Helpers
         #endregion
 
         #region GetDataSetFromExcel
-        public DataSet GetDataSetFromExcel(string FilePath, out bool isError)
+        public DataSet GetDataSetFromExcel(string FilePath, bool multiple, out bool isError)
         {
             isError = false;
 
             string ConnectonString = "";
+            DataSet ds = new DataSet();
             if (Path.GetExtension(FilePath) == ".xls")
             {
                 ConnectonString = "Provider=Microsoft.Jet.OLEDB.4.0; Data Source=" + FilePath + "; Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=2\"";
@@ -679,6 +833,8 @@ namespace Templateprj.Helpers
                     //reading Excel Sheet Name
                     DataTable dt;
                     excelConnection.Open();
+
+
 
                     dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
                     if (dt == null)
@@ -699,8 +855,6 @@ namespace Templateprj.Helpers
                         }
                     }
                     //Reading Sheet data
-
-                    DataSet ds = new DataSet();
                     foreach (string sheetname in excelSheetNames)
                     {
                         string query = string.Format("Select * from [" + sheetname + "]", excelConnection);
@@ -716,7 +870,6 @@ namespace Templateprj.Helpers
                 isError = true;
                 LogWriter.Write(DateTime.Now + " :: Procedure.GetDataSetFromExcel :: Exception :: " + ex.Message.ToString());
             }
-
             return null;
         }
         #endregion
@@ -728,10 +881,11 @@ namespace Templateprj.Helpers
             try
             {
                 DataSet ds = new DataSet();
-                string connString = string.Format("Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties=Text;FORMAT=Delimited;", System.IO.Path.GetDirectoryName(FilePath));
+                string connString = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Extended Properties=Text;HDR=Yes;FMT=Delimited;Persist Security Info = False", System.IO.Path.GetDirectoryName(FilePath));
+                string constr = string.Format(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};ExtendedProperties='text;HDR=Yes;FMT=CSVDelimited'", System.IO.Path.GetDirectoryName(FilePath));
                 string cmdString = string.Format("SELECT * FROM [" + System.IO.Path.GetFileName(FilePath) + "]");
 
-                using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(cmdString, connString))
+                using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(cmdString, constr))
                 {
                     dataAdapter.Fill(ds);
                 }
@@ -743,6 +897,29 @@ namespace Templateprj.Helpers
                 LogWriter.Write(DateTime.Now + " :: Procedure.GetDataSetFromCSV :: Exception :: " + ex.Message.ToString());
             }
             return null;
+        }
+
+        public DataTable loadCsvFile(string filePath)
+        {
+            try
+            {
+                var reader = new StreamReader(File.OpenRead(filePath));
+                DataTable dataTable = new DataTable();
+                dataTable.Clear();
+                dataTable.Columns.Add("base");
+                int i = 0;
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine().Split(',');
+                    if (i > 0) // skip first row -- header
+                    {
+                        dataTable.Rows.Add(new object[] { line[0].Replace(";", "").Replace("\"", "") });//need first column only
+                    }
+                    i = 1;
+                }
+                return dataTable;
+            }
+            catch (Exception ex) { LogWriter.Write(DateTime.Now + " :: Procedure.loadCsvFile :: Exception :: " + ex.Message.ToString()); return null; }
         }
         #endregion
 

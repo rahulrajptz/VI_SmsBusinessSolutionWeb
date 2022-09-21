@@ -75,28 +75,36 @@ namespace Templateprj.Controllers
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionNamesClass
         {
-            public readonly string Index = "Index";
             public readonly string About = "About";
             public readonly string Contact = "Contact";
             public readonly string Buttons = "Buttons";
             public readonly string ExtraPage = "ExtraPage";
             public readonly string UnAuthorizesd = "UnAuthorizesd";
-            public readonly string DashBoard = "DashBoard";
+            public readonly string Insights = "Insights";
+            public readonly string PrivacyPolicy = "PrivacyPolicy";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionNameConstants
         {
-            public const string Index = "Index";
             public const string About = "About";
             public const string Contact = "Contact";
             public const string Buttons = "Buttons";
             public const string ExtraPage = "ExtraPage";
             public const string UnAuthorizesd = "UnAuthorizesd";
-            public const string DashBoard = "DashBoard";
+            public const string Insights = "Insights";
+            public const string PrivacyPolicy = "PrivacyPolicy";
         }
 
 
+        static readonly ActionParamsClass_Buttons s_params_Buttons = new ActionParamsClass_Buttons();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_Buttons ButtonsParams { get { return s_params_Buttons; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_Buttons
+        {
+            public readonly string txttest = "txttest";
+        }
         static readonly ViewsClass s_views = new ViewsClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ViewsClass Views { get { return s_views; } }
@@ -107,21 +115,11 @@ namespace Templateprj.Controllers
             public _ViewNamesClass ViewNames { get { return s_ViewNames; } }
             public class _ViewNamesClass
             {
-                public readonly string About = "About";
-                public readonly string Buttons = "Buttons";
-                public readonly string Contact = "Contact";
-                public readonly string DashBoard = "DashBoard";
-                public readonly string ExtraPage = "ExtraPage";
-                public readonly string Index = "Index";
-                public readonly string UnAuthorizesd = "UnAuthorizesd";
+                public readonly string Insights = "Insights";
+                public readonly string PrivacyPolicy = "PrivacyPolicy";
             }
-            public readonly string About = "~/Views/Home/About.cshtml";
-            public readonly string Buttons = "~/Views/Home/Buttons.cshtml";
-            public readonly string Contact = "~/Views/Home/Contact.cshtml";
-            public readonly string DashBoard = "~/Views/Home/DashBoard.cshtml";
-            public readonly string ExtraPage = "~/Views/Home/ExtraPage.cshtml";
-            public readonly string Index = "~/Views/Home/Index.cshtml";
-            public readonly string UnAuthorizesd = "~/Views/Home/UnAuthorizesd.cshtml";
+            public readonly string Insights = "~/Views/Home/Insights.cshtml";
+            public readonly string PrivacyPolicy = "~/Views/Home/PrivacyPolicy.cshtml";
         }
     }
 
@@ -129,17 +127,6 @@ namespace Templateprj.Controllers
     public partial class T4MVC_HomeController : Templateprj.Controllers.HomeController
     {
         public T4MVC_HomeController() : base(Dummy.Instance) { }
-
-        [NonAction]
-        partial void IndexOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
-
-        [NonAction]
-        public override System.Web.Mvc.ActionResult Index()
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Index);
-            IndexOverride(callInfo);
-            return callInfo;
-        }
 
         [NonAction]
         partial void AboutOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
@@ -175,6 +162,18 @@ namespace Templateprj.Controllers
         }
 
         [NonAction]
+        partial void ButtonsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string txttest);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult Buttons(string txttest)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Buttons);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "txttest", txttest);
+            ButtonsOverride(callInfo, txttest);
+            return callInfo;
+        }
+
+        [NonAction]
         partial void ExtraPageOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
 
         [NonAction]
@@ -197,13 +196,24 @@ namespace Templateprj.Controllers
         }
 
         [NonAction]
-        partial void DashBoardOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+        partial void InsightsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult DashBoard()
+        public override System.Web.Mvc.ActionResult Insights()
         {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DashBoard);
-            DashBoardOverride(callInfo);
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Insights);
+            InsightsOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void PrivacyPolicyOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult PrivacyPolicy()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.PrivacyPolicy);
+            PrivacyPolicyOverride(callInfo);
             return callInfo;
         }
 

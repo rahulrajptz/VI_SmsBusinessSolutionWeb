@@ -180,17 +180,17 @@ demo = {
                     className: 'event-azure'
 				},
 				{
-					title: 'Click for Creative Tim',
+					title: '',
 					start: new Date(y, m, 21),
 					end: new Date(y, m, 22),
-					url: 'http://www.creative-tim.com/',
+					url: '',
 					className: 'event-orange'
 				},
 				{
 					title: 'Click for Google',
 					start: new Date(y, m, 21),
 					end: new Date(y, m, 22),
-					url: 'http://www.creative-tim.com/',
+					url: '',
 					className: 'event-orange'
 				}
 			]
@@ -1041,7 +1041,7 @@ demo = {
             'nextSelector': '.btn-next',
             'previousSelector': '.btn-previous',
 
-            onNext: function(tab, navigation, index) {
+            onNext: function (tab, navigation, index) {
             	var $valid = $('.card-wizard form').valid();
             	if(!$valid) {
             		$validator.focusInvalid();
@@ -1173,11 +1173,15 @@ demo = {
             $li_width = 100/$total;
 
             total_steps = $wizard.find('.nav li').length;
-            move_distance = $wizard.find('.nav').width() / total_steps;
+            //move_distance = $wizard.find('.nav').width() / total_steps;
+            //move_distance = 202.8;
             index_temp = index;
             vertical_level = 0;
-
             mobile_device = $(document).width() < 600 && $total > 3;
+
+            wid1350 = $(document).width() < 1330 && $total > 3;
+            wid1200 = $(document).width() < 1210 && $total > 3;
+            wid800 = $(document).width() < 900 && $total > 3;
 
             if(mobile_device){
                 move_distance = $wizard.width() / 2;
@@ -1185,9 +1189,26 @@ demo = {
                 $li_width = 50;
             }
 
-            $wizard.find('.nav li').css('width',$li_width + '%');
+            if (wid800) {
+                move_distance = 145;
+                $wizard.find('.nav li').css('width', '125.8px');
+                $wizard.find('.nav li a').css('font-size', '8px');
+            }else if (wid1200) {
+                move_distance = 160.8;
+                $wizard.find('.nav li').css('width', '140.8px');
+                $wizard.find('.nav li a').css('font-size', '10px');
+            }else if (wid1350) {
+                move_distance = 180.8;
+                $wizard.find('.nav li').css('width', '160.8px');
+            }
+            else {
+                move_distance = 200.8;
+                $wizard.find('.nav li').css('width','180px');
+                $wizard.find('.nav li a').css('font-size', '13px');
+            }
 
             step_width = move_distance;
+            //move_distance = move_distance * index_temp;
             move_distance = move_distance * index_temp;
 
             // $current = index + 1;
@@ -1202,13 +1223,41 @@ demo = {
                 vertical_level = parseInt(index / 2);
                 vertical_level = vertical_level * 38;
             }
+            if (wid800) {
+                $wizard.find('.moving-tab').css('width', '125.8px');
+                $wizard.find('.moving-tab').css('font-size', '10px');
+                $wizard.find('.moving-tab').css('padding', '10px');
+                $('.moving-tab').css({
+                    'transform': 'translate3d(' + move_distance + 'px, ' + vertical_level + 'px, 0)',
+                    'transition': 'all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1)'
 
-            $wizard.find('.moving-tab').css('width', step_width);
-            $('.moving-tab').css({
-                'transform':'translate3d(' + move_distance + 'px, ' + vertical_level +  'px, 0)',
-                'transition': 'all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1)'
+                });
+            } else if (wid1200) {
+                $wizard.find('.moving-tab').css('width', '140.8px');
+                $wizard.find('.moving-tab').css('font-size', '14px');
+                $wizard.find('.moving-tab').css('padding', '10px');
+                $('.moving-tab').css({
+                    'transform': 'translate3d(' + move_distance + 'px, ' + vertical_level + 'px, 0)',
+                    'transition': 'all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1)'
 
-            });
+                });
+            } else if (wid1350) {
+                $wizard.find('.moving-tab').css('width', '160.8px');
+                $('.moving-tab').css({
+                    'transform': 'translate3d(' + move_distance + 'px, ' + vertical_level + 'px, 0)',
+                    'transition': 'all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1)'
+
+                });
+            }
+            else {
+                $wizard.find('.moving-tab').css('width', '180px');
+                $('.moving-tab').css({
+                    'transform':'translate3d(' + move_distance + 'px, ' + vertical_level +  'px, 0)',
+                    'transition': 'all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1)'
+
+                });
+            }
+
         }
     },
 

@@ -1,211 +1,217 @@
-﻿
+﻿<style>
+    .smallSpan {
+        width: 20px;
+        background-color:red;
+    }
+    .navact {
+        background-color: #530d3e !important;
+    }
+    .not-close1{
+        margin-left:5px;
+    }
+    body {
+        font-size: 13px !important;
+        /*color: #5f004b;*/
+    }
+</style>
+
 <div class="sidebar-wrapper ps-container ps-theme-default ps-active-y" data-ps-id="131e9311-ee64-0e96-773f-c47a19cdc8dc">
-    <div class="user">
+    <div class="" style="margin-left:50px; width:100px">
         <div class="photo">
-            <img src="~/assets/img/james.jpg" />
+            <img src="~/Content/Images/Vi12.PNG" />
         </div>
-        
-        <div class="info">            
-            <a class="collapsed" aria-expanded="false" href="#collapseExample" data-toggle="collapse">
-                <span>
-                    Rohit Vijayakumar
-                    <b class="caret"></b>
-                </span>
-            </a>
-            <div class="clearfix"></div>
-            <div class="collapse" id="collapseExample">
-                <ul class="nav">
-                    <li>
-                        <a href="#">
-                            <span class="sidebar-mini-icon">MP</span>
-                            <span class="sidebar-normal">My Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span class="sidebar-mini-icon">EP</span>
-                            <span class="sidebar-normal">Edit Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span class="sidebar-mini-icon">S</span>
-                            <span class="sidebar-normal">Settings</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+
+        @*<div class="info">
+                    <a class="collapsed" aria-expanded="false" href="#collapseExample" data-toggle="collapse">
+                        <span style="    font-weight: 600;
+            color: #fff;
+            font-size: 14px;">
+                            @Session["Username"].ToString()
+                        </span>
+                    </a>
+                </div>*@
     </div>
-    <ul class="nav">
-        <li class="not-close">
-            <a data-toggle="collapse" href="#Index">
-                <i class="now-ui-icons loader_gear spin"></i>
-                <p>
-                    Home <b class="caret"></b>
-                </p>
-            </a>
-            <div class="@((ViewContext.RouteData.Values["Action"].ToString() == "Index") ? "collapse show" : "collapse ") not-close" id="Index">
-                <ul class="nav">
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "") not-close">
-                        <a href="Home/Index" class="not-close">
-                            <span class="sidebar-mini-icon">I</span>
-                            <span class="sidebar-normal"> Index </span>
-                        </a>
-                    </li>   
-                   
-                </ul>
-            </div>           
-        </li>
-    </ul>
-    <ul class="nav">
-        <li class="not-close">
-            <a data-toggle="collapse" href="#contact">
-                <i class="now-ui-icons tech_laptop"></i>
-                <p>
-                    Contact <b class="caret"></b>
-                </p>
-            </a>
-            <div class="@((ViewContext.RouteData.Values["Action"].ToString() == "Contact") ? "collapse show" : "collapse") not-close" id="contact">
-                <ul class="nav">
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "") not-close">
-                        <a href="Home/Contact" class="not-close">
-                            <span class="sidebar-mini-icon">C</span>
-                            <span class="sidebar-normal"> Contact </span>
-                        </a>
-                    </li>                   
-                </ul>
-            </div>
-        </li>
-    </ul>
-    <ul class="nav">
-        <li class="not-close">
-            <a data-toggle="collapse" href="#About">
-                <i class="now-ui-icons gestures_tap-01"></i>
-                <p>
-                    About <b class="caret"></b>
-                </p>
-            </a>
-            <div class="@((ViewContext.RouteData.Values["Action"].ToString() == "About") || (ViewContext.RouteData.Values["Action"].ToString() == "Buttons") ? "collapse show" : "collapse") not-close" id="About">
-                <ul class="nav">
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "") not-close">
-                        <a href="Home/About" class="not-close">
-                            <span class="sidebar-mini-icon">A</span>
-                            <span class="sidebar-normal"> About </span>
-                        </a>
-                    </li>
-                </ul>   
-                <ul class="nav">
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Buttons" ? "active" : "") not-close">
-                        <a href="Home/Buttons" class="not-close">
-                            <span class="sidebar-mini-icon">B</span>
-                            <span class="sidebar-normal"> Buttons </span>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="nav">
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "ExtraPage" ? "active" : "") not-close">
-                        <a href="Home/ExtraPage" class="not-close">
-                            <span class="sidebar-mini-icon">E</span>
-                            <span class="sidebar-normal"> ExtraPage </span>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="nav">
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "DashBoard" ? "active" : "") not-close">
-                        <a href="Home/DashBoard" class="not-close">
-                            <span class="sidebar-mini-icon">D</span>
-                            <span class="sidebar-normal"> DashBoard </span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </li>
-    </ul>   
 
-    <ul class="nav">
-        <li class="not-close">
-            <a data-toggle="collapse" href="#SystemAlerts">
-                <i class="now-ui-icons loader_gear spin"></i>
-                <p>
-                   Alerts <b class="caret"></b>
-                </p>
-            </a>
-            <div class="@((ViewContext.RouteData.Values["Action"].ToString() == "SystemAlerts") || (ViewContext.RouteData.Values["Action"].ToString() == "FlipkartAlerts") ? "collapse show" : "collapse ") not-close" id="SystemAlerts">
-                <ul class="nav">
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "SystemAlerts" ? "active" : "") not-close">
-                        <a href="Incident/SystemAlerts" class="not-close">
-                            <span class="sidebar-mini-icon">S</span>
-                            <span class="sidebar-normal"> SystemAlerts </span>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="nav">
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "FlipkartAlerts" ? "active" : "") not-close">
-                        <a href="Incident/FlipkartAlerts" class="not-close">
-                            <span class="sidebar-mini-icon">F</span>
-                            <span class="sidebar-normal"> FlipkartAlerts </span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </li>
-    </ul>
-    <ul class="nav">
-        <li class="not-close">
-            <a data-toggle="collapse" href="#Report">
-                <i class="now-ui-icons gestures_tap-01"></i>
-                <p>
-                    Report <b class="caret"></b>
-                </p>
-            </a>
-            <div class="@((ViewContext.RouteData.Values["Action"].ToString() == "IncidentView") || (ViewContext.RouteData.Values["Action"].ToString() == "QrcView") || (ViewContext.RouteData.Values["Action"].ToString() == "ProjectTrackerView") ? "collapse show" : "collapse") not-close" id="Report">
-                <ul class="nav">
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "IncidentView" ? "active" : "") not-close">
-                        <a href="Incident/IncidentView" class="not-close">
-                            <span class="sidebar-mini-icon">I</span>
-                            <span class="sidebar-normal"> Incident </span>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="nav">
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "QrcView" ? "active" : "") not-close">
-                        <a href="Incident/QrcView" class="not-close">
-                            <span class="sidebar-mini-icon">Q</span>
-                            <span class="sidebar-normal"> Qrc </span>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="nav">
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "ProjectTrackerView" ? "active" : "") not-close">
-                        <a href="Incident/ProjectTrackerView" class="not-close">
-                            <span class="sidebar-mini-icon">P</span>
-                            <span class="sidebar-normal"> ProjectTracker</span>
-                        </a>
-                    </li>
-                </ul>              
-            </div>
-        </li>
-    </ul>   
 
-    <ul class="nav">
-        <li class="not-close">
-            <a data-toggle="collapse" href="#ProjectTracker">
-                <i class="now-ui-icons gestures_tap-01"></i>
+    @if (Session["RoleID"].ToString() == "1" || Session["RoleID"].ToString() == "2" || Session["RoleID"].ToString() == "3" || Session["RoleID"].ToString() == "4")
+    {
+        <ul class="nav">
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "insights" ? "navact active" : "") not-close">
+                <a href="home/insights">
+                    @*<i class="now-ui-icons files_single-copy-04"></i>*@
+                    <i style="color:white" class=" now-ui-icons fa fa-home"></i>
+                    <p>
+                        Home
+                    </p>
+                </a>
+            </li>
+        </ul>
+
+        <ul class="nav">
+            <li class="not-close">
+                <a data-toggle="collapse" href="#smsservices">
+                    @*<i class="now-ui-icons files_single-copy-04"></i>*@
+                    @*<i><img src="~/assets/img/megaphone.png" style="height:23px"></i>*@
+                    <i style="color:white" class="now-ui-icons ui-1_email-85 sidebar-mini-icon"></i>
+
+                    <p>
+                        SMS services  <b class="caret"></b>
+                    </p>
+                </a>
+                <div class="@((ViewContext.RouteData.Values["Action"].ToString() == "BulkSms") || (ViewContext.RouteData.Values["Action"].ToString() == "InstantSms")  ? "collapse show" : "collapse") not-close" id="smsservices">
+                    <ul class="nav">
+
+
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "BulkSms" ? "navact active" : "") not-close">
+
+                            <a href="Campaign/BulkSms" class="not-close">
+                                <i class="fa fa-comments sidebar-mini-icon"></i>
+                                <span class="sidebar-normal"> BULK SMS </span>
+                            </a>
+                        </li>
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "InstantSms" ? "navact active" : "") not-close">
+
+                            <a href="Campaign/InstantSms" class="not-close">
+                                <i class="fa fa-comment-alt sidebar-mini-icon"></i>
+                                <span class="sidebar-normal"> INSTANT SMS </span>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                    <ul class="nav">
+                        <li class="not-close">
+                            <a data-toggle="collapse" href="#ApiSms">
+                                @*<i class="now-ui-icons files_single-copy-04"></i>*@
+                                @*<i><img src="~/assets/img/megaphone.png" style="height:23px"></i>*@
+                                <i style="color:white" class="fa fa-share-square sidebar-mini-icon"></i>
+
+                                <p>
+                                    API SMS <b class="caret"></b>
+                                </p>
+                            </a>
+                            <div class="@((ViewContext.RouteData.Values["Action"].ToString() == "ApiBulk") || (ViewContext.RouteData.Values["Action"].ToString() == "ApiNotification") ? "collapse show" : "collapse") not-close" id="ApiSms">
+                                <ul class="nav">
+
+
+
+                                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "ApiBulk" ? "navact active" : "") not-close1">
+
+                                        <a @*href="Campaign/ApiBulk" class="not-close"*@>
+                                            <span class="fa fa-th-large sidebar-mini-icon"></span>
+                                            <span class="sidebar-normal"> API - BULK SMS </span>
+                                        </a>
+                                    </li>
+                                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "ApiNotification" ? "navact active" : "") not-close1">
+
+                                        <a @*href="Campaign/ApiNotification" class="not-close"*@>
+                                            <span class="fa fa-th-large sidebar-mini-icon"></span>
+                                            <span class="sidebar-normal"> API - NOTIFICATION SMS </span>
+                                        </a>
+                                    </li>
+
+
+
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="nav">
+
+
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "SmppConnect" ? "navact active" : "") not-close">
+
+                            <a @*href="Campaign/SmppConnect" class="not-close"*@>
+                                <span class="fa fa-external-link-square-alt sidebar-mini-icon"></span>
+                                <span class="sidebar-normal"> SMPP CONNECT </span>
+                            </a>
+                        </li>
+
+
+                    </ul>
+
+                </div>
+            </li>
+        </ul>
+
+        <ul class="nav">
+            <li class="not-close">
+                <a data-toggle="collapse" href="#Management">
+                    @*<i class="now-ui-icons files_single-copy-04"></i>*@
+                    <i style="color:white" class=" now-ui-icons ui-1_email-85 sidebar-mini-icon"></i>
+                    <p>
+                        MANAGEMENT <b class="caret"></b>
+                    </p>
+                </a>
+                <div class="@((ViewContext.RouteData.Values["Action"].ToString() == "Management") ? "collapse show" : "collapse") not-close" id="Management">
+                    <ul class="nav">
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "account" ? "navact active" : "") not-close">
+                            <a @*href="Campaign/account" class="not-close"*@>
+                                <span class="fa fa-share-square sidebar-mini-icon"></span>
+                                <span class="sidebar-normal">ACCOUNT</span>
+                            </a>
+                        </li>
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "template" ? "navact active" : "") not-close">
+                            <a @*href="Campaign/template" class="not-close"*@>
+                                <span class="fa fa-comments sidebar-mini-icon"></span>
+                                <span class="sidebar-normal">TEMPLATE</span>
+                            </a>
+                        </li>
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "senderId" ? "navact active" : "") not-close">
+                            <a @*href="Campaign/senderId" class="not-close"*@>
+                                <span class="fa fa-comment-alt sidebar-mini-icon"></span>
+                                <span class="sidebar-normal">SENDER ID</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+        </ul>
+
+        @*<ul class="nav">
+            <li class="not-close">
+                <a data-toggle="collapse" href="#Preference">*@
+        @*<i class="now-ui-icons files_single-copy-04"></i>*@
+        @*<i style="color:white" class=" now-ui-icons ui-1_email-85 sidebar-mini-icon"></i>
                 <p>
-                    ProjectTracker <b class="caret"></b>
+                    PREFERENCE <b class="caret"></b>
                 </p>
-            </a>
-            <div class="@((ViewContext.RouteData.Values["Action"].ToString() == "ProjectTracker") ? "collapse show" : "collapse") not-close" id="ProjectTracker">
-                <ul class="nav">
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "ProjectTracker" ? "active" : "") not-close">
-                        <a href="Incident/ProjectTracker" class="not-close">
-                            <span class="sidebar-mini-icon">P</span>
-                            <span class="sidebar-normal"> ProjectTracker </span>
-                        </a>
-                    </li>
-                </ul>               
-            </div>
-        </li>
-    </ul>   
+            </a>*@
+        @*<div class="@((ViewContext.RouteData.Values["Action"].ToString() == "AgentManagement") ? "collapse show" : "collapse") not-close" id="Preference">
+                        <ul class="nav">
+
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "AgentManagement" ? "navact active" : "") not-close">
+                                <a @*href="Campaign/AgentManagement" class="not-close">
+                                    <span class="sidebar-mini-icon">A</span>
+                                    <span class="sidebar-normal">Agent Management</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>*@
+        <ul class="nav">
+            <li class="not-close">
+                <a data-toggle="collapse" href="#Reports">
+                    @*<i class="now-ui-icons files_single-copy-04"></i>*@
+                    <i style="color:white" class="now-ui-icons files_single-copy-04"></i>
+                    <p>
+                        REPORTS <b class="caret"></b>
+                    </p>
+                </a>
+                <div class="@((ViewContext.RouteData.Values["Action"].ToString() == "Reports") ? "collapse show" : "collapse") not-close" id="Reports">
+                    <ul class="nav">
+
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Detailedreport" ? "navact active" : "") not-close">
+                            <a href="Reports/DetailedReport" class="not-close">
+                                <span class="sidebar-mini-icon">DR</span>
+                                <span class="sidebar-normal">Detailed Report</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    }
 </div>

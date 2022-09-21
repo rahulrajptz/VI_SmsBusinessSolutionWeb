@@ -1,0 +1,55 @@
+﻿@model  Templateprj.Models.CampaignModel
+@{
+    //int a = ViewBag.index;
+    int a = 0;
+    if (ViewBag.index != null)
+    {
+        a = ViewBag.index;
+    }
+
+}
+<table class="table table-borderless">
+    <tr>
+
+        <th style="text-align:center">
+            Choice
+        </th>
+        
+        <th class="w-25">
+            @*<button class="btn btn-success btn-add" id="btnAddIVR" onclick="AddMultiplechoice(@a,this)" type="button">+</button>*@
+            <img class="btn btn-outline-light" src="~/assets/img/add.png" height="40px" onclick="AddMultiplechoice(@a,this)">
+        </th>
+       
+    </tr>
+
+
+    @for (var i = 0; i < Model.question[a].multipleChoices.Count(); i++)
+    {
+        <tr>
+            @Html.HiddenFor(X => Model.question[a].multipleChoices[i].choiceId)
+
+            <td>
+                @*@Html.TextBoxFor(x => Model.question[a].multipleChoices[i].choiceValue, new { @class = "form-control w-100"  })*@
+                @*<input class="form-control w-100" id="question_0__multipleChoices_0__choiceValue" name="question[@a].multipleChoices[@i].choiceValue" type="text" value="@Model.question[a].multipleChoices[i].choiceValue">*@
+                @if (Model.question[a].questionType != "3")
+                {
+                    <input class="form-control w-100" id="question_0__multipleChoices_0__choiceValue" name="question[@a].multipleChoices[@i].choiceValue" type="text" value="@Model.question[a].multipleChoices[i].choiceValue">
+
+                }
+                else
+                {
+                    <input class="form-control w-100" id="question_0__multipleChoices_0__choiceValue" name="question[@a].multipleChoices[@i].choiceValue" type="text" required value="@Model.question[a].multipleChoices[i].choiceValue">
+                }
+            </td>
+
+            
+            <td>
+                @if (i != 0)
+                {
+                    @*<button class="btn btn-remove btn-danger" id="btnRemoveChoice" onclick="DeleteMultipleChoice(@a,this,@i)" type="button">-</button>*@
+                    <img class="btn btn-outline-light" src="~/assets/img/bin.png" height="40px" onclick="DeleteMultipleChoice(@a,this,@i)">
+                }
+            </td>
+        </tr>
+    }
+</table>

@@ -1,43 +1,98 @@
 ﻿@model Templateprj.Models.VerifySecurityQnModel
 @if (Session["IsMob"] == null)
 {
-	ViewBag.Title = "Security Question";
-	Layout = "~/Views/Account/_Layout.cshtml";
+    ViewBag.Title = "Security Question";
+    Layout = "~/Views/Account/_Layout.cshtml";
 }
 <style>
     .img-circle {
         border-radius: 50%;
     }
+
+    .form-group {
+        margin: 20px;
+    }
+
+    .input-group-prepend {
+        position: absolute;
+        color: darkgrey;
+        background-color: #f2f2f2;
+        margin-left: -9px;
+        padding-bottom: 11px;
+        padding-top: 11px;
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+
+    .card-lock {
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.5), 0 2px 10px 0 rgba(0, 0, 0, 0.5);
+    }
+
+
+    .form-group {
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    ::-webkit-input-placeholder {
+        padding-left: 10px;
+    }
+
+    .form-group .form-control, .input-group .form-control {
+        padding: 7px 18px
+    }
 </style>
-<div class="row">
-	<div class="col-md-6 ml-auto mr-auto">
-		@using (Html.BeginForm())
-		{
-			@Html.AntiForgeryToken()
-			<div class="card card-lock text-center">
-                <div class="card-header">
-                    <img src="~/assets/img/emilyz.jpg" />
-                </div>
-				<div class="card-body">
-                    <h4 class="card-title">Security Question</h4>
+<div class="row" style="margin-top:50px;">
+    <div class="col-md-6 ml-auto mr-auto">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="card card-lock text-center">
+                @*<div class="card-header">
+                        <img src="~/assets/img/now-logo.png" />
+                    </div>*@
+                <div class="card-body">
+                    <h4 class="card-title" style="color:#660033;">Security Question</h4>
                     <div class="form-group">
-                        @Html.DropDownListFor(m => m.SelectedSecurityQuestion, Model.SecurityQuestions, new { @class = "form-control", @readonly = "true" })
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-question-circle fa-md fa-fw" aria-hidden="true"></i></span>
+
+                            @Html.DropDownListFor(m => m.SelectedSecurityQuestion, Model.SecurityQuestions, new { @class = "form-control nonedit" @*,@readonly = "true"*@})
+                        </div>
                     </div>
                     <div class="form-group">
-                        @Html.LabelFor(m => m.Answer)
-                        @Html.TextBoxFor(m => m.Answer, new { @class = "form-control", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false" })
-                    </div>					
-				</div>
-				<div class="card-footer">
-					<button type="submit" class="btn btn-primary btn-round btn-lg not-close">Submit</button>
-				</div>
-				@if (ViewBag.ErrorMsg != null)
-				{
-					<div id="message" class="full-width center">
-						<br /><span class="now-ui-icons ui-1_simple-remove text-danger"> @ViewBag.ErrorMsg</span><br />
-					</div>
-				}<br />
-			</div>
-		}
-	</div>
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-reply fa-md fa-fw" aria-hidden="true"></i></span>
+
+                            @*@Html.LabelFor(m => m.Answer)*@
+                            @Html.TextBoxFor(m => m.Answer, new { @class = "form-control", @onkeypress = "return (event.which!==32)", placeholder = "-Answer-", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="form-control" style="background-color:#5f004b;color:white;padding-bottom:30px;">Submit</button>
+                    </div>
+                    @if (ViewBag.ErrorMsg != null)
+                    {
+                        <div id="message" class="full-width center">
+                            <span class="now-ui-icons  text-danger" id="msg"> @ViewBag.ErrorMsg</span><br />
+                        </div>
+                    }<br />
+                </div>
+            </div>
+        }
+    </div>
 </div>
+@section scripts{
+    <script>
+
+    $(document).ready(function () {
+
+        $('.nonedit').css({ 'pointer-events': 'none', 'background-color': 'lightgrey' });    });
+
+        $(document).ready(function () {
+            setTimeout(function () {
+                $("#msg").fadeOut();
+            }, 2000);
+        });
+
+    </script>
+}

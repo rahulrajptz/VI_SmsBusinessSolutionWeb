@@ -1,10 +1,6 @@
 ﻿@using CaptchaMvc.HtmlHelpers
 @model Templateprj.Models.AuthenticateUserModel
-<style>
-    .img-circle {
-        border-radius: 50%;
-    }
-</style>
+
 @{
     bool isDoubleCard = false;
     if (Session["PasswordFlag"] == null)
@@ -27,46 +23,96 @@
         Layout = "~/Views/Account/_Layout.cshtml";
     }
 }
+<style>
+
+    .img-circle {
+        border-radius: 50%;
+    }
+
+    .card-lock {
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.5), 0 2px 10px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    .form-group {
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    ::-webkit-input-placeholder {
+        padding-left: 10px;
+    }
+
+    .form-group .form-control, .input-group .form-control {
+        padding: 7px 18px
+    }
+
+    .input-group-prepend {
+        position: absolute;
+        color: darkgrey;
+        background-color: #f2f2f2;
+        margin-left: -9px;
+        padding-bottom: 11px;
+        padding-top: 11px;
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <div class="row">
-    <div class="col-md-6 ml-auto mr-auto">
+    <div class="col-6 col-md-8 offset-md-2 col-sm-8 offset-sm-2 ml-auto mr-auto pt-5">
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
-            <div class="card card-lock text-center @(@isDoubleCard ? "card-double" : "")">
+            <div class="card card-lock  @(@isDoubleCard ? "card-double" : "")">
                 @if (isDoubleCard)
                 {
-                    <div class="card-header">
-                        <img src="~/assets/img/emilyz.jpg" />
-                    </div>
-                    @*<div class="header header-orange center">
-                            <img class="img-circle" src="~/Content/Images/notification.png" />
-                            <h4 class="card-title no-margin blue-text darken-4">@ViewBag.Head</h4>
+                    @*<div class="card-header">
+                            <img src="~/assets/img/now-logo.png" />
                         </div>*@
+                    @*<div class="header header-orange center">
+                                    <img class="img-circle" src="~/Content/Images/notification.png" />
+                                    <h4 class="card-title no-margin blue-text darken-4">@ViewBag.Head</h4>
+                                </div>
+                        }*@
                 }
-                <div class="card-body">
-                    <h4 class="card-title">@ViewBag.Head</h4>
-                    @if (!isDoubleCard)
-                    {
-                        <span class="card-title hide-on-med-and-down">@ViewBag.Head</span>
-                    }
+                <div class="card-body" style="margin:30px;">
+                    <h4 class="card-title text-center" style="color:#660033;">@ViewBag.Head</h4>
+                    @*@if (!isDoubleCard)
+                        {
+                            <span class="card-title hide-on-med-and-down">@ViewBag.Head</span>
+                        }*@
+                    <p class="card-subtitle" style="color:#ff3399;">Fill in the details below</p>
                     @if (ViewBag.Head == "Forgot Password")
                     {
                         <div class="form-group">
-                            @Html.TextBoxFor(m => m.Username, new { @class = "form-control", placeholder = "Username..", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false" })
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa fa-user inputIcon" style="font-size:15px"></i></span>
+
+                                @*<label for="Username">Username</label>*@
+                                @Html.TextBoxFor(m => m.Username, new { @class = "form-control", placeholder = "Username", @onkeypress = "return (event.which!==32)", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false", maxlength = "20" })
+                            </div>
                         </div>
                     }
                     else
                     {
-                        <span class="h5">@ViewBag.Desc</span><br /><br />
+                        @*<span class="h5">@ViewBag.Desc</span><br />*@
                         @Html.HiddenFor(m => m.Username)
                     }
                     <div class="form-group">
-                        @Html.LabelFor(m => m.SelectedSecurityQuestion, new { @class = "active" })
-                        @Html.DropDownListFor(m => m.SelectedSecurityQuestion, new SelectList(Model.SecurityQuestions, "Value", "Text"), new { @class = "form-control" })
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-question-circle inputIcon" style="font-size:15px"></i></span>
+
+                            @*@Html.LabelFor(m => m.SelectedSecurityQuestion, new { @class = "active" })*@
+                            @Html.DropDownListFor(m => m.SelectedSecurityQuestion, new SelectList(Model.SecurityQuestions, "value", "Text"), new { @class = "form-control active" })
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        @Html.TextBoxFor(m => m.Answer, new { @class = "form-control", placeholder = "Answer..", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false" })
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-reply inputIcon" style="font-size:15px"></i></span>
+
+                            @*<label for="Answer">Answer</label>*@
+                            @Html.TextBoxFor(m => m.Answer, new { @class = "form-control", placeholder = "-Answer-", @onkeypress = "return (event.which!==32)", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false", maxlength = "20" })
+                        </div>
                     </div>
                     @if (ViewBag.Title == "Forgot Password")
                     {
@@ -75,37 +121,45 @@
                     else
                     {
                         <div class="form-group">
-                            @Html.PasswordFor(m => m.OldPwd, new { @class = "form-control", placeholder = "Old Password..", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false" })
+                            <label for="oldpassword">Old Password</label>
+                            @Html.PasswordFor(m => m.OldPwd, new { @class = "form-control", placeholder = "Old Password..", @onkeypress = "return (event.which!==32)", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false", maxlength = "20" })
                         </div>
                     }
-                    @Html.Captcha(6, "_CaptchaLayout")
-                </div>
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary btn-round btn-lg">Generate OTP</button>
-                </div>
-                @if (ViewBag.ErrorMsg != null)
-                {
-                    <div id="message" class="full-width center">
-                        <br /><span class="now-ui-icons ui-1_simple-remove text-danger"> @ViewBag.ErrorMsg</span><br />
-                    </div>
-                }
-                <div class="card-footer">
-                    @if (ViewBag.CanLater != null)
+                    @* @Html.Captcha(6, "_CaptchaLayout")*@
+
+                    @*<div class="form-group">
+                            <button type="submit" class="btn btn-warning">Generate OTP</button>
+                        </div>*@
+                    @if (ViewBag.ErrorMsg != null)
                     {
-                        @Html.ActionLink("Do it Later", MVC.Home.Index(), new { @class = "btn btn-primary btn-sm not-close" });
+                        <div id="message" class="full-width center">
+                            <br /><span class="now-ui-icons text-danger" id="msg"> @ViewBag.ErrorMsg</span><br />
+                        </div>
                     }
-                    else if (Session["PasswordFlag"] == null)
-                    {
-                        @Html.ActionLink("LOGIN", MVC.Account.Login(), new { @class = "now-ui-icons arrows-1_minimal-left btn btn-primary btn-sm not-close" });
-                    }
-                    else
-                    {
-                        @:&nbsp;
-					}
+
+                    <button type="submit" class="form-control" style="background-color:#99004d;color:white;">Generate OTP</button>
+
+
+                    <span class="form-control border-0 bg-transparent text-center" style="padding-top:30px;">
+                        @if (Session["PasswordFlag"] == null)
+                        {
+
+                            @Html.ActionLink("Login", MVC.Account.Login(), new { @style = "color:#ff3399;text-decoration-line:none;" });
+
+                        }
+                        else
+                        {
+                            @:&nbsp;
+                        }
+                    </span>
+
                 </div>
             </div>
+
         }
     </div>
+
+
 </div>
 @section scripts{
     <script type="text/javascript">
@@ -113,6 +167,11 @@
             if (typeof onReady !== 'undefined' && $.isFunction(onReady)) {
                 onReady();
             }
+        });
+        $(document).ready(function () {
+            setTimeout(function () {
+                $("#msg").fadeOut();
+            }, 2000);
         });
     </script>
 }

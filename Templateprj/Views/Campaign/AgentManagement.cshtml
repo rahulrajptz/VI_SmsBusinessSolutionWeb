@@ -1,0 +1,359 @@
+﻿@model Templateprj.Models.AgentManagementModel
+@{
+    ViewBag.Title = "AgentManagement";
+    System.Data.DataTable project = ViewBag.InboundRepData;
+}
+<script src="~/assets/js/bootstrap-notify.min.js"></script>
+
+
+<div class="content" id="top">
+
+    <div class="modal">Loading....</div>
+    <div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+
+                        <div class="col s6">
+                            <h5 class="text">AGENT MANAGEMENT</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card-header text-center" data-background-color="orange">
+    @*<h3 class="card-title">
+            Configure VMN
+        </h3>*@
+    @*<h3 class="description">This information will let us know more about you.</h3>*@
+
+    @*@Html.Partial(MVC.Shared.Views._navlinksms)*@
+
+
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAgentModal">
+        + ADD AGENT
+    </button>
+    <a href="Campaign/BulkAddAgent" class="btn btn-primary">
+        + BULK ADD AGENT
+    </a>
+
+    <div class="modal fade" id="addAgentModal" tabindex="-1" role="dialog" aria-labelledby="addAgentModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addAgentModalLabel">Add Agent</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm("CreateAgent", "Campaign", FormMethod.Post, new { enctype = "multipart/form-data", id = "Idform" }))
+                    {
+                        <fieldset id="SubmitForm">
+
+                            <div class="col-md-12">
+                                @Html.Label("Agent Type")
+                                <div class="form-group">
+                                    @Html.DropDownListFor(m => m.type, Model.TypeList, new { @class = "form-control", required = "required", })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @Html.Label("First Name")
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.firstname, new { @class = "form-control", required = "required", @placeholder = "First Name", @maxlength = "10" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.Label("Last Name")
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.lastname, new { @class = "form-control", required = "required", @placeholder = "Last Name", @maxlength = "10" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @Html.Label("Mobile Number")
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.mobilenumber, new { @class = "form-control", required = "required", @placeholder = "Mobile Number", @onkeypress = "return ((event.charCode >= 48 && event.charCode <= 57) || event.which == 8)", @minlength = "10", @maxlength = "10" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.Label("Email")
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.emailid, new { @class = "form-control", required = "required", @placeholder = "Email" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Add Agent</button>
+                            </div>
+                        </fieldset>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="modal fade" id="editAgentModal" tabindex="-1" role="dialog" aria-labelledby="editAgentModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="edutAgentModalLabel">Edit Agent</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    @using (Html.BeginForm("UpdateAgent", "Campaign", FormMethod.Post, new { enctype = "multipart/form-data", id = "Idform" }))
+                    {
+
+
+                        <fieldset id="SubmitFormnew">
+                            @Html.HiddenFor(m => m.agentid, new { @id = "agent" })
+                            <div class="col-md-12">
+                                @Html.Label("Agent Type")
+                                <div class="form-group">
+                                    @Html.DropDownListFor(m => m.typeedit, Model.TypeList, new { @class = "form-control", @id = "typeed", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @Html.Label("First Name")
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.firstnameedit, new { @class = "form-control", @id = "fname", @required = "required", @placeholder = "First Name", maxlength = "10" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.Label("Last Name")
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.lastnameedit, new { @class = "form-control", @id = "lname", @required = "required", @placeholder = "Last Name", maxlength = "10" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @Html.Label("Mobile Number")
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.mobilenumberedit, new { @class = "form-control", @id = "mnumber", @disabled = "@disabled", @placeholder = "Mobile Number" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.Label("Email")
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.emailidedit, new { @class = "form-control", @id = "emailed", @required = "required", @placeholder = "Email" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-outline-success">Update Agent</button>
+                            </div>
+                        </fieldset>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col">
+            <div class="card animated bounceInUp">
+                <div class="card">
+
+                    @if (project != null && project.Rows.Count != 0)
+                    {
+                        <div id="div_Report" class="dataTables_wrapper container-fluid dt-bootstrap4">
+
+                            <table id="resolved" class="table table-hover table-light table-responsive  dataTable dtr-inline" cellspacing="0" role="grid" width="100%" aria-describedby="datatable_info">
+
+                                <thead>
+                                    <tr>
+                                        @foreach (System.Data.DataColumn column in project.Columns)
+                                        {
+                                            if (/*column.ColumnName != "Agent ID" &&*/ column.ColumnName != "Status")
+                                            {
+                                                <th style="text-align:center;font-size:13px">@column.ColumnName</th>
+
+                                            }
+                                            if (column.ColumnName == "Status")
+                                            {
+                                                <th class="mr-3" style="text-align:center;font-size:13px">@column.ColumnName</th>
+
+                                            }
+
+                                        }
+                                        @*<th>Change Status</th>*@
+                                        <th style="text-align:left;font-size:14px">Edit</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (System.Data.DataRow row in project.Rows)
+                                    {
+
+                                        <tr>
+                                            @for (int i = 0; i < ViewBag.InboundRepData.Columns.Count; i++)
+                                            {
+                                                if (i < ViewBag.InboundRepData.Columns.Count - 1)
+                                                {
+                                                    <td style="text-align:center">@row[i].ToString()</td>
+                                                }
+                                            }
+                                            @if (row[7].ToString() == "1")
+                                            {
+
+                                                <td><button class="btn btn-outline-danger" onclick="Changestatus(@row[0],@row[7])">Disable</button></td>
+
+                                            }
+                                            else
+                                            {
+
+                                                <td><button class="btn btn-outline-success" onclick="Changestatus(@row[0],@row[7])">Enable</button></td>
+
+
+                                            }
+                                            <td><a style="cursor:pointer" data-toggle="modal" data-target="#editAgentModal" onclick="EditAgentdiv(@row[0])"><i class="fa fa-edit"></i></a></td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="col-md-12" id="divNoData">
+                            <div class="alert alert-danger" id="divNoDataa">
+                                <span>Search Data Not Found !!!</span>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    @section scripts {
+
+        <script>
+
+        $(document).ready(function () {
+            $("#resolved_filter").children().children().addClass("form-control");
+            $("#resolved_length").addClass("mt-2");
+            $("#resolved_length").children().children().addClass("form-control");
+            $(".dt-buttons").addClass("mt-3");
+            $(".dt-buttons").children().addClass("mr-3 btn-outline-secondary")
+
+            $(".dataTables_paginate").click(function () {
+                window.location.hash = '#top'
+                //console.log("click")
+                setTimeout(function () {
+                    var uri = window.location.toString();
+
+                    if (uri.indexOf("#") > 0) {
+                        var clean_uri = uri.substring(0,
+                            uri.indexOf("#"));
+
+                        window.history.replaceState({},
+                            document.title, clean_uri);
+                    }
+                }, 1000);
+            })
+
+
+             @if (ViewBag.Status != null && ViewBag.Message!=null){
+
+                if (ViewBag.Status == "1"){
+
+                     <text>SuccessMsg('@ViewBag.Message');</text>
+
+
+                }
+                else{
+                    <text>ErrorMsg('@ViewBag.Message');</text>
+
+                }
+              }
+
+        });
+
+
+
+        function EditAgentdiv(agentidd) {
+
+            var url = "@Url.Action(MVC.Campaign.getAgentDetails())";
+
+
+
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: { agentidd: agentidd},
+                success: function (data) {
+                    var obj = JSON.parse(data);
+                    //agentid
+                    $("#agent").val(obj.agentid);
+                    $("#typeed").val(obj.typeedit);
+                    $("#fname").val(obj.firstnameedit);
+                    $("#lname").val(obj.lastnameedit);
+                    $("#mnumber").val(obj.mobilenumberedit);
+                    $("#emailed").val(obj.emailidedit);
+
+
+
+
+                }
+            })
+        }
+        function Changestatus(agentidd, agentstatus) {
+
+            var url = "@Url.Action(MVC.Campaign.changeagentstatus())";
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: { agentidd: agentidd, agentstatus: agentstatus },
+                 success: function () {
+
+                    window.location.href = '@Url.Action("AgentManagement", "Campaign")';
+
+
+
+                 }
+            })
+
+        }
+
+
+
+
+
+        $('#resolved').dataTable({
+            "searching": true,
+             dom: 'Bflrtip',
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    title: 'Agent Details',
+                },
+                {
+                    extend: 'csvHtml5',
+                    title: 'Agent Details',
+                }
+
+            ],
+        });
+
+        </script>
+    }

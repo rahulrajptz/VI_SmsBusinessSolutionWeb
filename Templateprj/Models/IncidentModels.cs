@@ -77,6 +77,9 @@ namespace Templateprj.Models
         public string Pending { get; set; }
 
         public HttpPostedFileBase Attachment { get; set; }
+
+        public HttpPostedFileBase WhisperPrompt { get; set; }
+        public string WhisperPromptFileName { get; set; }
     }
 
     public class QrcModel

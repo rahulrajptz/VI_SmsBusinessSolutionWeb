@@ -1,0 +1,278 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutPageCampaign.cshtml";
+}
+
+@model  Templateprj.Models.baseuploadModel
+@{
+    ViewBag.Title = "CreateCampaign";
+
+}
+
+<style>
+
+    .arrow {
+        height: 40px;
+        position: relative;
+        background: #DEE0E4;
+        margin-right: 20px
+    }
+
+        .arrow:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-left: 20px solid white;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+        }
+
+        .arrow:before {
+            content: "";
+            position: absolute;
+            right: -20px;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-left: 20px solid #DEE0E4;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+        }
+
+    .summary {
+        background-color: #D6D7DC;
+        height: 40px;
+        padding: 10px 0 0 10px;
+        margin-bottom: 10px;
+    }
+</style>
+<div class="content" id="top">
+    <div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col s6">
+                            @if ((String.IsNullOrEmpty(ViewBag.campId)))
+                            {
+                                <h5 class="text">Upload Customer Base</h5>
+                            }
+                            else
+                            {
+                                <h5 class="text">Update Customer Base</h5>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="wizard-container">
+    <div class="card card-wizard active" data-color="primary" id="wizardProfile">
+        @using (Html.BeginForm("CampaignBaseUpload", "Campaign", FormMethod.Post, new { enctype = "multipart/form-data", id = "Idform" }))
+        {
+            @*@Html.AntiForgeryToken()*@
+            @*<form action="" method="" novalidate="novalidate">*@
+            <!--        You can switch " data-color="primary" "  with one of the next bright colors: "green", "orange", "red", "blue"       -->
+            <div class="card-header text-center" data-background-color="orange">
+                @*<h3 class="card-title">
+                        Configure VMN
+                    </h3>*@
+                @*<h3 class="description">This information will let us know more about you.</h3>*@
+
+                <div class="wizard-navigation">
+                    <ul class="nav">
+                        <li class="nav-item arrow " style="width: 180px;">
+                            <a class="nav-link active" style="pointer-events:none" href="#campaignDetails" data-toggle="tab" role="tab" aria-controls="about" aria-selected="true">
+                                Campaign Info
+                            </a>
+                        </li>
+                        <li class="nav-item arrow" style="width: 180px;">
+                            <a class="nav-link" style="pointer-events:none" href="#uploadBase" data-toggle="tab" role="tab" aria-controls="account" aria-selected="false">
+                                Upload Base
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="campaignDetails">
+                        <div class="d-flex">
+                            <div class="w-25">Campaign Name </div>
+                            <div>:&emsp; @Model.campaignName</div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="w-25">Campaign Description </div>
+                            <div>:&emsp; @Model.campaignDescription</div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="w-25">Call Type</div>
+                            <div>:&emsp; @Model.callType</div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="w-25">Number Masking</div>
+                            <div>:&emsp; @Model.numberMaskingValue</div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="w-25">Agent Mapping</div>
+                            <div>:&emsp; @Model.agentMappingValue</div>
+                        </div>
+
+
+                        <div class="d-flex" style="margin-top:14%">
+                            @if (Model.errordata != "" && Model.errordata != null)
+                            {
+                                <div class="ml-auto btn btn-outline-danger">
+                                    <i class="now-ui-icons files_single-copy-04"></i>
+                                    <span><a href="Campaign/DownloadErrorFile?" style="color: red; text-decoration: none;" onmouseover="this.style.color='white'" onmouseout="this.style.color='red'">Download Error File</a></span>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="uploadBase">
+                        @Html.HiddenFor(m => m.Id)
+                        <div class="container">
+                            <h5><u>Manage Base</u></h5>
+                            <div class="d-flex">
+                                <span class="mt-3">Upload Base</span>
+                                @*<div class="file-field input-field" style="margin-left:20px">
+                                        <br />
+                                        <div class="btn btn-warningvlsec not-close">
+
+                                            <input type="file" name="file" required="required">
+
+                                        </div>
+
+                                    </div>*@
+                                <div style="margin-left:20px">
+
+                                    <input type="file" name="file" required="required" class="btn">
+
+                                </div>
+                                <div class="ml-5 mt-3">
+                                    <i class="now-ui-icons files_single-copy-04"></i>
+                                    <span style="color:saddlebrown;font-size:medium"><i> <a href="Campaign/DownloadsampleFile?id=@Model.Id">Sample File</a></i></span>
+                                </div>
+
+                            </div>
+
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card-footer">
+                <div class="pull-right">
+                    @*<input type="button" class="btn btn-next btn-fill btn-rose btn-wd btn-outline-success" name="next"  value="Next">*@
+                    <input type="button" class="btn btn-next btn-fill btn-rose btn-wd btn-outline-success" name="next" onclick="goUp()" value="Next">
+
+
+                    <button type="submit" class="btn btn-finish btn-fill btn-rose btn-wd btn-success" name="Upload" value="Upload" style="display: none;">Upload</button>
+
+                </div>
+                <div class="pull-left">
+                    <input type="button" class="btn btn-previous btn-fill btn-default btn-wd disabled btn-danger" onclick="goUp()" name="previous" value="Previous">
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+
+        }
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/Scripts/XL")
+
+    <script>
+        function goUp() {
+            window.location.hash = '#top'
+            //console.log("click")
+            setTimeout(function () {
+                var uri = window.location.toString();
+
+                if (uri.indexOf("#") > 0) {
+                    var clean_uri = uri.substring(0,
+                        uri.indexOf("#"));
+
+                    window.history.replaceState({},
+                        document.title, clean_uri);
+                }
+            }, 1000);
+        }
+
+
+        $body = $("body");
+        $(document).on({
+            ajaxStart: function () { $body.addClass("loading"); },
+            ajaxStop: function () { $body.removeClass("loading"); }
+                        });
+
+
+    $(document).ready(function () {
+
+
+
+         @if (ViewBag.Status != null && ViewBag.Message!=null){
+
+                if (ViewBag.Status == "1"){
+
+                     <text>SuccessMsg('@ViewBag.Message');</text>
+
+
+                }
+                else{
+                    <text>ErrorMsg('@ViewBag.Message');</text>
+
+                }
+              }
+
+        @if (ViewBag.ErrorMsg != null )
+         {
+
+
+           <text>
+
+        ErrorMsg('@ViewBag.ErrorMsg');
+
+        </text>
+         }
+          @if (ViewBag.success != null )
+         {
+
+
+           <text>
+
+
+        SuccessMsg('@ViewBag.success');
+
+        </text>
+         }});
+
+        //NewScripts
+        $(document).ready(function () {
+            //Wizards
+            demo.initNowUiWizard();
+            setTimeout(function () {
+                $('.card.card-wizard').addClass('active');
+            }, 600);
+        });
+
+
+
+    </script>
+}

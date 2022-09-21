@@ -7,8 +7,9 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using System.Web;
-using Oracle.DataAccess.Types;
+using Oracle.ManagedDataAccess.Types;
 using System.IO;
+using System.Net;
 
 namespace Templateprj.Helpers
 {
@@ -26,13 +27,14 @@ namespace Templateprj.Helpers
                 {
                     Mail.IsBodyHtml = true;
                     AlternateView htmlView = AlternateView.CreateAlternateViewFromString(Emailbody, null, "text/html");
-                    LinkedResource IdeaLogo = new LinkedResource(AppDomain.CurrentDomain.BaseDirectory + "Content/images/idea.png", "image/png");
-                    IdeaLogo.ContentId = "Logo";
-                    htmlView.LinkedResources.Add(IdeaLogo);
+                    LinkedResource prudentLogo = new LinkedResource(AppDomain.CurrentDomain.BaseDirectory + "Content/Images/Prudent New.png", "image/png");
+                    prudentLogo.ContentId = "Logo";
+                    htmlView.LinkedResources.Add(prudentLogo);
 
                     Mail.AlternateViews.Add(htmlView);
-                    Mail.From = new MailAddress(GlobalValues.MailServerDetails.FromAddress, GlobalValues.MailServerDetails.DisplayName);
+                     Mail.From = new MailAddress(GlobalValues.MailServerDetails.FromAddress, GlobalValues.MailServerDetails.DisplayName);
 
+                   // Mail.From = new MailAddress("smsservice@prutech.org", "test");
 
                     if (MailTo.Contains(','))
                     {
@@ -50,8 +52,24 @@ namespace Templateprj.Helpers
                     Mail.Subject = Subject;
                     using (SmtpClient smtp = new SmtpClient(GlobalValues.MailServerDetails.MailServerIP, GlobalValues.MailServerDetails.Port))
                     {
-                        smtp.Send(Mail);
+                    //    smtp.Send(Mail);
+                    //}
+                    //using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                    //{
+
+                        try
+                        {
+
+                            var basicCredential = new NetworkCredential(GlobalValues.MailServerDetails.UserName, GlobalValues.MailServerDetails.Password);
+                            smtp.Credentials = basicCredential;
+                            smtp.EnableSsl = true;
+                            smtp.Send(Mail);
+
+                        }
+                        catch (Exception) { }
+
                     }
+                    
 
                     // Success Update in DB  
                     if (mID != 0)
@@ -187,6 +205,23 @@ namespace Templateprj.Helpers
         /// <param name="otp">Optional, If Type is ForgotPwdOTP/PwdChangeOTP, then Value of Random Password</param>
         /// <param name="OtpExpireTime">Optional, If type is ForgotPwdOTP/PwdChangeOTP, then Random Password Expire Time</param>
         /// <returns></returns>
+        /// 
+
+        public string ComposeMailBodyNew(MailType mtype,string agentname,string mailId,string agentrole,string password)
+        {
+            switch (mtype)
+            {
+                case MailType.AccountCreated:
+                    return "Hi " +agentname  + ",<br />" +
+                                         "<p> You are assigned with a role of  <strong>" + agentrole.ToTitleCase() + "</strong> in <a href=''>Customer Connect</a>. Please login with your Mobile Number : <strong>"+mailId+"</strong> and Password : <strong>"+password+"</strong> </p>" +
+                                          "<p>Sincerly,<br />" +
+                                          "Prudent Technologies.<br />" +
+                                          "<img id='logo' alt='Prudent Technologies' src=cid:Logo width='auto' height='50px' /></p>";
+
+
+                default: return "";
+            }
+        }
         public string ComposeMailBody(MailType mtype, string otp = "")
         {
 
@@ -194,17 +229,15 @@ namespace Templateprj.Helpers
             {
                 case MailType.FirstTime:
                     return "Hi " + HttpContext.Current.Session["Username"].ToString().ToTitleCase() + ",<br />" +
-                                                "<p> Welcome to Idea Business Solutions. You have successfully logged into <strong><em><a href='" + GlobalValues.AbsoluteUri + "'>" + GlobalValues.AppName + "</a></strong></em> for first time" +
+                                                "<p> Welcome to Customer Connect. You have successfully logged into <strong><em><a href='" + GlobalValues.AbsoluteUri + "'>" + GlobalValues.AppName + "</a></strong></em> for first time" +
                                                 " and you have changed your password</p>" +
                                                 "<p>Sincerly,<br />" +
-                                                "Idea Cellular Ltd.<br />" +
-                                                "<img id='logo' alt='!dea' src=cid:Logo width='auto' height='auto' /></p>";
+                                                "<img id='logo' alt='VI' src=cid:Logo width='auto' height='50px' /></p>";
                 case MailType.PwdChanged:
                     return "Hi " + HttpContext.Current.Session["Username"].ToString().ToTitleCase() + ",<br />" +
                                             "<p> You have successfully changed password for <strong><em><a href='" + GlobalValues.AbsoluteUri + "'>" + GlobalValues.AppName + "</a></strong></em>.</p>" +
                                             "<p>Sincerly,<br />" +
-                                            "Idea Cellular Ltd.<br />" +
-                                            "<img id='logo' alt='!dea' src=cid:Logo width='auto' height='auto' /></p>";
+                                           "<img id='logo' alt='VI' src=cid:Logo width='auto' height='50px' /></p>";
                 case MailType.ForgotPwdOTP:
                     return "Hi " + HttpContext.Current.Session["Username"].ToString().ToTitleCase() + ",<br />" +
                                                     "<p> You have requested to recover your password for <span style='color:#0B6CDA;'><strong><em>" + GlobalValues.AppName + "</em></strong></span>. " +
@@ -212,8 +245,7 @@ namespace Templateprj.Helpers
                                                     "<span>&ensp;&ensp;&ensp;&ensp;&ensp;OTP:   <strong>" + otp + "</strong></span><br/>" +
                                                     "<p> This OTP is valid for next " + GlobalValues.MailServerDetails.OTPExpireTime + " minutes only." +
                                                     "<p>Sincerly,<br />" +
-                                                    "Idea Cellular Ltd.<br />" +
-                                                    "<img id='logo' alt='!dea' src=cid:Logo width='auto' height='auto' /></p>";
+                                                   "<img id='logo' alt='VI' src=cid:Logo width='auto' height='50px' /></p>";
                 case MailType.ResetPwdOTP:
                     return "Hi " + HttpContext.Current.Session["Username"].ToString().ToTitleCase() + ",<br />" +
                                                         "<p> You have requested to change your password for <span style='color:#0B6CDA;'><strong><em>" + GlobalValues.AppName + "</em></strong></span>. " +
@@ -221,22 +253,25 @@ namespace Templateprj.Helpers
                                                         "<span>&ensp;&ensp;&ensp;&ensp;&ensp;OTP:   <strong>" + otp + "</strong></span><br/>" +
                                                         "<p> This OTP is valid for next " + GlobalValues.MailServerDetails.OTPExpireTime + " minutes only." +
                                                         "<p>Sincerly,<br />" +
-                                                        "Idea Cellular Ltd.<br />" +
-                                                        "<img id='logo' alt='!dea' src=cid:Logo width='auto' height='auto' /></p>";
+                                                        "<img id='logo' alt='VI' src=cid:Logo width='auto' height='50px' /></p>";
                 case MailType.VerifyOTP:
                     return "Hi " + HttpContext.Current.Session["Username"].ToString().ToTitleCase() + ",<br />" +
                                                         "Please use following One Time Password to complete verification.</p>" +
                                                         "<span>&ensp;&ensp;&ensp;&ensp;&ensp;OTP:   <strong>" + otp + "</strong></span><br/>" +
                                                         "<p> This OTP is valid for next " + GlobalValues.MailServerDetails.OTPExpireTime + " minutes only." +
                                                         "<p>Sincerly,<br />" +
-                                                        "Idea Cellular Ltd.<br />" +
-                                                        "<img id='logo' alt='!dea' src=cid:Logo width='auto' height='auto' /></p>";
+                                                        "<img id='logo' alt='VI' src=cid:Logo width='auto' height='50px' /></p>";
                 case MailType.Expired:
                     return "Hi " + HttpContext.Current.Session["Username"].ToString().ToTitleCase() + ",<br />" +
                                                         "<p> Your password for <strong><em><a href='" + GlobalValues.AbsoluteUri + "'>" + GlobalValues.AppName + "</a></strong></em> has expired. Please login to reset it.</p>" +
                                                         "<p>Sincerly,<br />" +
-                                                        "Idea Cellular Ltd.<br />" +
-                                                        "<img id='logo' alt='!dea' src=cid:Logo width='auto' height='auto' /></p>";
+                                                        "<img id='logo' alt='VI' src=cid:Logo width='auto' height='50px' /></p>";
+
+                case MailType.AccountCreated:
+                    return "Hi " + HttpContext.Current.Session["Username"].ToString().ToTitleCase() + ",<br />" +
+                                                        "<p> Your username and password for <strong><em><a href='" + GlobalValues.AbsoluteUri + "'>" + GlobalValues.AppName + "</a></strong></em> is expired. Please login to reset it.</p>" +
+                                                        "<p>Sincerly,<br />" +
+                                                       "<img id='logo' alt='VI' src=cid:Logo width='auto' height='50px' /></p>";
 
 
                 default: return "";
@@ -385,11 +420,60 @@ namespace Templateprj.Helpers
 
         #endregion
 
+        public bool SendEmail(string Subject, string Emailbody, string[] MailTo, params string[] MailCC)
+        {
+            AccountDbPrcs prc = new AccountDbPrcs();
+
+            try
+            {
+                using (MailMessage Mail = new MailMessage())
+                {
+                    Mail.IsBodyHtml = true;
+                    AlternateView htmlView = AlternateView.CreateAlternateViewFromString(Emailbody, null, "text/html");
+                    LinkedResource IdeaLogo = new LinkedResource(AppDomain.CurrentDomain.BaseDirectory + "Content/images/idea.png", "image/png");
+                    IdeaLogo.ContentId = "Logo";
+                    htmlView.LinkedResources.Add(IdeaLogo);
+
+                    Mail.AlternateViews.Add(htmlView);
+                    Mail.From = new MailAddress(GlobalValues.MailServerDetails.FromAddress, GlobalValues.MailServerDetails.DisplayName);
+
+                    foreach (string toMail in MailTo)
+                    {
+                        if (!string.IsNullOrWhiteSpace(toMail))
+                            Mail.To.Add(toMail.Trim());
+                    }
+
+                    foreach (string ccMail in MailCC)
+                    {
+                        if (!string.IsNullOrWhiteSpace(ccMail))
+                            Mail.CC.Add(ccMail.Trim());
+                    }
+
+                    Mail.Subject = Subject;
+                    using (SmtpClient smtp = new SmtpClient(GlobalValues.MailServerDetails.MailServerIP, GlobalValues.MailServerDetails.Port))
+                    {
+                        smtp.Send(Mail);
+                    }
+                    // Success Update in DB  
+                    //if (mID != 0)
+                    //    prc.UpdateMailStatus(mID, 1);
+
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // prc.UpdateMailStatus(mID, 2);
+                LogWriter.Write("SendEmail :: Exception :: " + ex.Message);
+                return false;//Mail error 
+            }
+        }
+
     }
 
 
 }
-public enum MailType { FirstTime, PwdChanged, ForgotPwdOTP, ResetPwdOTP, Expired, VerifyOTP, NewTicketUser, NewTicketSupport, AckTicket, PendingTicket, ResolvedTicket }
+public enum MailType { FirstTime, PwdChanged, ForgotPwdOTP, ResetPwdOTP, Expired, VerifyOTP, NewTicketUser, NewTicketSupport, AckTicket, PendingTicket, ResolvedTicket,AccountCreated }
 
 public class MailServerModel
 {

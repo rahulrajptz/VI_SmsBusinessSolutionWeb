@@ -1,0 +1,79 @@
+﻿@model  Templateprj.Models.CampaignModel
+
+
+
+<table class="table table-responsive-md" >
+    <tr style="background-color:#D6D6DC">
+       <th> Customer Feedback Form Builder</th>    
+        <th></th>
+    </tr>
+    @for (var i = 0; i < Model.question.Count(); i++)
+    {
+    <tr>
+        <td>
+
+            @Html.HiddenFor(m => m.question[i].questionId)
+            @Html.HiddenFor(m => m.question[i].deletedChoice)
+
+
+
+            @{
+                var j = i + 1;
+            }
+            <span class="text  h6">Question @j</span>
+
+            <div class="form-group">
+                @Html.Label("Question Type")
+                @Html.DropDownListFor(X => Model.question[i].questionType, new SelectList(Model.question[i].questionTypeList, "Value", "Text", Model.question[i].questionType), new { @class = "form-control ", @onchange = "ShowChoice(this);" })
+
+                @Html.Label("Question ")
+                @*@Html.TextBoxFor(X => Model.question[i].questionValue, new { @class = "form-control " })*@
+                <input class="form-control question-class" id="question_0__questionValue" name="question[@i].questionValue" type="text" value="@Model.question[i].questionValue" placeholder="Max-Length 400 Characters" maxlength="400" required="required">
+
+
+                @if (Model.question[i].questionType == "3")
+                {
+                    <div class="col-md-12 container-fluid dt-bootstrap4" id="dynamicContainer_Choice">
+
+                        @{
+                            ViewBag.index = i;
+                        }
+                        @Html.Partial("_MultipleChoice", Model)
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-12 container-fluid dt-bootstrap4" id="dynamicContainer_Choice" style="display:none">
+
+                        @{
+                            ViewBag.index = i;
+                        }
+                        @Html.Partial("_MultipleChoice", Model)
+                    </div>
+                }
+
+
+            </div>
+        </td>
+        <td class="w-25">
+            @if (i != 0)
+            {
+                @*<button class="btn btn-remove btn-danger" type="button" onclick="$(this).closest('tr').remove();"><i class="now-ui-icons ui-1_simple-delete"></i></button>*@
+                @*<button class="btn  btn-danger" type="button" onclick="$(this).closest('tr').remove();">Remove Question</button>*@
+                <button class="btn  btn-danger" id="btnDeleteQuestion" onclick="DeleteQuestion(@i)" type="button">Remove Question</button>
+
+            }
+        </td>
+    </tr>
+    }
+    <tr>
+        <td ></td>
+        <td>
+            <button class="btn btn-success" id="btnAddQuestion" onclick="AddQuestion()" type="button">Add New Question</button>
+        </td>
+    </tr>
+</table>
+
+
+
+

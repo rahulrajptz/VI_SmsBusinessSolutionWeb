@@ -8,55 +8,140 @@
     .img-circle {
         border-radius: 50%;
     }
+
+    .card-lock {
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.5), 0 2px 10px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    .form-group {
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    ::-webkit-input-placeholder {
+        padding-left: 10px;
+    }
+
+    .form-group .form-control, .input-group .form-control {
+        padding: 7px 18px
+    }
+
+    .input-group-prepend {
+        position: absolute;
+        color: darkgrey;
+        background-color: #f2f2f2;
+        margin-left: -10px;
+        padding-bottom: 11px;
+        padding-top: 11px;
+        padding-right: 5px;
+        padding-left: 5px;
+    }
 </style>
-<div class="row">
-    <div class="col-md-6 ml-auto mr-auto">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<div class="row" style="margin:20px;">
+    <div class="col-md-6 ml-auto mr-auto mr-auto">
         @using (Html.BeginForm(MVC.Account.FirstTimeLogin()))
         {
             @Html.AntiForgeryToken()
-            <div class="card card-lock text-center">
-                <div class="card-header">
-                    <img src="~/assets/img/emilyz.jpg" />
-                </div>
-                <div class="card-body">
-                    <h4 class="card-title">First Time Login</h4>
+            <div class="card card-lock">
+                @*<div class="card-header">
+                    <img src="~/assets/img/now-logo.png" />*@
+                @*<img src="~/assets/img/PTPL-WB-720.png" />
+                    </div>*@
+                <div class="card-body" style="margin:30px;">
+                    <h4 class="card-title text-center" style="color:#660033;">First Time Login</h4>
+                    <p class="card-subtitle" style="color:#ff3399;margin-top:20px;margin-bottom:10px;">Fill in the details below</p>
+
                     <div class="form-group">
-                        @Html.LabelFor(m => m.SelectedSecurityQuestion, new { @class = "active" })
-                        @Html.DropDownListFor(m => m.SelectedSecurityQuestion, Model.SecurityQuestions, new { @class = "form-control" })                    
+                        <div class="input-group">
+
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-question-circle fa-md fa-fw" aria-hidden="true" style="font-size:15px"></i></span>
+                            @*@Html.LabelFor(m => m.SelectedSecurityQuestion, new { @class = "active" })*@
+                            @Html.DropDownListFor(m => m.SelectedSecurityQuestion, Model.SecurityQuestions, new { @class = "form-control", placeholder = "-Security Question-" })
+                        </div>
                     </div>
                     <div class="form-group">
-                        @Html.LabelFor(m => m.Answer)
-                        @Html.TextBoxFor(m => m.Answer, new { @class = "form-control", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false" })
-                                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-reply fa-md fa-fw" aria-hidden="true" style="font-size:15px"></i></span>
+
+
+                            @*@Html.LabelFor(m => m.Answer)*@
+                            @Html.TextBoxFor(m => m.Answer, new { @class = "form-control", placeholder = "-Answer-", @onkeypress = "return (event.which!==32)", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false", maxlength = "20" })
+                        </div>
+                    </div>
                     <div class="form-group">
-                        @Html.LabelFor(m => m.NewPassword)
-                        @Html.PasswordFor(m => m.NewPassword, new { @class = "form-control", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false" })
-                                        </div>
-                    <div id="pwdbubble" style="width:100%">
-                        <table class="pwdbubble">
-                            <tr><td><i id="strgLgth" class="ion ion-close-round red-text"></i></td><td>Use atleast 8 characters</td></tr>
-                            <tr><td><i id="strgCase" class="ion ion-close-round red-text"></i></td><td>Mix lower and upper case letters</td></tr>
-                            <tr><td><i id="strgNumb" class="ion ion-close-round red-text"></i></td><td>Use numbers</td></tr>
-                            <tr><td><i id="strgSpec" class="ion ion-close-round red-text"></i></td><td>Use special characters</td></tr>
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-key fa-md fa-fw" aria-hidden="true" style="font-size:15px"></i></span>
+
+
+                            @*@Html.LabelFor(m => m.NewPassword)*@
+                            @Html.PasswordFor(m => m.NewPassword, new { @class = "form-control", placeholder = "-New Password-", @onkeypress = "return (event.which!==32)", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false", maxlength = "20" })
+                        </div>
+                    </div>
+                    <p style="color: #ff3399;">
+                        [Must Include atleast one uppercase,lowercase,numeric & special character]
+                    </p>
+
+
+                    <div id="pwdbubble" style="width:100%;margin-bottom:20px;margin-top:40px;">
+                        <table>
+                            <tr>
+                                <th style="color:#ff3399;font-size:10px;">Password Strength:</th>
+                                <td><i id="strgLgth" class="progress-bar progress-bar-animated progress-bar-striped" style="width: 50px;height:10px;" role="progressbar"></i></td>
+                                <td><i id="strgCase" class="progress-bar progress-bar-animated progress-bar-striped" style="width: 50px;height:10px;" role="progressbar"></i></td>
+                                <td><i id="strgNumb" class="progress-bar progress-bar-animated progress-bar-striped" style="width: 50px;height:10px;" role="progressbar"></i></td>
+                                <td><i id="strgSpec" class="progress-bar progress-bar-animated progress-bar-striped" style="width: 50px;height:10px;" role="progressbar"></i></td>
+                            </tr>
                         </table>
                     </div>
+
+                    @*<div id="pwdbubble" style="width:100%">
+                            <span><i id="strgLgth" class="ion ion-close-round red-text mr-4"></i>Use atleast 8 characters</span><br/>
+                            <span><i id="strgCase" class="ion ion-close-round red-text mr-4"></i>Mix lower and upper case letters</span><br />
+                            <span><i id="strgNumb" class="ion ion-close-round red-text mr-4"></i>Use numbers</span><br />
+                            <span><i id="strgSpec" class="ion ion-close-round red-text mr-4"></i>Use special characters</span>
+
+                        </div>*@
+
                     <div class="form-group">
-                        @Html.LabelFor(m => m.ConfirmPassword)
-                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false" })
-                    </div>                   
-                </div>
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary btn-round btn-lg not-close">Change Password</button>
-                </div>
-                @if (TempData["ErrorMsg"] != null)
-                {
-                    <div id="message" class="full-width center">
-                        <br /><span class="now-ui-icons ui-1_simple-remove text-danger"> @TempData["ErrorMsg"]</span>
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-check inputIcon fa-md fa-fw" aria-hidden="true" style="font-size:15px"></i></span>
+
+                            @*@Html.LabelFor(m => m.ConfirmPassword)*@
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control pl-3", placeholder = "-Confirm New Password-", @onkeypress = "return (event.which!==32)", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false", maxlength = "20" })
+                        </div>
                     </div>
-                }<br />
-            </div>}
+                    <div class="form-group">
+                        @*@Html.ActionLink("Change Password", MVC.Account.ChangePassword(), new { @class = "form-control text-center", @style = "background-color:#5f004b;color:white;padding-bottom:30px;" })*@
+                        <button type="submit" class="form-control" style="background-color:#5f004b;color:white;padding-bottom:30px;">Change Password</button>
+                    </div>
+
+
+
+                    @if (TempData["ErrorMsg"] != null)
+                    {
+                        <div id="message" class="full-width center">
+                            <br /><span class="now-ui-icons text-danger" id="msg"> @TempData["ErrorMsg"]</span>
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+
+        }
+
     </div>
 </div>
+
 @section scripts{
     <script src="~/Scripts/PwdStrg.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            setTimeout(function () {
+                $("#msg").fadeOut();
+            }, 2000);
+        });
+    </script>
+
 }

@@ -1,0 +1,748 @@
+﻿@model  Templateprj.Models.CampaignModel
+@{
+    ViewBag.Title = "CreateCampaign";
+
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+
+                        <div class="col s6">
+                            @if ((String.IsNullOrEmpty(ViewBag.campId)))
+                            {
+                                <h5 class="text">Create Campaign</h5>
+                            }
+                            else
+                            {
+                                <h5 class="text">Update Campaign</h5>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="card-body">
+        @using (Html.BeginForm("CreateCampaign", "Campaign", FormMethod.Post, new { enctype = "multipart/form-data", id = "Idform" }))
+        {
+            @Html.AntiForgeryToken()
+        <div class="d-flex">
+            <div class="col-md-6">
+                @Html.Label("Campaign Name")
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.campaignName, new { @class = "form-control", required = "required", minlenght = "5", maxlength = "20" })
+                </div>
+            </div>
+            
+            <div class="col-md-3" style="margin-left:50px">
+                @Html.Label("Call Type")
+                <div class="form-group">
+                    @Html.DropDownListFor(Model => Model.callType, Model.callTypeList, new { @class = " form-control", required = "required" })
+                </div>
+            </div>
+        </div>
+
+            
+            <div class="col-md-6">
+                @Html.Label("Campaign Description")
+                <div class="form-group">
+                    @Html.TextAreaFor(m => m.campaignDescription, new { @class = "form-control", row = "3", required = "required", minlenght = "10", maxlength = "100" })
+                </div>
+            </div>
+
+            if ((String.IsNullOrEmpty(ViewBag.campId)))
+            {
+
+                <div class="d-flex  w-75">
+                    <a class="ml-auto btn btn-light now-ui-icons files_single-copy-04" href="~/Uploads/SampleBase.xlsx">&nbsp;Sample Upload File</a>
+                </div>
+                <div class="form-group d-flex mt-2">
+                    <span class="ml-3 h6">Upload Customer Base </span>
+
+                    <input required="required" type="file" accept=".xlsx,.xls,.csv" class="form-control-file ml-5 w-25" id="BaseUpload">
+
+                    <b id="dataupload" class="text-primary" for="BaseUpload"></b>
+
+                </div>
+                <br />
+            }
+
+
+            <div class="col-md-12 animated bounceInUp" id="dynamicContainer">
+                @Html.Partial("_Question", Model)
+            </div>
+            if ((String.IsNullOrEmpty(ViewBag.campId)))
+            {
+                <div>
+                    <button type="button" onclick="previewForm()" class="btn btn-warning text-white ml-4" data-toggle="modal" data-target="#exampleModalCenter">
+                        Campaign Preview
+                    </button>
+                    <a href="Campaign/CreateCampaign" class="btn btn-danger">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn btn-success ">Save Campaign</button>
+
+                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle"> </h5>
+                                    <button type="button" onclick="clearForm()" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span class="text-danger" aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <p class="text" id="campaigndescription">
+                                    <p class="text" id="agentType">
+
+                                    </p>
+                                    <hr />
+                                    <div>
+                                        <div id="formhead"></div>
+                                        <div id="questionPreview">
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" onclick="clearForm()" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" name="Campidd" value="@ViewBag.campId" />
+                <button type="button" onclick="editPreview()" class="btn btn-warning text-white ml-4" data-toggle="modal" data-target="#exampleModalCenter">
+                    Campaign Preview
+                </button>
+
+                <button type="submit" class="btn btn-success">Update Campaign</button>
+
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle"> </h5>
+                                <button type="button" onclick="clearForm()" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span class="text-danger" aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                                <p class="text" id="campaigndescription">
+                                <p class="text" id="agentType">
+
+                                </p>
+                                <hr />
+                                <div>
+                                    <div id="formhead">
+
+                                    </div>
+                                    <div id="questionPreview">
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" onclick="clearForm()" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            }
+
+            @*@Html.HiddenFor(m => m.HiddenForBaseInsert)*@
+            @Html.HiddenFor(m => m.deletedQuestion)
+
+        }
+
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/Scripts/XL")
+
+    <script>
+        $body = $("body");
+
+        $(document).on({
+            ajaxStart: function () { $body.addClass("loading"); },
+            ajaxStop: function () { $body.removeClass("loading"); }
+
+
+                        });
+
+
+                        $(document).ready(function () {
+
+
+
+         @if (ViewBag.Status != null && ViewBag.Message!=null){
+
+            if (ViewBag.Status == "1"){
+                
+                 <text>SuccessMsg('@ViewBag.Message');</text>
+            }
+            else{
+            
+                 <text>ErrorMsg('@ViewBag.Message');</text>
+
+          }}});
+
+        function AddQuestion() {
+              try {
+                  var form = $("#Idform");
+                  $.post('@Url.Action("AddNewQuestion", "Campaign")', form.serialize())
+                      .done(function (response) {
+                          $("#dynamicContainer").html(response);
+                      });
+              }
+              catch (error) {
+                  alert(error);
+              }
+        }
+        //DeleteQuestion
+        function DeleteQuestion(elem) {
+              try {
+                  var form = $("#Idform");
+                  $.post('@Url.Action("DeleteQuestion", "Campaign")', form.serialize() + '&ele=' + elem)
+                      .done(function (response) {
+                          $("#dynamicContainer").html(response);
+
+
+                      });
+              }
+              catch (error) {
+                  alert(error);
+              }
+        }
+        function AddMultiplechoice(index, elem) {
+              try {
+                  var form = $("#Idform");
+                  $.post('@Url.Action("AddMultiplechoice", "Campaign")', form.serialize() + '&index=' + index)
+                      .done(function (response) {
+                          $(elem).parent().parent().parent().parent().parent().html(response);
+
+                          $(".NumFld").inputFilter(function (value) {
+                              return /^\d*$/.test(value);
+                          });
+                      });
+              }
+              catch (error) {
+                  alert(error);
+            }
+
+        }
+
+
+        function DeleteMultipleChoice(index, elem, ele) {
+              try {
+                  var form = $("#Idform");
+                  $.post('@Url.Action("DeleteMultipleChoice", "Campaign")', form.serialize() + '&index=' + index+ '&ele='+ele)
+                      .done(function (response) {
+                          $(elem).parent().parent().parent().parent().parent().html(response);
+
+                          $(".NumFld").inputFilter(function (value) {
+                              return /^\d*$/.test(value);
+                          });
+                      });
+              }
+              catch (error) {
+                  alert(error);
+              }
+        }
+
+        function ShowChoice(element) {
+            //console.log($(element).val());
+
+            if ($(element).val() == "3") {          
+                $(element).siblings("#dynamicContainer_Choice").show();
+                var ele = (element);
+                //console.log(ele);
+
+                //$(element).siblings("#dynamicContainer_Choice").children().find("#question_0__multipleChoices_0__choiceValue").attr('required', true);
+                $(element).siblings("#dynamicContainer_Choice").find("tr").each(function () {
+                    $(this).find("#question_0__multipleChoices_0__choiceValue").attr('required', true);
+                    //console.log($(this).find("#question_0__multipleChoices_0__choiceValue"));
+                });
+
+                
+
+            }
+
+            else {
+                $(element).siblings("#dynamicContainer_Choice").find("tr").each(function () {
+                    $(this).find("#question_0__multipleChoices_0__choiceValue").attr('required', false);
+                    //console.log($(this).find("#question_0__multipleChoices_0__choiceValue"));
+                });
+                $(element).siblings("#dynamicContainer_Choice").hide();
+                //$(element).siblings("#dynamicContainer_Choice").children().find("#question_0__multipleChoices_0__choiceValue").attr('required', false);
+
+
+            }
+        }
+
+        function Enablebtn() { $(':input[type="submit"]').prop('disabled', false); }
+
+        $('#BaseUpload').change(function () {
+            ajaxStart: { $body.addClass("loading"); };
+            Enablebtn();
+            try {
+               var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls|.csv)$/;
+                /*Checks whether the file is a valid excel file*/
+                if (regex.test($("#BaseUpload").val().toLowerCase())) {  
+                    var csvFlag = false;
+                    var xlsxflag = false; /*Flag for checking whether excel is .xls format or .xlsx format*/
+                    if ($("#BaseUpload").val().toLowerCase().indexOf(".xlsx") > 0) {
+                        xlsxflag = true;
+                        //console.log(xlsxflag)
+                    }
+                    if ($("#BaseUpload").val().toLowerCase().indexOf(".csv") > 0) {
+                        csvFlag = true;
+                        //console.log("csv")
+                        //console.log(csvFlag);
+                    }
+                    /*Checks whether the browser supports HTML5*/
+                    if (typeof (FileReader) != "undefined") {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var data = e.target.result;
+                            //console.log("data")
+                            //console.log(data)
+
+                            if (csvFlag) {
+                                data = data.replace("[\n\r]", "");
+                                var lines = data.split("\n");
+                                //console.log("prev Line")
+                                //console.log(lines)   
+                                //Removing last ",\r" in the lines array
+                                let indexes = [];
+                                var val = ",\r";
+                                for (var i = 0; i <= lines.length; i++) {
+                                    if (lines[i] === val) {
+                                        indexes.push(i);
+                                    }
+                                }                              
+                                for (var i = indexes.length-1; i >=0; i--) {
+                                    let val = indexes[i];
+                                    //console.log(indexes[i]);
+                                    lines.splice(val,1)
+                                }
+                               
+
+                                var result = [];
+                                var headers = lines[0].split(",");
+                                //console.log(headers[0]);
+                                //console.log(headers[1]);
+                                if (headers.length === 2) {
+                                    if (headers[0] === "customerName" && headers[1] === "customerNumber\r") {
+                                        var temp = [];
+                                        for(var i = 1; i < lines.length - 1; i++) {
+                                            var currentline = lines[i].split(",");
+                                            temp.push(currentline[1].length === 11);
+                                        }
+                                        //console.log(temp);
+                                        if (temp.indexOf(false) > -1) {
+                                            alert("customer Number must contain 10 digit");
+                                            $("#BaseUpload").val("");
+                                        }
+                                        else {                                          
+                                            for (var i = 1; i < lines.length - 1; i++) {
+                                                var obj = {};
+                                                var currentline = lines[i].split(",");
+                                                for (var j = 0; j < headers.length; j++) {
+                                                    obj[headers[j]] = currentline[j];                                                            
+                                                    }
+                                                    result.push(obj);
+                                            }                  
+                                            var newData = JSON.stringify(result);
+                                            newData = newData.replace(/(?:\\[rn])+/g, "");
+                                                //JSON
+                                            //console.log(newData);
+                                            document.getElementById("HiddenForBaseInsert").value = newData;
+                                            //console.log(lines.length)
+                                            $("#dataupload").html((lines.length - 2) + "  Customers Uploaded");
+                                            $("#BaseUpload").attr("disabled", true);
+                                            //$("#BaseUpload").val("");
+
+                                        }
+                                        
+                                    }
+                                    else {
+                                        alert(`Header Name must be "customerName" and "customerNumber" `)
+                                        $("#BaseUpload").val("");
+                                    }
+                                }
+                                else{
+                                    alert("Customer Base must contain only 2 Coloumn! ")
+                                    $("#BaseUpload").val("");
+                                }
+                                
+                            }
+                         
+                            /*Converts the excel data in to object*/
+                            var twoColFlag = false;
+                            if (xlsxflag) {
+                                var workbook = XLSX.read(data, { type: 'binary' });
+                                //console.log("Helloo");
+                                var col = workbook.Sheets.Sheet1["!ref"];
+                                let colAr = col.split(":");
+                                //console.log(colAr[1].includes("B"));                             
+                                if (colAr[1].includes("B") === true) {
+                                    twoColFlag = true;
+                                }
+                            }
+                            else {
+                                //var workbook = XLS.read(data, { type: 'binary' });
+                                var workbook = XLS.read(data, { type: 'binary' });
+                                //console.log(workbook.Sheets.Sheet1["!ref"]);
+                                var col = workbook.Sheets.Sheet1["!ref"];
+                                let colAr = col.split(":");
+                                //console.log(colAr[1].includes("B")); 
+                                if (colAr[1].includes("B") === true) {
+                                    twoColFlag = true;
+                                }
+                                //console.log(workbook);                                
+                            }
+                            /*Gets all the sheetnames of excel in to a variable*/
+
+                            if (twoColFlag) {
+                                var uploadFlag = false;
+                                var sheet_name_list = workbook.SheetNames;
+                                //console.log(sheet_name_list)
+                                var cnt = 0; /*This is used for restricting the script to consider only first sheet of excel*/
+                                sheet_name_list.forEach(function (y) { /*Iterate through all sheets*/
+                                    /*Convert the cell value to Json*/
+                                    if (xlsxflag) {
+                                        var exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y]);
+                                        //console.log(exceljson);
+                                        //console.log("CustomerNumber")
+                                        
+                                       
+                                        var keyHead = exceljson.map(val => {
+                                            return (Object.keys(val)[0]);
+                                            //console.log(Object.keys(val)[1]);
+                                        })
+                                        var keyHeadNumber = exceljson.map(val => {
+                                            return (Object.keys(val)[1]);
+                                        })
+                                        //console.log(keyHead[0], keyHeadNumber[0]);
+                                        if (keyHead[0] === "customerName" && keyHeadNumber[0] === "customerNumber") {
+                                            temp = [];
+                                            exceljson.map(e => {
+                                                temp.push(e.customerNumber.length === 10);
+                                            })
+                                            //console.log(temp);
+                                            if (temp.indexOf(false) > -1) {
+                                                alert("customer Number must contain 10 digit");
+                                                $("#BaseUpload").val("");
+                                            }
+                                            else {
+                                                uploadFlag = true;
+                                            }
+                                        }
+                                        else {
+                                            alert("Heading Must be customerName and customerNumber");
+                                            $("#BaseUpload").val("");
+                                        }
+
+                                    }
+                                    else {
+                                        var exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y]);
+                                        //console.log("CustomerNumber")
+                                        
+
+                                        var keyHead = exceljson.map(val => {
+                                            return (Object.keys(val)[0]);
+                                            //console.log(Object.keys(val)[1]);
+                                        })
+                                        var keyHeadNumber = exceljson.map(val => {
+                                            return (Object.keys(val)[1]);
+                                        })
+                                        //console.log(keyHead[0], keyHeadNumber[0]);
+                                        if (keyHead[0] === "customerName" && keyHeadNumber[0] === "customerNumber") {
+                                            temp = [];
+                                            exceljson.map(e => {
+                                                temp.push(e.customerNumber.length === 10);
+                                            })
+                                            //console.log(temp);
+
+                                            if (temp.indexOf(false) > -1) {
+                                                alert("customer Number must contain 10 digit");
+                                                $("#BaseUpload").val("");
+                                            }
+                                            else {
+                                                uploadFlag = true;
+                                            }
+                                        }
+                                        else {
+                                            alert("Heading Must be customerName and cutomerNumber");
+                                            $("#BaseUpload").val("");
+                                        }
+                                    }
+
+                                    //console.log(uploadFlag);
+                                    if (uploadFlag) {
+                                        blkcnt = exceljson.length;
+                                        //console.log(blkcnt);
+                                        if (exceljson.length > 0 && cnt == 0) {
+                                            document.getElementById("HiddenForBaseInsert").value = JSON.stringify(XLSX.utils.sheet_to_json(workbook.Sheets[y]));
+                                            cnt++;
+                                            //alert(exceljson.length + " records found !!");
+                                            $("#dataupload").html(exceljson.length + "  Customers Uploaded");
+                                            $("#BaseUpload").attr("disabled", true);                                            
+                                            //$("#BaseUpload").val("");
+                                            //console.log("value added")
+                                            //console.log(JSON.stringify(XLSX.utils.sheet_to_json(workbook.Sheets[y])));
+                                        }
+                                        else {
+                                            alert("No Data");
+                                            $("#BaseUpload").val("");
+
+                                        }
+                                    }
+                                });     //iterationThroughSheetEnds   
+                            }
+                            else {
+                                alert("CustomerBase must have only 2 SSAColoumns");
+                                $("#BaseUpload").val("");
+                            }
+                                                 
+                        } //reloadfunctionS
+                        if (xlsxflag) {/*If excel file is .xlsx extension than creates a Array Buffer from excel*/
+                            reader.readAsArrayBuffer($("#BaseUpload")[0].files[0]);
+                        }
+                        else {
+                            reader.readAsBinaryString($("#BaseUpload")[0].files[0]);
+                        }
+                    //if filereader Ends
+                    }
+                    else {
+                        alert("Sorry! Your browser does not support HTML5!");
+                    }
+                } //extensionCheck
+                else {
+                    alert(`Please upload a valid Excel file! or please check your filename contains "()" `);
+                    $("#BaseUpload").val("");
+                }
+            } //tryend
+            catch (er) {
+                alert(er);
+            }
+            ajaxStop: { $body.removeClass("loading"); };
+                        });
+
+
+           function clearForm() {
+                   document.getElementById("questionPreview").innerHTML = " ";
+           }
+
+
+
+        function previewForm() {
+                     //console.log("clicked");
+                    $('.modal-backdrop').click(clearForm());
+                    var url = "@Url.Action(MVC.Campaign.createjsonforpreview())";
+                    var data2 = $("#Idform").serialize();
+                    //console.log(data2);
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: data2,
+                        success: function (data) {
+                    //agentid
+                    //console.log(data);
+                    document.getElementById("exampleModalLongTitle").innerHTML = data.campaignName;
+                            document.getElementById("campaigndescription").innerHTML = data.campaignDescription;
+                            if (data.callType === "1") {
+                                document.getElementById("agentType").innerHTML = "Call Type : Click 2 Call"
+                            }
+                            else {
+                                document.getElementById("agentType").innerHTML = "Call Type : Agent Dialer"
+                            }
+
+                    document.getElementById("formhead").innerHTML = "<h5>Customer Feedback Form</h5>"
+                    data.question.map((e,index) => {
+
+                        //console.log(e.questionType, e.questionValue);
+                        if (e.questionValue === null) {
+                            document.getElementById("formhead").innerHTML = ""
+                            var newElement = document.createElement('div');
+                            newElement.innerHTML = `
+                            <h6 class="alert alert-danger text-white">Form is Empty</h6>    
+                        `;
+                            document.getElementById("questionPreview").appendChild(newElement);
+                        }                       
+                        else if (e.questionType === "1") {
+                            var newElement = document.createElement('div');
+                            newElement.innerHTML = `                           
+                            <h6>Question ${index + 1}</h6>
+                             <div class="form-group">
+                                  <label for="exampleFormControlInput1">${e.questionValue}</label>
+                                  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Your Answer Here..">
+                             </div>
+                    `;
+                            document.getElementById("questionPreview").appendChild(newElement);
+                        }
+                        else if (e.questionType === "2") {
+                            var newElement = document.createElement('div');
+                            newElement.innerHTML = `
+                            <h6>Question ${index + 1}</h6>
+                            <label class="text text-sm-left"></label>${e.questionValue}<br />
+                             <div class="ml-3 form-check form-check-inline">
+                                  <input class="form-check-input" type="radio"  value="option1" name="radios" id="defaultCheck1">
+                                  <label class="form-check-label" for="defaultCheck1">
+                                      Yes
+                                  </label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="radio" value="option2" name="radios" id="defaultCheck2">
+                                   <label class="form-check-label" for="defaultCheck2">
+                                        No
+                                    </label>
+                                </div>
+
+                    `;
+                            document.getElementById("questionPreview").appendChild(newElement);
+                        }
+
+                        else if (e.questionType === "3") {
+                            var newElement = document.createElement('div');
+                           
+                            var choiceQuestions = `
+                                <h6>Question ${index + 1}</h6>
+                                <label>${e.questionValue}</label>
+                            `
+                            e.multipleChoices.forEach(function (ch) {
+                                choiceQuestions += `<div class="form-check">
+                                        <input type="checkbox">
+                                        <label>${ch.choiceValue}</label>
+                                    </div>`
+                            });
+
+                            newElement.innerHTML = choiceQuestions;
+                          
+                        document.getElementById("questionPreview").appendChild(newElement);
+                        }
+
+                    })
+                    
+                }
+            })
+                        }
+
+
+        function editPreview() {
+            $('.modal-backdrop').click(clearForm());
+            var form = $('#Idform').serialize();
+            var url = "@Url.Action(MVC.Campaign.createjsonforpreview())";
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: form,
+                success: function (data) {
+                    //agentid
+                    //console.log(data);
+                    document.getElementById("exampleModalLongTitle").innerHTML = data.campaignName;
+                    document.getElementById("campaigndescription").innerHTML = data.campaignDescription;
+                    if (data.callType === "1") {
+                        document.getElementById("agentType").innerHTML = "Call Type : Click 2 Call"
+                    }
+                    else {
+                        document.getElementById("agentType").innerHTML = "Call Type : Agent Dialer"
+                    }
+
+                    //data.question.map(e => {
+                    //    e.multipleChoices.map(ch => {
+                    //        console.log(ch.choiceValue);
+                    //    })
+                    //})
+
+                    document.getElementById("formhead").innerHTML = "<h5>Customer Feedback Form</h5>"
+
+                    data.question.map((e, index) => {
+                        //console.log(e.questionType, e.questionValue);
+                        if (e.questionValue === null) {
+                            document.getElementById("formhead").innerHTML = " "
+                            var newElement = document.createElement('div');
+                            newElement.innerHTML = `
+                            <h6 class="alert alert-danger text-white">Form is Empty</h6>    
+                        `;
+                            document.getElementById("questionPreview").appendChild(newElement);
+                        }
+
+                        else if (e.questionType === "1") {
+                            var newElement = document.createElement('div');
+                            newElement.innerHTML = `
+                            <h6>Question ${index + 1}</h6>
+                             <div class="form-group">
+                                  <label for="exampleFormControlInput1">${e.questionValue}</label>
+                                  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Your Answer Here..">
+                             </div>
+                    `;
+                            document.getElementById("questionPreview").appendChild(newElement);
+                        }
+                        else if (e.questionType === "2") {
+                            var newElement = document.createElement('div');
+                            newElement.innerHTML = `
+                            <h6>Question ${index + 1}</h6>
+                            <label class="text text-sm-left"></label>${e.questionValue}<br />
+                             <div class="ml-3 form-check form-check-inline">
+                                  <input class="form-check-input" type="radio"  value="option1" name="radios" id="defaultCheck1">
+                                  <label class="form-check-label" for="defaultCheck1">
+                                      Yes
+                                  </label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="radio" value="option2" name="radios" id="defaultCheck2">
+                                   <label class="form-check-label" for="defaultCheck2">
+                                        No
+                                    </label>
+                                </div>
+
+                    `;
+                            document.getElementById("questionPreview").appendChild(newElement);
+                        }
+
+                        else if (e.questionType === "3") {
+                            var newElement = document.createElement('div');
+
+                            var choiceQuestions = `
+                                <h6>Question ${index + 1}</h6>
+                                <label>${e.questionValue}</label>
+                            `
+                            e.multipleChoices.forEach(function (ch) {
+                                choiceQuestions += `<div class="form-check">
+                                        <input type="checkbox">
+                                        <label>${ch.choiceValue}</label>
+                                    </div>`
+                            });
+
+                            newElement.innerHTML = choiceQuestions;
+
+                            document.getElementById("questionPreview").appendChild(newElement);
+                        }
+
+                    })
+                   
+                }
+            })
+        }
+        </script>
+}
+
+

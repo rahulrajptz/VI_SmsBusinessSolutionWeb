@@ -1,8 +1,5 @@
 ﻿using Templateprj.Filters;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Templateprj.DataAccess;
 using Templateprj.Helpers;
@@ -15,13 +12,8 @@ namespace Templateprj.Controllers
     {
         private readonly AccountDbPrcs _prc = new AccountDbPrcs();
         private readonly MailSender _mailSender = new MailSender();
-
         // GET: Account
-        public virtual ActionResult Index()
-        {
-            return RedirectToAction("Login");
-        }
-
+        public virtual ActionResult Index() => RedirectToAction("Login");
         [HttpGet]
         [AllowAnonymous]
         public string AbandonSession()
@@ -32,14 +24,9 @@ namespace Templateprj.Controllers
             Session.Clear();
             return "";
         }
-
         [HttpGet]
         [AuthorizeUser]
-        public string KeepALive(string id)
-        {
-            return "";
-        }
-
+        public string KeepALive(string id) => "";
         [HttpGet]
         [AllowAnonymous]
         public virtual ActionResult Login()
@@ -51,7 +38,6 @@ namespace Templateprj.Controllers
             Session.Clear();
             return View();
         }
-
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -63,12 +49,13 @@ namespace Templateprj.Controllers
 
             if (ModelState.IsValid)
             {
-                int nextAction = _prc.Login(model);
+                int nextAction = _prc.Login(model,out string response);
+              
 
                 switch (nextAction)
                 {
                     case -9:
-                        ViewBag.ErrorMsg = "Invalid User !";
+                        ViewBag.ErrorMsg = response;
                         break;
                     case -5:
                         ViewBag.ErrorMsg = "Some error occured !";
@@ -77,9 +64,19 @@ namespace Templateprj.Controllers
                         ViewBag.ErrorMsg = "Service Unavailable !";
                         break;
                     case 0:  // Login success
-                        return RedirectToAction(MVC.Home.Index());
+                        {
+                            if (Session["RoleID"].ToString() == "4" || Session["RoleID"].ToString() == "2") //admin & support
+                                //return RedirectToAction(MVC.Home.Insights());
+                                return RedirectToAction(MVC.Campaign.BulkSms());
+                            
+                            else
+                                //return RedirectToAction(MVC.Home.Insights());
+                                return RedirectToAction(MVC.Campaign.BulkSms());
+
+                        }
                     case 1:  // First time login/Password changed from db by developer -- email/phone may verified(verified or not checking is by verifyaccount action)
                         return RedirectToAction(MVC.Account.FirstTimeLogin());
+                        //return RedirectToAction("CamelView", "Camel");
                     case 3:  // Password expired
                     case 10: // Password expires today      		  |
                     case 11: // Password expires tomarrow					|  user can skip
@@ -95,10 +92,8 @@ namespace Templateprj.Controllers
             }
             return View();
         }
-
-
         [HttpGet]
-        [AuthorizeUser]
+      //  [AuthorizeUser]
         public virtual ActionResult FirstTimeLogin()
         {
             var model = new FirstTimeLoginModel();
@@ -106,7 +101,6 @@ namespace Templateprj.Controllers
 
             return View("FirstTimeLogin", model);
         }
-
         [HttpPost]
         [AuthorizeUser]
         [ValidateAntiForgeryToken]
@@ -120,12 +114,13 @@ namespace Templateprj.Controllers
                 if (mId > 0)
                 {
                     //Success -- Send PWD Changed Mail
-                    MailSender mailSender = new MailSender();
-                    string emailBody = mailSender.ComposeMailBody(MailType.FirstTime);
-                    mailSender.SendEmail(mId, mailId, GlobalValues.AppName + "- Welcome", emailBody);
+                    //MailSender mailSender = new MailSender();
+                    //string emailBody = mailSender.ComposeMailBody(MailType.FirstTime);
+                    //mailSender.SendEmail(mId, mailId, GlobalValues.AppName + "- Welcome", emailBody);
 
                     TempData["MsgBody"] = "Your Credentials are succesfully changed. Please login again to continue";
                     TempData["MsgHead"] = "Success!";
+                    //TempData["MsgSuccess"] = "Your Credentials are succesfully changed. Please login again to continue";
 
                     return RedirectToAction("Login", "Account");
                 }
@@ -146,7 +141,6 @@ namespace Templateprj.Controllers
             model.SecurityQuestions = _prc.GetSecurityQuestion();
             return View("FirstTimeLogin", model);
         }
-
         [HttpGet]
         [AuthorizeUser]
         public virtual ActionResult SecurityQuestion()
@@ -157,7 +151,6 @@ namespace Templateprj.Controllers
 
             return View(model);
         }
-
         [HttpPost]
         [AuthorizeUser]
         [ValidateAntiForgeryToken]
@@ -169,11 +162,19 @@ namespace Templateprj.Controllers
                 if (status == 1)
                 {
                     Session["PasswordFlag"] = 0;
-                    return RedirectToAction(MVC.Home.Index());
+                    if (Session["RoleID"].ToString() == "1" || Session["RoleID"].ToString() == "2") //admin & support
+                        //return RedirectToAction(MVC.Home.Insights());
+                        return RedirectToAction(MVC.Campaign.BulkSms());
+
+                    // else if (Session["RoleID"].ToString() == "4") { return RedirectToAction(MVC.Reports.MasterReport()); }
+                    else
+                        //return RedirectToAction(MVC.Home.Insights());
+                        return RedirectToAction(MVC.Campaign.BulkSms());
+
                 }
                 else
                 {
-                    ViewBag.ErrorMsg = "Authentication Failed!";
+                    ViewBag.ErrorMsg = "Wrong Answer!";
                 }
             }
             model.SecurityQuestions = _prc.GetSecurityQuestion();
@@ -181,9 +182,8 @@ namespace Templateprj.Controllers
 
             return View(model);
         }
-
         [HttpGet]
-        [AllowAnonymous]        
+        [AllowAnonymous]
         public virtual ActionResult ForgotPassword()
         {
             var model = new AuthenticateUserModel();
@@ -192,9 +192,8 @@ namespace Templateprj.Controllers
             ViewBag.Head = "Forgot Password";
             return View("AuthenticateUser", model);
         }
-
         [HttpPost]
-        [AllowAnonymous]        
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public virtual ActionResult ForgotPassword(AuthenticateUserModel model)
         {
@@ -202,12 +201,12 @@ namespace Templateprj.Controllers
             {
                 ViewBag.Head = "Forgot Password";
                 model.SecurityQuestions = _prc.GetSecurityQuestion();
-                if (!this.IsCaptchaValid("Invalid Captcha"))
-                {
-                    return View("AuthenticateUser", model);
-                }
-                else
-                {
+                //if (!this.IsCaptchaValid("Invalid Captcha"))
+                //{
+                //    return View("AuthenticateUser", model);
+                //}
+                //else
+                //{
                     int mid; string mailId, otp;
                     model.OldPwd = "";
                     int status = _prc.AuthenticateUser(model, out otp, out mid, out mailId);
@@ -224,22 +223,17 @@ namespace Templateprj.Controllers
                     }
                     else
                     {
-                        ViewBag.ErrorMsg = "Authentication Failed!";
+                        ViewBag.ErrorMsg = "Wrong Answer";
                     }
-                }
+               // }
             }
 
 
             return View("AuthenticateUser", model);
         }
-
         [HttpGet]
-        [AuthorizeUser]
-        public virtual ActionResult ChangePassword()
-        {
-            return View();
-        }
-
+        //[AuthorizeUser]
+        public virtual ActionResult ChangePassword() => View();
         [HttpPost]
         [AuthorizeUser]
         [ValidateAntiForgeryToken]
@@ -268,7 +262,7 @@ namespace Templateprj.Controllers
                 }
                 else if (status == 2)
                 {
-                    ViewBag.ErrorMsg = "Authentication Failed!";
+                    ViewBag.ErrorMsg = "Invalid OTP!";
                 }
                 else if (status == 9)
                 {
@@ -282,7 +276,6 @@ namespace Templateprj.Controllers
 
             return View("ChangePassword");
         }
-
         [HttpPost]
         [AuthorizeUser]
         public virtual JsonResult ResendOtp()
@@ -308,7 +301,6 @@ namespace Templateprj.Controllers
                 return Json(new { Msg = "Something went wrong", Head = "Error" });
             }
         }
-
         [AuthorizeUser]
         public virtual ActionResult ResetPassword()
         {
@@ -320,7 +312,6 @@ namespace Templateprj.Controllers
 
             return View("AuthenticateUser", model);
         }
-
         [HttpPost]
         [AuthorizeUser]
         [ValidateAntiForgeryToken]
@@ -363,7 +354,6 @@ namespace Templateprj.Controllers
 
             return View("AuthenticateUser", model);
         }
-
         private void BindResetPassword()
         {
             if (Session["PasswordFlag"].ToString() == "10")
@@ -400,28 +390,20 @@ namespace Templateprj.Controllers
                 ViewBag.Head = "Change Password";
             }
         }
-
-
-
-
-
-
-
-
         public virtual ActionResult Register()
         {
             return View();
         }
-
         public virtual ActionResult LockScreen()
         {
             return View();
         }
-
         public virtual ActionResult Courstral()
         {
+           
+           
             return View();
-        }
 
+        }
     }
 }

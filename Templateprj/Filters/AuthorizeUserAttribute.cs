@@ -73,14 +73,21 @@ namespace Templateprj.Filters
 				if (!string.IsNullOrWhiteSpace(RoleID) && filterContext.HttpContext.Session["RoleID"].ToString() != RoleID)
 				{
 					string[] roleList = RoleID.Split(',');
-					if (Array.IndexOf(roleList, filterContext.HttpContext.Session["RoleID"].ToString()) < 0)
-					{
-						SetAuthorized(filterContext, request.IsAjaxRequest());
-					}
+                    if (Array.IndexOf(roleList, filterContext.HttpContext.Session["RoleID"].ToString()) < 0)
+                    {
+                        SetAuthorized(filterContext, request.IsAjaxRequest());
+                    }
+                  
 					return;
 				}
 
-				if (filterContext.HttpContext.Session["RoleID"].ToString() == "-1" && currentAction != "changepassword" && currentController != "account")
+                //if (filterContext.HttpContext.Session["RoleID"].ToString() == "4" && currentController != "reports")
+                //{
+                //    SetLoginRequired(filterContext, request.IsAjaxRequest());
+                //    return;
+                //}
+
+                if (filterContext.HttpContext.Session["RoleID"].ToString() == "-1" && currentAction != "changepassword" && currentController != "account")
 				{
 					if (filterContext.HttpContext.Session["LoginID"] != null)
 					{
@@ -102,7 +109,7 @@ namespace Templateprj.Filters
 
 		private void SetAuthorized(AuthorizationContext filterContext, bool isAjax)
 		{
-			filterContext.HttpContext.Response.StatusCode = 403;
+			//filterContext.HttpContext.Response.StatusCode = 403;
 
 			if (isAjax)
 			{
@@ -117,13 +124,13 @@ namespace Templateprj.Filters
 				};
 			}
 			else
-				filterContext.Result = new ViewResult { ViewName = "~/Views/Shared/Unauthorized.cshtml", MasterName = "" };
+				filterContext.Result = new ViewResult { ViewName = "~/Views/Account/LockScreen.cshtml", MasterName = "" };
 		}
 
 		private void SetLoginRequired(AuthorizationContext filterContext, bool isAjax)
 		{
 			var urlHelper = new UrlHelper(filterContext.RequestContext);
-			filterContext.HttpContext.Response.StatusCode = 401;
+			//filterContext.HttpContext.Response.StatusCode = 401;
 
 			if (isAjax)
 			{

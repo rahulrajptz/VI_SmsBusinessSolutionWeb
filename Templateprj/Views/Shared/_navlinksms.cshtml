@@ -1,0 +1,78 @@
+﻿<style>
+
+    .navstyle {
+        border:0px solid black;
+
+    }
+        .navstyle > ul > li {
+            border: 1px solid black;
+            background-color: #5f004b;
+            margin-left:5px ;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+            width:200px;
+            
+
+        }
+
+        a{
+            color:white;
+        }
+        a:hover{
+            color:white;
+        }
+    .active {
+        background-color: white;
+        color: black;
+    }
+    .active:hover {
+        background-color: white;
+        color: black;
+    }
+    .nav-link {
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+    }
+</style>
+
+<div class="container" style="margin-left:10px">
+    <div class="row">
+        <div class="col-xs-12 navstyle ">
+            <ul class="nav">
+                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "CampaignView" ? "active" : "") not-close">
+
+                    <a class="nav-link active" href="Campaign/BulkSms" role="tab" aria-controls="about" aria-selected="true">
+                        @*<i><img src="~/Content/Images/smslinkicon.png" style="height:23px;color:white"></i>*@
+
+                        CAMPAIGN
+                    </a>
+                </li>
+
+                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "CampaignView" ? "active" : "") not-close">
+                    <a class="nav-link" href="Home/insights" data-toggle="tab" role="tab" aria-controls="account" aria-selected="true">
+
+                        CAMPAIGN LIST
+                    </a>
+                </li>
+                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "CampaignView" ? "active" : "") not-close">
+                    <a class="nav-link" href="#customerDetails" data-toggle="tab" role="tab" aria-controls="account" aria-selected="false">
+                        UPLOAD BASE
+                    </a>
+                </li>
+                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "CampaignView" ? "active" : "") not-close">
+                    <a class="nav-link" href="#feedbackForm" data-toggle="tab" role="tab" aria-controls="account" aria-selected="false">
+                        CAMPAIGN STATUS
+                    </a>
+                </li>
+
+                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "CampaignView" ? "active" : "") not-close">
+                    <a class="nav-link" href="#review" data-toggle="tab" role="tab" aria-controls="about" aria-selected="false">
+                        CAMPAIGN REPORTS
+                    </a>
+                </li>
+            </ul>
+            
+
+        </div>
+    </div>
+</div>

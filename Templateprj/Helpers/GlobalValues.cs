@@ -40,7 +40,7 @@ namespace Templateprj.Helpers
         #endregion
 
         #region Connection String
-        private static string connStr = EncDec.DecryptDes(ConfigurationManager.ConnectionStrings["WebCStr"].ToString(), GlobalValues.Key);
+        private static readonly string connStr = EncDec.DecryptDes(ConfigurationManager.ConnectionStrings["WebCStr"].ToString(), GlobalValues.Key);
         public static string ConnStr
         {
             get
@@ -48,36 +48,46 @@ namespace Templateprj.Helpers
                 return connStr;
             }
         }
-        private static List<DBConnection> locationDbs = null;
-        public static List<DBConnection> LocationDBs
-        {
-            get
-            {
-                if (locationDbs == null)
-                {
-                    string[] locations = ConfigurationManager.AppSettings["LocationDBs"].Split(',');
-                    locationDbs = new List<DBConnection>();
-                    string conStr;
-                    foreach (string location in locations)
-                    {
-                        try
-                        {
-                            conStr = EncDec.DecryptDes(ConfigurationManager.ConnectionStrings[location + "_CStr"].ToString(), GlobalValues.Key);
-                            locationDbs.Add(new DBConnection { ConStr = conStr, Locatn = location });
-                        }
-                        catch (Exception ex)
-                        {
-                            LogWriter.Write("GlobalValues.LocationDB :: Can not extract location db connection string, Location: " + location + "\n :: Exception :: " + ex.Message);
-                            locationDbs = new List<DBConnection>();
-                            break;
-                        }
-                    }
-                }
-                return locationDbs;
-            }
-        }
+
+        
+
+        //private static List<DBConnection> locationDbs = null;
+        //public static List<DBConnection> LocationDBs
+        //{
+        //    get
+        //    {
+        //        if (locationDbs == null)
+        //        {
+        //            string[] locations = ConfigurationManager.AppSettings["LocationDBs"].Split(',');
+        //            locationDbs = new List<DBConnection>();
+        //            string conStr;
+        //            foreach (string location in locations)
+        //            {
+        //                try
+        //                {
+        //                    conStr = EncDec.DecryptDes(ConfigurationManager.ConnectionStrings[location + "_CStr"].ToString(), GlobalValues.Key);
+        //                    locationDbs.Add(new DBConnection { ConStr = conStr, Locatn = location });
+        //                }
+        //                catch (Exception ex)
+        //                {
+        //                    LogWriter.Write("GlobalValues.LocationDB :: Can not extract location db connection string, Location: " + location + "\n :: Exception :: " + ex.Message);
+        //                    locationDbs = new List<DBConnection>();
+        //                    break;
+        //                }
+        //            }
+        //        }
+        //        return locationDbs;
+        //    }
+        //}
 
         #endregion
+        //#region DBPATH
+        //private static string dbflag = EncDec.DecryptDes(ConfigurationManager.AppSettings["DBflag"].ToString(), GlobalValues.Key);
+        //public static string DBflag
+        //{
+        //    get { return dbflag; }
+        //}
+        //#endregion
 
         #region LogPath
         private static string logPath = EncDec.DecryptDes(ConfigurationManager.AppSettings["LogPath"].ToString(), GlobalValues.Key);
@@ -86,6 +96,14 @@ namespace Templateprj.Helpers
             get { return logPath; }
         }
         #endregion
+
+        //#region DocPath
+        //private static string docPath = EncDec.DecryptDes(ConfigurationManager.AppSettings["DocPath"].ToString(), GlobalValues.Key);
+        //public static string DocPath
+        //{
+        //    get { return docPath; }
+        //}
+        //#endregion
 
         #region Mail Server Details
         private static MailServerModel mailServerDetails = null;
@@ -141,32 +159,12 @@ namespace Templateprj.Helpers
             get { return maxReportPeriod; }
         }
         #endregion
-
-        //#region Max rows in excel sheet
-        //private static int maxRowsExcel = -1;
-        //public static int MaxRowsExcel
-        //{
-        //	get
-        //	{
-        //		if (maxRowsExcel == -1)
-        //		{
-        //			try
-        //			{
-        //				maxRowsExcel = Convert.ToInt32(ConfigurationManager.AppSettings["MaxRowsExcel"].ToString());
-        //			}
-        //			catch
-        //			{
-        //				maxRowsExcel = 500000;
-        //			}
-        //		}
-        //		return maxRowsExcel;
-        //	}
-        //}
-        //#endregion
-    }
-    public class DBConnection
-    {
-        public string Locatn { get; set; }
-        public string ConStr { get; set; }
+        #region BulkPath
+        private static string bulkPath = EncDec.DecryptDes(ConfigurationManager.AppSettings["BULKPath"].ToString(), GlobalValues.Key);
+        public static string BULKPath
+        {
+            get { return bulkPath; }
+        }
+        #endregion
     }
 }

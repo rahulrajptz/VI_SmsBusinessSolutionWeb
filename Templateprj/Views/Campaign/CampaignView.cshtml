@@ -1,0 +1,282 @@
+﻿@model  Templateprj.Models.CampaignviewModel
+@{
+    ViewBag.Title = "CampaignManagement";
+    System.Data.DataTable project = ViewBag.InboundRepData;
+}
+
+
+<div class="content" id="top">
+
+    <div class="modal">Loading....</div>
+    <div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col s6">
+                            <h5 id="heading" class="text">CAMPAIGN MANAGER</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*@using (Html.BeginForm("CampaignView", "Campaign", FormMethod.Post, new { enctype = "multipart/form-data", id = "Idform" }))
+    {
+
+    <div class="row">
+        <div><a href="Campaign/CreateCampaign" class="ml-5 btn btn-primary">  + CREATE CAMPAIGN</a></div>
+
+            <div class="form-group " style="margin-left:450px">
+                @Html.Label("Campaign Status")
+                @Html.DropDownListFor(m => m.status, Model.statusList, new { @class = " form-control", required = "required" })
+            </div>
+
+            <div class="ml-3 form-group">
+                @Html.Label("Report Range")
+                @Html.DropDownListFor(m => m.interval, Model.intervalList, new { @class = " form-control", required = "required" })
+
+            </div>
+            <div class="ml-2" style="margin-top:23px" >
+                <button type="submit" class=" btn btn-success"> Search</button>
+            </div>
+
+
+    </div>
+    }*@
+@using (Html.BeginForm("CampaignView", "Campaign", FormMethod.Post, new { enctype = "multipart/form-data", id = "Idform" }))
+{
+<div class="d-flex flex-row">
+        <div>
+            <a href="Campaign/CreateCampaign" class="ml-3 btn btn-primary">  + CREATE CAMPAIGN</a>
+        </div>
+  
+        <div class="ml-auto">
+            @Html.Label("Campaign Status")
+            @Html.DropDownListFor(Model => Model.status, Model.statusList, new { @class = " form-control", required = "required"  })
+        </div>
+        <div class="ml-3 form-group">
+            @Html.Label("Report Range")
+            @Html.DropDownListFor(Model => Model.interval, Model.intervalList, new { @class = " form-control", required = "required" })
+        </div>
+        <div class="ml-2" style="margin-top:23px">
+            <button type="submit" class=" btn btn-success"> Search</button>
+        </div>
+</div>
+}
+    <div class="row">
+        <div class="col">
+            <div class="card animated bounceInUp">
+                <div class="card">
+
+                    @if (project != null && project.Rows.Count != 0)
+                    {
+                        <div id="div_Report" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                            @*<div class="col-sm-12" style="overflow-x:auto;">
+                                @*<div class="loaders"></div>*@
+                            <table id="resolved" class="table table-hover table-light table-responsive  dataTable dtr-inline" cellspacing="0" role="grid" width="100%" aria-describedby="datatable_info">
+                                <thead>
+                                    <tr>
+                                        @foreach (System.Data.DataColumn column in project.Columns)
+                                        {
+                                            if (/*column.ColumnName != "Id" &&*/ column.ColumnName != "sts" && column.ColumnName != "edit_sts" && column.ColumnName != "base_sts")
+                                            {
+                                                <th style="text-align:center;font-size:14px">@column.ColumnName</th>
+
+                                            }
+                                            @*if (column.ColumnName == "Status")
+                                                {
+                                                    <th colspan="2" class="mr-3" style="text-align:center;font-size:14px">@column.ColumnName</th>
+
+                                                }*@
+
+                                        }
+                                        <th>Change Status</th>
+
+                                        <th style="text-align:center;font-size:14px">Edit</th>
+                                        <th style="text-align:center;font-size:14px">Add Base</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (System.Data.DataRow row in project.Rows)
+                                    {
+
+                                    <tr>
+                                        @for (int i = 0; i < ViewBag.InboundRepData.Columns.Count; i++)
+                                        {
+                                            if (i < ViewBag.InboundRepData.Columns.Count - 3)
+                                            {
+                                                <td style="text-align:center">@row[i].ToString()</td>
+                                            }
+                                        }
+                                        @if (row["sts"].ToString() == "1")
+                                        {
+                                            @*<td style="text-align:center">Enabled</td>*@
+                                            @*<td><button class="btn btn-outline-danger" onclick="Changestatus(@row[0])">Pause</button></td>*@
+                                            <td><img class="btn btn-outline-light" src="~/assets/img/pause.png" style="height:36px" onclick="Changestatus(@row[0],@Model.interval,@Model.status)" /></td>
+
+                                        }
+                                        else if (row["sts"].ToString() == "2")
+                                        {
+                                            @*<td style="text-align:center">Disabled</td>*@
+                                            @*<td><button class="btn btn-outline-success" onclick="Changestatus(@row[0])">Live</button></td>*@
+                                            <td><img src="~/assets/img/play-button.png" class="btn btn-outline-light" style="height:36px" onclick="Changestatus(@row[0],@Model.interval,@Model.status)" /></td>
+
+
+                                        }
+                                        else
+                                        {
+                                            @*<td style="text-align:center">Disabled</td>*@
+                                            <td></td>
+
+
+                                        }
+                                        @if (row["edit_sts"].ToString() == "1")
+                                        {
+                                            <td style="text-align:center"><a style="cursor:pointer" href='@Url.Action("CreateCampaign", "Campaign", new { campaignId = row[0] })'><i class="fa fa-edit"></i></a></td>
+
+                                        }
+                                        else
+
+                                        {
+                                            <td></td>
+
+                                        }
+                                        @if (row["base_sts"].ToString() == "1")
+                                        {
+                                            <td style="text-align:center"><a style="cursor:pointer" href='@Url.Action("CampaignBaseUpload", "Campaign", new { campaignId = row[0] })'><i class="bi bi-file-earmark-arrow-up"></i></a></td>
+
+                                        }
+                                        else
+
+                                        {
+                                            <td></td>
+
+                                        }
+                                        @*<td style="text-align:center"><a style="cursor:pointer" href='@Url.Action("CampaignBaseUpload", "Campaign", new { campaignId = row[0] })'><i class="bi bi-file-earmark-arrow-up"></i></a></td>*@
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    }
+                    @*else
+                        {
+                            <div class="col-md-12" id="divNoData">
+                                <div class="alert alert-danger" id="divNoDataa">
+                                    <span>Search Data Not Found !!!</span>
+                                </div>
+                            </div>
+                        }*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section scripts {
+
+        <script>
+
+            $(document).ready(function () {
+                $("#resolved_filter").children().children().addClass("form-control");
+                $("#resolved_length").addClass("mt-2");
+                $("#resolved_length").children().children().addClass("form-control");
+                $(".dt-buttons").addClass("mt-3");
+                $(".dt-buttons").children().addClass("mr-3 btn-outline-secondary")
+
+                $(".dataTables_paginate").click(function () {
+                    window.location.hash = '#top'
+                    //console.log("click")
+                    setTimeout(function () {
+                        var uri = window.location.toString();
+
+                        if (uri.indexOf("#") > 0) {
+                            var clean_uri = uri.substring(0,
+                                uri.indexOf("#"));
+
+                            window.history.replaceState({},
+                                document.title, clean_uri);
+                        }
+                    }, 1000);
+                })
+
+         @if (ViewBag.StatusCamp != null && ViewBag.Message!=null)
+          {
+
+            if (ViewBag.StatusCamp == "1")
+            {
+                <text>SuccessMsg('@ViewBag.Message');</text>
+
+
+        }
+        else
+        {
+            <text>ErrorMsg('@ViewBag.Message');</text>
+
+        }
+     }
+
+
+                @if (ViewBag.ErrorMsg != null )
+         {
+
+
+           <text>
+        ErrorMsg('@ViewBag.ErrorMsg');
+
+
+
+        </text>
+         }
+          @if (ViewBag.success != null )
+         {
+
+
+           <text>
+
+
+        SuccessMsg('@ViewBag.success');
+
+        </text>
+         }
+
+     });
+
+            @*function Changestatus(campignid,interval,status)
+           {
+            var url = "@Url.Action(MVC.Campaign.changeCampaignstatus())";
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: { campignid: campignid,interval:interval,status,status },
+                 success: function () {
+
+                window.location.href = '@Url.Action("CampaignView", "Campaign")';
+
+
+
+                               }
+            })
+
+        }*@
+
+        $('#resolved').dataTable({
+            "searching": true,
+            dom: 'Bflrtip',
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    title: 'Campaign Details',
+                },
+                {
+                    extend: 'csvHtml5',
+                    title: 'Campaign Details',
+                }
+                
+            ],
+
+        });
+        </script>
+    }

@@ -1,62 +1,147 @@
 ﻿@model Templateprj.Models.LoginModel
 @{
     ViewBag.Title = "Login";
+
     Layout = "~/Views/Account/_Layout.cshtml";
 }
-<div class="content">
-    <div class="container">
-        <div class="col-md-4 ml-auto mr-auto">
-          @using (Html.BeginForm("Login", "Account"))
-          {
-            @Html.AntiForgeryToken()
-                <div class="card card-login card-plain">
-                    <div class="card-header ">
-                        <div class="logo-container">
-                            <img src="~/assets/img/now-logo.png" />
-                        </div>
-                    </div>
-                    <div class="card-body ">
-                        <div class="input-group no-border form-control-lg">
-                            <span class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <i class="now-ui-icons users_circle-08"></i>
-                                </div>
-                            </span>
-                            @*<input type="text" class="form-control" placeholder="First Name...">*@
-                           
-                            @Html.TextBoxFor(m => m.Username, new { @class = "form-control", placeholder = "User Name...", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false" })
-                        </div>
 
-                        <div class="input-group no-border form-control-lg">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <i class="now-ui-icons ui-1_lock-circle-open"></i>
+<style>
+    p {
+        margin-top: 0;
+        margin-bottom: 0rem;
+    }
+    </style>
+
+<div class="app-body" style="background-color: #F7F8FC;">
+    <main class="main d-flex align-items-center">
+        <div class="container" style="margin-top:50px">
+            <div class="row">
+                <div class="col-md-10 mx-auto ">
+                    <div class="card-group" style="min-height:80vh">
+                        <div class="col-md-7 p-0" style="background: linear-gradient(to bottom, #5a0047 0%, #5a004f 100%);border-top-left-radius: 30px;  border-bottom-left-radius: 30px;">
+                            <div class="card-body p-0 text-center">
+                                <div>
+                                    <div class="offset-md-4 col-md-4 mt-5">
+                                        <img style=" height: 150px; width: 150px;"
+                                             src="~/Content/Images/vi.png" alt="VI logo">
+                                    </div>
+                                    <div class="offset-md-3 col-md-8 ">
+                                        <img src="~/Content/Images/Login-Page-image-removebg-preview.png" height="auto" />
+                                    </div>
+
+
+                                    <!-- <button type="button" class="btn btn-primary active mt-3">Register Now!</button> -->
                                 </div>
                             </div>
-                            @*<input type="text" placeholder="Last Name..." class="form-control">*@                           
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password...", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false" })
-                        </div>
-                    </div>
-                    <div class="card-footer ">
-                        <button type="submit" class="btn btn-primary btn-round btn-lg btn-block mb-3 not-close">Login</button>
-                        @*<a href="#pablo" class="btn btn-primary btn-round btn-lg btn-block mb-3">Get Started</a>*@
-                        @if (ViewBag.ErrorMsg != null)
-                        {
-                            <div id="message" class="full-width center">
-                                <br /><span class="now-ui-icons ui-1_simple-remove text-danger"> @ViewBag.ErrorMsg</span><br />
-                            </div>
-                        }
-                        <div class="pull-left">
-                            @Html.ActionLink("Forgot Password", MVC.Account.ForgotPassword(), new { @class = "link footer-link" })
-                            <h6>@*<a href="#pablo" class="link footer-link">Create Account</a>*@</h6>
                         </div>
 
-                        <div class="pull-right">
-                            <h6><a href="#pablo" class="link footer-link">Need Help?</a></h6>
+                        <div class="card p-5" style="padding: 48px 10px 48px 10px !important; border-top-right-radius: 30px;  border-bottom-right-radius: 30px;">
+                            <div class="card-body " style="padding: 1.25rem 2rem 1.25rem 2rem;">
+
+                                @using (Html.BeginForm("Login", "Account"))
+                                {
+                                    @Html.AntiForgeryToken()
+
+
+                                    <p style="margin-left:93px;margin-top:80px; color:#5f004b"><b>Welcome</b></p>
+                                    <p style="margin-left:81px;color:#5f004b;">SMS Services</p>
+                                    <div class="card-body" style="padding: 0px !important;margin: 0px !important;">
+                                        <div class="input-group no-border form-control-lg" style="margin-top: 8px">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="now-ui-icons users_circle-08" style="margin-right:10px;"></i>
+                                                </div>
+                                            </div>
+                                            @*<input type="text" class="form-control" placeholder="First Name...">*@
+
+                                            @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @onkeypress = "return (event.which!==32)", placeholder = "User Name...", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false", @style = "border-top-right-radius: 80px 80px;border-bottom-right-radius: 80px 80px;",MaxLength="16"})
+                                        </div>
+
+                                        <div class="input-group no-border form-control-lg" style="margin-top: -12px">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="now-ui-icons ui-1_lock-circle-open" style="margin-right:10px;"></i>
+                                                </div>
+                                            </div>
+                                            @*<input type="text" placeholder="Last Name..." class="form-control">*@
+                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @onkeypress = "return (event.which!==32)", placeholder = "Password...", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false", @style = "border-top-right-radius: 80px 80px;border-bottom-right-radius: 80px 80px;",MaxLength="16",MinLength="6" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @if (ViewBag.ErrorMsg != null)
+                                        {
+                                            <div id="msg" class="form-group alert alert-danger text-white">
+                                                @ViewBag.ErrorMsg
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <div class="row" style="margin-top: -19px;">
+                                        <div class="col-12">
+
+                                            <!-- <div class="col-6 col-sm-4 col-md-2 col-xl mb-3 mb-xl-0"></div> -->
+                                            <button type="submit" style="background: #75005d;border-radius: 20px;width: 88%;margin-left: 19px;" class="btn btn-block text-white">Login</button>
+                                            @*<button type="submit" class="btn btn-block btn-primary">Register</button>*@
+                                        </div>
+                                        <div class="col-12 text-center" style="margin-top:-9px">
+                                            <!-- <button type="button" class="btn btn-link px-0" >Forgot password?</button> -->
+                                            @Html.ActionLink("Forgot Password ?", MVC.Account.ForgotPassword(), new { @class = "link footer-link text-left", @style = "color: #75005d;text-decoration-underline:none;" })
+
+                                        </div>
+                                    </div>
+
+                                    @*<div class="form-group d-flex">
+
+
+                    @Html.ActionLink("Forgot Password ?", MVC.Account.ForgotPassword(), new { @class = "link footer-link text-left" })
+
+                    <button type="submit" class="btn btn-block btn-primary">Login</button>
+                    <button type="submit" class="btn btn-block btn-primary" routerLink="/register">Register</button>
+
+                </div>*@
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
-          }
+            </div>
         </div>
-    </div>
+    </main>
 </div>
+
+
+
+
+
+@section scripts{
+    <script type="text/javascript">
+
+		$(document).ready(function () {
+			@if (TempData["MsgBody"] != null)
+            {
+			<text>alert("@TempData["MsgBody"].ToString()", "@TempData["MsgHead"].ToString()");</text>
+            }
+           @if (TempData["Status"] != null)
+           {
+               <text>alert("@TempData["Status"].ToString()")</text>
+           }
+
+            //$(".btn").click(function () {
+            //    if ($("#Password").val() == "" || $("#Username").val() == "" || $("#Password").val() == null || $("#Username").val() == null ) { }
+            //    else {
+            //        var val = $("#Password").val();
+            //        var enval = SHA256(val);
+            //        $("#Password").val(enval);
+            //        $("#Password").hide();
+            //        $("#password_fake").show();
+            //    }
+            //});
+
+        });
+        $(document).ready(function () {
+            setTimeout(function () {
+                $("#msg").fadeOut();
+            }, 2000);
+        });
+    </script>
+}

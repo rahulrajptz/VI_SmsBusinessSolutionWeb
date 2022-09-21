@@ -1,0 +1,149 @@
+﻿@model Templateprj.Models.DeatailedReportModel
+@{
+    ViewBag.ActLink = ViewBag.Title = "DetailedReport";
+}
+<style>
+    table.dataTable > thead > tr > th {
+        padding: 5px !important;
+        outline: 0;
+        max-width: 50px;
+        width: 150px;
+        border-right: 0;
+        border-bottom: 0;
+    }
+
+    table.dataTable thead th, table.dataTable tfoot th {
+        font-weight: bold;
+        font-size: medium;
+    }
+</style>
+@using (Html.BeginForm("DetailedReport", "Reports"))
+{
+    <div class="row" style="margin-top:30px;">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Detailed Report</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col s6 col-md-3">
+                            @Html.LabelFor(m => m.SelectedId)
+                            @Html.DropDownListFor(m => m.SelectedId, Model.IdList, new { @class = "form-control", @id = "ddlacnt" })
+                        </div>
+                        <div class="col s6 col-md-3">
+                            @Html.LabelFor(m => m.fromdate, new { @class = "active" })
+                            @Html.TextBoxFor(m => m.fromdate, new { @class = "border-bottom form-control mask-date" })
+                        </div>
+                        <div class="col s6 col-md-3">
+                            @Html.LabelFor(m => m.todate, new { @class = "active" })
+                            @Html.TextBoxFor(m => m.todate, new { @class = "border-bottom form-control mask-date" })
+                        </div>
+                        <div class="col s6 col-md-3" @*style="padding-left:500px"*@>
+                            <input type="button" id="btn_download" class="ion ion-android-download btn btn-primary not-close" name="Download" value="Download" style="margin-top:24px;"/>
+                            @*<button type="submit" class=" btn btn-primary not-close" id="search" name="search" formmethod="post" value="search"></button>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="loaders col-sm-12" id="loading" style="align-content:center"> <img src="~/assets/img/loading.gif" alt="Loading..." /></div>
+                    <div class="col-md-12">
+                        <div class="responsive-table" id="divTable">
+                            <div class="col-sm-12">
+                                <table id="tbl_rpt" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+}
+@section scripts{
+    <script src="~/Scripts/jquery.fileDownload.js"></script>
+    <script>
+        var reportDownloadUrl = "@Url.Action("DetailedReport", "Reports")";
+        $(document).ready(function () {
+            $("#fromdate").on('change', function () {
+                var frm = $("#fromdate").val().split("/");
+                var f = new Date(frm[2], frm[1] - 1, frm[0]);
+
+                lim = addDays(f, 0);
+
+                $("#todate").flatpickr({
+                    dateFormat: "d/m/Y",
+
+                    minDate: lim
+                });
+
+            });
+            function addDays(theDate, days) {
+
+                return new Date(theDate.getTime() + days * 24 * 60 * 60 * 1000);
+            }
+            $("#loading").hide();
+
+            var dropval = $("#ddlacnt option:selected").val();
+           
+            if (dropval == "") {
+                $("#btn_download").attr("disabled", "disabled");
+                //e.preventDefault();
+                //return false;
+            }
+            else {
+                $("#btn_download").removeAttr("disabled", "disabled");
+            }
+            $("#btn_download").click(function (e) {
+                $("#loading").show();
+            if ($("form").valid()) {
+                $.fileDownload(reportDownloadUrl, {
+                    httpMethod: "POST",
+                    data: $("form :not([name='__RequestVerificationToken'])").serialize()
+                }).done(function () { closing = true; })
+                    .fail(function (html) {
+                        closing = true; $("#loading").hide();
+                        if (html.indexOf("Out of Memory") >= 0) {
+                            NotifyMessage(" Result is too large. Please reduce date range");
+                        } else {
+                            alert("Server is busy. Please try after sometime", "Error");
+                        }
+                    });
+            }
+            e.preventDefault();
+        });
+
+        });
+        $("#ddlacnt").change(function (e) {
+            var drop = $("#ddlacnt option:selected").val();
+           
+            if (drop == "") {
+                $("#btn_download").attr("disabled", "disabled");
+                //e.preventDefault();
+                //return false;
+            }
+            else {
+                $("#btn_download").removeAttr("disabled", "disabled");
+            }
+        });
+        
+        $("#fromdate").flatpickr({
+            dateFormat: "d/m/Y",
+            maxDate: "today",
+        });
+        $("#todate").flatpickr({
+            dateFormat: "d/m/Y",
+            minDate: "today",
+        });
+    </script>
+}
+
+
+

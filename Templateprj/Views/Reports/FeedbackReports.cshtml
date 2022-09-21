@@ -1,0 +1,389 @@
+﻿@model Templateprj.Models.feedbackreportmodel
+@{
+    ViewBag.Title = "FeedbackReports";
+    System.Data.DataTable project = ViewBag.InboundRepData;
+}
+<style>
+    audio::-internal-media-controls-download-button {
+        display: none;
+    }
+
+    audio::-webkit-media-controls-enclosure {
+        overflow: hidden;
+    }
+
+    audio::-webkit-media-controls-panel {
+        width: calc(100% + 35px); /* Adjust as needed */
+    }
+</style>
+
+
+<div class="content" id="top">
+
+    <div class="modal">Loading....</div>
+    <div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+
+                        <div class="col s6">
+                            <h5 id="heading" class="text">FEEDBACK REPORT</h5>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm("FeedbackReports", "Reports", FormMethod.Post, new { enctype = "multipart/form-data", id = "Idform" }))
+{
+
+<div class="row">
+
+    <div class="form-group ml-5">
+        @Html.Label("Report Type")
+        @Html.DropDownListFor(m => m.reportType, Model.reportTypeList, new { @class = " form-control", required = "required" })
+
+    </div>
+
+    <div class="ml-3 form-group">
+        @Html.Label("Agent ")
+        @Html.DropDownListFor(m => m.agent, Model.agentList, new { @class = " form-control", required = "required" })
+
+    </div>
+
+    <div class="ml-3 form-group">
+        @Html.Label("Campaign ")
+        @Html.DropDownListFor(m => m.campaignName, Model.campaignNameList, new { @class = " form-control", required = "required" })
+
+    </div>
+    @*<div class="ml-3 form-group">
+        @Html.Label("Report Range ")
+        @Html.DropDownListFor(m => m.interval, Model.intervalList, new { @class = " form-control", required = "required" })
+
+    </div>*@
+    <div class="ml-2 form-group">
+        @Html.Label("From Date")
+        @Html.TextBoxFor(m => m.fromdate, new { @class = " form-control mask-date",style="background:white", required = "required" })
+
+    </div>
+    <div class="ml-2 form-group">
+        @Html.Label("To Date")
+        @Html.TextBoxFor(m => m.todate, new { @class = "border-bottom form-control mask-date",style="background:white", required = "required" })
+
+    </div>
+
+    <div class="ml-2" style="margin-top:23px">
+        <button type="submit" value="serach" class=" btn btn-success" id="btnTest"> Search</button>
+    </div>
+
+    <div class="ml-auto" style="margin-top:2px;margin-right:50px" id="downloadReportDiv">
+        Download Report <br /><button type="submit" value="Download" name="Download" style="margin-left:45px"> <img src="~/assets/img/excel.png" height="20px"></button>
+    </div>
+
+
+</div>
+}
+<div class="row">
+    <div class="col">
+        <div class="card animated bounceInUp">
+            <div class="card">
+
+                @if (project != null && project.Rows.Count != 0)
+                {
+                    <div id="div_Report" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                        @*<div class="col-sm-12" style="overflow-x:auto;">
+                            @*<div class="loaders"></div>*@
+                        <table id="resolved" class="table w-100 table-hover table-light table-responsive  dataTable dtr-inline" cellspacing="0" role="grid" aria-describedby="datatable_info">
+                            @if (Model.reportType == "1")
+                            {
+                                <thead>
+                                    <tr>
+                                        @foreach (System.Data.DataColumn column in project.Columns)
+                                        {
+                                            if (column.ColumnName != "vstatus")
+                                            {
+                                                <th style="text-align:center;font-size:14px">@column.ColumnName</th>
+
+                                            }
+
+                                        }
+                                        <th>
+                                            View
+                                        </th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    @foreach (System.Data.DataRow row in project.Rows)
+                                    {
+
+                                        <tr>
+                                            @for (int i = 0; i < ViewBag.InboundRepData.Columns.Count; i++)
+                                            {
+                                                if (i < ViewBag.InboundRepData.Columns.Count - 1)
+                                                {
+                                                    <td style="text-align:center">@row[i].ToString()</td>
+                                                }
+                                            }
+                                            @if (row["vstatus"].ToString() == "1")
+                                            {
+                                                <td><a style="cursor:pointer;color:blue" data-toggle="modal" data-target="#reportView" onclick="viewfeedback(@row[0])">View Response</a></td>
+                                            }
+                                            else if (row["vstatus"].ToString() == "2")
+                                            {
+                                                <td>No Response</td>
+                                            }
+                                            else {
+                                                <td>External Link</td>
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                            }
+                            else
+                            {
+                                <thead>
+                                    <tr>
+                                        @foreach (System.Data.DataColumn column in project.Columns)
+                                        {
+
+                                            if (column.ColumnName.ToString() != "Voice Record")
+                                            {
+                                                <th style="text-align:center;font-size:14px">@column.ColumnName</th>
+                                            }
+
+
+
+                                        }
+                                        <th style="text-align:center;font-size:14px">Voice Record</th>
+
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    @foreach (System.Data.DataRow row in project.Rows)
+                                    {
+
+                                    <tr>
+                                        @for (int i = 0; i < ViewBag.InboundRepData.Columns.Count; i++)
+                                        {
+                                            if (i < ViewBag.InboundRepData.Columns.Count)
+                                            {
+                                                if (project.Columns[i].ToString() != "Voice Record")
+                                                {
+                                                    <td style="text-align:center">@row[i].ToString()</td>
+
+                                                }
+                                            }
+                                        }
+                                        @if (row["Voice Record"].ToString() != "")
+                                        {
+                                            <td style="text-align:center;width:20%"><audio style="width:170px" controls="controls"> <source src="@row["Voice Record"]" type="audio/wav">@row["Voice Record"] </audio></td>
+                                            @*<td><a href="@row["Voice Record"]"  download> Download link</a></td>*@
+                                            @*<td> <embed height="60px" src="@row["Voice Record"]" type="audio/wav"></td>*@
+                                            @*<td><a class="btn btn-danger" href="@row["Voice Record"]" download>dwnld</a></td>*@
+
+                                        }
+                                        else
+                                        {
+                                            <td style="text-align:center">No Recordings</td>
+                                        }
+
+                                    </tr>
+                                    }
+                                </tbody>
+                            }
+                        </table>
+
+                    </div>
+
+                }
+                else
+                {
+                    <div class="col-md-12" id="divNoData">
+                        <div class="alert alert-danger text-white" id="divNoDataa">
+                            <span>Search Data Not Found !!!</span>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="reportView" tabindex="-1" role="dialog" aria-labelledby="reportView" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Feedback</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Questions</th>
+                            <th>Answers</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bodyTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section scripts {
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#resolved_filter").children().children().addClass("form-control mt-2");
+            $("#resolved_length").addClass("mt-2");
+            $("#resolved_length").children().children().addClass("form-control");
+            $(".dt-buttons").addClass("mt-3");
+            $(".dt-buttons").children().addClass("mr-3 btn-outline-secondary")
+
+
+            $(".dataTables_paginate").click(function () {
+                window.location.hash = '#top'
+                console.log("click")
+                setTimeout(function () {
+                    var uri = window.location.toString();
+
+                    if (uri.indexOf("#") > 0) {
+                        var clean_uri = uri.substring(0,
+                            uri.indexOf("#"));
+
+                        window.history.replaceState({},
+                            document.title, clean_uri);
+                    }
+                }, 1000);
+
+
+                $("#fromdate").on('change', function () {
+                    var frm = $("#fromdate").val().split("/");
+                    var f = new Date(frm[2], frm[1] - 1, frm[0]);
+                    lim = addDays(f, 0);
+                    $("#todate").flatpickr({
+                        dateFormat: "d/m/Y",
+                        minDate: lim
+                    });
+                });
+                function addDays(theDate, days) {
+                    return new Date(theDate.getTime() + days * 24 * 60 * 60 * 1000);
+                }
+            })
+
+        
+        $("#fromdate").flatpickr({
+            dateFormat: "d/m/Y",
+            maxDate: "today",
+        });
+        $("#todate").flatpickr({
+            dateFormat: "d/m/Y",
+            maxDate: "today",
+
+        });
+
+        //$('#resolved').DataTable({
+        //    "pagingType": "full_numbers",
+        //    ordering: false
+        //});
+
+             @if (ViewBag.Status != null && ViewBag.Message!=null){
+
+                if (ViewBag.Status == "1"){
+
+                     <text>SuccessMsg('@ViewBag.Message');</text>
+
+
+                }
+                else{
+                    <text>ErrorMsg('@ViewBag.Message');</text>
+
+                }
+              }
+            if ($('#reportType').val() == "1") {
+                $('#downloadReportDiv').show();
+
+            }
+            else if ($('#reportType').val() == "2") {
+                $('#downloadReportDiv').hide();
+            }
+
+        });
+
+     
+
+        $('#reportType').on('change', function () {
+            if ($('#reportType').val() == "1") {
+                $('#downloadReportDiv').show();
+                
+
+            }
+            else if ($('#reportType').val() == "2") {
+                $('#downloadReportDiv').hide();
+                
+            }
+
+        });
+
+        $('#resolved').dataTable({
+            "searching": true,
+            dom: 'Bflrtip',
+            "pagingType": "full_numbers",
+            ordering: false,
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    title: $('#reportType').val() == "1" ? "Summary Report" : "Detailed Report",
+                },
+                {
+                    extend: 'csvHtml5',
+                    title: $('#reportType').val() == "1" ? "Summary Report" : "Detailed Report",
+                }
+
+            ],
+        });
+
+        function viewfeedback(customerId) {
+
+            var url = "@Url.Action(MVC.Reports.viewcustomerfeedbackdetails())";
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: { customerId: customerId},
+                success: function (data) {
+                    //console.log(data)
+                    var newData = "";
+                    data.map(ele => {
+                        newData += `
+                         <tr>
+                             <td>${ele.Question}</td>
+                             <td>${ele.Answer}</td>
+                        </tr>
+                        `
+                        document.getElementById("bodyTable").innerHTML = newData;
+                    })
+
+                 }
+            })
+
+        }
+      
+
+
+    </script>
+}

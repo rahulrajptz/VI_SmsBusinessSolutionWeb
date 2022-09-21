@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no" name="viewport">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="theme-color" content="#eed415" />
+    <meta name="msapplication-navbutton-color" content="#eed415">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#eed415">
+    <meta http-equiv="X-UA-.
+          atible" content="IE=edge,chrome=1">
+    <link rel="icon" href="~/assets/img/PTPL-WB-720.png" type="image/png" />
+    <title>SMS Portal</title>
+    @*//font and icons*@
+    @*https://fontawesome.com/icons?d=gallery  ---- icon url*@
+
+    <link rel="stylesheet" type='text/css' href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link href="~/assets/css/animate.css" rel="stylesheet" />
+    <base href="@Url.Content("~")" />
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Font")
+    @Styles.Render("~/Content/Cusom")
+    @Styles.Render("~/Content/DataTable")
+    @RenderSection("styles", required: false)
+    <style>
+        .panel-header {
+            background: linear-gradient(0deg, #609beb 15%,#609beb);
+            /*background: linear-gradient(90deg,#f9633f 0,#ffc107 60%,#ffffff);*/
+            /*background: linear-gradient(90deg,#1e4167 0,#224b75 60%,#0c2f50);*/
+        }
+
+        .off-canvas-sidebar[data-color=orange]:after, .sidebar[data-color=orange]:after {
+            background: linear-gradient(20deg,#16385b, #f9633f 70%);
+            /*background: linear-gradient(40deg, #f9633f, #f34f34);*/
+        }
+
+        [data-background-color=orange] {
+            background: linear-gradient(20deg,#ffff, #ffff 70%);
+        }
+
+        .card label {
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <link href="~/assets/css/CustomCss.css" rel="stylesheet" />
+    <noscript>
+        <div class="JSError">
+            Please Enable Javascript and Refresh the Page
+        </div>
+    </noscript>
+    <div class="sidebar"></div>
+    <div class="wrapper">
+        <div class="sidebar" data-color="orange">
+            <div class="logo">
+                <a class="simple-text logo-mini" href="#">
+                    @* c *@
+                </a>
+                @*<a href="#" class="simple-text logo-normal">
+
+                    </a>*@
+                <span class="simple-text logo-normal" style="font-weight: 600;
+                          font-size: 14px;margin-left:65px;
+                          ">Customer Connect</span>
+                @*<div class="navbar-minimize">
+                        <button id="minimizeSidebar" class="btn  btn-icon btn-neutral btn-round">
+                            <i class="fa fa-bars visible-on-sidebar-regular"></i>
+                            <i class="fa fa-angle-double-right visible-on-sidebar-mini"></i>
+                        </button>
+                    </div>*@
+            </div>
+            @Html.Partial(MVC.Shared.Views._DeskNavLinks);
+        </div>
+        <div class="main-panel ps-container ps-theme-default" data-ps-id="0e902cce-0c39-23e4-7594-d92ed7a3c672">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top">
+                <div class="container-fluid">
+                    <div class="navbar-wrapper">
+                        <div class="navbar-toggle">
+                            <button type="button" class="navbar-toggler">
+                                <span class="navbar-toggler-bar bar1"></span>
+                                <span class="navbar-toggler-bar bar2"></span>
+                                <span class="navbar-toggler-bar bar3"></span>
+                            </button>
+                        </div>
+                        <a class="navbar-brand" href="#"></a>
+                    </div>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-bar navbar-kebab"></span>
+                        <span class="navbar-toggler-bar navbar-kebab"></span>
+                        <span class="navbar-toggler-bar navbar-kebab"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                        @*<div class="float-right">
+                        <div class="logo">
+                            <img src="~/assets/img/vilogo.png" />
+                        </div>
+                    </div>*@
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link dropdown-toggle ml-auto" style="width:60px" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="now-ui-icons users_single-02"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right ml-auto col-md-4 mr-4" aria-labelledby="navbarDropdownMenuLink" id="navigation" style="width:230px ; height:250px">
+                                    <div class="card card-user" style="margin-top:-10px">
+                                        @*<div class="image">
+                                        <img src="~/assets/img/bg14.jpg" alt="..." />
+                                    </div>*@
+                                        <div class="card-body flip">
+                                            <img src="~/assets/img/customer_Large.jpg" alt="..." />
+                                            <div class="author">
+                                                @*<a href="#">*@
+                                                <img class="avatar border-gray" src="~/assets/img/PTPL-WB-720.png" alt="...">
+                                                <h5 class="title">@Session["Username"].ToString()</h5>
+                                                @*<p class="title">@Session["RoleName"]</p>*@
+                                                @*</a>*@
+                                                <a href="@Url.Action("Login", "Account")" class="dropdown-item waves-effect waves-orange text-danger not-close full-width">Logout</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+            <div class="panel-header panel-header-sm">
+            </div>
+            <div class="content">
+                @RenderBody()
+
+
+            </div>
+
+            <footer class="pb-5">
+                <div class="container-fluid">
+                    <p class="float-right">
+                        <span id="time"></span> &nbsp;
+                        <span> Powered By <a href="https://prutech.in/" target="_blank"><span style="color:black">Prudent Technologies Pvt. Ltd</span> </a></span>
+                    </p>
+                </div>
+            </footer>
+            <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 0px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div></div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/Scripts/CommonJS")
+    @Scripts.Render("~/Scripts/DataTable")
+    @RenderSection("scripts", required: false)
+
+
+    <script src="~/assets/session/jquery-ui.min.js"></script>
+    <link href="~/assets/session/timeout-dialog.css" rel="stylesheet" />
+    <script src="~/assets/session/timeout-dialog.js"></script>
+    <script>
+    $(document).ready(function () {
+        $(function () {
+            var fnTimeOut = function () {
+                jQuery.timeoutDialog.setupDialogTimer({
+                    timeout: 1200,
+                    countdown: 20,
+                    logout_redirect_url: '@Url.Action("Login", "Account")',
+                    keep_alive_url: '@Url.Action("Keepalive", "Home")'
+               });
+            };
+            fnTimeOut();
+        });
+        });
+
+        var mybutton = document.getElementById("myBtn");
+
+
+        var time = document.getElementById("time");
+        function changeTime() {
+            var date = new Date().toLocaleString("en-IN", {
+                timeZone: "Asia/Kolkata"
+            });
+            var dateFormatted = date.replace(", ", " - ");
+            time.innerHTML = dateFormatted;
+        }
+        setInterval(changeTime, 1000);
+
+        //$(document).scroll(function () {
+        //    scrollFunction();
+        //});
+
+        //function scrollFunction() {
+        //    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        //        mybutton.style.display = "block";
+        //    }
+        //}
+
+        // When the user clicks on the button, scroll to the top of the document
+        //function topFunction() {
+        //    document.body.scrollTop = 0;
+        //    document.documentElement.scrollTop = 0;
+        //}    
+        //$(document).ready(function () {
+        //    $(this).scrollTop(0);
+        //});
+    </script>
+
+
+</body>
+</html>

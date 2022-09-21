@@ -1,13 +1,12 @@
-﻿using Templateprj.Helpers;
-using Templateprj.Models;
-using Oracle.DataAccess.Client;
-using Oracle.DataAccess.Types;
+﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Templateprj.Helpers;
+using Templateprj.Models;
 
 namespace Templateprj.DataAccess
 {
@@ -15,233 +14,391 @@ namespace Templateprj.DataAccess
     {
         CryptoAlg _EncDec = new CryptoAlg();
         Random _rnd = new Random();
-
-        public int Login(LoginModel model)
+        public int Login(LoginModel model, out string response)
         {
+            response = "";
+            //Sec_Login(IN v_Username_In varchar(5000), 
+            //IN v_Password_In varchar(5000),
+            //IN n_Appln_Id_In bigint, 
+            //IN v_Appln_Name_In varchar(1000), 
+            //OUT v_Circle_Out varchar(100),
+            //OUT n_Userid_Out bigint, 
+            //OUT n_Pwd_Required_Out bigint, 
+            //OUT n_Loginid_Out bigint,
+            //OUT n_Roleid_Out bigint, 
+            //OUT v_Rolename_Out varchar(1000), 
+            //OUT v_Email_Out varchar(1000),
+            //OUT d_Started_Out date, 
+            //OUT n_Status_Out int, 
+            //OUT v_comapny_out varchar(100))
+
+            //`Sec_Login_new`(IN v_Username_In varchar(5000), 
+            //                IN v_Password_In varchar(5000), 
+            //                IN n_Appln_Id_In bigint, 
+            //                IN v_Appln_Name_In varchar(1000), 
+            //                OUT v_Circle_Out varchar(100), 
+            //                OUT n_Userid_Out bigint, 
+            //                OUT n_Pwd_Required_Out bigint, 
+            //                OUT n_Loginid_Out bigint, 
+            //                OUT n_Roleid_Out bigint, 
+           //                     OUT v_Rolename_Out varchar(1000), 
+            //                OUT v_Email_Out varchar(1000), 
+            //                OUT d_Started_Out date, 
+            //                OUT n_Status_Out int, 
+            //                    OUT v_comapny_out varchar(100),
+            //                OUT v_Status_out varchar(200),
+            //                Out v_acc_id int)
+
             try
             {
-                using (OracleCommand cmd = new OracleCommand("sec_login"))
+                using (MySqlCommand cmd = new MySqlCommand("Sec_Login_new"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.Add("v_username_in", OracleDbType.Varchar2).Value = model.Username.Trim().ToLower();
-                    cmd.Parameters.Add("v_password_in", OracleDbType.Varchar2).Value = _EncDec.GetHashSha1(model.Password.Trim());
-                    cmd.Parameters.Add("n_appln_id_in", OracleDbType.Int32).Value = GlobalValues.AppId;
-                    cmd.Parameters.Add("v_appln_name_in", OracleDbType.Varchar2).Value = GlobalValues.AppName;
+                    cmd.Parameters.Add("@v_Username_In", MySqlDbType.VarChar, 5000).Value = model.Username.Trim().ToLower();
+                    cmd.Parameters.Add("@v_Password_In", MySqlDbType.VarChar, 5000).Value = _EncDec.GetHashSha1(model.Password.Trim());
+                    cmd.Parameters.Add("@n_Appln_Id_In", MySqlDbType.Int32).Value = GlobalValues.AppId;
+                    cmd.Parameters.Add("@v_Appln_Name_In", MySqlDbType.VarChar, 1000).Value = GlobalValues.AppName;
+                    cmd.Parameters.Add("@v_Circle_Out", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@n_Userid_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@n_Pwd_Required_Out", MySqlDbType.Int16).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@n_Loginid_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@n_Roleid_Out", MySqlDbType.Int16).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@v_Rolename_Out", MySqlDbType.VarChar, 1000).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@v_Email_Out", MySqlDbType.VarChar, 1000).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@d_Started_Out", MySqlDbType.Date).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@n_Status_Out", MySqlDbType.Int16).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@v_comapny_out", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@v_Status_out", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@v_acc_id", MySqlDbType.Int32).Direction = ParameterDirection.Output;
 
-                    cmd.Parameters.Add("v_circle_out", OracleDbType.Varchar2, 5).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("n_userid_out", OracleDbType.Int32).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("n_pwd_required_out", OracleDbType.Int16).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("n_loginid_out", OracleDbType.Int32).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("n_roleid_out", OracleDbType.Int16).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("v_rolename_out", OracleDbType.Varchar2, 50).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("v_email_out", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("d_started_out", OracleDbType.Date).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("n_status_out", OracleDbType.Int16).Direction = ParameterDirection.Output;
-
-                    using (OracleConnection con = new OracleConnection(GlobalValues.ConnStr))
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
                         cmd.Connection = con;
                         cmd.ExecuteNonQuery();
                     }
+                    int status = Convert.ToInt32(cmd.Parameters["@n_Status_Out"].Value.ToString());
+                    response = (cmd.Parameters["@v_Status_out"].Value.ToString());
 
-                    int status = Convert.ToInt32(cmd.Parameters["n_status_out"].Value.ToString());
                     if (status == 1)
                     {
-                        int passFlag = Convert.ToInt32(cmd.Parameters["n_pwd_required_out"].Value.ToString());
+                        int passFlag = Convert.ToInt32(cmd.Parameters["@n_Pwd_Required_Out"].Value.ToString());
 
                         HttpContext.Current.Session["Username"] = model.Username.Trim().ToTitleCase();
-                        HttpContext.Current.Session["UserID"] = cmd.Parameters["n_userid_out"].Value.ToString();
+                        HttpContext.Current.Session["UserID"] = cmd.Parameters["@n_Userid_Out"].Value.ToString();
                         HttpContext.Current.Session["PasswordFlag"] = passFlag;
-                        HttpContext.Current.Session["LoginID"] = cmd.Parameters["n_loginid_out"].Value.ToString();
-                        HttpContext.Current.Session["RoleID"] = cmd.Parameters["n_roleid_out"].Value.ToString();
-                        HttpContext.Current.Session["EmailID"] = cmd.Parameters["v_email_out"].Value.ToString();
-                        HttpContext.Current.Session["RoleName"] = cmd.Parameters["v_rolename_out"].Value.ToString();
-                        HttpContext.Current.Session["StartDate"] = ((OracleDate)cmd.Parameters["d_started_out"].Value).Value;
+                        HttpContext.Current.Session["LoginID"] = cmd.Parameters["@n_Loginid_Out"].Value.ToString();
+                        HttpContext.Current.Session["RoleID"] = cmd.Parameters["@n_Roleid_Out"].Value.ToString();
+                        HttpContext.Current.Session["EmailID"] = cmd.Parameters["@v_Email_Out"].Value.ToString();
+                        HttpContext.Current.Session["RoleName"] = cmd.Parameters["@v_Rolename_Out"].Value.ToString();
+                        HttpContext.Current.Session["StartDate"] = cmd.Parameters["@d_Started_Out"].Value;
+                        HttpContext.Current.Session["AccountID"] = cmd.Parameters["@v_acc_id"].Value.ToString();
+                        //Administrator
+                        HttpContext.Current.Session["DBConString"] = GlobalValues.ConnStr;
 
-                        if (cmd.Parameters["n_roleid_out"].Value.ToString() == "1")
-                        {
-                            //Administrator
-                            HttpContext.Current.Session["DBConString"] = GlobalValues.ConnStr;
-                        }
-                        else
-                        {
-                            try
-                            {
-                                var con = GlobalValues.LocationDBs.Single(c => c.Locatn == cmd.Parameters["v_circle_out"].Value.ToString());
-                                HttpContext.Current.Session["DBConString"] = con.ConStr;
-                                HttpContext.Current.Session["CircleID"] = cmd.Parameters["v_circle_out"].Value.ToString();
-                            }
-                            catch (Exception e)
-                            {
-                                LogWriter.Write("DataAccess.AccountDbPrcs.Login :: Unable to get connection string from cirlce :: CircleOut:" + cmd.Parameters["v_circle_out"].Value.ToString() + " :: Exception :: " + e.Message);
-                                HttpContext.Current.Session.Clear();
-                                return -1;
-                            }
-                        }
+
+
+
                         return passFlag;
                     }
                     else
                     {
-                        LogWriter.Write("DataAccess.AccountDbPrcs.Login :: Login Failed :: StatusOut:" + status);
+                        LogWriter.Write("DataAccess.AccountDb.Login :: Login Failed :: StatusOut:" + status);
                         HttpContext.Current.Session.Clear();
+                        return -status;
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.AccountDb.Login :: Exception :: " + ex.Message);
+                HttpContext.Current.Session.Clear();
+                return -1;
+            }
+
+        }
+
+        public MailServerModel GetMailServerDetails()
+        {
+            //Sec_Mail_Info`(IN n_App_Id_In int,
+            //OUT v_Host_Ip_Out varchar(100),
+            //OUT v_Port_Out varchar(100),
+            //OUT v_Uname_Out varchar(100),
+            //OUT v_Password_Out varchar(100),
+            //OUT v_From_Address_Out varchar(200),
+            //OUT v_Display_Name_Out varchar(200),
+            //OUT n_Otp_Expire_Time_Out int,
+            //OUT n_Status_Out int)
+
+
+            try
+            {
+                using (MySqlCommand cmd = new MySqlCommand("Sec_Mail_Info"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@n_App_Id_In", MySqlDbType.Int32).Value = GlobalValues.AppId;
+
+                    cmd.Parameters.Add("@v_Host_Ip_Out", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@v_Port_Out", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@v_Uname_Out", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@v_Password_Out", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@v_From_Address_Out", MySqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@v_Display_Name_Out", MySqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@n_Otp_Expire_Time_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@n_Status_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        cmd.ExecuteNonQuery();
+                    }
+                    if (cmd.Parameters["@n_Status_Out"].Value.ToString() == "1")
+                    {
+                        MailServerModel model = new MailServerModel();
+                        model.MailServerIP = _EncDec.DecryptDes(cmd.Parameters["@v_Host_Ip_Out"].Value.ToString());// cmd.Parameters["v_Host_Ip_Out"].Value.ToString();//
+                        model.Port = Convert.ToInt32(_EncDec.DecryptDes(cmd.Parameters["@v_Port_Out"].Value.ToString()));// Convert.ToInt32(cmd.Parameters["v_Port_Out"].Value.ToString());//
+                        model.UserName = cmd.Parameters["@v_Uname_Out"].Value.ToString();
+                        model.Password = cmd.Parameters["@v_Password_Out"].Value.ToString();
+                        model.FromAddress = cmd.Parameters["@v_From_Address_Out"].Value.ToString();
+                        model.DisplayName = cmd.Parameters["@v_Display_Name_Out"].Value.ToString();
+                        model.OTPExpireTime = Convert.ToInt32(cmd.Parameters["@n_Otp_Expire_Time_Out"].Value.ToString());
+                        return model;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.AccountDb.getMailServerDetails :: Exception :: " + ex.Message);
+
+            }
+            return null;
+
+        }
+
+        public int FirstTimeChangePassword(FirstTimeLoginModel model, out string mailID)
+        {
+            mailID = "";
+            //Sec_First_Time_Login`(IN n_Userid_In varchar(100),
+            //IN v_Newpswd_In varchar(100),
+            //IN n_Questid_In int,
+            //IN v_Answer_In varchar(100),
+            //IN n_Appln_Id_In int,
+            //OUT v_Email_Out varchar(100),
+            //OUT n_Mid_Out int,
+            //OUT n_Status_Out int)
+
+            try
+            {
+                using (MySqlCommand cmd = new MySqlCommand("Sec_First_Time_Login"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@n_Userid_In", MySqlDbType.VarChar, 100).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"]);
+                    cmd.Parameters.Add("@v_Newpswd_In", MySqlDbType.VarChar, 100).Value = _EncDec.GetHashSha1(model.NewPassword.Trim());
+                    cmd.Parameters.Add("@n_Questid_In", MySqlDbType.Int32).Value = model.SelectedSecurityQuestion;
+                    cmd.Parameters.Add("@v_Answer_In", MySqlDbType.VarChar, 100).Value = _EncDec.EncryptDes(model.Answer.Trim());
+                    cmd.Parameters.Add("@n_Appln_Id_In", MySqlDbType.Int32).Value = GlobalValues.AppId;
+
+                    cmd.Parameters.Add("@v_Email_Out", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@n_Mid_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@n_Status_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        cmd.ExecuteNonQuery();
+                    }
+                    int status = Convert.ToInt32(cmd.Parameters["@n_Status_Out"].Value.ToString());
+                    if (status == 1)
+                    {
+                        mailID = cmd.Parameters["@v_Email_Out"].Value.ToString();
+                        return Convert.ToInt32(cmd.Parameters["@n_Mid_Out"].Value.ToString());
+                    }
+                    else
+                    {
                         return -status;
                     }
                 }
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.AccountDbPrcs.Login :: Exception :: " + ex.Message);
-                HttpContext.Current.Session.Clear();
+                LogWriter.Write("DataAccess.AccountDb.FirstTimeChangePassword :: Exception :: " + ex.Message);
                 return -1;
             }
         }
 
-        public int Logout(int mode, string loginID = null)
+
+        public SelectList GetSecurityQuestion()
         {
-            if (loginID == null)
-                loginID = HttpContext.Current.Session["LoginID"].ToString();
+            int userID = -1;
+            if (HttpContext.Current.Session["UserID"] != null)
+                userID = Convert.ToInt32(HttpContext.Current.Session["UserID"]);
+
+            //Sec_Get_All_Question`(IN n_Userid_In int,
+            //OUT n_Questid_Out int)
 
             try
             {
-                using (OracleCommand cmd = new OracleCommand("sec_logout"))
+                using (MySqlCommand cmd = new MySqlCommand("Sec_Get_All_Question"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@n_Userid_In", MySqlDbType.Int32).Value = userID;
+                    cmd.Parameters.Add("@n_Questid_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        MySqlDataAdapter da = new MySqlDataAdapter("", con);
+                        DataTable dtsecQs = new DataTable();
+                        da.SelectCommand = cmd;
+                        da.Fill(dtsecQs);
+
+                        string selectedQnId = cmd.Parameters["@n_Questid_Out"].Value.ToString();
+                        List<SelectListItem> customList = new List<SelectListItem>();
+                        customList.Add(new SelectListItem { Text = "-Security Question-" });
+
+                        return dtsecQs.ToSelectList(selectedQnId, customList);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.AccountDb.GetSecurityQuestion :: Exception :: " + ex.Message);
+                return null;
+            }
+        }
+
+        public int Logout(int mode, string loginID = null, string userid = null)
+        {
+
+            //`Sec_Logout`(IN n_Login_Id_In int,
+            //IN n_Mode_In int,
+            //OUT n_Status_Out int)
+
+            if (loginID == null)
+                loginID = HttpContext.Current.Session["LoginID"].ToString();
+            if (userid == null)
+                userid = HttpContext.Current.Session["UserID"].ToString();
+
+            try
+            {
+                using (MySqlCommand cmd = new MySqlCommand("Sec_Logout"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.Add("n_login_id_in", OracleDbType.Varchar2).Value = loginID;
-                    cmd.Parameters.Add("n_mode_in", OracleDbType.Varchar2).Value = mode;
+                    cmd.Parameters.Add("@n_Login_Id_In", MySqlDbType.Int32).Value = loginID;
+                    cmd.Parameters.Add("@n_Mode_In", MySqlDbType.Int32).Value = mode;
+                    //cmd.Parameters.Add("@n_User_In", MySqlDbType.VarChar).Value = userid;
+                    cmd.Parameters.Add("@n_Status_Out", MySqlDbType.Int16).Direction = ParameterDirection.Output;
 
-                    cmd.Parameters.Add("n_status_out", OracleDbType.Int16).Direction = ParameterDirection.Output;
-
-                    using (OracleConnection con = new OracleConnection(GlobalValues.ConnStr))
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
                         cmd.Connection = con;
                         cmd.ExecuteNonQuery();
                     }
 
-                    return Convert.ToInt32(cmd.Parameters["n_status_out"].Value.ToString());
+                    return Convert.ToInt32(cmd.Parameters["@n_Status_Out"].Value.ToString());
                 }
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.AccountDbPrcs.LogOut :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.AccountDb.Logout :: Exception :: " + ex.Message);
                 return -1;
             }
+
         }
 
         public int ResendOTP(out int mailId, out string OTP)
         {
             mailId = 0;
             OTP = _rnd.Next(100000, 999999).ToString();
+
+            //Sec_Resend_Otp`(IN n_Appln_Id_In int,
+            //IN n_User_Id_In int,
+            //IN v_Otp_In varchar(100),
+            //OUT n_Mid_Out int,
+            //OUT n_Status_Out int)
+
             try
             {
-                using (OracleCommand cmd = new OracleCommand("sec_resend_otp"))
+                using (MySqlCommand cmd = new MySqlCommand("Sec_Resend_Otp"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.Add("n_appln_id_in", OracleDbType.Int32).Value = GlobalValues.AppId;
-                    cmd.Parameters.Add("n_user_id_in", OracleDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
-                    cmd.Parameters.Add("n_type_in", OracleDbType.Int32).Value = HttpContext.Current.Session["OTPMethod"] == null ? "1" : HttpContext.Current.Session["OTPMethod"].ToString();
-                    cmd.Parameters.Add("v_otp_in", OracleDbType.Varchar2).Value = OTP;
+                    cmd.Parameters.Add("@n_Appln_Id_In", MySqlDbType.Int32).Value = GlobalValues.AppId;
+                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
+                    //cmd.Parameters.Add("@n_Type_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["OTPMethod"] == null ? "1" : HttpContext.Current.Session["OTPMethod"].ToString();
+                    cmd.Parameters.Add("@v_Otp_In", MySqlDbType.VarChar, 100).Value = OTP;
 
-                    cmd.Parameters.Add("n_mid_out", OracleDbType.Int32).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("n_status_out", OracleDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@n_Mid_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@n_Status_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
 
-                    using (OracleConnection con = new OracleConnection(GlobalValues.ConnStr))
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
                         cmd.Connection = con;
                         cmd.ExecuteNonQuery();
                     }
 
-                    mailId = Convert.ToInt32(cmd.Parameters["n_mid_out"].Value.ToString());
+                    mailId = Convert.ToInt32(cmd.Parameters["@n_Mid_Out"].Value.ToString());
 
-                    return Convert.ToInt32(cmd.Parameters["n_status_out"].Value.ToString());
+                    return Convert.ToInt32(cmd.Parameters["@n_Status_Out"].Value.ToString());
                 }
             }
+
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.AccountDbPrcs.ResendOTP :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.AccountDb.ResendOTP :: Exception :: " + ex.Message);
                 return -1;
             }
-        }
 
-        public int FirstTimeChangePassword(FirstTimeLoginModel model, out string mailID)
-        {
-            mailID = "";
-            try
-            {
-                using (OracleCommand cmd = new OracleCommand("sec_first_time_login"))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.Add("n_userid_in", OracleDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"]);
-                    cmd.Parameters.Add("v_newpswd_in", OracleDbType.Varchar2).Value = _EncDec.GetHashSha1(model.NewPassword.Trim());
-                    cmd.Parameters.Add("n_questid_in", OracleDbType.Int32).Value = model.SelectedSecurityQuestion;
-                    cmd.Parameters.Add("v_answer_in", OracleDbType.Varchar2).Value = _EncDec.EncryptDes(model.Answer.Trim().ToLower());
-                    cmd.Parameters.Add("n_appln_id_in", OracleDbType.Int32).Value = GlobalValues.AppId;
-
-                    cmd.Parameters.Add("v_email_out", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("n_mid_out", OracleDbType.Int32).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("n_status_out", OracleDbType.Int32).Direction = ParameterDirection.Output;
-
-                    using (OracleConnection con = new OracleConnection(GlobalValues.ConnStr))
-                    {
-                        con.Open();
-                        cmd.Connection = con;
-                        cmd.ExecuteNonQuery();
-                    }
-                    int status = Convert.ToInt32(cmd.Parameters["n_status_out"].Value.ToString());
-                    if (status == 1)
-                    {
-                        mailID = cmd.Parameters["v_email_out"].Value.ToString();
-                        return Convert.ToInt32(cmd.Parameters["n_mid_out"].Value.ToString());
-                    }
-                    else
-                    {
-                        return -status;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LogWriter.Write("DataAccess.AccountDbPrcs.FirstTimeChangePassword :: Exception :: " + ex.Message);
-                return -1;
-            }
         }
 
         public int VerifySecurityAns(VerifySecurityQnModel model)
         {
+
+            //`Sec_Verify_Answer`(IN n_User_Id_In bigint,
+            //IN n_Questid_In bigint,
+            //IN v_Answer_In varchar(100),
+            //IN n_Appln_Id_In int,
+            //OUT n_Status_Out int)
+
             try
             {
-                using (OracleCommand cmd = new OracleCommand("sec_verify_answer"))
+                using (MySqlCommand cmd = new MySqlCommand("Sec_Verify_Answer"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.Add("n_user_id_in", OracleDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"]);
-                    cmd.Parameters.Add("n_questid_in", OracleDbType.Int32).Value = model.SelectedSecurityQuestion;
-                    cmd.Parameters.Add("v_answer_in", OracleDbType.Varchar2).Value = _EncDec.EncryptDes(model.Answer.Trim().ToLower());
-                    cmd.Parameters.Add("n_appln_id_in", OracleDbType.Int32).Value = GlobalValues.AppId;
+                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"]);
+                    cmd.Parameters.Add("@n_Questid_In", MySqlDbType.Int32).Value = model.SelectedSecurityQuestion;
+                    cmd.Parameters.Add("@v_Answer_In", MySqlDbType.VarChar, 100).Value = _EncDec.EncryptDes(model.Answer.Trim());
+                    cmd.Parameters.Add("@n_Appln_Id_In", MySqlDbType.Int32).Value = GlobalValues.AppId;
 
-                    cmd.Parameters.Add("n_status_out", OracleDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@n_Status_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
 
-                    using (OracleConnection con = new OracleConnection(GlobalValues.ConnStr))
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
                         cmd.Connection = con;
                         cmd.ExecuteScalar();
                     }
 
-                    return Convert.ToInt32(cmd.Parameters["n_status_out"].Value.ToString());
+                    return Convert.ToInt32(cmd.Parameters["@n_Status_Out"].Value.ToString());
                 }
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.AccountDbPrcs.VerifySecurityAns :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.AccountDb.VerifySecurityAns :: Exception :: " + ex.Message);
                 return -1;
             }
+
         }
 
         public int AuthenticateUser(AuthenticateUserModel model, out string OTP, out int mid, out string mailId)
@@ -250,205 +407,156 @@ namespace Templateprj.DataAccess
             mailId = "";
             mid = 0;
             OTP = _rnd.Next(100000, 999999).ToString();
+
+            MySqlConnection con = null;
             try
             {
-                using (OracleCommand cmd = new OracleCommand("sec_authenticate_user"))
+
+                //`Sec_Authenticate_User`(IN v_username_In varchar(100),
+                //IN n_Questid_In bigint,
+                //IN v_Answer_In varchar(1000),
+                //IN v_Old_Pswd_In varchar(1000),
+                //IN v_Otp_In varchar(1000),
+                //IN n_Appln_Id_In bigint(11),
+                //IN v_Appln_Name_In varchar(1000),
+                //OUT v_Email_Out varchar(1000),
+                //OUT n_Mid_Out bigint(11),
+                //OUT n_User_Id_Out bigint(11),
+                //OUT n_Status_Out int)
+
+                MySqlCommand cmd = new MySqlCommand();
+                con = new MySqlConnection(GlobalValues.ConnStr);
+                con.Open();
+                cmd.Connection = con;
+                cmd.CommandText = "Sec_Authenticate_User";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                string username;
+                if (HttpContext.Current.Session["Username"] != null)
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    string username;
-                    if (HttpContext.Current.Session["Username"] != null)
-                    {
-                        username = HttpContext.Current.Session["Username"].ToString();
-                    }
-                    else
-                    {
-                        username = model.Username;
-                    }
-
-                    cmd.Parameters.Add("v_uname_in", OracleDbType.Varchar2).Value = username.ToLower().Trim();
-                    cmd.Parameters.Add("n_questid_in", OracleDbType.Int32).Value = model.SelectedSecurityQuestion;
-                    cmd.Parameters.Add("v_answer_in", OracleDbType.Varchar2).Value = _EncDec.EncryptDes(model.Answer.Trim().ToLower());
-                    if (string.IsNullOrWhiteSpace(model.OldPwd))
-                        cmd.Parameters.Add("v_old_pswd_in", OracleDbType.Varchar2).Value = DBNull.Value;
-                    else
-                        cmd.Parameters.Add("v_old_pswd_in", OracleDbType.Varchar2).Value = _EncDec.GetHashSha1(model.OldPwd.Trim());
-                    cmd.Parameters.Add("v_otp_in", OracleDbType.Varchar2).Value = OTP;
-                    cmd.Parameters.Add("n_appln_id_in", OracleDbType.Int32).Value = GlobalValues.AppId;
-                    cmd.Parameters.Add("v_appln_name_in", OracleDbType.Varchar2).Value = GlobalValues.AppName;
-
-                    cmd.Parameters.Add("v_email_out", OracleDbType.Varchar2, 100).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("n_mid_out", OracleDbType.Int32).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("n_user_id_out", OracleDbType.Int32).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("n_status_out", OracleDbType.Int32).Direction = ParameterDirection.Output;
-
-                    using (OracleConnection con = new OracleConnection(GlobalValues.ConnStr))
-                    {
-                        con.Open();
-                        cmd.Connection = con;
-                        cmd.ExecuteNonQuery();
-                    }
-
-                    int status = Convert.ToInt32(cmd.Parameters["n_status_out"].Value.ToString());
-                    if (status == 1)
-                    {
-                        mid = Convert.ToInt32(cmd.Parameters["n_mid_out"].Value.ToString());
-                        mailId = cmd.Parameters["v_email_out"].Value.ToString();
-
-                        HttpContext.Current.Session["UserID"] = cmd.Parameters["n_user_id_out"].Value.ToString();
-                        if (HttpContext.Current.Session["RoleID"] == null)
-                        { //Forgot password case
-                            HttpContext.Current.Session["RoleID"] = -1;
-                            HttpContext.Current.Session["Username"] = username.ToTitleCase();
-                        }
-                    }
-                    return status;
+                    username = HttpContext.Current.Session["Username"].ToString();
                 }
+                else
+                {
+                    username = model.Username;
+                }
+
+                cmd.Parameters.Add("@v_username_In", MySqlDbType.VarChar).Value = username.ToLower().Trim();
+                cmd.Parameters.Add("@n_Questid_In", MySqlDbType.Int32).Value = model.SelectedSecurityQuestion;
+                cmd.Parameters.Add("@v_Answer_In", MySqlDbType.VarChar).Value = _EncDec.EncryptDes(model.Answer.Trim());
+                if (string.IsNullOrWhiteSpace(model.OldPwd))
+                    cmd.Parameters.Add("@v_Old_Pswd_In", MySqlDbType.VarChar).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@v_Old_Pswd_In", MySqlDbType.VarChar).Value =/* _EncDec.GetHashSha1*/(model.OldPwd.Trim());
+                cmd.Parameters.Add("@v_Otp_In", MySqlDbType.VarChar).Value = OTP;
+                cmd.Parameters.Add("@n_Appln_Id_In", MySqlDbType.Int32).Value = GlobalValues.AppId;
+                cmd.Parameters.Add("@v_Appln_Name_In", MySqlDbType.VarChar).Value = GlobalValues.AppName;
+
+                cmd.Parameters.Add("@v_Email_Out", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("@n_Mid_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("@n_User_Id_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("@n_Status_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                cmd.ExecuteNonQuery();
+                con.Close();
+                int status = Convert.ToInt32(cmd.Parameters["@n_Status_Out"].Value.ToString());
+                if (status == 1)
+                {
+                    mid = Convert.ToInt32(cmd.Parameters["@n_Mid_Out"].Value.ToString());
+                    mailId = cmd.Parameters["@v_Email_Out"].Value.ToString();
+
+                    HttpContext.Current.Session["UserID"] = cmd.Parameters["@n_User_Id_Out"].Value.ToString();
+                    if (HttpContext.Current.Session["RoleID"] == null)
+                    { //Forgot password case
+                        HttpContext.Current.Session["RoleID"] = -1;
+                        HttpContext.Current.Session["Username"] = username.ToTitleCase();
+                    }
+                }
+                return status;
+
+
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.AccountDbPrcs.AuthenticateUser :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.AccountDb.AuthenticateUser :: Exception :: " + ex.Message);
+                if (con != null)
+                    con.Close();
+
                 return -1;
             }
+
         }
 
         public int ChangePassword(ChangePasswordModel model, out int mid, out string mailID)
         {
             mid = 0; mailID = "";
+
             try
             {
-                using (OracleCommand cmd = new OracleCommand("sec_change_password"))
+
+                //sec_change_password(n_userid_in     IN NUMBER,
+                //                                  v_otp_in        IN VARCHAR2,
+                //                                  v_newpswd_in    IN VARCHAR2,
+                //                                  n_appln_id_in   IN NUMBER,
+                //                                  v_appln_name_in IN VARCHAR2,
+                //                                  v_email_out     OUT VARCHAR2,
+                //                                  n_mid_out       OUT NUMBER,
+                //                                  n_status_out    OUT NUMBER)
+
+                using (MySqlCommand cmd = new MySqlCommand("Sec_Change_Password"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.Add("n_userid_in", OracleDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"]);
-                    cmd.Parameters.Add("v_otp_in", OracleDbType.Varchar2).Value = model.OTP.Trim();
-                    cmd.Parameters.Add("v_newpswd_in", OracleDbType.Varchar2).Value = _EncDec.GetHashSha1(model.NewPassword.Trim());
-                    cmd.Parameters.Add("n_appln_id_in", OracleDbType.Int32).Value = GlobalValues.AppId;
-                    cmd.Parameters.Add("v_appln_name_in", OracleDbType.Varchar2).Value = GlobalValues.AppName;
+                    cmd.Parameters.Add("@n_Userid_In", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"]);
+                    cmd.Parameters.Add("@v_Otp_In", MySqlDbType.VarChar).Value = model.OTP.Trim();
+                    cmd.Parameters.Add("@v_Newpswd_In", MySqlDbType.VarChar).Value = _EncDec.GetHashSha1(model.NewPassword.Trim());
+                    cmd.Parameters.Add("@n_Appln_Id_In", MySqlDbType.Int32).Value = GlobalValues.AppId;
+                    cmd.Parameters.Add("@v_Appln_Name_In", MySqlDbType.VarChar).Value = GlobalValues.AppName;
 
-                    cmd.Parameters.Add("v_email_out", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("n_mid_out", OracleDbType.Int32).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("n_status_out", OracleDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@v_Email_Out", MySqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@n_Mid_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@n_Status_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
 
-                    using (OracleConnection con = new OracleConnection(GlobalValues.ConnStr))
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
                         cmd.Connection = con;
                         cmd.ExecuteNonQuery();
                     }
 
-                    int status = Convert.ToInt32(cmd.Parameters["n_status_out"].Value.ToString());
+                    int status = Convert.ToInt32(cmd.Parameters["@n_Status_Out"].Value.ToString());
                     if (status == 1)
                     {
-                        mid = Convert.ToInt32(cmd.Parameters["n_mid_out"].Value.ToString());
-                        mailID = cmd.Parameters["v_email_out"].Value.ToString();
+                        mid = Convert.ToInt32(cmd.Parameters["@n_Mid_Out"].Value.ToString());
+                        mailID = cmd.Parameters["@v_Email_Out"].Value.ToString();
                     }
                     return status;
                 }
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.AccountDbPrcs.ChangePassword :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.AccountDb.ChangePassword :: Exception :: " + ex.Message);
                 return -1;
             }
-        }
 
-        public SelectList GetSecurityQuestion()
-        {
-            int userID = -1;
-            if (HttpContext.Current.Session["UserID"] != null)
-                userID = Convert.ToInt32(HttpContext.Current.Session["UserID"]);
-
-            try
-            {
-                using (OracleCommand cmd = new OracleCommand("sec_get_all_question"))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("n_userid_in", OracleDbType.Int32).Value = userID;
-                    cmd.Parameters.Add("c_ref_out", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("n_questid_out", OracleDbType.Int32).Direction = ParameterDirection.Output;
-                    using (OracleConnection con = new OracleConnection(GlobalValues.ConnStr))
-                    {
-                        con.Open();
-                        cmd.Connection = con;
-                        OracleDataAdapter da = new OracleDataAdapter("", con);
-                        DataTable dtsecQs = new DataTable();
-                        da.SelectCommand = cmd;
-                        da.Fill(dtsecQs);
-
-                        string selectedQnId = cmd.Parameters["n_questid_out"].Value.ToString();
-                        List<SelectListItem> customList = new List<SelectListItem>();
-                        customList.Add(new SelectListItem { Text = "-- Please select a question --" });
-
-                        return dtsecQs.ToSelectList(selectedQnId, customList);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LogWriter.Write("DataAccess.AccountDbPrcs.GetSecurityQuestion :: Exception :: " + ex.Message);
-                return null;
-            }
-        }
-
-        public MailServerModel GetMailServerDetails()
-        {
-            try
-            {
-                using (OracleCommand cmd = new OracleCommand("sec_mail_info"))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.Add("n_App_Id_In", OracleDbType.Varchar2).Value = GlobalValues.AppId;
-
-                    cmd.Parameters.Add("v_Host_Ip_Out", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("v_Port_Out", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("v_Uname_Out", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("v_Password_Out", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("v_From_Address_Out", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("v_Display_Name_Out", OracleDbType.Varchar2, 200).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("n_Otp_Expire_Time_Out", OracleDbType.Int32).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("n_Status_Out", OracleDbType.Int32).Direction = ParameterDirection.Output;
-
-                    using (OracleConnection con = new OracleConnection(GlobalValues.ConnStr))
-                    {
-                        con.Open();
-                        cmd.Connection = con;
-                        cmd.ExecuteNonQuery();
-                    }
-                    if (cmd.Parameters["n_Status_Out"].Value.ToString() == "1")
-                    {
-                        MailServerModel model = new MailServerModel();
-                        model.MailServerIP =  _EncDec.DecryptDes(cmd.Parameters["v_Host_Ip_Out"].Value.ToString());// cmd.Parameters["v_Host_Ip_Out"].Value.ToString();//
-                        model.Port = Convert.ToInt32(_EncDec.DecryptDes(cmd.Parameters["v_Port_Out"].Value.ToString()));// Convert.ToInt32(cmd.Parameters["v_Port_Out"].Value.ToString());//
-                        model.UserName = cmd.Parameters["v_Uname_Out"].Value.ToString();
-                        model.Password = cmd.Parameters["v_Password_Out"].Value.ToString();
-                        model.FromAddress = cmd.Parameters["v_From_Address_Out"].Value.ToString();
-                        model.DisplayName = cmd.Parameters["v_Display_Name_Out"].Value.ToString();
-                        model.OTPExpireTime = Convert.ToInt32(cmd.Parameters["n_Otp_Expire_Time_Out"].Value.ToString());
-                        return model;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LogWriter.Write("DataAccess.AccountDbPrcs.getMailServerDetails :: Exception :: " + ex.Message);
-            }
-            return null;
         }
 
         public void UpdateMailStatus(int mID, int Status)
         {
+            //`Sec_Mail_Update`(IN n_Mid_In int,
+            //IN n_Status_In int)
+
+
+
+
             try
             {
-                using (OracleCommand occmd = new OracleCommand("sec_mail_update"))
+                using (MySqlCommand occmd = new MySqlCommand("Sec_Mail_Update"))
                 {
                     occmd.CommandType = CommandType.StoredProcedure;
 
-                    occmd.Parameters.Add("n_mid_in", OracleDbType.Int32).Value = mID;
-                    occmd.Parameters.Add("n_status_in", OracleDbType.Int32).Value = Status;
-                    using (OracleConnection con = new OracleConnection(GlobalValues.ConnStr))
+                    occmd.Parameters.Add("@n_Mid_In", MySqlDbType.Int32).Value = mID;
+                    occmd.Parameters.Add("@n_Status_In", MySqlDbType.Int32).Value = Status;
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
                         occmd.Connection = con;
@@ -458,8 +566,10 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.AccountDbPrcs.UpdateMailStatus :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.AccountDb.UpdateMailStatus :: Exception :: " + ex.Message);
             }
+
         }
+
     }
 }

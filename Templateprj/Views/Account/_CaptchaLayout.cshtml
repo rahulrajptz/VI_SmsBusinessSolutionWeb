@@ -12,7 +12,7 @@
 	</div>
 	<div class="col s12 m12 l6 input-field">
 		<label for="@Model.InputElementId">Type Characters in Image</label>
-		@Html.TextBox(Model.InputElementId, null, new Dictionary<string, object> { { "data-val", "true" }, { "data-val-required", " " }, { "class", "form-control" } })
+		@Html.TextBox(Model.InputElementId, null, new Dictionary<string, object> { { "data-val", "true" }, { "data-val-required", " " }, { "class", "form-control" } ,{ "maxlength","20" } })
 		@Html.ValidationMessage(Model.InputElementId)
 	</div>
 </div>
