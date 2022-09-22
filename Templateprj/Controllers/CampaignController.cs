@@ -1,15 +1,11 @@
-﻿using ClosedXML.Excel;
-using Newtonsoft.Json;
-using OfficeOpenXml;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using Templateprj.DataAccess;
 using Templateprj.Filters;
 using Templateprj.Helpers;
