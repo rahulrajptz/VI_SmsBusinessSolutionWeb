@@ -18,7 +18,7 @@ namespace Templateprj.Controllers.api
        [AllowAnonymous]
         [HttpPost]
         [Route("bulksms/send/{apikey}")]
-       // [ActionName("BulkSms")]
+       // [ActionName("BulkSms1")]
         public HttpResponseMessage PostBulkSms(string apiKey,[FromBody]BulkSms bulkSMS)
         {
             APIResponse response = _smsService.ProcessInput(GetClientIp(), apiKey, bulkSMS);
