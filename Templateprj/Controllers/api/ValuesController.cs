@@ -18,7 +18,7 @@ namespace Templateprj.Controllers.api
     [RoutePrefix("Values")]
     public class ValuesController : ApiController
     {
-        //private readonly MailSender _prcs = new MailSender();
+        //private readonly MailSender _prcs = new MailSender1();
         private readonly MailSender _prcs = new MailSender();
 
         ApiDbprc _prc = new ApiDbprc();
