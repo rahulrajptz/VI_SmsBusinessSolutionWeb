@@ -1918,18 +1918,32 @@
                                 "className": "text-left",
 
                                 "mRender": function (data, type, full) {
-                                  if (full[15] == "4") {
-                                    return `<i class="btn fa fa-play" style="color:green;font-size:10px;" id="${full[0]}" onclick="changestatus(event,1)"  type="button"></i><i class="btn fa fa-pause" style="color:grey;font-size:10px;" id="${full[0]}" onclick="changestatus(event,2)"  type="button"></i><i class="btn fa fa-undo" style="color:yellow;font-size:10px;" id="${full[0]}" onclick="changestatus(event,3)"  type="button"></i><i class="btn fa fa-stop" style="color:red;font-size:10px;" id="${full[0]}" onclick="changestatus(event,4)" type="button"></i>`;
-                                   }
-                                  else {
+                                 //  alert(full[0]);
+                                  if (full[15] == "1") {
+                                       return '<button onclick="changestatus(event,2)" id="${full[0]}"><i class="fa fa-pause" style="color:black;font-size:10px;"></i></button><button onclick="changestatus(event,4)" id="${full[0]}"><i class="fa fa-stop" style="color:red;font-size:10px;"></i></button>';
+                    
+                                  }
+                                  else if (full[15] == "2") {
+                                       return '<button onclick="changestatus(event,3)" id="${full[0]}"><i class="fa fa-undo" style="color:yellow;font-size:10px;"></i></button><button onclick="changestatus(event,4)" id="${full[0]}"><i class="fa fa-stop" style="color:red;font-size:10px;"></i></button>';
+                               
+                                  }
+                                  else if (full[15] == "3") {
+                                      return '<button onclick="changestatus(event,1)" id="${full[0]}"><i class="fa fa-play" style="color:green;font-size:10px;"></i></button><button onclick="changestatus(event,4)" id="${full[0]}"><i class="fa fa-stop" style="color:red;font-size:10px;"></i></button>';
+                                  
+                                  }
+                                 //else if (full[15] == "4") {
+                                      
+                                      return '<button onclick="changestatus(event,4)" id="${full[0]}"><i class="fa fa-stop" style="color:red;font-size:10px;"></i></button>';
+                                 // }
+                                 // else {
 
-                                      return "";
+                                    //  return "";
 
-                                   }
-                             }
+                                 //  }
+                            }
 
 
-                            },
+                        },
                         ],
                         order: [],
                         fnInitComplete: function (o) {
@@ -2100,9 +2114,32 @@
                     //    reinitializeDataTable(tbl_rptstatus);
                     //    loadReportstatus();
                     //}
-                    SuccessMsg("Status stopped Successfully")
-                    reinitializeDataTable(tbl_rptstatus);
-                    loadReportstatus();
+                    var obj = JSON.parse(minames);
+                    if (obj.status == "1") {
+                        SuccessMsg("Status Changed Successfully")
+                        reinitializeDataTable(tbl_rptstatus);
+                        loadReportstatus();
+                    }
+                    else if (obj.status == "2") {
+                        SuccessMsg("Status paused Successfully")
+                        reinitializeDataTable(tbl_rptstatus);
+                        loadReportstatus();
+                    }
+                    else if (obj.status == "3") {
+                        SuccessMsg("Status resumed Successfully")
+                        reinitializeDataTable(tbl_rptstatus);
+                        loadReportstatus();
+                    }
+                    else if (obj.status == "4") {
+                        SuccessMsg("Status stopped Successfully")
+                        reinitializeDataTable(tbl_rptstatus);
+                        loadReportstatus();
+                    }
+                    else {
+                        ErrorMsg("Status not changed")
+                        reinitializeDataTable(tbl_rptstatus);
+                        loadReportstatus();
+                    }
 
                 }
             });

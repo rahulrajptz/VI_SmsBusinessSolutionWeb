@@ -342,7 +342,7 @@
                         <div class="col-sm-2">
                             <div class="form-group" id="jrange">
                                 @Html.Label("Date Range*")
-                                @Html.TextBoxFor(m => m.dateFrom, new { @class = "form-control", style = "background:white", required = "required", placeholder = "-From Date-", @readonly = "@readonly" })
+                                @Html.TextBoxFor(m => m.dateFrom, new { @class = "form-control", style = "background:white", required = "required", placeholder = "-From & To Dates-", @readonly = "@readonly" })
                                 @*@Html.TextBoxFor(m => m.dateTo, new { @class = "form-control", style = "background:white", required = "required", placeholder = "-To Date-", @readonly = "@readonly" })*@
                             </div>
                         </div>
@@ -361,7 +361,7 @@
                         <div class="col-sm-2">
                             <div class="form-group">
                                 @Html.Label("STATUS")
-                                @Html.DropDownListFor(m => m.reportStatus, Model.StatusList, new { @class = "form-control cl-black" })
+                                @Html.DropDownListFor(m => m.reportStatus, Model.StatusList, new { @class = "form-control cl-black", @required = "required" })
                             </div>
                         </div>
 
