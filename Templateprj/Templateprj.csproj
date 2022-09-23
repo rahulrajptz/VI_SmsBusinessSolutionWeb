@@ -450,6 +450,8 @@
     <Content Include="Content\flatpickr.css" />
     <Content Include="Content\Images\Login-Page-image-removebg-preview.png" />
     <Content Include="Content\Images\Login-Page-image.png" />
+    <Content Include="Content\Images\Logo.png" />
+    <Content Include="Content\Images\LogRound.png" />
     <Content Include="Content\Images\Mobile.png" />
     <Content Include="Content\Images\Prudent New.png" />
     <Content Include="Content\Images\Prudent.jpeg" />
