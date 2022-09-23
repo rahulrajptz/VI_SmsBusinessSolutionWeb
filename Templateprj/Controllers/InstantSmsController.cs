@@ -76,8 +76,8 @@ namespace Templateprj.Controllers
 
             DataTable dtstatuslist = _prc.getstatuslist();
             DataTable dttemplateList = _prc.getTemplateId();
-            model.StatusList = dtstatuslist.ToSelectList(listItemsAll, "VALUE", "TEXT");
-            model.TemplateList = dttemplateList.ToSelectList(listItemsAll, "VALUE", "TEXT");
+            model.StatusList = dtstatuslist.ToSelectList(listItems, "VALUE", "TEXT");
+            model.TemplateList = dttemplateList.ToSelectList(listItems, "VALUE", "TEXT");
             return View(model);
         }
 

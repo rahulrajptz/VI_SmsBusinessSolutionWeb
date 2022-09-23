@@ -435,20 +435,52 @@ namespace Templateprj.DataAccess
                 return null;
             }
         }
-        public DataTable getTemplateId(string senderid, string smstype)
+        //public DataTable getTemplateId(string senderid, string smstype)
+        //{
+        //    //`Web_get_template_id`(in N_Acc_id int, in N_sender_id varchar(20))
+        //    try
+        //    {
+        //        DataTable dt = new DataTable();
+        //        using (MySqlCommand cmd = new MySqlCommand("Web_get_template_id"))
+        //        {
+        //            cmd.CommandType = CommandType.StoredProcedure;
+        //            cmd.Parameters.Add("@N_Acc_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
+        //            cmd.Parameters.Add("@N_sender_id", MySqlDbType.VarChar, 200).Value = senderid;
+        //            cmd.Parameters.Add("@N_Sms_Type", MySqlDbType.VarChar, 200).Value = smstype;
+
+
+        //            using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+        //            {
+        //                con.Open();
+        //                cmd.Connection = con;
+        //                MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+        //                var dataTable = new DataTable();
+        //                dataAdapter.Fill(dataTable);
+        //                return dataTable;
+        //            }
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        LogWriter.Write("DataAccess.Capaign.getSenderIdFromsmstype::Exce ::  :: " + ex.Message);
+        //        return null;
+        //    }
+        //}
+
+        public string getcmapigndetailsfromcampid(string id)
         {
-            //`Web_get_template_id`(in N_Acc_id int, in N_sender_id varchar(20))
+            //  `Web_Get_Campaign_details`(In Ln_Campaign_Id int,out V_Out text)
             try
             {
-                DataTable dt = new DataTable();
-                using (MySqlCommand cmd = new MySqlCommand("Web_get_template_id"))
+                string response = "";
+                using (MySqlCommand cmd = new MySqlCommand("Web_Get_Campaign_details"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@N_Acc_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
-                    cmd.Parameters.Add("@N_sender_id", MySqlDbType.VarChar, 200).Value = senderid;
-                    cmd.Parameters.Add("@N_Sms_Type", MySqlDbType.VarChar, 200).Value = smstype;
+                    cmd.Parameters.Add("@Ln_Campaign_Id", MySqlDbType.Int32).Value = id;
+                    cmd.Parameters.Add("@V_Out", MySqlDbType.Text).Direction = ParameterDirection.Output;
 
-
+                    // DataTable dt = new DataTable();
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
@@ -456,40 +488,54 @@ namespace Templateprj.DataAccess
                         MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
                         var dataTable = new DataTable();
                         dataAdapter.Fill(dataTable);
-                        return dataTable;
+                        string text = "";
+                        string subtxt = "";
+                        foreach (DataRow row in dataTable.Rows)
+                        {
+                            string txt = row["UnicodeStatus"].ToString();
+                            if (txt == "8")
+                            {
+                                string text1 = row["templateId"].ToString();
+                                string text2 = row["smsContent"].ToString();
+                                string text3 = row["template"].ToString();
+                                if (text1 == "10" || text1 == "11")
+                                {
+                                    string str = text2.ToString();
+                                    string str1 = text3.ToString();
+                                    //  string correctString = "";
+                                    if (text2.Trim() != "" && text3.Trim() != "")
+                                    {
+                                        //  correctString = str.Replace("[PARAMETER]", "005B0050004100520041004D0045005400450052005D");
+                                        string s = "\\u" + Regex.Replace(text2, ".{4}", "$0\\u");
+                                        text = Regex.Unescape(s.Substring(0, s.Length - 2));
+                                        string s1 = "\\u" + Regex.Replace(text3, ".{4}", "$0\\u");
+                                        subtxt = Regex.Unescape(s1.Substring(0, s1.Length - 2));
+                                    }
+                                }
+                                if (text1 == "10" || text1 == "11")
+                                {
+                                    row["template"] = subtxt.ToString();
+                                    row["smsContent"] = text.ToString();
+                                }
+                                else
+                                {
+                                    string data1 = text3.Replace("\r\n", "");
+                                    row["template"] = data1;
+                                    string data = text2.Replace("\r\n", "");
+                                    row["smsContent"] = data;
+                                }
+                                response = "[{\"campaignName\":\"" + row["campaignName"] + "\",\"campaignType\":\"" + row["campaignType"] + "\",\"fromDate\":\"" + row["fromDate"] + "\",\"toDate\":\"" + row["toDate"] + "\",\"fromTime\":\"" + row["fromTime"] + "\",\"toTime\":\"" + row["toTime"] + "\",\"senderId\":\"" + row["senderId"] + "\", \"templateId\":\"" + row["template"] + "\",\"smsContent\":\"" + row["smsContent"] + "\"}]";
+
+
+                            }
+                            else
+                            {
+                                response = cmd.Parameters["@V_Out"].Value.ToString();
+                                return response;
+                            }
+                        }
+                        return response;
                     }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                LogWriter.Write("DataAccess.Capaign.getSenderIdFromsmstype::Exce ::  :: " + ex.Message);
-                return null;
-            }
-        }
-
-        public string getcmapigndetailsfromcampid(string id)
-        {
-           //  `Web_Get_Campaign_details`(In Ln_Campaign_Id int,out V_Out text)
-            try
-            {
-
-                using (MySqlCommand cmd = new MySqlCommand("Web_Get_Campaign_details"))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@Ln_Campaign_Id", MySqlDbType.Int32).Value = id;
-                    cmd.Parameters.Add("@V_Out", MySqlDbType.Text).Direction = ParameterDirection.Output;
-
-                    DataTable dt = new DataTable();
-                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
-                    {
-                       
-                        con.Open();
-                        cmd.Connection = con;
-                        cmd.ExecuteNonQuery();
-                    }
-                    string response = cmd.Parameters["@V_Out"].Value.ToString();
-                    return response;
                 }
             }
             catch (Exception ex)
@@ -1218,21 +1264,25 @@ namespace Templateprj.DataAccess
 
             try
             {
-                //`Web_Get_Campaign_Summary_Report`(IN n_Acc_Id int, 
-                //                                 IN n_user_id int, 
-                //                                 IN Ln_Camp_name_Id int, 
-                //                                 IN Lv_From_Date varchar(50),
-                //                                 IN Ln_Camp_Status int)
-
+                //`Web_Instant_Sms_Report`(
+                //in n_MSISDN_in bigint(21), in v_template_id_in varchar(200),
+                //in v_fromdate varchar(50), in v_todate varchar(50),
+                //in n_status int
+                //)
+                //`Web_Instant_Sms_Report`(
+                //    in n_MSISDN_in bigint(21), in v_template_id_in varchar(200),
+                //    in v_DateRange_In varchar(100),
+                //    in n_status int
+                //    )
 
                 using (MySqlCommand cmd = new MySqlCommand("Web_Instant_Sms_Report"))
                 {
 
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@n_MSISDN_in", MySqlDbType.Int32).Value = model.MSISDN;
-                    cmd.Parameters.Add("@v_template_id_in", MySqlDbType.VarChar).Value = model.Template;
-                    cmd.Parameters.Add("@v_fromdate", MySqlDbType.VarChar).Value = model.dateFrom;
-                    cmd.Parameters.Add("@v_todate", MySqlDbType.VarChar).Value = model.dateTo;
+                    cmd.Parameters.Add("@n_MSISDN_in", MySqlDbType.Int64).Value = model.MSISDN;
+                    cmd.Parameters.Add("@v_template_id_in", MySqlDbType.VarChar).Value = model.template;
+                    cmd.Parameters.Add("@v_DateRange_In", MySqlDbType.VarChar).Value = model.dateFrom;
+                    //cmd.Parameters.Add("@v_todate", MySqlDbType.VarChar).Value = model.dateTo;
                     cmd.Parameters.Add("@n_status", MySqlDbType.Int32).Value = model.reportStatus;
 
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
@@ -1248,7 +1298,7 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.CampaignDb.getcampaigndetailreport :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.CampaignDb.getinstantsmsreport :: Exception :: " + ex.Message);
                 return "";
             }
         }

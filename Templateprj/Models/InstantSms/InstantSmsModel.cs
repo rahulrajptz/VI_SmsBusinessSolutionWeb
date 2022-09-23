@@ -25,9 +25,9 @@ namespace Templateprj.Models.InstantSms
 
         public string SmsContent { get; set; }
         public string dateFrom { get; set; }
-        public string dateTo { get; set; }
+        //public string dateTo { get; set; }
         public string MSISDN { get; set; }
-        public int Template { get; set; }
+        public string template { get; set; }
         public SelectList TemplateList { get; set; }
         public int reportStatus { get; set; }
         public SelectList StatusList { get; set; }
