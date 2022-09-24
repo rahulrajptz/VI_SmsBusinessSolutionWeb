@@ -781,10 +781,10 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4" id="schedulenameDiv">
                                 @Html.Label("Schedule Time")
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" id="scheduleDiv">
                                 <div class="form-group" style="margin-left:-139px">
                                     @Html.TextBoxFor(m => m.scheduleDate, new { @class = "form-control cl-black", @style = "width:105px" })
 
@@ -792,10 +792,10 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4" id="prioritynameDiv">
                                 @Html.Label("Priority*")
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" id="priorityDiv">
                                 <div class="form-group" style="margin-left:-139px">
                                     @Html.DropDownListFor(m => m.priority, Model.priorityList, new { @class = "form-control cl-black", @required = "required", @style = "width:105px" })
 
@@ -954,27 +954,12 @@
 
             </div>
 
-
-
-
         </div>
-
-
-
-
 
         @*</form>*@
 
     }
 </div>
-
-
-
-
-
-
-
-
 
 
 @section scripts {
@@ -1355,10 +1340,6 @@
                                 //("#senderId").find("select").val("");
                                 //("#templateId").find("select").val("");
 
-
-
-
-
                                 SuccessMsg(jsondata.response);
                                 getcampigndrowpdown();
                                 redirectToBaseupload();
@@ -1369,13 +1350,6 @@
                             else {
                                 ErrorMsg(jsondata.response);
                             }
-
-
-
-
-
-
-
 
                         }
                     });
@@ -1439,10 +1413,6 @@
                             else {
                                 ErrorMsg(jsondata.response);
                             }
-
-
-
-
 
 
                         }
@@ -1747,6 +1717,45 @@
 
             }
         });
+
+        $('#uploadCampaignstarttype').on('change', function () {
+
+            if ($('#uploadCampaignstarttype').val() == "1") {
+
+                $('#prioritynameDiv').show();
+                $('#priorityDiv').show();
+                $('#schedulenameDiv').hide();
+                $('#scheduleDiv').hide();
+
+            }
+            else if ($('#uploadCampaignstarttype').val() == "2") {
+                $('#prioritynameDiv').show();
+                $('#priorityDiv').show();
+                $('#schedulenameDiv').show();
+                $('#scheduleDiv').show();
+            }
+            else if ($('#uploadCampaignstarttype').val() == "3") {
+
+                $('#prioritynameDiv').show();
+                $('#priorityDiv').show();
+                $('#schedulenameDiv').hide();
+                $('#scheduleDiv').hide();
+
+            }
+            else {
+                $('#prioritynameDiv').hide();
+                $('#priorityDiv').hide();
+                $('#schedulenamediv').hide();
+                $('#schedulediv').hide();
+
+                //const container = document.querySelector('#uploadCampaignstarttype');
+                //removeAllChildNodes(container);
+                //document.getElementById("smsContent").innerHTML = "";
+                //$('#templateId').find("input").val("");
+
+            }
+        });
+
         $('#btn_show').click(function () {
 
             if ($("#Idform").valid()) {
@@ -2004,7 +2013,19 @@
 
                         data: resp.tdata,
                         columns: resp.thead,
-                        'columnDefs': [
+                        dom: 'Bfrtip',
+                        buttons: [
+                            {
+                                extend: 'excelHtml5',
+                                title: "Campaign Report",
+                            },
+                            {
+                                extend: 'csvHtml5',
+                                title: "Campaign Report",
+                            }
+
+                        ],
+                        //'columnDefs': [
 
                             //{
                             //    "targets": 0,
