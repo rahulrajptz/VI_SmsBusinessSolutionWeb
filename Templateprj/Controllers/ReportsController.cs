@@ -127,16 +127,16 @@ namespace Templateprj.Controllers
             else if (status == -2)
             {
                 Response.StatusCode = 507;
-                return Content("Out of Memory", "text/csv");
+                return Content("Out of Memory", "text/xlsx");
             }
             else if (status == 9)
             {
-                return Content("No data found", "text/csv");
+                return Content("No data found", "text/xlsx");
             }
             else
             {
                 Response.StatusCode = 503;
-                return Content("Something went wrong", "text/csv");
+                return Content("Something went wrong", "text/xlsx");
             }
         }
 

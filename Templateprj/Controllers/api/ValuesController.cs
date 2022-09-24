@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mail;
-using System.Net.Security;
 using System.Text;
 using System.Web;
 using System.Web.Http;
@@ -22,7 +18,7 @@ namespace Templateprj.Controllers.api
     [RoutePrefix("Values")]
     public class ValuesController : ApiController
     {
-        //private readonly MailSender _prcs = new MailSender();
+        //private readonly MailSender _prcs = new MailSender1();
         private readonly MailSender _prcs = new MailSender();
 
         ApiDbprc _prc = new ApiDbprc();
