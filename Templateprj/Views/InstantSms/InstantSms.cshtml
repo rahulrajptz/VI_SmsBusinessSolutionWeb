@@ -342,7 +342,7 @@
                         <div class="col-sm-2">
                             <div class="form-group" id="jrange">
                                 @Html.Label("Date Range*")
-                                @Html.TextBoxFor(m => m.dateFrom, new { @class = "form-control", style = "background:white", required = "required", placeholder = "-From Date-", @readonly = "@readonly" })
+                                @Html.TextBoxFor(m => m.dateFrom, new { @class = "form-control", style = "background:white", required = "required", placeholder = "-From & To Dates-", @readonly = "@readonly" })
                                 @*@Html.TextBoxFor(m => m.dateTo, new { @class = "form-control", style = "background:white", required = "required", placeholder = "-To Date-", @readonly = "@readonly" })*@
                             </div>
                         </div>
@@ -355,23 +355,23 @@
                         <div class="col-sm-2">
                             <div class="form-group">
                                 @Html.Label("TEMPLATE ID")
-                                @Html.DropDownListFor(m => m.Template, Model.TemplateList, new { @class = "form-control cl-black", @required = "required" })
+                                @Html.DropDownListFor(m => m.template, Model.TemplateList, new { @class = "form-control cl-black", @required = "required" })
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">
                                 @Html.Label("STATUS")
-                                @Html.DropDownListFor(m => m.reportStatus, Model.StatusList, new { @class = "form-control cl-black"})
+                                @Html.DropDownListFor(m => m.reportStatus, Model.StatusList, new { @class = "form-control cl-black", @required = "required" })
                             </div>
                         </div>
 
                         <div class="row pull-right">
-                            <button type="button" id="btn_search" style="height:30px;width:60px;background-color:#5f004b;color:white;" class="btn btn-block">
+                            <button type="button" id="btn_search" style="height:30px;width:60px;background-color:#5f004b;color:white;margin-left:20px;margin-top:16px;" class="btn btn-block">
                                 <i class="fa fa-search" style="font-size:14px;"></i>
                             </button>
-                            <button type="button" id="btn_download" style="height:30px;width:60px;background-color:#5f004b;color:white;margin-left:10px;" class="btn btn-block">
+                            @*<button type="button" id="btn_download" style="height:30px;width:60px;background-color:#5f004b;color:white;margin-left:10px;margin-top:16px;" class="btn btn-block">
                                 <i class="fa fa-download" style="font-size:14px;"></i>
-                            </button>
+                            </button>*@
                         </div>
                     </div>
 
@@ -382,7 +382,7 @@
 
                             <div class="card-body col-sm-12" style="width:1100px">
                                 <div class="col-sm-12" id="divTablereport" style="overflow-x:auto !important;">
-                                    <table id="tbl_rptreport" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
+                                    <table id="tbl_report" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
                                 </div>
                                 <div class="alert alert-info" id="divNoData" style="display:none;">
                                     <span>No data found for the search</span>
@@ -969,12 +969,7 @@
             });
         }
 
-        //$('.date').datepicker({
-        //    multidate: true,
-        //    format: 'dd-mm-yyyy'
-        //});
-
-        $("#dateFrom").flatpickr({
+       $("#dateFrom").flatpickr({
             //dateFormat: "d/m/Y",
             enableTime: false,
             mode:"multiple",
@@ -982,7 +977,32 @@
             maxDate: "today",
 
         });
-        function loadReportreport() {
+
+        $('#btn_search').click(function () {
+
+            if ($("#Idform").valid()) {
+                reinitializeDataTable(tbl_report);
+                loadReport();
+            }
+
+            else {
+                ErrorMsg("Please select all fields")
+            }
+
+        });
+
+        function reinitializeDataTable(table) {
+            var $table = $(table);
+            if ($.fn.dataTable.isDataTable(table)) {
+                dt = $table.DataTable();
+                dt.destroy();
+            }
+            $(table).empty();
+            $table.hide();
+        }
+
+
+        function loadReport() {
 
             $("#loading").show();
             $("#divNoData").hide();
@@ -1000,15 +1020,27 @@
                     ErrorMsg('No data available');
                 }
                 else {
-                    $("#tbl_rptreport").show();
+                    $("#tbl_report").show();
                     $("#divTable").show();
-                    rpt_datatable = $("#tbl_rptreport").DataTable({
+                    rpt_datatable = $("#tbl_report").DataTable({
                         responsive: true,
                         deferRender: true,
                         "destroy": true,
 
                         data: resp.tdata,
                         columns: resp.thead,
+                        dom: 'Bfrtip',
+                        buttons: [
+                            {
+                                extend: 'excelHtml5',
+                                title: "Campaign Report",
+                            },
+                            {
+                                extend: 'csvHtml5',
+                                title: "Campaign Report",
+                            }
+
+                        ],
                         //'columnDefs': [
 
                         //    {

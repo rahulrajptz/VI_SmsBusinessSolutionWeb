@@ -16,15 +16,19 @@ namespace Templateprj.Repositories.Services
         public InstantSmsModel GetInstantSms()
         {
             CampaignDb _prc = new CampaignDb();
+            SelectListItem selectListItem = new SelectListItem { Text = "-Select-", Value = "" };
+            List<SelectListItem> listItems = new List<SelectListItem>();
+            listItems.Add(selectListItem);
+
             DataTable dtSmstype = _prc.getsmstypelist();
             DataTable dtstatuslist = _prc.getstatuslist();
+            DataTable dttemplateList = _prc.getTemplateId();
 
-            List<SelectListItem> listItems = new List<SelectListItem>() { new SelectListItem { Text = "-Select-", Value = "" } };
-      
             return new InstantSmsModel()
             {
                 SmsTypes = dtSmstype.ToSelectList(listItems, "VALUE", "TEXT"),
                 StatusList = dtstatuslist.ToSelectList(listItems, "VALUE", "TEXT"),
+                TemplateList = dttemplateList.ToSelectList(listItems, "VALUE", "TEXT"),
                 Senders = GetSelectListDefault(),
                 Templates = GetSelectListDefault()
             };
