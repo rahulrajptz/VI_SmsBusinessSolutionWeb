@@ -66,7 +66,6 @@
         padding: 0px 5px !important;
         font-size: 12px !important;
         background-color: white !important;
-        
         /*color:#5f004b;*/
     }
 
@@ -770,10 +769,10 @@
                     </p>
                     <div class="collapse  ml-5" id="collapseupload" style="width: 88%;">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4" id="starttypeDiv">
                                 @Html.Label("Campaign Start Type*")
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" id="starttypelistDiv">
                                 <div class="form-group" style="margin-left:-139px">
                                     @Html.DropDownListFor(m => m.uploadCampaignstarttype, Model.uploadCampaignstarttypeList, new { @class = "form-control cl-black", @required = "required", @style = "width:105px" })
 
@@ -797,7 +796,7 @@
                             </div>
                             <div class="col-md-4" id="priorityDiv">
                                 <div class="form-group" style="margin-left:-139px">
-                                    @Html.DropDownListFor(m => m.priority, Model.priorityList, new { @class = "form-control cl-black", @required = "required", @style = "width:105px" })
+                                    @Html.DropDownListFor(m => m.uploadpriority, Model.uploadpriorityList, new { @class = "form-control cl-black", @required = "required", @style = "width:105px" })
 
                                 </div>
                             </div>
@@ -954,7 +953,14 @@
 
             </div>
 
+
+
+
         </div>
+
+
+
+
 
         @*</form>*@
 
@@ -1340,6 +1346,10 @@
                                 //("#senderId").find("select").val("");
                                 //("#templateId").find("select").val("");
 
+
+
+
+
                                 SuccessMsg(jsondata.response);
                                 getcampigndrowpdown();
                                 redirectToBaseupload();
@@ -1350,6 +1360,13 @@
                             else {
                                 ErrorMsg(jsondata.response);
                             }
+
+
+
+
+
+
+
 
                         }
                     });
@@ -1413,6 +1430,10 @@
                             else {
                                 ErrorMsg(jsondata.response);
                             }
+
+
+
+
 
 
                         }
@@ -1718,6 +1739,7 @@
             }
         });
 
+        //uploadCampaignstarttype
         $('#uploadCampaignstarttype').on('change', function () {
 
             if ($('#uploadCampaignstarttype').val() == "1") {
@@ -1726,7 +1748,7 @@
                 $('#priorityDiv').show();
                 $('#schedulenameDiv').hide();
                 $('#scheduleDiv').hide();
-
+                
             }
             else if ($('#uploadCampaignstarttype').val() == "2") {
                 $('#prioritynameDiv').show();
@@ -1916,44 +1938,34 @@
                         data: resp.tdata,
                         columns: resp.thead,
                         'columnDefs': [
-                            {
-                                "targets": 0,
-                                "className": "text-left",
-                                "visible": false,
-                                "searchable": false
-                            },
+                            //{
+                            //    "targets": 0,
+                            //    "className": "text-left",
+                            //    "visible": false,
+                            //    "searchable": false
+                            //},
                             {
                                 "targets": 15,
                                 "className": "text-left",
 
                                 "mRender": function (data, type, full) {
-                                 //  alert(full[0]);
                                     if (full[15] == "1") {
                                         return '<button onclick="changestatus(event,1)" id="${full[0]}"><i class="fa fa-play" style="color:green;font-size:10px;"></i></button>';
-                                      
-                                  }
+                                    }
                                     else if (full[15] == "2") {
                                         return '<button onclick="changestatus(event,2)" id="${full[0]}"><i class="fa fa-pause" style="color:black;font-size:10px;"></i></button><button onclick="changestatus(event,4)" id="${full[0]}"><i class="fa fa-stop" style="color:red;font-size:10px;"></i></button>';
 
-                                       
-                                  }
+
+                                    }
                                     else if (full[15] == "3") {
                                         return '<button onclick="changestatus(event,3)" id="${full[0]}"><i class="fa fa-undo" style="color:yellow;font-size:10px;"></i></button><button onclick="changestatus(event,4)" id="${full[0]}"><i class="fa fa-stop" style="color:red;font-size:10px;"></i></button>';
 
-                                  }
-                                 //else if (full[15] == "0") {
-                                      
-                                 //     return '<button onclick="changestatus(event,4)" id="${full[0]}"><i class="fa fa-stop" style="color:red;font-size:10px;"></i></button>';
-                                 // }
-                                  else {
-
-                                      return "";
-
-                                   }
-                            }
-
-
-                        },
+                                    }
+                                    else {
+                                        return "";
+                                    }
+                             }
+                            },
                         ],
                         order: [],
                         fnInitComplete: function (o) {
@@ -2025,33 +2037,33 @@
                             }
 
                         ],
-                        //'columnDefs': [
+                        'columnDefs': [
 
-                            //{
-                            //    "targets": 0,
-                            //    "className": "text-left",
-                            //    "visible": false,
-                            //    "searchable": false
-
-
+                        //    {
+                        //        "targets": 0,
+                        //        "className": "text-left",
+                        //        "visible": false,
+                        //        "searchable": false
 
 
-                            //},
+
+
+                        //    },
                         {
                                 "targets": 13,
                                 "className": "text-left",
 
                                 "mRender": function (data, type, full) {
-                                   
-                                            //if (full[13] == 0) {
-                                            //    return "NA";
-                                            //}
-                                            //else {
-                                                return '<a class="btn fa fa-download" id="download" onclick="download();" </a>';
-                                                //return '<button class="btn fa fa-upload" id="upload" "  type="button"></button>';
-                                            //}
-                                        
-                                    }
+                        //            if (full[10] == 0) {
+                        //                return "NA";
+                        //            }
+                        //            else {
+
+                                          return '<a class="btn fa fa-download" id="download" onclick="download();" </a>';
+                        //                return '<a class="btn fa fa-upload" id="upload"  ' + full[10] + '>' + '' + '</a>';
+                        //                return '<button class="btn fa fa-upload" id="upload" "  type="button"></button>';
+                        //            }
+                                }
 
 
                         },
@@ -2136,6 +2148,9 @@
                     //    reinitializeDataTable(tbl_rptstatus);
                     //    loadReportstatus();
                     //}
+                    //SuccessMsg("Status stopped Successfully")
+                    //reinitializeDataTable(tbl_rptstatus);
+                    //loadReportstatus();
                     var obj = JSON.parse(minames);
                     if (obj.cstatus == "1") {
                         SuccessMsg("Status Changed Successfully")
@@ -2213,7 +2228,6 @@
             });
         }
 
- 
             //samplefiledownlod
         $('#samplefiledownlod').on('click', function () {
             var id = $("#uploadCampaignName").val();
@@ -2232,7 +2246,7 @@
 
         });
 
-
+        
         function geteachcampaigndetails(campaignid) {
 
             $.ajax({
@@ -2334,6 +2348,8 @@
                     fileData.append(files[0].name, files[0]);
                     fileData.append("CampaignId", $("#uploadCampaignName").val());
                     fileData.append("starttype", $("#uploadCampaignstarttype").val());
+                    fileData.append("schedule", $("#scheduleDate").val());
+                    fileData.append("Priority", $("#uploadpriority").val());
                     $.ajax({
                         url: '@Url.Action(MVC.Campaign.CampaignBase())',
                         type: 'post',

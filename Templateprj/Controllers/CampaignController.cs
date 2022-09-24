@@ -467,7 +467,7 @@ namespace Templateprj.Controllers
 
             model.uploadCampaignNameList = dtcmpaignamelist.ToSelectList(listItems, "VALUE", "TEXT");
             model.uploadCampaignstarttypeList = dtcampaignstarttype.ToSelectList(listItems, "VALUE", "TEXT");
-            model.priorityList = dtprioritylist.ToSelectList(listItems, "VALUE", "TEXT");
+            model.uploadpriorityList = dtprioritylist.ToSelectList(listItems, "VALUE", "TEXT");
 
 
             model.statuscampaignNameList = dtcmpaignamelist.ToSelectList(listItemsAll, "VALUE", "TEXT");
