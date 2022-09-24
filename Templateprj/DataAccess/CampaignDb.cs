@@ -567,79 +567,80 @@ namespace Templateprj.DataAccess
 
         public string getTemplatebytemplateId(string template)
         {
-            string response = "";
-
+            
             //`Web_Get_Template`(In n_template_Id int)
-
 
             try
             {
+                DataTable dt = new DataTable();
+                string response = "";
                 using (MySqlCommand cmd = new MySqlCommand("Web_Get_Template"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@in_customer_dtl_id", MySqlDbType.Int32).Value = template;
+                    //cmd.Parameters.Add("@N_user_id", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
+                    //cmd.Parameters.Add("@N_Acc_Id", MySqlDbType.Int32).Value = HttpContext.Current.Session["AccountID"].ToString();
+                    cmd.Parameters.Add("@n_template_Id", MySqlDbType.Int32).Value = template;
                     cmd.Parameters.Add("@n_message", MySqlDbType.LongText).Direction = ParameterDirection.Output;
-                   
 
 
-                    DataTable dt = new DataTable();
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
                         cmd.Connection = con;
-                        cmd.ExecuteNonQuery();
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        var dataTable = new DataTable();
+                        dataAdapter.Fill(dataTable);
+                        string text = "";
+                        // response = cmd.Parameters["@n_message"].Value.ToString();
+                        foreach (DataRow row in dataTable.Rows)
+                        {
+                            string txt = row["unicode_status"].ToString();
+                            if (txt == "8")
+                            {
+                                string text1 = row["template_id"].ToString();
+                                string text2 = row["template"].ToString();
+                                if (text1 == "10" || text1 == "11")
+                                {
+                                    string str = text2.ToString();
+
+                                    //  string correctString = "";
+                                    if (text2.Trim() != "")
+                                    {
+                                        //  correctString = str.Replace("[PARAMETER]", "005B0050004100520041004D0045005400450052005D");
+                                        string s = "\\u" + Regex.Replace(text2, ".{4}", "$0\\u");
+                                        text = Regex.Unescape(s.Substring(0, s.Length - 2));
+
+                                    }
+                                }
+                                if (text1 == "10" || text1 == "11")
+                                {
+                                    row["template"] = text.ToString();
+                                }
+                                else
+                                {
+                                    string data = text2.Replace("\r\n", "");
+                                    row["template"] = data;
+                                }
+                                response = "[{ \"smsLength\":\"" + row["sms_length"] + "\", \"variableCount\":" + row["variable_cnt"] + ",\"templateContent\":\"" + row["template"] + "\"}]";
+
+
+                            }
+                            else
+                            {
+                                response = cmd.Parameters["@n_message"].Value.ToString();
+                                return response;
+                            }
+                        }
+                        //dataTable.Columns.Remove("unicode_flag");
+                        return response;
                     }
-
-                    response = cmd.Parameters["@n_message"].Value.ToString();
-                    //string text = "";
-                    //foreach (DataRow row in dt.Rows)
-                    //{
-                    //   string text1 = row["template_id"].ToString();
-                    //    string text2 = row["templateContent"].ToString();
-                    //    if (text1 == "10")
-                    //    {
-
-                    //        //RS.SOURCE_ADDR As "Msisdn",
-                    //        //RS.DESTINATION_ADDR As "VMN",
-                    //        //RS.SHORT_MESSAGE As "Message",
-                    //        //RS.RECEIVED_TIME As "Receive Time"
-
-                    //        string str = text2.ToString();
-
-                    //        //  string correctString = "";
-                    //        if (text2.Trim() != "")
-                    //        {
-                    //            //  correctString = str.Replace("[PARAMETER]", "005B0050004100520041004D0045005400450052005D");
-                    //            string s = "\\u" + Regex.Replace(text2, ".{4}", "$0\\u");
-                    //            text = Regex.Unescape(s.Substring(0, s.Length - 2));
-
-                    //        }
-                    //    }
-                    //    if (text1 == "10")
-                    //    {
-                    //        row["templateContent"] = text.ToString();
-                    //    }
-                    //    else
-                    //    {
-                    //        string data = text2.Replace("\r\n", "");
-                    //        row["templateContent"] = data;
-                    //    }
-                    //    //  dt.ImportRow(row);
-                    //    // dt.Rows.Add(row);
-                    //    //  dt.AcceptChanges();
-
-                    //    //dt.ImportRow(row);
-
-                    //}
-                    //dt.Columns.Remove("unicode_flag");
-                    //con.Close();
-                    return response;
                 }
+
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.CampaignDb.getTemplatebytemplateId :: Exception :: " + ex.Message);
-                return "";
+                LogWriter.Write("DataAccess.Capaign.getTemplatebytemplateId::Exce ::  :: " + ex.Message);
+                return null;
             }
         }
 
