@@ -1919,27 +1919,28 @@
 
                                 "mRender": function (data, type, full) {
                                  //  alert(full[0]);
-                                  if (full[15] == "1") {
-                                       return '<button onclick="changestatus(event,2)" id="${full[0]}"><i class="fa fa-pause" style="color:black;font-size:10px;"></i></button><button onclick="changestatus(event,4)" id="${full[0]}"><i class="fa fa-stop" style="color:red;font-size:10px;"></i></button>';
-                    
-                                  }
-                                  else if (full[15] == "2") {
-                                       return '<button onclick="changestatus(event,3)" id="${full[0]}"><i class="fa fa-undo" style="color:yellow;font-size:10px;"></i></button><button onclick="changestatus(event,4)" id="${full[0]}"><i class="fa fa-stop" style="color:red;font-size:10px;"></i></button>';
-                               
-                                  }
-                                  else if (full[15] == "3") {
-                                      return '<button onclick="changestatus(event,1)" id="${full[0]}"><i class="fa fa-play" style="color:green;font-size:10px;"></i></button><button onclick="changestatus(event,4)" id="${full[0]}"><i class="fa fa-stop" style="color:red;font-size:10px;"></i></button>';
-                                  
-                                  }
-                                 //else if (full[15] == "4") {
+                                    if (full[15] == "1") {
+                                        return '<button onclick="changestatus(event,1)" id="${full[0]}"><i class="fa fa-play" style="color:green;font-size:10px;"></i></button>';
                                       
-                                      return '<button onclick="changestatus(event,4)" id="${full[0]}"><i class="fa fa-stop" style="color:red;font-size:10px;"></i></button>';
+                                  }
+                                    else if (full[15] == "2") {
+                                        return '<button onclick="changestatus(event,2)" id="${full[0]}"><i class="fa fa-pause" style="color:black;font-size:10px;"></i></button><button onclick="changestatus(event,4)" id="${full[0]}"><i class="fa fa-stop" style="color:red;font-size:10px;"></i></button>';
+
+                                       
+                                  }
+                                    else if (full[15] == "3") {
+                                        return '<button onclick="changestatus(event,3)" id="${full[0]}"><i class="fa fa-undo" style="color:yellow;font-size:10px;"></i></button><button onclick="changestatus(event,4)" id="${full[0]}"><i class="fa fa-stop" style="color:red;font-size:10px;"></i></button>';
+
+                                  }
+                                 //else if (full[15] == "0") {
+                                      
+                                 //     return '<button onclick="changestatus(event,4)" id="${full[0]}"><i class="fa fa-stop" style="color:red;font-size:10px;"></i></button>';
                                  // }
-                                 // else {
+                                  else {
 
-                                    //  return "";
+                                      return "";
 
-                                 //  }
+                                   }
                             }
 
 
@@ -2003,37 +2004,37 @@
 
                         data: resp.tdata,
                         columns: resp.thead,
-                        //'columnDefs': [
+                        'columnDefs': [
 
-                        //    {
-                        //        "targets": 0,
-                        //        "className": "text-left",
-                        //        "visible": false,
-                        //        "searchable": false
-
-
+                            //{
+                            //    "targets": 0,
+                            //    "className": "text-left",
+                            //    "visible": false,
+                            //    "searchable": false
 
 
-                        //    },
-                        //{
-                        //        "targets": 16,
-                        //        "className": "text-left",
-
-                        //        "mRender": function (data, type, full) {
-                        //            if (full[10] == 0) {
-                        //                return "NA";
-                        //            }
-                        //            else {
 
 
-                        //                return '<a class="btn fa fa-upload" id="upload"  ' + full[10] + '>' + '' + '</a>';
-                        //                return '<button class="btn fa fa-upload" id="upload" "  type="button"></button>';
-                        //            }
-                        //        }
+                            //},
+                        {
+                                "targets": 13,
+                                "className": "text-left",
+
+                                "mRender": function (data, type, full) {
+                                   
+                                            //if (full[13] == 0) {
+                                            //    return "NA";
+                                            //}
+                                            //else {
+                                                return '<a class="btn fa fa-download" id="download" onclick="download();" </a>';
+                                                //return '<button class="btn fa fa-upload" id="upload" "  type="button"></button>';
+                                            //}
+                                        
+                                    }
 
 
-                        //},
-                        //],
+                        },
+                        ],
                         order: [],
                         fnInitComplete: function (o) {
                             $("#loading").hide();
@@ -2115,22 +2116,22 @@
                     //    loadReportstatus();
                     //}
                     var obj = JSON.parse(minames);
-                    if (obj.status == "1") {
+                    if (obj.cstatus == "1") {
                         SuccessMsg("Status Changed Successfully")
                         reinitializeDataTable(tbl_rptstatus);
                         loadReportstatus();
                     }
-                    else if (obj.status == "2") {
+                    else if (obj.cstatus == "2") {
                         SuccessMsg("Status paused Successfully")
                         reinitializeDataTable(tbl_rptstatus);
                         loadReportstatus();
                     }
-                    else if (obj.status == "3") {
+                    else if (obj.cstatus == "3") {
                         SuccessMsg("Status resumed Successfully")
                         reinitializeDataTable(tbl_rptstatus);
                         loadReportstatus();
                     }
-                    else if (obj.status == "4") {
+                    else if (obj.cstatus == "4") {
                         SuccessMsg("Status stopped Successfully")
                         reinitializeDataTable(tbl_rptstatus);
                         loadReportstatus();
@@ -2191,16 +2192,7 @@
             });
         }
 
-
-
-
-
-
-
-
-
-
-
+ 
             //samplefiledownlod
         $('#samplefiledownlod').on('click', function () {
             var id = $("#uploadCampaignName").val();
@@ -2212,16 +2204,12 @@
                 success: function (response) {
                     console.log(response, "response");
                     if (response != null && response != "") {
-                        download(response, "Upload.xls");
+                        download(response, "Upload.xlsx");
                     }
                 }
             });
 
         });
-
-
-
-
 
 
         function geteachcampaigndetails(campaignid) {
