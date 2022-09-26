@@ -606,6 +606,34 @@ namespace Templateprj.Controllers
             }
             
         }
-       
+        public virtual ActionResult getcampaignReportDownload(SMSCampaignModel model)
+        {
+            int status = 0;
+            try
+            {
+                string fileName = "";
+                fileName = "Detailedrpt" + "_" + DateTime.Now.ToString();
+                _prc.getcampaignreportDownload(model, fileName);
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write(DateTime.Now + "::ReportsController::DetailedReport::Exception::" + ex.Message);
+            }
+            if (status == 1) { return View("DetailedReport", model); }
+            else if (status == -2)
+            {
+                Response.StatusCode = 507;
+                return Content("Out of Memory", "text/xlsx");
+            }
+            else if (status == 9)
+            {
+                return Content("No data found", "text/xlsx");
+            }
+            else
+            {
+                Response.StatusCode = 503;
+                return Content("Something went wrong", "text/xlsx");
+            }
+        }
     }
 }

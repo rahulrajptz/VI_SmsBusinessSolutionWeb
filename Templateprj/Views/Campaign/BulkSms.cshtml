@@ -1627,9 +1627,9 @@
         //fromTime
         
 
-        $('#templateId').on('change', function () {
+        $('#template').on('change', function () {
 
-            var template = $('#templateId').val();
+            var template = $('#template').val();
             var smstype = $('#smsType').val();
             var variablecnt;
             //var variableNames;
@@ -1949,12 +1949,12 @@
                                 "className": "text-left",
 
                                 "mRender": function (data, type, full) {
+                                 //   alert(full[0]);
                                     if (full[15] == "1") {
-                                        return '<button onclick="changestatus(event,1)" id="${full[0]}"><i class="fa fa-play" style="color:green;font-size:10px;"></i></button>';
+                                        return '<button onclick="changestatus(event,1)" id="167"><i class="fa fa-play" style="color:green;font-size:10px;"></i></button>';
                                     }
                                     else if (full[15] == "2") {
                                         return '<button onclick="changestatus(event,2)" id="${full[0]}"><i class="fa fa-pause" style="color:black;font-size:10px;"></i></button><button onclick="changestatus(event,4)" id="${full[0]}"><i class="fa fa-stop" style="color:red;font-size:10px;"></i></button>';
-
 
                                     }
                                     else if (full[15] == "3") {
@@ -2130,8 +2130,9 @@
             $("#uploadbasenav").addClass("show active");
         }
 
-        function changestatus(event,cstatus) {
-            var campaignid = event.target.id;
+        function changestatus(event, cstatus) {
+            alert(event.target.id);
+            var campaignid = 63;//event.target.id;
              $.ajax({
                 url: "@Url.Action(MVC.Campaign.changeCampaignStatus())",
                 type: 'GET',
