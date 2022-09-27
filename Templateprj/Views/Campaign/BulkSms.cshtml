@@ -1949,19 +1949,22 @@
                                 "className": "text-left",
 
                                 "mRender": function (data, type, full) {
-                                 //   alert(full[0]);
+                                  
                                     if (full[15] == "1") {
-                                        return '<button onclick="changestatus(event,1)" id="167"><i class="fa fa-play" style="color:green;font-size:10px;"></i></button>';
+                                      //  return '<button onclick="changestatus(this,1)" id='+full[0]+' class="fa fa-play" style="color:green;font-size:10px;"></button>';
+                                        return '<i onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" style="color:green;font-size:10px;"></i>';
                                     }
-                                    else if (full[15] == "2") {
-                                        return '<button onclick="changestatus(event,2)" id="${full[0]}"><i class="fa fa-pause" style="color:black;font-size:10px;"></i></button><button onclick="changestatus(event,4)" id="${full[0]}"><i class="fa fa-stop" style="color:red;font-size:10px;"></i></button>';
-
+                                    else if (full[15] == "4" || full[15] == "2") {
+                                        return '<i onclick="changestatus(this,2)" id=' + full[0] + ' class="fa fa-pause" style="color:black;font-size:10px;"></i>&nbsp; &nbsp;<i onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" style="color:red;font-size:10px;"></i>';
+                                        //return '<i onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" style="color:green;font-size:10px;"></i>';
                                     }
                                     else if (full[15] == "3") {
-                                        return '<button onclick="changestatus(event,3)" id="${full[0]}"><i class="fa fa-undo" style="color:yellow;font-size:10px;"></i></button><button onclick="changestatus(event,4)" id="${full[0]}"><i class="fa fa-stop" style="color:red;font-size:10px;"></i></button>';
+                                        return '<i onclick="changestatus(this,3)" id=' + full[0] + ' class="fa fa-undo" style="color:yellow;font-size:10px;"></i><i onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" style="color:red;font-size:10px;"></i>';
 
                                     }
+                                   
                                     else {
+                                        //alert(full[15]);
                                         return "";
                                     }
                              }
@@ -2059,7 +2062,7 @@
                         //            }
                         //            else {
 
-                                          return '<a class="btn fa fa-download" id="download" onclick="download();" </a>';
+                                    return '<a class="fa fa-download" id='+full[0]+' onclick="download(this);" </a>';
                         //                return '<a class="btn fa fa-upload" id="upload"  ' + full[10] + '>' + '' + '</a>';
                         //                return '<button class="btn fa fa-upload" id="upload" "  type="button"></button>';
                         //            }
@@ -2131,8 +2134,8 @@
         }
 
         function changestatus(event, cstatus) {
-            alert(event.target.id);
-            var campaignid = 63;//event.target.id;
+            //alert(cstatus);
+            var campaignid = event.id;
              $.ajax({
                 url: "@Url.Action(MVC.Campaign.changeCampaignStatus())",
                 type: 'GET',
@@ -2149,35 +2152,45 @@
                     //    reinitializeDataTable(tbl_rptstatus);
                     //    loadReportstatus();
                     //}
-                    //SuccessMsg("Status stopped Successfully")
-                    //reinitializeDataTable(tbl_rptstatus);
-                    //loadReportstatus();
-                    var obj = JSON.parse(minames);
-                    if (obj.cstatus == "1") {
-                        SuccessMsg("Status Changed Successfully")
-                        reinitializeDataTable(tbl_rptstatus);
-                        loadReportstatus();
-                    }
-                    else if (obj.cstatus == "2") {
-                        SuccessMsg("Status paused Successfully")
-                        reinitializeDataTable(tbl_rptstatus);
-                        loadReportstatus();
-                    }
-                    else if (obj.cstatus == "3") {
-                        SuccessMsg("Status resumed Successfully")
-                        reinitializeDataTable(tbl_rptstatus);
-                        loadReportstatus();
-                    }
-                    else if (obj.cstatus == "4") {
-                        SuccessMsg("Status stopped Successfully")
-                        reinitializeDataTable(tbl_rptstatus);
-                        loadReportstatus();
-                    }
-                    else {
-                        ErrorMsg("Status not changed")
-                        reinitializeDataTable(tbl_rptstatus);
-                        loadReportstatus();
-                    }
+                   // SuccessMsg("Status Changed Successfully")
+                    reinitializeDataTable(tbl_rptstatus);
+                    loadReportstatus();
+                    if (cstatus == "1")
+                        SuccessMsg("Started Successfully");
+                    else if (cstatus == "2")
+                        SuccessMsg("Paused Successfully");
+                    else if (cstatus == "3")
+                        SuccessMsg("Resumed Successfully");
+                    else if (cstatus == "4")
+                        SuccessMsg("Stopped Successfully");
+                   // alert("SUCCESS");
+                    //var obj = JSON.parse(minames);
+                   
+                    //if (obj.cstatus == "1") {
+                    //    SuccessMsg("Status Changed Successfully")
+                    //    reinitializeDataTable(tbl_rptstatus);
+                    //    loadReportstatus();
+                    //}
+                    //else if (obj.cstatus == "2") {
+                    //    SuccessMsg("Status paused Successfully")
+                    //    reinitializeDataTable(tbl_rptstatus);
+                    //    loadReportstatus();
+                    //}
+                    //else if (obj.cstatus == "3") {
+                    //    SuccessMsg("Status resumed Successfully")
+                    //    reinitializeDataTable(tbl_rptstatus);
+                    //    loadReportstatus();
+                    //}
+                    //else if (obj.cstatus == "4") {
+                    //    SuccessMsg("Status stopped Successfully")
+                    //    reinitializeDataTable(tbl_rptstatus);
+                    //    loadReportstatus();
+                    //}
+                    //else {
+                    //    ErrorMsg("Status not changed")
+                    //    reinitializeDataTable(tbl_rptstatus);
+                    //    loadReportstatus();
+                    //}
 
                 }
             });
@@ -2230,6 +2243,25 @@
         }
 
             //samplefiledownlod
+        //$('#samplefiledownlod').on('click', function () {
+        //    var id = $("#uploadCampaignName").val();
+        @*function download(id) {
+           // var campaignid = event.id;
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("getcampaignReportDownload", "Campaign")',
+                data: { id: id },
+                success: function (id) {
+                    //console.log(response, "response");
+                    //if (response != null && response != "") {
+                    //    download(response, "Upload.xlsx");
+                    //}
+                    SuccessMsg("Downloaded Successfully");
+                }
+            });
+
+        };*@
+
         $('#samplefiledownlod').on('click', function () {
             var id = $("#uploadCampaignName").val();
 

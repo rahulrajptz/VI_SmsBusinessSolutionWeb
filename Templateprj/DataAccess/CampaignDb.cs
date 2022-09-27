@@ -904,39 +904,38 @@ namespace Templateprj.DataAccess
                 return "";
             }
         }
-        public string getcampaignreportDownload(SMSCampaignModel model, string fileName)
+        public string getcampaignreportDownload(SMSCampaignModel model)
         {
 
             try
             {
-                MySqlCommand cmd = new MySqlCommand();
-                MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr);
-                con.Open();
-                cmd.Connection = con;
-                cmd.CommandText = "Web_Get_SMS_detail_Report";
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@Ln_Camp_name_Id", MySqlDbType.Int32).Value = Convert.ToInt32(model.campaignId);
-                // model.SelectedCampaign.Trim();
-                //cmd.Parameters.Add("@FromDate", MySqlDbType.VarChar).Value = model.fromdate;
-                //cmd.Parameters.Add("@ToDate", MySqlDbType.VarChar).Value = model.todate;
-                //cmd.Parameters.Add("@N_Status", MySqlDbType.Int32).Direction = ParameterDirection.Output;
-                //var dataReader = cmd.ExecuteReader();
-                //_xlsx.ExportToExcel(ds, ref fileName, out contentType, sheetName);
-                //status = Convert.ToInt32(cmd.Parameters["@N_Status"].Value.ToString());
-                var dataReader_new = cmd.ExecuteReader();
-                return GetJsonString(dataReader_new);
-                //catch (OutOfMemoryException)
-                //{
-                //    LogWriter.Write("DataAccess.ReportsDb.ExportDetailedReport :: OutOfMemoryException");
-                //    status = -2;
-                //}
+                //cmd.Parameters.Add("@Ln_Camp_name_Id", MySqlDbType.Int32).Value = Convert.ToInt32(model.campaignId);
+                using (MySqlCommand cmd = new MySqlCommand("Web_Get_SMS_detail_Report"))
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    //cmd.Parameters.Add("@n_Acc_Id", MySqlDbType.Int32).Value = HttpContext.Current.Session["AccountID"].ToString();
+                    //cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
+                    cmd.Parameters.Add("@Ln_Camp_name_Id", MySqlDbType.Int32).Value = model.campaignId;
+                    //cmd.Parameters.Add("@Lv_From_Date", MySqlDbType.VarChar, 200).Value = model.reportCreatedDate;
+                    //cmd.Parameters.Add("@Ln_Camp_Status", MySqlDbType.Int32).Value = model.reportCampaignStatus;
+
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        var dataReader_new = cmd.ExecuteReader();
+                        return GetJsonString(dataReader_new);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.ReportsDb.ExportDetailedReport :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.CampaignDb.getcampaignreportDownload :: Exception :: " + ex.Message);
                 return "";
             }
-            
+
         }
         #endregion
 

@@ -316,6 +316,8 @@ namespace Links
             public static string Url(string fileName) { return T4MVCHelpers.ProcessVirtualPath(UrlPath + "/" + fileName); }
             public static readonly string Login_Page_image_removebg_preview_png = Url("Login-Page-image-removebg-preview.png");
             public static readonly string Login_Page_image_png = Url("Login-Page-image.png");
+            public static readonly string Logo_png = Url("Logo.png");
+            public static readonly string LogRound_png = Url("LogRound.png");
             public static readonly string Mobile_png = Url("Mobile.png");
             public static readonly string Prudent_New_png = Url("Prudent New.png");
             public static readonly string Prudent_jpeg = Url("Prudent.jpeg");

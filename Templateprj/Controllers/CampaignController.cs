@@ -608,32 +608,24 @@ namespace Templateprj.Controllers
         }
         public virtual ActionResult getcampaignReportDownload(SMSCampaignModel model)
         {
-            int status = 0;
-            try
+            int status = 1;
+            string json = _prc.getcampaignreportDownload(model);
+            // string json = "{\"thead\": [{\"title\": \"Campaign ID\"}, {\"title\": \"Campaign Name\"}, {\"title\": \"Campaign Type\"}, {\"title\": \"Created Date\"}, {\"title\": \"Start Date & Time\"}, {\"title\": \"From Date\"}, {\"title\": \"To Date\"}, {\"title\": \"From Time\"}, {\"title\": \"To Time\"}, {\"title\": \"Status\"}, {\"title\": \"Upload Base\"}, {\"title\": \"Test  Report\"}],\"tdata\": [[\"7288806665\", \"AP\", \"IMI MOBILES\", \"404071719557642\", \"test\", \"Get\", \"Active\", \"2017-11-15 14:27:24\",\"Normal\", \"Yes\", \"0\", \"CDR Configured\"],[\"9505270111\", \"AP\", \"IMI MOBILES\", \"404071713625143\", \"asd\", \"Get\", \"Active\",\"2018-01-12 14:06:40\", \"Normal\", \"Yes\", \"1\", \"CDR Configured\"]]}";
+            if (status == 1)
             {
-                string fileName = "";
-                fileName = "Detailedrpt" + "_" + DateTime.Now.ToString();
-                _prc.getcampaignreportDownload(model, fileName);
+                return Content(json, "application/json");
             }
-            catch (Exception ex)
-            {
-                LogWriter.Write(DateTime.Now + "::ReportsController::DetailedReport::Exception::" + ex.Message);
-            }
-            if (status == 1) { return View("DetailedReport", model); }
             else if (status == -2)
             {
                 Response.StatusCode = 507;
-                return Content("Out of Memory", "text/xlsx");
-            }
-            else if (status == 9)
-            {
-                return Content("No data found", "text/xlsx");
+                return Content("Out of Memory", "text/plain");
             }
             else
             {
                 Response.StatusCode = 503;
-                return Content("Something went wrong", "text/xlsx");
+                return Content("{\"Error\": \"Service Unavailable\"}", "application/json");
             }
+
         }
     }
 }

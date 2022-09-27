@@ -131,6 +131,12 @@ namespace Templateprj.Controllers
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.getcampaigndetailReport);
         }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult getcampaignReportDownload()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.getcampaignReportDownload);
+        }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public CampaignController Actions { get { return MVC.Campaign; } }
@@ -162,6 +168,7 @@ namespace Templateprj.Controllers
             public readonly string getcampaigncreatedlist = "getcampaigncreatedlist";
             public readonly string getcampaignstatusReport = "getcampaignstatusReport";
             public readonly string getcampaigndetailReport = "getcampaigndetailReport";
+            public readonly string getcampaignReportDownload = "getcampaignReportDownload";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -182,6 +189,7 @@ namespace Templateprj.Controllers
             public const string getcampaigncreatedlist = "getcampaigncreatedlist";
             public const string getcampaignstatusReport = "getcampaignstatusReport";
             public const string getcampaigndetailReport = "getcampaigndetailReport";
+            public const string getcampaignReportDownload = "getcampaignReportDownload";
         }
 
 
@@ -288,6 +296,14 @@ namespace Templateprj.Controllers
         public ActionParamsClass_getcampaigndetailReport getcampaigndetailReportParams { get { return s_params_getcampaigndetailReport; } }
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionParamsClass_getcampaigndetailReport
+        {
+            public readonly string model = "model";
+        }
+        static readonly ActionParamsClass_getcampaignReportDownload s_params_getcampaignReportDownload = new ActionParamsClass_getcampaignReportDownload();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_getcampaignReportDownload getcampaignReportDownloadParams { get { return s_params_getcampaignReportDownload; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_getcampaignReportDownload
         {
             public readonly string model = "model";
         }
@@ -520,6 +536,18 @@ namespace Templateprj.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.getcampaigndetailReport);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
             getcampaigndetailReportOverride(callInfo, model);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void getcampaignReportDownloadOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Templateprj.Models.SMSCampaignModel model);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult getcampaignReportDownload(Templateprj.Models.SMSCampaignModel model)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.getcampaignReportDownload);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
+            getcampaignReportDownloadOverride(callInfo, model);
             return callInfo;
         }
 
