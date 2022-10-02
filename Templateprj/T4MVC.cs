@@ -32,6 +32,7 @@ public static partial class MVC
     public static Templateprj.Controllers.HomeController Home = new Templateprj.Controllers.T4MVC_HomeController();
     public static Templateprj.Controllers.InstantSmsController InstantSms = new Templateprj.Controllers.T4MVC_InstantSmsController();
     public static Templateprj.Controllers.ManagementController Management = new Templateprj.Controllers.T4MVC_ManagementController();
+    public static Templateprj.Controllers.TemplateController Template = new Templateprj.Controllers.T4MVC_TemplateController();
     public static Templateprj.Controllers.ReportsController Reports = new Templateprj.Controllers.T4MVC_ReportsController();
     public static Templateprj.Controllers.TestController Test = new Templateprj.Controllers.T4MVC_TestController();
     public static T4MVC.SharedController Shared = new T4MVC.SharedController();
@@ -274,6 +275,16 @@ namespace Links
             public static readonly string popper_min_js_map = Url("popper.min.js.map");
         }
     
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public static class virtualkeyboard {
+            public const string UrlPath = "~/Scripts/virtualkeyboard";
+            public static string Url() { return T4MVCHelpers.ProcessVirtualPath(UrlPath); }
+            public static string Url(string fileName) { return T4MVCHelpers.ProcessVirtualPath(UrlPath + "/" + fileName); }
+            public static readonly string keyboard_css = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(UrlPath + "/keyboard.min.css") ? Url("keyboard.min.css") : Url("keyboard.css");
+            public static readonly string keyboard_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(UrlPath + "/keyboard.min.js") ? Url("keyboard.min.js") : Url("keyboard.js");
+            public static readonly string keyboard_png = Url("keyboard.png");
+        }
+    
         public static readonly string xls_core_min_js = Url("xls.core.min.js");
         public static readonly string xlsx_core_min_js = Url("xlsx.core.min.js");
     }
@@ -316,6 +327,8 @@ namespace Links
             public static string Url(string fileName) { return T4MVCHelpers.ProcessVirtualPath(UrlPath + "/" + fileName); }
             public static readonly string Login_Page_image_removebg_preview_png = Url("Login-Page-image-removebg-preview.png");
             public static readonly string Login_Page_image_png = Url("Login-Page-image.png");
+            public static readonly string Logo_png = Url("Logo.png");
+            public static readonly string LogRound_png = Url("LogRound.png");
             public static readonly string Mobile_png = Url("Mobile.png");
             public static readonly string Prudent_New_png = Url("Prudent New.png");
             public static readonly string Prudent_jpeg = Url("Prudent.jpeg");
@@ -451,6 +464,14 @@ namespace Links
                     public static readonly string popper_utils_min_js = T4MVCHelpers.ProcessAssetPath("~/Scripts/umd/popper-utils.min.js"); 
                     public static readonly string popper_js = T4MVCHelpers.ProcessAssetPath("~/Scripts/umd/popper.js"); 
                     public static readonly string popper_min_js = T4MVCHelpers.ProcessAssetPath("~/Scripts/umd/popper.min.js"); 
+                }
+            }
+            public static partial class virtualkeyboard 
+            {
+                public static class Assets
+                {
+                    public static readonly string keyboard_css = T4MVCHelpers.ProcessAssetPath("~/Scripts/virtualkeyboard/keyboard.css");
+                    public static readonly string keyboard_js = T4MVCHelpers.ProcessAssetPath("~/Scripts/virtualkeyboard/keyboard.js"); 
                 }
             }
             public static class Assets

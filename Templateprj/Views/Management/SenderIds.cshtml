@@ -175,36 +175,36 @@
         @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "Idform" }))
         {
 
-            <div class="container" style="margin-left:10px">
-                <div class="row">
-                    <div class="wizard-navigation">
-                        <div class="col-xs-12 navstyle">
-                            <ul class="nav">
-                                <li class="nav-item" style="width: 100px;height:35px">
-                                    <a style="font-size:9.2846px" class="nav-link active" href="@Url.Action("Account", "Management")">
-                                        <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
-                                        ACCOUUNT
-                                    </a>
-                                </li>
-                                <li class="nav-item " style="width: 111px;height:35px">
-                                    <a style="font-size:9.2846px" class="nav-link" href="@Url.Action("Templates", "Template")">
-                                        <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
-                                        TEMPLATES
-                                    </a>
-                                </li>
-                                <li class="nav-item arrow" style="width: 131px;height:35px">
-                                    <a style="font-size:9.2846px" class="nav-link" href="@Url.Action("SenderIds", "Management")">
-                                        <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
-                                        SENDER ID
-                                    </a>
-                                </li>
 
-                            </ul>
-                        </div>
+        <div class="container" style="margin-left:10px">
+            <div class="row">
+                <div class="wizard-navigation">
+                    <div class="col-xs-12 navstyle">
+                        <ul class="nav">
+                            <li class="nav-item" style="width: 100px;height:35px">
+                                <a style="font-size:9.2846px" class="nav-link" href="@Url.Action("Account", "Management")">
+                                    <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                    ACCOUUNT
+                                </a>
+                            </li>
+                            <li class="nav-item " style="width: 111px;height:35px">
+                                <a style="font-size:9.2846px" class="nav-link" href="@Url.Action("Templates", "Management")">
+                                    <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                    TEMPLATES
+                                </a>
+                            </li>
+                            <li class="nav-item arrow" style="width: 131px;height:35px">
+                                <a style="font-size:9.2846px" class="nav-link active" href="@Url.Action("SenderIds", "Management")">
+                                    <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                    SENDER ID
+                                </a>
+                            </li>
+
+                        </ul>
                     </div>
                 </div>
             </div>
-
+        </div>
             <div class="tab-content">
                 <div class="tab-pane show active navclr" id="Instantsmsnav">
                     <div style="margin-top:5px;background:#ebecf1" class="col-md-8">
@@ -280,10 +280,81 @@
                     </div>
                 </div>
 
+
+                @*<div class="tab-pane navclr" id="campaignreportsnav">
+                    <div class="row ml-3 mt-3">
+                        <div class="col-md-2">
+                            @Html.Label("Template Name")
+                            <div class="form-group">
+                                @Html.DropDownListFor(m => m.reportCampaignStatus, Model.reportCampaignStatusList, new { @class = "form-control cl-black", @required = "required" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Template Type")
+                            <div class="form-group">
+                                @Html.DropDownListFor(m => m.reportCampaignStatus, Model.reportCampaignStatusList, new { @class = "form-control cl-black", @required = "required" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Template Id")
+                            <div class="form-group">
+                                @Html.DropDownListFor(m => m.reportCampaignStatus, Model.reportCampaignStatusList, new { @class = "form-control cl-black", @required = "required" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Header/Sender Id")
+                            <div class="form-group">
+                                @Html.DropDownListFor(m => m.reportCampaignStatus, Model.reportCampaignStatusList, new { @class = "form-control cl-black", @required = "required" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Status")
+                            <div class="form-group">
+                                @Html.DropDownListFor(m => m.reportCampaignStatus, Model.reportCampaignStatusList, new { @class = "form-control cl-black", @required = "required" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Content Type")
+                            <div class="form-group">
+                                @Html.DropDownListFor(m => m.reportCampaignPriority, Model.reportCampaignPriorityList, new { @class = "form-control cl-black", @required = "required" })
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <button type="button" id="btn_showreport" style="height:36px" class="btn btn-outline-success">Search</button>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card ">
+
+
+                                <div class="card-body col-sm-12" style="width:1100px">
+                                    <div class="col-sm-12" id="divTablereport" style="overflow-x:auto !important;">
+                                        <table id="tbl_rptreport" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
+                                    </div>
+                                    <div class="alert alert-info" id="divNoData" style="display:none;">
+                                        <span>No data found for the search</span>
+                                    </div>
+                                
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>*@
+
             </div>
         }
 
-    </div>
 </div>
 @section scripts {
     <script>
@@ -316,7 +387,7 @@
 
                             jsondata = JSON.parse(e);
                             if (jsondata.status == "1") {
-                                //location.reload();
+                                location.reload();
 
                                 SuccessMsg("Successfully update account details");
                                 $('#rw_view').show();

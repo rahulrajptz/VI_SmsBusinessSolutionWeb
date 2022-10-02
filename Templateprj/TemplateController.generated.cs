@@ -25,10 +25,10 @@ using System.Web.Routing;
 using T4MVC;
 namespace Templateprj.Controllers
 {
-    public partial class ManagementController
+    public partial class TemplateController
     {
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        protected ManagementController(Dummy d) { }
+        protected TemplateController(Dummy d) { }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         protected RedirectToRouteResult RedirectToAction(ActionResult result)
@@ -58,19 +58,19 @@ namespace Templateprj.Controllers
 
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public virtual System.Web.Mvc.ActionResult SaveAccount()
+        public virtual System.Web.Mvc.ActionResult GetTemplates()
         {
-            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.SaveAccount);
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetTemplates);
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ManagementController Actions { get { return MVC.Management; } }
+        public TemplateController Actions { get { return MVC.Template; } }
         [GeneratedCode("T4MVC", "2.0")]
         public readonly string Area = "";
         [GeneratedCode("T4MVC", "2.0")]
-        public readonly string Name = "Management";
+        public readonly string Name = "Template";
         [GeneratedCode("T4MVC", "2.0")]
-        public const string NameConst = "Management";
+        public const string NameConst = "Template";
         [GeneratedCode("T4MVC", "2.0")]
         static readonly ActionNamesClass s_actions = new ActionNamesClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -78,25 +78,25 @@ namespace Templateprj.Controllers
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionNamesClass
         {
-            public readonly string Account = "Account";
-            public readonly string SenderIds = "SenderIds";
-            public readonly string SaveAccount = "SaveAccount";
+            public readonly string Templates = "Templates";
+            public readonly string GetTemplateNames = "GetTemplateNames";
+            public readonly string GetTemplates = "GetTemplates";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionNameConstants
         {
-            public const string Account = "Account";
-            public const string SenderIds = "SenderIds";
-            public const string SaveAccount = "SaveAccount";
+            public const string Templates = "Templates";
+            public const string GetTemplateNames = "GetTemplateNames";
+            public const string GetTemplates = "GetTemplates";
         }
 
 
-        static readonly ActionParamsClass_SaveAccount s_params_SaveAccount = new ActionParamsClass_SaveAccount();
+        static readonly ActionParamsClass_GetTemplates s_params_GetTemplates = new ActionParamsClass_GetTemplates();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_SaveAccount SaveAccountParams { get { return s_params_SaveAccount; } }
+        public ActionParamsClass_GetTemplates GetTemplatesParams { get { return s_params_GetTemplates; } }
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_SaveAccount
+        public class ActionParamsClass_GetTemplates
         {
             public readonly string model = "model";
         }
@@ -110,54 +110,46 @@ namespace Templateprj.Controllers
             public _ViewNamesClass ViewNames { get { return s_ViewNames; } }
             public class _ViewNamesClass
             {
-                public readonly string Account = "Account";
-                public readonly string Index = "Index";
-                public readonly string SenderIds = "SenderIds";
-                public readonly string Templates = "Templates";
             }
-            public readonly string Account = "~/Views/Management/Account.cshtml";
-            public readonly string Index = "~/Views/Management/Index.cshtml";
-            public readonly string SenderIds = "~/Views/Management/SenderIds.cshtml";
-            public readonly string Templates = "~/Views/Management/Templates.cshtml";
         }
     }
 
     [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-    public partial class T4MVC_ManagementController : Templateprj.Controllers.ManagementController
+    public partial class T4MVC_TemplateController : Templateprj.Controllers.TemplateController
     {
-        public T4MVC_ManagementController() : base(Dummy.Instance) { }
+        public T4MVC_TemplateController() : base(Dummy.Instance) { }
 
         [NonAction]
-        partial void AccountOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+        partial void TemplatesOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Account()
+        public override System.Web.Mvc.ActionResult Templates()
         {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Account);
-            AccountOverride(callInfo);
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Templates);
+            TemplatesOverride(callInfo);
             return callInfo;
         }
 
         [NonAction]
-        partial void SenderIdsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+        partial void GetTemplateNamesOverride(T4MVC_System_Web_Mvc_JsonResult callInfo);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult SenderIds()
+        public override System.Web.Mvc.JsonResult GetTemplateNames()
         {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.SenderIds);
-            SenderIdsOverride(callInfo);
+            var callInfo = new T4MVC_System_Web_Mvc_JsonResult(Area, Name, ActionNames.GetTemplateNames);
+            GetTemplateNamesOverride(callInfo);
             return callInfo;
         }
 
         [NonAction]
-        partial void SaveAccountOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Templateprj.Models.Managements.ManagementModel model);
+        partial void GetTemplatesOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Templateprj.Models.Managements.TemplateModel model);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult SaveAccount(Templateprj.Models.Managements.ManagementModel model)
+        public override System.Web.Mvc.ActionResult GetTemplates(Templateprj.Models.Managements.TemplateModel model)
         {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.SaveAccount);
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetTemplates);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
-            SaveAccountOverride(callInfo, model);
+            GetTemplatesOverride(callInfo, model);
             return callInfo;
         }
 
