@@ -81,6 +81,7 @@ namespace Templateprj.Controllers
             public readonly string Templates = "Templates";
             public readonly string GetTemplateNames = "GetTemplateNames";
             public readonly string GetTemplates = "GetTemplates";
+            public readonly string UploadTemplate = "UploadTemplate";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -89,9 +90,18 @@ namespace Templateprj.Controllers
             public const string Templates = "Templates";
             public const string GetTemplateNames = "GetTemplateNames";
             public const string GetTemplates = "GetTemplates";
+            public const string UploadTemplate = "UploadTemplate";
         }
 
 
+        static readonly ActionParamsClass_Templates s_params_Templates = new ActionParamsClass_Templates();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_Templates TemplatesParams { get { return s_params_Templates; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_Templates
+        {
+            public readonly string id = "id";
+        }
         static readonly ActionParamsClass_GetTemplates s_params_GetTemplates = new ActionParamsClass_GetTemplates();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ActionParamsClass_GetTemplates GetTemplatesParams { get { return s_params_GetTemplates; } }
@@ -142,6 +152,18 @@ namespace Templateprj.Controllers
         }
 
         [NonAction]
+        partial void TemplatesOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string id);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult Templates(string id)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Templates);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            TemplatesOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
         partial void GetTemplatesOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Templateprj.Models.Managements.TemplateModel model);
 
         [NonAction]
@@ -150,6 +172,17 @@ namespace Templateprj.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetTemplates);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
             GetTemplatesOverride(callInfo, model);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void UploadTemplateOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult UploadTemplate()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.UploadTemplate);
+            UploadTemplateOverride(callInfo);
             return callInfo;
         }
 
