@@ -35,7 +35,8 @@ namespace Templateprj.Controllers
 
             string CampignId = Request["CampaignId"].ToString();
             string starttype = Request["starttype"].ToString();
-
+            string scheduleDate = Request["scheduleDate"].ToString();
+            string uploadpriority = Request["uploadpriority"].ToString();
 
             if (Request.Files.Count > 0)
             {
@@ -61,7 +62,7 @@ namespace Templateprj.Controllers
                             path = Path.Combine(path, fileName);
                             file.SaveAs(path);
 
-                            string status = _prc.insertfilepath(path, CampignId, starttype);
+                            string status = _prc.insertfilepath(path, CampignId, starttype, scheduleDate, uploadpriority);
                             if (status == "1")
                             {
                                 json = "{\"status\":\"1\",\"response\":\"File Successfully Uploaded\" }";
@@ -463,6 +464,7 @@ namespace Templateprj.Controllers
 
             model.listcampaignNameList = dtcmpaignamelist.ToSelectList(listItems, "VALUE", "TEXT");
             model.listCampaignStatusList = dtstatuslist.ToSelectList(listItems, "VALUE", "TEXT");
+            model.listCampaignPriorityList = dtprioritylist.ToSelectList(listItems, "VALUE", "TEXT");
             model.listCampaignTypeList = dtCampaignType.ToSelectList(listItems, "VALUE", "TEXT");
 
             model.uploadCampaignNameList = dtcmpaignamelist.ToSelectList(listItems, "VALUE", "TEXT");
@@ -531,8 +533,8 @@ namespace Templateprj.Controllers
 
 
             int status = 1;
-            // string json = _prc.getCountViewFilterString(model);
-            string json = "{\"thead\": [{\"title\": \"Campaign ID\"}, {\"title\": \"Campaign Name\"}, {\"title\": \"Campaign Type\"}, {\"title\": \"Created Date\"}, {\"title\": \"Start Date & Time\"}, {\"title\": \"From Date\"}, {\"title\": \"To Date\"}, {\"title\": \"From Time\"}, {\"title\": \"To Time\"}, {\"title\": \"Status\"}, {\"title\": \"Upload Base\"}, {\"title\": \"Test  Report\"}],\"tdata\": [[\"7288806665\", \"AP\", \"IMI MOBILES\", \"404071719557642\", \"test\", \"Get\", \"Active\", \"2017-11-15 14:27:24\",\"Normal\", \"Yes\", \"0\", \"CDR Configured\"],[\"9505270111\", \"AP\", \"IMI MOBILES\", \"404071713625143\", \"asd\", \"Get\", \"Active\",\"2018-01-12 14:06:40\", \"Normal\", \"Yes\", \"1\", \"CDR Configured\"]]}";
+            string json = _prc.getcampaigncreatedlist(model);
+            //string json = "{\"thead\": [{\"title\": \"Campaign ID\"}, {\"title\": \"Campaign Name\"}, {\"title\": \"Campaign Type\"}, {\"title\": \"Created Date\"}, {\"title\": \"Start Date & Time\"}, {\"title\": \"From Date\"}, {\"title\": \"To Date\"}, {\"title\": \"From Time\"}, {\"title\": \"To Time\"}, {\"title\": \"Status\"}, {\"title\": \"Upload Base\"}, {\"title\": \"Test  Report\"}],\"tdata\": [[\"7288806665\", \"AP\", \"IMI MOBILES\", \"404071719557642\", \"test\", \"Get\", \"Active\", \"2017-11-15 14:27:24\",\"Normal\", \"Yes\", \"0\", \"CDR Configured\"],[\"9505270111\", \"AP\", \"IMI MOBILES\", \"404071713625143\", \"asd\", \"Get\", \"Active\",\"2018-01-12 14:06:40\", \"Normal\", \"Yes\", \"1\", \"CDR Configured\"]]}";
             if (status == 1)
             {
                 return Content(json, "application/json");

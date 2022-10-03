@@ -168,12 +168,12 @@
                                     CAMPAIGN
                                 </a>
                             </li>
-                            @*<li class="nav-item"  style="width: 118px;height:35px">
+                            <li class="nav-item"  style="width: 118px;height:35px">
                                     <a style="font-size:9.2846px" id="campaignlistnavitem" class="nav-link" href="#campaignlistnav" data-toggle="tab" role="tab" aria-controls="account" aria-selected="false">
                                         <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
                                         CAMPAIGN LIST
                                     </a>
-                                </li>*@
+                             </li>
                             <li class="nav-item " style="width: 111px;height:35px">
                                 <a style="font-size:9.2846px" id="uploadlistnavitem" class="nav-link" href="#uploadbasenav" data-toggle="tab" role="tab" aria-controls="account" aria-selected="false">
                                     <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
@@ -545,7 +545,7 @@
 
                 <div class="row ml-3 mt-4">
 
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         @Html.Label("Campaign Name")
                         <div class="form-group">
                             @Html.DropDownListFor(m => m.listcampaignName, Model.listcampaignNameList, new { @class = "form-control cl-black", @required = "required" })
@@ -566,8 +566,14 @@
 
                         </div>
                     </div>
+                    <div class="col-md-2">
+                        @Html.Label("Priority")
+                        <div class="form-group">
+                            @Html.DropDownListFor(m => m.listCampaignPriority, Model.listCampaignPriorityList, new { @class = "form-control cl-black", @required = "required" })
 
-                    <div class="col-md-3">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
                         @Html.Label("Campaign Type")
                         <div class="form-group">
                             @Html.DropDownListFor(m => m.listCampaignType, Model.listCampaignTypeList, new { @class = "form-control cl-black", @required = "required" })
@@ -1959,7 +1965,7 @@
                                         //return '<i onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" style="color:green;font-size:10px;"></i>';
                                     }
                                     else if (full[15] == "3") {
-                                        return '<i onclick="changestatus(this,3)" id=' + full[0] + ' class="fa fa-undo" style="color:yellow;font-size:10px;"></i><i onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" style="color:red;font-size:10px;"></i>';
+                                        return '<i onclick="changestatus(this,3)" id=' + full[0] + ' class="fa fa-undo" style="color:#cc7a00;font-size:10px;"></i>&nbsp; &nbsp;<i onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" style="color:red;font-size:10px;"></i>';
 
                                     }
                                    
@@ -2062,7 +2068,7 @@
                         //            }
                         //            else {
 
-                                    return '<a class="fa fa-download" id='+full[0]+' onclick="download(this);" </a>';
+                                    return '<a class="fa fa-download" id='+full[0]+' onclick="download(this);" ></a>';
                         //                return '<a class="btn fa fa-upload" id="upload"  ' + full[10] + '>' + '' + '</a>';
                         //                return '<button class="btn fa fa-upload" id="upload" "  type="button"></button>';
                         //            }
@@ -2163,34 +2169,7 @@
                         SuccessMsg("Resumed Successfully");
                     else if (cstatus == "4")
                         SuccessMsg("Stopped Successfully");
-                   // alert("SUCCESS");
-                    //var obj = JSON.parse(minames);
                    
-                    //if (obj.cstatus == "1") {
-                    //    SuccessMsg("Status Changed Successfully")
-                    //    reinitializeDataTable(tbl_rptstatus);
-                    //    loadReportstatus();
-                    //}
-                    //else if (obj.cstatus == "2") {
-                    //    SuccessMsg("Status paused Successfully")
-                    //    reinitializeDataTable(tbl_rptstatus);
-                    //    loadReportstatus();
-                    //}
-                    //else if (obj.cstatus == "3") {
-                    //    SuccessMsg("Status resumed Successfully")
-                    //    reinitializeDataTable(tbl_rptstatus);
-                    //    loadReportstatus();
-                    //}
-                    //else if (obj.cstatus == "4") {
-                    //    SuccessMsg("Status stopped Successfully")
-                    //    reinitializeDataTable(tbl_rptstatus);
-                    //    loadReportstatus();
-                    //}
-                    //else {
-                    //    ErrorMsg("Status not changed")
-                    //    reinitializeDataTable(tbl_rptstatus);
-                    //    loadReportstatus();
-                    //}
 
                 }
             });

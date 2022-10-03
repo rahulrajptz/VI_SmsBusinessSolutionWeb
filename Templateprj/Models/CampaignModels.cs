@@ -254,6 +254,10 @@ namespace Templateprj.Models
         [JsonIgnore]
         public SelectList listCampaignStatusList { get; set; }
         [JsonIgnore]
+        public string listCampaignPriority { get; set; }
+        [JsonIgnore]
+        public SelectList listCampaignPriorityList { get; set; }
+        [JsonIgnore]
         public string listCampaignType { get; set; }
         [JsonIgnore]
         public SelectList listCampaignTypeList { get; set; }

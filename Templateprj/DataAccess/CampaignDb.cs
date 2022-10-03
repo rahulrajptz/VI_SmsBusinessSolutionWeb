@@ -791,27 +791,34 @@ namespace Templateprj.DataAccess
 
             try
             {
-                //`Web_Rpt_Master_Prc`(In N_User_Id  int(6),
-                //                  In Lv_Circle Varchar(50),
-                //                  In Lv_Vendor Varchar(50),
-                //                  In Ln_VMN Varchar(50))
+                //(IN n_Acc_Id int, 
+                //    IN n_user_id int, 
+                //    IN Ln_Camp_Name_Id int, 
+                //    IN Lv_Created_Date varchar(50),
+                //    IN Ln_Campaign_Status int, 
+                //    IN Ln_Campaign_Priority int, 
+                //    IN Ln_Campaign_Type int,
+                //    OUT v_Message Longtext);
 
-                using (MySqlCommand cmd = new MySqlCommand("Web_Rpt_Master_Prc"))
+                using (MySqlCommand cmd = new MySqlCommand("Web_Get_Campaign_List"))
                 {
-
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@N_User_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"].ToString());
-                    cmd.Parameters.Add("@Lv_Circle", MySqlDbType.Int32).Value = model.listcampaignName;
-                    cmd.Parameters.Add("@Lv_Vendor", MySqlDbType.VarChar).Value = model.listCreatedDate;
-                    cmd.Parameters.Add("@Ln_VMN", MySqlDbType.VarChar).Value = model.listCampaignStatus;
-                    cmd.Parameters.Add("@Ln_VMN", MySqlDbType.VarChar).Value = model.listCampaignType;
+                    cmd.Parameters.Add("@n_Acc_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
+                    cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"].ToString());
+                    cmd.Parameters.Add("@Ln_Camp_Name_Id", MySqlDbType.Int32).Value = model.listcampaignName;
+                    cmd.Parameters.Add("@Lv_Created_Date", MySqlDbType.VarChar).Value = model.listCreatedDate;
+                    cmd.Parameters.Add("@Ln_Campaign_Status", MySqlDbType.Int32).Value = model.listCampaignStatus;
+                    cmd.Parameters.Add("@Ln_Campaign_Priority", MySqlDbType.Int32).Value = model.listCampaignPriority;
+                    //cmd.Parameters.Add("@Ln_Campaign_Type", MySqlDbType.Int32).Value = model.listCampaignType;
+                    cmd.Parameters.Add("@v_Message", MySqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
                         cmd.Connection = con;
-                        var dataReader_new = cmd.ExecuteReader();
-                        return GetJsonString(dataReader_new);
+                        cmd.ExecuteNonQuery();
                     }
+                    string response = cmd.Parameters["@v_Message"].Value.ToString();
+                    return response;
                 }
 
 
@@ -822,6 +829,7 @@ namespace Templateprj.DataAccess
                 return "";
             }
         }
+
 
 
         public string getcampaignstatusreport(SMSCampaignModel model)
@@ -1106,13 +1114,13 @@ namespace Templateprj.DataAccess
             }
         }
 
-        public string insertfilepath(string path,string campaignid,string campaignstarttype)
+        public string insertfilepath(string path,string campaignid,string campaignstarttype, string scheduleDate, string uploadpriority)
         {
             path = path.Replace("\\", "/");
 
             //`Web_Insert_campaign_file`(IN Ln_Campaign_id int,IN Lv_Path varchar(1000),IN Ln_Action_Type int,Out Ln_Status int)
 
-            //response = "";
+            
             try
             {
 
@@ -1122,7 +1130,8 @@ namespace Templateprj.DataAccess
                     cmd.Parameters.Add("@Ln_Campaign_id", MySqlDbType.Int32).Value = campaignid;
                     cmd.Parameters.Add("@Lv_Path", MySqlDbType.VarChar,200).Value = path;
                     cmd.Parameters.Add("@Ln_Action_Type", MySqlDbType.Int32).Value = campaignstarttype;
-
+                    cmd.Parameters.Add("@Ln_scheduled_time", MySqlDbType.VarChar).Value = scheduleDate;
+                    cmd.Parameters.Add("@Ln_prioity", MySqlDbType.VarChar).Value = uploadpriority;
                     cmd.Parameters.Add("@Ln_Status", MySqlDbType.Int32).Direction = ParameterDirection.Output;
 
                     DataTable dt = new DataTable();
