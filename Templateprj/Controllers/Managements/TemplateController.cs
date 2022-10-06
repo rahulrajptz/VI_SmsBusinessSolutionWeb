@@ -2,7 +2,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Templateprj.Filters;
 using Templateprj.Helpers;
@@ -28,10 +27,15 @@ namespace Templateprj.Controllers
             return View("~/Views/Management/Templates.cshtml", model);
         }
 
-        [HttpGet]
-        public virtual JsonResult GetTemplateNames()
+        [HttpPost]
+        public virtual ActionResult Templates(RegisterTemplateCommand command)
         {
-            return Json(_templateManagemntRepository.GetTemplateNames(), JsonRequestBehavior.AllowGet);
+            string response = "";
+            string status = "";//_templateManagemntRepository.DeleteTemplate(id, out string response);
+
+            string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\"}";
+
+            return Json(responsejson, JsonRequestBehavior.AllowGet);
         }
 
         [HttpDelete]
@@ -42,6 +46,12 @@ namespace Templateprj.Controllers
             string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\"}";
 
             return Json(responsejson, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public virtual JsonResult GetTemplateNames()
+        {
+            return Json(_templateManagemntRepository.GetTemplateNames(), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

@@ -21,66 +21,121 @@ namespace Templateprj.Repositories.Services
         public TemplateModel GetTemplateFilters()
         {
             TemplateModel model = new TemplateModel();
-            DataTable dt = new DataTable();
-            DataRow newRow = dt.NewRow();
-            dt.Columns.Add("Value");
-            dt.Columns.Add("Text");
-            newRow[0] = 0;
-            newRow[1] = "-Select-";
-            dt.Rows.InsertAt(newRow, 0);
 
-            newRow = dt.NewRow();
-            newRow[0] = 1;
-            newRow[1] = "Value1";
-            dt.Rows.InsertAt(newRow, 1);
-
-            newRow = dt.NewRow();
-            newRow[0] = 2;
-            newRow[1] = "Value2";
-            dt.Rows.InsertAt(newRow, 2);
-
-            model.TemplateTypes = dt.ToSelectList();
-            model.TemplateIds = dt.ToSelectList();
-            model.HeaderSenders = dt.ToSelectList();
-            model.Status = dt.ToSelectList();
-            model.ContentTypes = dt.ToSelectList();
-
-            /*try
+            try
             {
-                using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Get_Account_Details"))
+                using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Template_Dropdown"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
-                    cmd.Parameters.Add("@v_Data_Out", MySqlDbType.Text).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = 1;//HttpContext.Current.Session["UserID"].ToString();
 
-                    DataTable dt = new DataTable();
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
                         cmd.Connection = con;
-                        cmd.ExecuteNonQuery();
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        var dataset = new DataSet();
+                        dataAdapter.Fill(dataset);
+
+                        model.TemplateTypes = GetDatatables(dataset.Tables[0]).ToSelectList();
+                        model.Status = GetDatatables(dataset.Tables[1]).ToSelectList();
+                        model.ContentTypes = GetDatatables(dataset.Tables[2]).ToSelectList();
                     }
-                    string data = cmd.Parameters["@v_Data_Out"].Value.ToString();
-                    return JsonConvert.DeserializeObject<ManagementModel>(data);
+
                 }
             }
             catch (Exception ex)
             {
-                LogWriter.Write("Repositories.Services.GetAccount :: Exception :: " + ex.Message);
-            }*/
+                LogWriter.Write("Repositories.Services.TemplateManagemntRepository :: Exception :: " + ex.Message);
+            }
             return model;
         }
 
         public List<KeyValueModel> GetTemplateNames()
         {
-            KeyValueModel model = new KeyValueModel();
-            List<KeyValueModel> test = new List<KeyValueModel>();
-            for (int i=0;i<10;i++)
+            List<KeyValueModel> temaplteNames = new List<KeyValueModel>();
+            try
             {
-                test.Add(new KeyValueModel() {Id=i.ToString(),Value=$"Template {i}" });
-            }
+                using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Template_Name"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = 1;//HttpContext.Current.Session["UserID"].ToString();
 
-           return test;
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        var dataTable = new DataTable();
+                        dataAdapter.Fill(dataTable);
+                        temaplteNames = GetDataTableToKeyValue(dataTable);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("TemplateManagemntRepository.GetTemplateNames :: Exception :: " + ex.Message);
+            }
+            return temaplteNames;
+        }
+
+        public List<KeyValueModel> GetTemplateIds()
+        {
+            List<KeyValueModel> temaplteIds = new List<KeyValueModel>();
+            try
+            {
+                using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Template_Id"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = 1;//HttpContext.Current.Session["UserID"].ToString();
+
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        var dataTable = new DataTable();
+                        dataAdapter.Fill(dataTable);
+                        temaplteIds = GetDataTableToKeyValue(dataTable);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("TemplateManagemntRepository.GetTemplateIds :: Exception :: " + ex.Message);
+            }
+            return temaplteIds;
+        }
+
+        public List<KeyValueModel> GetTemplateHeaders()
+        {
+            List<KeyValueModel> temaplteHeaders = new List<KeyValueModel>();
+            try
+            {
+                using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Template_Header"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = 1;//HttpContext.Current.Session["UserID"].ToString();
+
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        var dataTable = new DataTable();
+                        dataAdapter.Fill(dataTable);
+                        temaplteHeaders = GetDataTableToKeyValue(dataTable);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("TemplateManagemntRepository.GetTemplateHeaders :: Exception :: " + ex.Message);
+            }
+            return temaplteHeaders;
         }
 
         public string SaveAccount(ManagementModel model, out string response)
@@ -189,6 +244,33 @@ namespace Templateprj.Repositories.Services
             //    LogWriter.Write("Repositories.Services.SaveAccount :: Exception :: " + ex.Message);
             //    return "";
             //}
+        }
+
+        private DataTable GetDatatables(DataTable dt)
+        {
+            if (dt == null)
+            {
+                dt = new DataTable();
+            }
+            DataRow newRow = dt.NewRow();
+            newRow[0] = 0;
+            newRow[1] = "All";
+            dt.Rows.InsertAt(newRow, 0);
+            return dt;
+        }
+
+
+        private List<KeyValueModel> GetDataTableToKeyValue(DataTable dt)
+        {
+            List<KeyValueModel> keyValues = new List<KeyValueModel>();
+            if (dt != null)
+            {
+                foreach(DataRow row in dt.Rows)
+                {
+                    keyValues.Add(new KeyValueModel() { Id= Convert.ToString(row["id"]),Value= Convert.ToString(row["value"]) });
+                }
+            }
+            return keyValues;
         }
 
     }

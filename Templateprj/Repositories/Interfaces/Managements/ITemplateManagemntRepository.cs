@@ -10,6 +10,8 @@ namespace Templateprj.Repositories.Interfaces
     {
         TemplateModel GetTemplateFilters();
         List<KeyValueModel> GetTemplateNames();
+        List<KeyValueModel> GetTemplateIds();
+         List<KeyValueModel> GetTemplateHeaders();
         string GetTemplates(TemplateModel model);
         string SaveAccount(ManagementModel model, out string response);
         string DeleteTemplate(string id, out string response);

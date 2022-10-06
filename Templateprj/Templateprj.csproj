@@ -346,6 +346,7 @@
     <Compile Include="Models\InstantSms\SmsCountModel.cs" />
     <Compile Include="Models\InstantSms\Variable.cs" />
     <Compile Include="Models\MailModel.cs" />
+    <Compile Include="Models\Managements\RegisterTemplateCommand.cs" />
     <Compile Include="Models\Managements\TemplateModel.cs" />
     <Compile Include="Models\Managements\ManagementModel.cs" />
     <Compile Include="Models\ReportsModels.cs" />
@@ -767,7 +768,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>60954</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:60951/</IISUrl>
+          <IISUrl>http://localhost:60952/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
