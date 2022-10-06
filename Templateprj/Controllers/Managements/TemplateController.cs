@@ -30,8 +30,7 @@ namespace Templateprj.Controllers
         [HttpPost]
         public virtual ActionResult Templates(RegisterTemplateCommand command)
         {
-            string response = "";
-            string status = "";//_templateManagemntRepository.DeleteTemplate(id, out string response);
+            string status = _templateManagemntRepository.SaveTemplate(command, out string response);
 
             string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\"}";
 

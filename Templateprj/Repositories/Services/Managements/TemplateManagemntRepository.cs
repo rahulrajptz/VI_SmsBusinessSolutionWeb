@@ -27,7 +27,7 @@ namespace Templateprj.Repositories.Services
                 using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Template_Dropdown"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = 1;//HttpContext.Current.Session["UserID"].ToString();
+                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
 
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
@@ -59,7 +59,7 @@ namespace Templateprj.Repositories.Services
                 using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Template_Name"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = 1;//HttpContext.Current.Session["UserID"].ToString();
+                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
 
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
@@ -88,7 +88,7 @@ namespace Templateprj.Repositories.Services
                 using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Template_Id"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = 1;//HttpContext.Current.Session["UserID"].ToString();
+                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
 
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
@@ -117,7 +117,7 @@ namespace Templateprj.Repositories.Services
                 using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Template_Header"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = 1;//HttpContext.Current.Session["UserID"].ToString();
+                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
 
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
@@ -136,42 +136,6 @@ namespace Templateprj.Repositories.Services
                 LogWriter.Write("TemplateManagemntRepository.GetTemplateHeaders :: Exception :: " + ex.Message);
             }
             return temaplteHeaders;
-        }
-
-        public string SaveAccount(ManagementModel model, out string response)
-        {
-            response = "";
-
-            try
-            {
-                using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Update_Account_Details"))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
-                    cmd.Parameters.Add("@v_Data_In", MySqlDbType.Text).Value = JsonConvert.SerializeObject(model, new JsonSerializerSettings
-                    {
-                        ContractResolver = new CamelCasePropertyNamesContractResolver()
-                    });
-                    cmd.Parameters.Add("@n_Status_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("@v_Message_Out", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
-
-                    DataTable dt = new DataTable();
-                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
-                    {
-                        con.Open();
-                        cmd.Connection = con;
-                        cmd.ExecuteNonQuery();
-                    }
-                    string status = cmd.Parameters["@n_Status_Out"].Value.ToString();
-                    response = cmd.Parameters["@v_Message_Out"].Value.ToString();
-                    return status;
-                }
-            }
-            catch (Exception ex)
-            {
-                LogWriter.Write("Repositories.Services.SaveAccount :: Exception :: " + ex.Message);
-                return "";
-            }
         }
 
         public string GetTemplates(TemplateModel model)
@@ -202,11 +166,47 @@ namespace Templateprj.Repositories.Services
                 var s = new StackTrace(ex);
                 var thisasm = Assembly.GetExecutingAssembly();
                 var methodname = s.GetFrames().Select(f => f.GetMethod()).First(m => m.Module.Assembly == thisasm).Name;
-
                 LogWriter.Write("Repositories.Services.GetAccount :: Exception :: " + ex.Message);
             }
 
             return string.Empty;
+        }
+
+        public string SaveTemplate(RegisterTemplateCommand command, out string response)
+        {
+            response = "";
+            return response;
+            List<RegisterTemplateCommand> commands = new List<RegisterTemplateCommand>() { command };
+            try
+            {
+                using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Add_New_Template"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
+                    cmd.Parameters.Add("@v_Data_In", MySqlDbType.Text).Value = JsonConvert.SerializeObject(commands, new JsonSerializerSettings
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver()
+                    });
+                    cmd.Parameters.Add("@n_Status_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@v_Message_Out", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+
+                    DataTable dt = new DataTable();
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        cmd.ExecuteNonQuery();
+                    }
+                    string status = cmd.Parameters["@n_Status_Out"].Value.ToString();
+                    response = cmd.Parameters["@v_Message_Out"].Value.ToString();
+                    return status;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("Repositories.Services.SaveTemplate :: Exception :: " + ex.Message);
+                return "";
+            }
         }
 
         public string DeleteTemplate(string id, out string response)
