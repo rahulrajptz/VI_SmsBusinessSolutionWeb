@@ -1633,9 +1633,9 @@
         //fromTime
         
 
-        $('#template').on('change', function () {
+        $('#templateId').on('change', function () {
 
-            var template = $('#template').val();
+            var templateId = $('#templateId').val();
             var smstype = $('#smsType').val();
             var variablecnt;
             //var variableNames;
@@ -1644,7 +1644,7 @@
              $.ajax({
                 url: "@Url.Action(MVC.Campaign.GetmessagecontentfromTemplate())",
                 type: 'GET',
-                 data: { template: template},
+                 data: { templateId: templateId},
                  success: function (minames) {
                      var obj = JSON.parse(minames);
                      //console.log(obj);
@@ -1690,14 +1690,7 @@
             $('#Idform')[0].reset();
         });
 
-        //$(document).ready(function () {
-        //    // show the alert
-        //    setTimeout(function () {
-        //        $(".alert").alert('close');
-        //    }, 2000);
-        //});
-
-
+        
 
         $('#smsType').on('change', function () {
 
@@ -1737,7 +1730,7 @@
                 $('#savecampaignM2M').hide();
                 $('#campaignsubmit').hide();
 
-                 const container = document.querySelector('#generated');
+                const container = document.querySelector('#generated');
                 removeAllChildNodes(container);
                 document.getElementById("smsContent").innerHTML = "";
                 //$('#templateId').find("input").val("");
@@ -2068,7 +2061,7 @@
                         //            }
                         //            else {
 
-                                    return '<a class="fa fa-download" id='+full[0]+' onclick="download(this);" ></a>';
+                                    return '<i class="fa fa-download" id=' + full[0] + ' onclick="downLoadReport(this)"></i>';
                         //                return '<a class="btn fa fa-upload" id="upload"  ' + full[10] + '>' + '' + '</a>';
                         //                return '<button class="btn fa fa-upload" id="upload" "  type="button"></button>';
                         //            }
@@ -2138,6 +2131,23 @@
             $("#campaignnav").removeClass("show active");
             $("#uploadbasenav").addClass("show active");
         }
+
+        function downLoadReport(event) {
+            var id = event.id;
+           // alert(event.id);
+               $.ajax({
+                type: "get",
+                url: '@Url.Action("DownloadCampaignDetailReport", "Campaign")',
+                   data: { id: id },
+                success: function (response) {
+                    console.log(response, "response");
+                    if (response != null && response != "") {
+                        download(response, "Report.xlsx");
+                    }
+                }
+            });
+        }
+
 
         function changestatus(event, cstatus) {
             //alert(cstatus);
@@ -2359,9 +2369,9 @@
                 else {
                     fileData.append(files[0].name, files[0]);
                     fileData.append("CampaignId", $("#uploadCampaignName").val());
-                    fileData.append("starttype", $("#uploadCampaignstarttype").val());
-                    fileData.append("schedule", $("#scheduleDate").val());
-                    fileData.append("Priority", $("#uploadpriority").val());
+                    fileData.append("uploadCampaignstarttype", $("#uploadCampaignstarttype").val());
+                    fileData.append("scheduleDate", $("#scheduleDate").val());
+                    fileData.append("uploadpriority", $("#uploadpriority").val());
                     $.ajax({
                         url: '@Url.Action(MVC.Campaign.CampaignBase())',
                         type: 'post',
@@ -2382,9 +2392,6 @@
                         }
                     });
                 }
-
-
-
 
             }
             else {
