@@ -241,7 +241,7 @@
                                     <div class="col-md-6" style="text-align:left;padding:4px;"> @Html.DisplayFor(m=>m.DltRegisteredAccount) </div>
 
                                     <div class="col-md-6" style="padding-top:4px;">@Html.Label("ACCOUNT EXPIRY", new { @class = "label_side_head" })  </div>
-                                    <div class="col-md-6" style="text-align:left;padding:4px;"> @Html.DisplayFor(m => m.AccountExpiry) </div>
+                                    <div class="col-md-6" style="text-align:left;padding:4px;"> @Html.DisplayFor(m => m.AccountExpiryDescription) </div>
 
                                     <div class="col-md-6" style="padding-top:4px;">@Html.Label("DLT ADDRESS DETAILS", new { @class = "label_side_head" })  </div>
                                     <div class="col-md-6" style="text-align:left;padding:4px;"> @Html.DisplayFor(m => m.DltAddressDetails) </div>
@@ -317,6 +317,8 @@
 
                             jsondata = JSON.parse(e);
                             if (jsondata.status == "1") {
+                                location.reload();
+
                                 SuccessMsg("Successfully update account details");
                                 $('#rw_view').show();
                                 $('#rw_edit').hide();
