@@ -66,7 +66,6 @@
         padding: 0px 5px !important;
         font-size: 12px !important;
         background-color: white !important;
-        
         /*color:#5f004b;*/
     }
 
@@ -169,12 +168,12 @@
                                     CAMPAIGN
                                 </a>
                             </li>
-                            @*<li class="nav-item"  style="width: 118px;height:35px">
+                            <li class="nav-item"  style="width: 118px;height:35px">
                                     <a style="font-size:9.2846px" id="campaignlistnavitem" class="nav-link" href="#campaignlistnav" data-toggle="tab" role="tab" aria-controls="account" aria-selected="false">
                                         <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
                                         CAMPAIGN LIST
                                     </a>
-                                </li>*@
+                             </li>
                             <li class="nav-item " style="width: 111px;height:35px">
                                 <a style="font-size:9.2846px" id="uploadlistnavitem" class="nav-link" href="#uploadbasenav" data-toggle="tab" role="tab" aria-controls="account" aria-selected="false">
                                     <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
@@ -546,7 +545,7 @@
 
                 <div class="row ml-3 mt-4">
 
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         @Html.Label("Campaign Name")
                         <div class="form-group">
                             @Html.DropDownListFor(m => m.listcampaignName, Model.listcampaignNameList, new { @class = "form-control cl-black", @required = "required" })
@@ -567,8 +566,14 @@
 
                         </div>
                     </div>
+                    <div class="col-md-2">
+                        @Html.Label("Priority")
+                        <div class="form-group">
+                            @Html.DropDownListFor(m => m.listCampaignPriority, Model.listCampaignPriorityList, new { @class = "form-control cl-black", @required = "required" })
 
-                    <div class="col-md-3">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
                         @Html.Label("Campaign Type")
                         <div class="form-group">
                             @Html.DropDownListFor(m => m.listCampaignType, Model.listCampaignTypeList, new { @class = "form-control cl-black", @required = "required" })
@@ -770,10 +775,10 @@
                     </p>
                     <div class="collapse  ml-5" id="collapseupload" style="width: 88%;">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4" id="starttypeDiv">
                                 @Html.Label("Campaign Start Type*")
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" id="starttypelistDiv">
                                 <div class="form-group" style="margin-left:-139px">
                                     @Html.DropDownListFor(m => m.uploadCampaignstarttype, Model.uploadCampaignstarttypeList, new { @class = "form-control cl-black", @required = "required", @style = "width:105px" })
 
@@ -797,7 +802,7 @@
                             </div>
                             <div class="col-md-4" id="priorityDiv">
                                 <div class="form-group" style="margin-left:-139px">
-                                    @Html.DropDownListFor(m => m.priority, Model.priorityList, new { @class = "form-control cl-black", @required = "required", @style = "width:105px" })
+                                    @Html.DropDownListFor(m => m.uploadpriority, Model.uploadpriorityList, new { @class = "form-control cl-black", @required = "required", @style = "width:105px" })
 
                                 </div>
                             </div>
@@ -954,7 +959,14 @@
 
             </div>
 
+
+
+
         </div>
+
+
+
+
 
         @*</form>*@
 
@@ -1340,6 +1352,10 @@
                                 //("#senderId").find("select").val("");
                                 //("#templateId").find("select").val("");
 
+
+
+
+
                                 SuccessMsg(jsondata.response);
                                 getcampigndrowpdown();
                                 redirectToBaseupload();
@@ -1350,6 +1366,13 @@
                             else {
                                 ErrorMsg(jsondata.response);
                             }
+
+
+
+
+
+
+
 
                         }
                     });
@@ -1413,6 +1436,10 @@
                             else {
                                 ErrorMsg(jsondata.response);
                             }
+
+
+
+
 
 
                         }
@@ -1608,7 +1635,7 @@
 
         $('#templateId').on('change', function () {
 
-            var template = $('#templateId').val();
+            var templateId = $('#templateId').val();
             var smstype = $('#smsType').val();
             var variablecnt;
             //var variableNames;
@@ -1617,7 +1644,7 @@
              $.ajax({
                 url: "@Url.Action(MVC.Campaign.GetmessagecontentfromTemplate())",
                 type: 'GET',
-                 data: { template: template},
+                 data: { templateId: templateId},
                  success: function (minames) {
                      var obj = JSON.parse(minames);
                      //console.log(obj);
@@ -1663,14 +1690,7 @@
             $('#Idform')[0].reset();
         });
 
-        //$(document).ready(function () {
-        //    // show the alert
-        //    setTimeout(function () {
-        //        $(".alert").alert('close');
-        //    }, 2000);
-        //});
-
-
+        
 
         $('#smsType').on('change', function () {
 
@@ -1710,7 +1730,7 @@
                 $('#savecampaignM2M').hide();
                 $('#campaignsubmit').hide();
 
-                 const container = document.querySelector('#generated');
+                const container = document.querySelector('#generated');
                 removeAllChildNodes(container);
                 document.getElementById("smsContent").innerHTML = "";
                 //$('#templateId').find("input").val("");
@@ -1718,6 +1738,7 @@
             }
         });
 
+        //uploadCampaignstarttype
         $('#uploadCampaignstarttype').on('change', function () {
 
             if ($('#uploadCampaignstarttype').val() == "1") {
@@ -1726,7 +1747,7 @@
                 $('#priorityDiv').show();
                 $('#schedulenameDiv').hide();
                 $('#scheduleDiv').hide();
-
+                
             }
             else if ($('#uploadCampaignstarttype').val() == "2") {
                 $('#prioritynameDiv').show();
@@ -1916,44 +1937,37 @@
                         data: resp.tdata,
                         columns: resp.thead,
                         'columnDefs': [
-                            {
-                                "targets": 0,
-                                "className": "text-left",
-                                "visible": false,
-                                "searchable": false
-                            },
+                            //{
+                            //    "targets": 0,
+                            //    "className": "text-left",
+                            //    "visible": false,
+                            //    "searchable": false
+                            //},
                             {
                                 "targets": 15,
                                 "className": "text-left",
 
                                 "mRender": function (data, type, full) {
-                                 //  alert(full[0]);
+                                  
                                     if (full[15] == "1") {
-                                        return '<button onclick="changestatus(event,1)" id="${full[0]}"><i class="fa fa-play" style="color:green;font-size:10px;"></i></button>';
-                                      
-                                  }
-                                    else if (full[15] == "2") {
-                                        return '<button onclick="changestatus(event,2)" id="${full[0]}"><i class="fa fa-pause" style="color:black;font-size:10px;"></i></button><button onclick="changestatus(event,4)" id="${full[0]}"><i class="fa fa-stop" style="color:red;font-size:10px;"></i></button>';
-
-                                       
-                                  }
+                                      //  return '<button onclick="changestatus(this,1)" id='+full[0]+' class="fa fa-play" style="color:green;font-size:10px;"></button>';
+                                        return '<i onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" style="color:green;font-size:10px;"></i>';
+                                    }
+                                    else if (full[15] == "4" || full[15] == "2") {
+                                        return '<i onclick="changestatus(this,2)" id=' + full[0] + ' class="fa fa-pause" style="color:black;font-size:10px;"></i>&nbsp; &nbsp;<i onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" style="color:red;font-size:10px;"></i>';
+                                        //return '<i onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" style="color:green;font-size:10px;"></i>';
+                                    }
                                     else if (full[15] == "3") {
-                                        return '<button onclick="changestatus(event,3)" id="${full[0]}"><i class="fa fa-undo" style="color:yellow;font-size:10px;"></i></button><button onclick="changestatus(event,4)" id="${full[0]}"><i class="fa fa-stop" style="color:red;font-size:10px;"></i></button>';
+                                        return '<i onclick="changestatus(this,3)" id=' + full[0] + ' class="fa fa-undo" style="color:#cc7a00;font-size:10px;"></i>&nbsp; &nbsp;<i onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" style="color:red;font-size:10px;"></i>';
 
-                                  }
-                                 //else if (full[15] == "0") {
-                                      
-                                 //     return '<button onclick="changestatus(event,4)" id="${full[0]}"><i class="fa fa-stop" style="color:red;font-size:10px;"></i></button>';
-                                 // }
-                                  else {
-
-                                      return "";
-
-                                   }
-                            }
-
-
-                        },
+                                    }
+                                   
+                                    else {
+                                        //alert(full[15]);
+                                        return "";
+                                    }
+                             }
+                            },
                         ],
                         order: [],
                         fnInitComplete: function (o) {
@@ -2025,33 +2039,33 @@
                             }
 
                         ],
-                        //'columnDefs': [
+                        'columnDefs': [
 
-                            //{
-                            //    "targets": 0,
-                            //    "className": "text-left",
-                            //    "visible": false,
-                            //    "searchable": false
-
-
+                        //    {
+                        //        "targets": 0,
+                        //        "className": "text-left",
+                        //        "visible": false,
+                        //        "searchable": false
 
 
-                            //},
+
+
+                        //    },
                         {
                                 "targets": 13,
                                 "className": "text-left",
 
                                 "mRender": function (data, type, full) {
-                                   
-                                            //if (full[13] == 0) {
-                                            //    return "NA";
-                                            //}
-                                            //else {
-                                                return '<a class="btn fa fa-download" id="download" onclick="download();" </a>';
-                                                //return '<button class="btn fa fa-upload" id="upload" "  type="button"></button>';
-                                            //}
-                                        
-                                    }
+                        //            if (full[10] == 0) {
+                        //                return "NA";
+                        //            }
+                        //            else {
+
+                                    return '<i class="fa fa-download" id=' + full[0] + ' onclick="downLoadReport(this)"></i>';
+                        //                return '<a class="btn fa fa-upload" id="upload"  ' + full[10] + '>' + '' + '</a>';
+                        //                return '<button class="btn fa fa-upload" id="upload" "  type="button"></button>';
+                        //            }
+                                }
 
 
                         },
@@ -2118,8 +2132,26 @@
             $("#uploadbasenav").addClass("show active");
         }
 
-        function changestatus(event,cstatus) {
-            var campaignid = event.target.id;
+        function downLoadReport(event) {
+            var id = event.id;
+           // alert(event.id);
+               $.ajax({
+                type: "get",
+                url: '@Url.Action("DownloadCampaignDetailReport", "Campaign")',
+                   data: { id: id },
+                success: function (response) {
+                    console.log(response, "response");
+                    if (response != null && response != "") {
+                        download(response, "Report.xlsx");
+                    }
+                }
+            });
+        }
+
+
+        function changestatus(event, cstatus) {
+            //alert(cstatus);
+            var campaignid = event.id;
              $.ajax({
                 url: "@Url.Action(MVC.Campaign.changeCampaignStatus())",
                 type: 'GET',
@@ -2136,32 +2168,18 @@
                     //    reinitializeDataTable(tbl_rptstatus);
                     //    loadReportstatus();
                     //}
-                    var obj = JSON.parse(minames);
-                    if (obj.cstatus == "1") {
-                        SuccessMsg("Status Changed Successfully")
-                        reinitializeDataTable(tbl_rptstatus);
-                        loadReportstatus();
-                    }
-                    else if (obj.cstatus == "2") {
-                        SuccessMsg("Status paused Successfully")
-                        reinitializeDataTable(tbl_rptstatus);
-                        loadReportstatus();
-                    }
-                    else if (obj.cstatus == "3") {
-                        SuccessMsg("Status resumed Successfully")
-                        reinitializeDataTable(tbl_rptstatus);
-                        loadReportstatus();
-                    }
-                    else if (obj.cstatus == "4") {
-                        SuccessMsg("Status stopped Successfully")
-                        reinitializeDataTable(tbl_rptstatus);
-                        loadReportstatus();
-                    }
-                    else {
-                        ErrorMsg("Status not changed")
-                        reinitializeDataTable(tbl_rptstatus);
-                        loadReportstatus();
-                    }
+                   // SuccessMsg("Status Changed Successfully")
+                    reinitializeDataTable(tbl_rptstatus);
+                    loadReportstatus();
+                    if (cstatus == "1")
+                        SuccessMsg("Started Successfully");
+                    else if (cstatus == "2")
+                        SuccessMsg("Paused Successfully");
+                    else if (cstatus == "3")
+                        SuccessMsg("Resumed Successfully");
+                    else if (cstatus == "4")
+                        SuccessMsg("Stopped Successfully");
+                   
 
                 }
             });
@@ -2213,8 +2231,26 @@
             });
         }
 
- 
             //samplefiledownlod
+        //$('#samplefiledownlod').on('click', function () {
+        //    var id = $("#uploadCampaignName").val();
+        @*function download(id) {
+           // var campaignid = event.id;
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("getcampaignReportDownload", "Campaign")',
+                data: { id: id },
+                success: function (id) {
+                    //console.log(response, "response");
+                    //if (response != null && response != "") {
+                    //    download(response, "Upload.xlsx");
+                    //}
+                    SuccessMsg("Downloaded Successfully");
+                }
+            });
+
+        };*@
+
         $('#samplefiledownlod').on('click', function () {
             var id = $("#uploadCampaignName").val();
 
@@ -2232,7 +2268,7 @@
 
         });
 
-
+        
         function geteachcampaigndetails(campaignid) {
 
             $.ajax({
@@ -2333,7 +2369,9 @@
                 else {
                     fileData.append(files[0].name, files[0]);
                     fileData.append("CampaignId", $("#uploadCampaignName").val());
-                    fileData.append("starttype", $("#uploadCampaignstarttype").val());
+                    fileData.append("uploadCampaignstarttype", $("#uploadCampaignstarttype").val());
+                    fileData.append("scheduleDate", $("#scheduleDate").val());
+                    fileData.append("uploadpriority", $("#uploadpriority").val());
                     $.ajax({
                         url: '@Url.Action(MVC.Campaign.CampaignBase())',
                         type: 'post',
@@ -2354,9 +2392,6 @@
                         }
                     });
                 }
-
-
-
 
             }
             else {

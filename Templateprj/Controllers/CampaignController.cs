@@ -21,21 +21,17 @@ namespace Templateprj.Controllers
 
         #region Campaign Management
 
-
-
-
-
-
         [HttpPost]
         [NoCompress]
 
-        public virtual ActionResult CampaignBase()
+        public virtual ActionResult CampaignBase(SMSCampaignModel model)
         {
             string json = "";
 
-            string CampignId = Request["CampaignId"].ToString();
-            string starttype = Request["starttype"].ToString();
-
+            string CampaignId = Request["CampaignId"].ToString();
+            string uploadCampaignstarttype = Request["uploadCampaignstarttype"].ToString();
+            string scheduleDate = Request["scheduleDate"].ToString();
+            string uploadpriority = Request["uploadpriority"].ToString();
 
             if (Request.Files.Count > 0)
             {
@@ -43,7 +39,7 @@ namespace Templateprj.Controllers
                 if (!Directory.Exists(GlobalValues.BULKPath))
                     Directory.CreateDirectory(GlobalValues.BULKPath);
 
-                string path = GlobalValues.BULKPath + "/" + DateTime.Now.ToString("MMddyyyyHHmmss") + "_" + CampignId;
+                string path = GlobalValues.BULKPath + "/" + DateTime.Now.ToString("MMddyyyyHHmmss") + "_" + CampaignId;
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);
 
@@ -61,7 +57,7 @@ namespace Templateprj.Controllers
                             path = Path.Combine(path, fileName);
                             file.SaveAs(path);
 
-                            string status = _prc.insertfilepath(path, CampignId, starttype);
+                            string status = _prc.insertfilepath(path, model);
                             if (status == "1")
                             {
                                 json = "{\"status\":\"1\",\"response\":\"File Successfully Uploaded\" }";
@@ -157,31 +153,26 @@ namespace Templateprj.Controllers
 
         }
 
+        [NoCompress]
+        public void DownloadCampaignDetailReport(string id)
+        {
 
+            DataTable dt = _prc.getCampaignwiseDetailReport(id);
+            dt.TableName = "Report";
+            if (dt != null)
+            {
+                RKLib.ExportData.Export objExport = new RKLib.ExportData.Export();
+                objExport.ExportDetails(dt, RKLib.ExportData.Export.ExportFormat.Excel, "");
+            }
 
+        }
 
 
 
 
         #endregion
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
 
 
         //
@@ -265,13 +256,13 @@ namespace Templateprj.Controllers
 
         }
         // 
-        public virtual ActionResult GetmessagecontentfromTemplate(string template)
+        public virtual ActionResult GetmessagecontentfromTemplate(string templateId)
         {
-            if (template == "")
+            if (templateId == "")
             {
-                template = "0";
+                templateId = "0";
             }
-            string templatestring = _prc.getTemplatebytemplateId(template);
+            string templatestring = _prc.getTemplatebytemplateId(templateId);
             //string json = "[{\"templateContent\": \"Dear  [VAR3] [VAR4] Thank you for your purchasing from MNOP stocks. Invoice No: [VAR5] Invoice Date: [VAR6] Invoice Amount:\",\"variableCount\": \"9\",\"smsLength\": \"150/2\",\"variableNames\": [{\"variable\": \"Var1\"}, {\"variable\": \"Var2\"},{\"variable\": \"Var3\"},{\"variable\": \"Var3\"},{\"variable\": \"Var3\"},{\"variable\": \"Var3\"},{\"variable\": \"Var3\"},{\"variable\": \"Var3\"},{\"variable\": \"Var3\"}]}]";
             return Json(templatestring, JsonRequestBehavior.AllowGet);
 
@@ -463,11 +454,12 @@ namespace Templateprj.Controllers
 
             model.listcampaignNameList = dtcmpaignamelist.ToSelectList(listItems, "VALUE", "TEXT");
             model.listCampaignStatusList = dtstatuslist.ToSelectList(listItems, "VALUE", "TEXT");
+            model.listCampaignPriorityList = dtprioritylist.ToSelectList(listItems, "VALUE", "TEXT");
             model.listCampaignTypeList = dtCampaignType.ToSelectList(listItems, "VALUE", "TEXT");
 
             model.uploadCampaignNameList = dtcmpaignamelist.ToSelectList(listItems, "VALUE", "TEXT");
             model.uploadCampaignstarttypeList = dtcampaignstarttype.ToSelectList(listItems, "VALUE", "TEXT");
-            model.priorityList = dtprioritylist.ToSelectList(listItems, "VALUE", "TEXT");
+            model.uploadpriorityList = dtprioritylist.ToSelectList(listItems, "VALUE", "TEXT");
 
 
             model.statuscampaignNameList = dtcmpaignamelist.ToSelectList(listItemsAll, "VALUE", "TEXT");
@@ -531,8 +523,8 @@ namespace Templateprj.Controllers
 
 
             int status = 1;
-            // string json = _prc.getCountViewFilterString(model);
-            string json = "{\"thead\": [{\"title\": \"Campaign ID\"}, {\"title\": \"Campaign Name\"}, {\"title\": \"Campaign Type\"}, {\"title\": \"Created Date\"}, {\"title\": \"Start Date & Time\"}, {\"title\": \"From Date\"}, {\"title\": \"To Date\"}, {\"title\": \"From Time\"}, {\"title\": \"To Time\"}, {\"title\": \"Status\"}, {\"title\": \"Upload Base\"}, {\"title\": \"Test  Report\"}],\"tdata\": [[\"7288806665\", \"AP\", \"IMI MOBILES\", \"404071719557642\", \"test\", \"Get\", \"Active\", \"2017-11-15 14:27:24\",\"Normal\", \"Yes\", \"0\", \"CDR Configured\"],[\"9505270111\", \"AP\", \"IMI MOBILES\", \"404071713625143\", \"asd\", \"Get\", \"Active\",\"2018-01-12 14:06:40\", \"Normal\", \"Yes\", \"1\", \"CDR Configured\"]]}";
+            string json = _prc.getcampaigncreatedlist(model);
+            //string json = "{\"thead\": [{\"title\": \"Campaign ID\"}, {\"title\": \"Campaign Name\"}, {\"title\": \"Campaign Type\"}, {\"title\": \"Created Date\"}, {\"title\": \"Start Date & Time\"}, {\"title\": \"From Date\"}, {\"title\": \"To Date\"}, {\"title\": \"From Time\"}, {\"title\": \"To Time\"}, {\"title\": \"Status\"}, {\"title\": \"Upload Base\"}, {\"title\": \"Test  Report\"}],\"tdata\": [[\"7288806665\", \"AP\", \"IMI MOBILES\", \"404071719557642\", \"test\", \"Get\", \"Active\", \"2017-11-15 14:27:24\",\"Normal\", \"Yes\", \"0\", \"CDR Configured\"],[\"9505270111\", \"AP\", \"IMI MOBILES\", \"404071713625143\", \"asd\", \"Get\", \"Active\",\"2018-01-12 14:06:40\", \"Normal\", \"Yes\", \"1\", \"CDR Configured\"]]}";
             if (status == 1)
             {
                 return Content(json, "application/json");
@@ -606,6 +598,26 @@ namespace Templateprj.Controllers
             }
             
         }
-       
+        //public virtual ActionResult getcampaignReportDownload(SMSCampaignModel model)
+        //{
+        //    int status = 1;
+        //    string json = _prc.getcampaignreportDownload(model);
+        //    // string json = "{\"thead\": [{\"title\": \"Campaign ID\"}, {\"title\": \"Campaign Name\"}, {\"title\": \"Campaign Type\"}, {\"title\": \"Created Date\"}, {\"title\": \"Start Date & Time\"}, {\"title\": \"From Date\"}, {\"title\": \"To Date\"}, {\"title\": \"From Time\"}, {\"title\": \"To Time\"}, {\"title\": \"Status\"}, {\"title\": \"Upload Base\"}, {\"title\": \"Test  Report\"}],\"tdata\": [[\"7288806665\", \"AP\", \"IMI MOBILES\", \"404071719557642\", \"test\", \"Get\", \"Active\", \"2017-11-15 14:27:24\",\"Normal\", \"Yes\", \"0\", \"CDR Configured\"],[\"9505270111\", \"AP\", \"IMI MOBILES\", \"404071713625143\", \"asd\", \"Get\", \"Active\",\"2018-01-12 14:06:40\", \"Normal\", \"Yes\", \"1\", \"CDR Configured\"]]}";
+        //    if (status == 1)
+        //    {
+        //        return Content(json, "application/json");
+        //    }
+        //    else if (status == -2)
+        //    {
+        //        Response.StatusCode = 507;
+        //        return Content("Out of Memory", "text/plain");
+        //    }
+        //    else
+        //    {
+        //        Response.StatusCode = 503;
+        //        return Content("{\"Error\": \"Service Unavailable\"}", "application/json");
+        //    }
+
+        //}
     }
 }

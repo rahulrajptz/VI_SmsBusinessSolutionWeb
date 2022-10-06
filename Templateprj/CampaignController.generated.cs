@@ -61,6 +61,12 @@ namespace Templateprj.Controllers
 
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult CampaignBase()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.CampaignBase);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public virtual System.Web.Mvc.ActionResult GetTemplateIdfromSenderId()
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetTemplateIdfromSenderId);
@@ -185,6 +191,14 @@ namespace Templateprj.Controllers
         }
 
 
+        static readonly ActionParamsClass_CampaignBase s_params_CampaignBase = new ActionParamsClass_CampaignBase();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_CampaignBase CampaignBaseParams { get { return s_params_CampaignBase; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_CampaignBase
+        {
+            public readonly string model = "model";
+        }
         static readonly ActionParamsClass_GetTemplateIdfromSenderId s_params_GetTemplateIdfromSenderId = new ActionParamsClass_GetTemplateIdfromSenderId();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ActionParamsClass_GetTemplateIdfromSenderId GetTemplateIdfromSenderIdParams { get { return s_params_GetTemplateIdfromSenderId; } }
@@ -208,7 +222,7 @@ namespace Templateprj.Controllers
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionParamsClass_GetmessagecontentfromTemplate
         {
-            public readonly string template = "template";
+            public readonly string templateId = "templateId";
         }
         static readonly ActionParamsClass_CreatebulksmsCampaign s_params_CreatebulksmsCampaign = new ActionParamsClass_CreatebulksmsCampaign();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -333,13 +347,14 @@ namespace Templateprj.Controllers
         public T4MVC_CampaignController() : base(Dummy.Instance) { }
 
         [NonAction]
-        partial void CampaignBaseOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+        partial void CampaignBaseOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Templateprj.Models.SMSCampaignModel model);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult CampaignBase()
+        public override System.Web.Mvc.ActionResult CampaignBase(Templateprj.Models.SMSCampaignModel model)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.CampaignBase);
-            CampaignBaseOverride(callInfo);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
+            CampaignBaseOverride(callInfo, model);
             return callInfo;
         }
 
@@ -380,14 +395,14 @@ namespace Templateprj.Controllers
         }
 
         [NonAction]
-        partial void GetmessagecontentfromTemplateOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string template);
+        partial void GetmessagecontentfromTemplateOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string templateId);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult GetmessagecontentfromTemplate(string template)
+        public override System.Web.Mvc.ActionResult GetmessagecontentfromTemplate(string templateId)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetmessagecontentfromTemplate);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "template", template);
-            GetmessagecontentfromTemplateOverride(callInfo, template);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "templateId", templateId);
+            GetmessagecontentfromTemplateOverride(callInfo, templateId);
             return callInfo;
         }
 

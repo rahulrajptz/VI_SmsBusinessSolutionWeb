@@ -193,7 +193,7 @@ namespace Templateprj.DataAccess
                 return null;
             }
         }
-       
+
         public DataTable getprioritylist()
         {
             // `Web_Get_SMS_Type`()
@@ -226,7 +226,7 @@ namespace Templateprj.DataAccess
         }
         public DataTable getCampaigntypelist()
         {
-                    //`Web_Get_Campaign_Type`()
+            //`Web_Get_Campaign_Type`()
             try
             {
 
@@ -295,7 +295,7 @@ namespace Templateprj.DataAccess
         {
 
             // `Web_Get_Action_Type`(In N_Acc_Id Int)
-      
+
             try
             {
 
@@ -329,7 +329,7 @@ namespace Templateprj.DataAccess
 
         public DataTable getsenderIdlist()
         {
-          //  `Web_Get_Sender_Id`(in N_user_id int, In N_Acc_Id int)
+            //  `Web_Get_Sender_Id`(in N_user_id int, In N_Acc_Id int)
 
             try
             {
@@ -362,7 +362,7 @@ namespace Templateprj.DataAccess
             }
         }
 
-        public DataTable getTemplateIdFromsenderId(string senderid,string smstype)
+        public DataTable getTemplateIdFromsenderId(string senderid, string smstype)
         {
             //`Web_get_template_id`(in N_Acc_id int, in N_sender_id varchar(20))
             try
@@ -372,8 +372,8 @@ namespace Templateprj.DataAccess
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@N_Acc_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
-                    cmd.Parameters.Add("@N_sender_id", MySqlDbType.VarChar,200).Value = senderid;
-                    cmd.Parameters.Add("@N_Sms_Type", MySqlDbType.VarChar,200).Value = smstype;
+                    cmd.Parameters.Add("@N_sender_id", MySqlDbType.VarChar, 200).Value = senderid;
+                    cmd.Parameters.Add("@N_Sms_Type", MySqlDbType.VarChar, 200).Value = smstype;
 
 
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
@@ -388,7 +388,7 @@ namespace Templateprj.DataAccess
                         {
                             string text1 = row["value"].ToString();
                             string text2 = row["text"].ToString();
-                            if (text1 == "10" || text1=="11")
+                            if (text1 == "10" || text1 == "11")
                             {
 
                                 //RS.SOURCE_ADDR As "Msisdn",
@@ -436,7 +436,7 @@ namespace Templateprj.DataAccess
                 return null;
             }
         }
-        
+
         public string getcmapigndetailsfromcampid(string id)
         {
             //  `Web_Get_Campaign_details`(In Ln_Campaign_Id int,out V_Out text)
@@ -446,7 +446,7 @@ namespace Templateprj.DataAccess
                 using (MySqlCommand cmd = new MySqlCommand("Web_Get_Campaign_details"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@Ln_Campaign_Id", MySqlDbType.Int32).Value = id;
+                    cmd.Parameters.Add("@Ln_Campaign_Id", MySqlDbType.Int32).Value = id/*Convert.ToInt32(HttpContext.Current.Session["id"].ToString())*/;
                     cmd.Parameters.Add("@V_Out", MySqlDbType.Text).Direction = ParameterDirection.Output;
 
                     // DataTable dt = new DataTable();
@@ -516,9 +516,9 @@ namespace Templateprj.DataAccess
         }
 
 
-        public void changestatuscampign(string id,string cstatus)
+        public void changestatuscampign(string id, string cstatus)
         {
-           // `Web_update_control_status`(In N_scm_Id int, In n_control Int)
+            // `Web_update_control_status`(In N_scm_Id int, In n_control Int)
 
             try
             {
@@ -580,7 +580,7 @@ namespace Templateprj.DataAccess
         }
 
 
-        public string getTemplatebytemplateId(string template)
+        public string getTemplatebytemplateId(string templateId)
         {
             // string response = "";
 
@@ -594,7 +594,7 @@ namespace Templateprj.DataAccess
                     cmd.CommandType = CommandType.StoredProcedure;
                     //cmd.Parameters.Add("@N_user_id", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
                     //cmd.Parameters.Add("@N_Acc_Id", MySqlDbType.Int32).Value = HttpContext.Current.Session["AccountID"].ToString();
-                    cmd.Parameters.Add("@n_template_Id", MySqlDbType.Int32).Value = template;
+                    cmd.Parameters.Add("@n_template_Id", MySqlDbType.Int32).Value = templateId;
                     cmd.Parameters.Add("@n_message", MySqlDbType.LongText).Direction = ParameterDirection.Output;
 
 
@@ -663,7 +663,7 @@ namespace Templateprj.DataAccess
         {
             string response = "";
 
-                //`Web_Get_SMS_Length_Count`(In Lv_Data Text, Out Lv_Response Text)
+            //`Web_Get_SMS_Length_Count`(In Lv_Data Text, Out Lv_Response Text)
 
             try
             {
@@ -693,21 +693,53 @@ namespace Templateprj.DataAccess
             }
         }
 
+        public DataTable getCampaignwiseDetailReport(string id)
+        {
+            //`Web_Get_Variable_details`(IN Ln_Campaign_Id int, OUT V_Out text)
+            DataTable dt = new DataTable();
+            //  dt = null;
+            try
+            {
+                using (MySqlCommand cmd = new MySqlCommand("Web_Get_SMS_detail_Report"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@Ln_Camp_name_Id", MySqlDbType.Int32).Value =id /*Convert.ToInt32(HttpContext.Current.Session["id"].ToString())*/;
+                    //    cmd.Parameters.Add("@V_Out", MySqlDbType.Text).Direction = ParameterDirection.Output;
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
 
-        public string testsms(string json,out string response,out string campaignId,out string smsPushedCount)
+                        con.Open();
+                        cmd.Connection = con;
+                        MySqlDataAdapter da = new MySqlDataAdapter("", con);
+                        da.SelectCommand = cmd;
+                        da.Fill(dt);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.Campaigndbprc.getsamplefilesms :: Exception :: " + ex.Message);
+                return null;
+
+            }
+            return dt;
+        }
+
+
+        public string testsms(string json, out string response, out string campaignId, out string smsPushedCount)
         {
             response = "";
             string status = "";
             campaignId = "";
             smsPushedCount = "";
 
-             //`Web_Campaign_Test_SMS`(IN n_Acc_id int, 
-             //                           In n_User_Id Int, 
-             //                           IN Lv_Data text, 
-             //                           Out N_Sms_Pushed Int, 
-             //                           Out V_Campaign_Id Varchar(50),
-             //                           Out Ln_Status int, 
-             //                           OUT Lv_Response varchar(50))
+            //`Web_Campaign_Test_SMS`(IN n_Acc_id int, 
+            //                           In n_User_Id Int, 
+            //                           IN Lv_Data text, 
+            //                           Out N_Sms_Pushed Int, 
+            //                           Out V_Campaign_Id Varchar(50),
+            //                           Out Ln_Status int, 
+            //                           OUT Lv_Response varchar(50))
 
             try
             {
@@ -718,9 +750,9 @@ namespace Templateprj.DataAccess
                     cmd.Parameters.Add("@n_User_Id", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
                     cmd.Parameters.Add("@Lv_Data", MySqlDbType.Text).Value = json;
                     cmd.Parameters.Add("@N_Sms_Pushed", MySqlDbType.Int32).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("@V_Campaign_Id", MySqlDbType.VarChar,200).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@V_Campaign_Id", MySqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("@Ln_Status", MySqlDbType.Int32).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("@Lv_Response", MySqlDbType.VarChar,200).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@Lv_Response", MySqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
 
 
 
@@ -791,27 +823,34 @@ namespace Templateprj.DataAccess
 
             try
             {
-                //`Web_Rpt_Master_Prc`(In N_User_Id  int(6),
-                //                  In Lv_Circle Varchar(50),
-                //                  In Lv_Vendor Varchar(50),
-                //                  In Ln_VMN Varchar(50))
+                //(IN n_Acc_Id int, 
+                //    IN n_user_id int, 
+                //    IN Ln_Camp_Name_Id int, 
+                //    IN Lv_Created_Date varchar(50),
+                //    IN Ln_Campaign_Status int, 
+                //    IN Ln_Campaign_Priority int, 
+                //    IN Ln_Campaign_Type int,
+                //    OUT v_Message Longtext);
 
-                using (MySqlCommand cmd = new MySqlCommand("Web_Rpt_Master_Prc"))
+                using (MySqlCommand cmd = new MySqlCommand("Web_Get_Campaign_List"))
                 {
-
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@N_User_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"].ToString());
-                    cmd.Parameters.Add("@Lv_Circle", MySqlDbType.Int32).Value = model.listcampaignName;
-                    cmd.Parameters.Add("@Lv_Vendor", MySqlDbType.VarChar).Value = model.listCreatedDate;
-                    cmd.Parameters.Add("@Ln_VMN", MySqlDbType.VarChar).Value = model.listCampaignStatus;
-                    cmd.Parameters.Add("@Ln_VMN", MySqlDbType.VarChar).Value = model.listCampaignType;
+                    cmd.Parameters.Add("@n_Acc_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
+                    cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"].ToString());
+                    cmd.Parameters.Add("@Ln_Camp_Name_Id", MySqlDbType.Int32).Value = model.listcampaignName;
+                    cmd.Parameters.Add("@Lv_Created_Date", MySqlDbType.VarChar).Value = model.listCreatedDate;
+                    cmd.Parameters.Add("@Ln_Campaign_Status", MySqlDbType.Int32).Value = model.listCampaignStatus;
+                    cmd.Parameters.Add("@Ln_Campaign_Priority", MySqlDbType.Int32).Value = model.listCampaignPriority;
+                    cmd.Parameters.Add("@Ln_Campaign_Type", MySqlDbType.Int32).Value = model.listCampaignType;
+                    cmd.Parameters.Add("@v_Message", MySqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
                         cmd.Connection = con;
-                        var dataReader_new = cmd.ExecuteReader();
-                        return GetJsonString(dataReader_new);
+                        cmd.ExecuteNonQuery();
                     }
+                    string response = cmd.Parameters["@v_Message"].Value.ToString();
+                    return response;
                 }
 
 
@@ -824,9 +863,10 @@ namespace Templateprj.DataAccess
         }
 
 
+
         public string getcampaignstatusreport(SMSCampaignModel model)
         {
-           
+
             try
             {
                 //`Web_Get_Campaign_Status_Details`(IN n_Acc_Id int, 
@@ -868,14 +908,14 @@ namespace Templateprj.DataAccess
 
         public string getcampaigndetailreport(SMSCampaignModel model)
         {
-            
+
             try
             {
-               //`Web_Get_Campaign_Summary_Report`(IN n_Acc_Id int, 
-               //                                 IN n_user_id int, 
-               //                                 IN Ln_Camp_name_Id int, 
-               //                                 IN Lv_From_Date varchar(50),
-               //                                 IN Ln_Camp_Status int)
+                //`Web_Get_Campaign_Summary_Report`(IN n_Acc_Id int, 
+                //                                 IN n_user_id int, 
+                //                                 IN Ln_Camp_name_Id int, 
+                //                                 IN Lv_From_Date varchar(50),
+                //                                 IN Ln_Camp_Status int)
 
 
                 using (MySqlCommand cmd = new MySqlCommand("Web_Get_Campaign_Summary_Report"))
@@ -885,7 +925,7 @@ namespace Templateprj.DataAccess
                     cmd.Parameters.Add("@n_Acc_Id", MySqlDbType.Int32).Value = HttpContext.Current.Session["AccountID"].ToString();
                     cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
                     cmd.Parameters.Add("@Ln_Camp_name_Id", MySqlDbType.Int32).Value = model.reportcampaignName;
-                    cmd.Parameters.Add("@Lv_From_Date", MySqlDbType.VarChar,200).Value = model.reportCreatedDate;
+                    cmd.Parameters.Add("@Lv_From_Date", MySqlDbType.VarChar, 200).Value = model.reportCreatedDate;
                     cmd.Parameters.Add("@Ln_Camp_Status", MySqlDbType.Int32).Value = model.reportCampaignStatus;
 
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
@@ -896,7 +936,7 @@ namespace Templateprj.DataAccess
                         return GetJsonString(dataReader_new);
                     }
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -904,10 +944,42 @@ namespace Templateprj.DataAccess
                 return "";
             }
         }
-        
+        public string getcampaignreportDownload(SMSCampaignModel model)
+        {
+
+            try
+            {
+                //cmd.Parameters.Add("@Ln_Camp_name_Id", MySqlDbType.Int32).Value = Convert.ToInt32(model.campaignId);
+                using (MySqlCommand cmd = new MySqlCommand("Web_Get_SMS_detail_Report"))
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    //cmd.Parameters.Add("@n_Acc_Id", MySqlDbType.Int32).Value = HttpContext.Current.Session["AccountID"].ToString();
+                    //cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
+                    cmd.Parameters.Add("@Ln_Camp_name_Id", MySqlDbType.Int32).Value = model.campaignId;
+                    //cmd.Parameters.Add("@Lv_From_Date", MySqlDbType.VarChar, 200).Value = model.reportCreatedDate;
+                    //cmd.Parameters.Add("@Ln_Camp_Status", MySqlDbType.Int32).Value = model.reportCampaignStatus;
+
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        var dataReader_new = cmd.ExecuteReader();
+                        return GetJsonString(dataReader_new);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.CampaignDb.getcampaignreportDownload :: Exception :: " + ex.Message);
+                return "";
+            }
+
+        }
         #endregion
 
-        
+
         public void getInsightDetails(out string smsallow, out string smsDeliv, out string smssub, out string success
           , out string instant, out string apibased, out string campaigns, out string apiinstant)
 
@@ -973,8 +1045,6 @@ namespace Templateprj.DataAccess
             }
         }
 
-       
-       
 
         public DataTable getsamplefile(string id)
         {
@@ -1076,23 +1146,24 @@ namespace Templateprj.DataAccess
             }
         }
 
-        public string insertfilepath(string path,string campaignid,string campaignstarttype)
+        public string insertfilepath(string path,SMSCampaignModel model)
         {
             path = path.Replace("\\", "/");
 
             //`Web_Insert_campaign_file`(IN Ln_Campaign_id int,IN Lv_Path varchar(1000),IN Ln_Action_Type int,Out Ln_Status int)
 
-            //response = "";
+            
             try
             {
 
                 using (MySqlCommand cmd = new MySqlCommand("Web_Insert_campaign_file"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@Ln_Campaign_id", MySqlDbType.Int32).Value = campaignid;
+                    cmd.Parameters.Add("@Ln_Campaign_id", MySqlDbType.Int32).Value = model.campaignId;
                     cmd.Parameters.Add("@Lv_Path", MySqlDbType.VarChar,200).Value = path;
-                    cmd.Parameters.Add("@Ln_Action_Type", MySqlDbType.Int32).Value = campaignstarttype;
-
+                    cmd.Parameters.Add("@Ln_Action_Type", MySqlDbType.Int32).Value = model.uploadCampaignstarttype;
+                    cmd.Parameters.Add("@Ln_scheduled_time", MySqlDbType.VarChar).Value = model.scheduleDate;
+                    cmd.Parameters.Add("@Ln_prioity", MySqlDbType.VarChar).Value = model.uploadpriority;
                     cmd.Parameters.Add("@Ln_Status", MySqlDbType.Int32).Direction = ParameterDirection.Output;
 
                     DataTable dt = new DataTable();
