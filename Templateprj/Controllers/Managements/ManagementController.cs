@@ -18,7 +18,7 @@ namespace Templateprj.Controllers
 
         public virtual ActionResult Account()
         {
-            ViewBag.ItemList = "Computer Shop Item List Page";
+            ViewBag.ItemList = "Account";
             ManagementModel model= _accountManagemntRepository.GetAccount();
        
             return View(model);

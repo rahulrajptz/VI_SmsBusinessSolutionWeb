@@ -356,8 +356,9 @@
     <Compile Include="ReportsController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
-    <Compile Include="Repositories\Interfaces\Managements\ITemplateManagemntRepository.cs" />
+    <Compile Include="Repositories\Interfaces\Managements\ISenderRepository.cs" />
     <Compile Include="Repositories\Interfaces\Managements\IAccountManagemntRepository.cs" />
+    <Compile Include="Repositories\Interfaces\Managements\ITemplateManagemntRepository.cs" />
     <Compile Include="Repositories\Interfaces\IInstantSmsRepository.cs" />
     <Compile Include="Repositories\Services\Managements\TemplateManagemntRepository.cs" />
     <Compile Include="Repositories\Services\Managements\AccountManagemntRepository.cs" />

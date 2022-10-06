@@ -85,6 +85,8 @@ namespace Templateprj.Controllers
                         return RedirectToAction(MVC.Account.ResetPassword());
                     case 7:  // Already LogedIn, Ask Security Question
                         return RedirectToAction(MVC.Account.SecurityQuestion());
+                    case 15:  // Account details not updated
+                        return RedirectToAction(MVC.Management.Account());
 
                     default:
                         return View("Unauthorized");
