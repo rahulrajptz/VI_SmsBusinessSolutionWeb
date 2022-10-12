@@ -452,10 +452,10 @@ namespace Templateprj.Controllers
             //model.templateIdList = dttemplateIdList.ToSelectList(listItems, "VALUE", "TEXT");
             model.templateIdList = dt.ToSelectList();
 
-            model.listcampaignNameList = dtcmpaignamelist.ToSelectList(listItems, "VALUE", "TEXT");
-            model.listCampaignStatusList = dtstatuslist.ToSelectList(listItems, "VALUE", "TEXT");
-            model.listCampaignPriorityList = dtprioritylist.ToSelectList(listItems, "VALUE", "TEXT");
-            model.listCampaignTypeList = dtCampaignType.ToSelectList(listItems, "VALUE", "TEXT");
+            model.listcampaignNameList = dtcmpaignamelist.ToSelectList(listItemsAll, "VALUE", "TEXT");
+            model.listCampaignStatusList = dtstatuslist.ToSelectList(listItemsAll, "VALUE", "TEXT");
+            model.listCampaignPriorityList = dtprioritylist.ToSelectList(listItemsAll, "VALUE", "TEXT");
+            model.listCampaignTypeList = dtCampaignType.ToSelectList(listItemsAll, "VALUE", "TEXT");
 
             model.uploadCampaignNameList = dtcmpaignamelist.ToSelectList(listItems, "VALUE", "TEXT");
             model.uploadCampaignstarttypeList = dtcampaignstarttype.ToSelectList(listItems, "VALUE", "TEXT");
@@ -465,11 +465,11 @@ namespace Templateprj.Controllers
             model.statuscampaignNameList = dtcmpaignamelist.ToSelectList(listItemsAll, "VALUE", "TEXT");
             model.statusCampaignStatusList = dtstatuslist.ToSelectList(listItemsAll, "VALUE", "TEXT");
             model.statusCampaignTypeList = dtCampaignType.ToSelectList(listItemsAll, "VALUE", "TEXT");
-            model.statusPriorityList = dtprioritylist.ToSelectList(listItems, "VALUE", "TEXT");
+            model.statusPriorityList = dtprioritylist.ToSelectList(listItemsAll, "VALUE", "TEXT");
 
             model.reportcampaignNameList = dtcmpaignamelist.ToSelectList(listItemsAll, "VALUE", "TEXT");
             model.reportCampaignStatusList = dtstatuslist.ToSelectList(listItemsAll, "VALUE", "TEXT");
-            model.reportCampaignPriorityList = dtprioritylist.ToSelectList(listItems, "VALUE", "TEXT");
+            model.reportCampaignPriorityList = dtprioritylist.ToSelectList(listItemsAll, "VALUE", "TEXT");
 
 
             return View(model);

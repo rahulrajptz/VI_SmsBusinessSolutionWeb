@@ -68,6 +68,12 @@ namespace Templateprj.Controllers
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetSmsCount);
         }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult Instantsmsreport()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Instantsmsreport);
+        }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public InstantSmsController Actions { get { return MVC.InstantSms; } }
@@ -183,17 +189,6 @@ namespace Templateprj.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetSmsCount);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "query", query);
             GetSmsCountOverride(callInfo, query);
-            return callInfo;
-        }
-
-        [NonAction]
-        partial void InstantsmsreportOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
-
-        [NonAction]
-        public override System.Web.Mvc.ActionResult Instantsmsreport()
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Instantsmsreport);
-            InstantsmsreportOverride(callInfo);
             return callInfo;
         }
 
