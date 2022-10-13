@@ -244,21 +244,21 @@ namespace Templateprj.Models
 
 
         [JsonIgnore]
-        public string listcampaignName { get; set; }
+        public int listcampaignName { get; set; }
         [JsonIgnore]
         public SelectList listcampaignNameList { get; set; }
         [JsonIgnore]
         public string listCreatedDate { get; set; }
         [JsonIgnore]
-        public string listCampaignStatus { get; set; }
+        public int listCampaignStatus { get; set; }
         [JsonIgnore]
         public SelectList listCampaignStatusList { get; set; }
         [JsonIgnore]
-        public string listCampaignPriority { get; set; }
+        public int listCampaignPriority { get; set; }
         [JsonIgnore]
         public SelectList listCampaignPriorityList { get; set; }
         [JsonIgnore]
-        public string listCampaignType { get; set; }
+        public int listCampaignType { get; set; }
         [JsonIgnore]
         public SelectList listCampaignTypeList { get; set; }
 
@@ -287,23 +287,23 @@ namespace Templateprj.Models
 
 
         [JsonIgnore]
-        public string statuscampaignName { get; set; }
+        public int statuscampaignName { get; set; }
         [JsonIgnore]
         public SelectList statuscampaignNameList { get; set; }
         [JsonIgnore]
         public string statusCreatedDate { get; set; }
         [JsonIgnore]
-        public string statusCampaignStatus { get; set; }
+        public int statusCampaignStatus { get; set; }
         [JsonIgnore]
         public SelectList statusCampaignStatusList { get; set; }
         [JsonIgnore]
-        public string statusCampaignType { get; set; }
+        public int statusCampaignType { get; set; }
         [JsonIgnore]
         public SelectList statusCampaignTypeList { get; set; }
         [JsonIgnore]
-        [Required]
+        //[Required]
         [Display(Name = "Priority")]
-        public string statusPriority { get; set; }
+        public int statusCampaignPriority { get; set; }
         [JsonIgnore]
         public SelectList statusPriorityList { get; set; }
 
@@ -319,7 +319,7 @@ namespace Templateprj.Models
         [JsonIgnore]
         public SelectList reportCampaignStatusList { get; set; }
         [JsonIgnore]
-        [Required]
+        //[Required]
         [Display(Name = "Priority")]
         public string reportCampaignPriority { get; set; }
         [JsonIgnore]

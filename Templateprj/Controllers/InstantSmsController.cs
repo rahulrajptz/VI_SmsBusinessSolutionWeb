@@ -50,38 +50,7 @@ namespace Templateprj.Controllers
             return Json(JsonConvert.SerializeObject(_instantserviceRepo.GetSmsContent(query.SMSContent, query.TemplateId)), JsonRequestBehavior.AllowGet);
         }
 
-        //[HttpGet]
-        //public virtual ActionResult Instantsmsreport()
-        //{
-
-        //    InstantSmsModel model = new InstantSmsModel();
-        //    //var model = _instantserviceRepo.Instantsmsreport();
-        //    SelectListItem selectListItem = new SelectListItem { Text = "-Select-", Value = "" };
-        //    List<SelectListItem> listItems = new List<SelectListItem>();
-        //    listItems.Add(selectListItem);
-
-
-        //    SelectListItem selectListItemAll = new SelectListItem { Text = "-All-", Value = "0" };
-        //    List<SelectListItem> listItemsAll = new List<SelectListItem>();
-        //    listItemsAll.Add(selectListItemAll);
-
-
-        //    DataTable dt = new DataTable();
-        //    DataRow newRow = dt.NewRow();
-        //    dt.Columns.Add("Value");
-        //    dt.Columns.Add("Text");
-        //    newRow[0] = "";
-        //    newRow[1] = "-Select-";
-        //    dt.Rows.InsertAt(newRow, 0);
-
-        //    DataTable dtstatuslist = _prc.getstatuslist();
-        //    DataTable dttemplateList = _prc.getTemplateId();
-        //    model.StatusList = dtstatuslist.ToSelectList(listItemsAll, "VALUE", "TEXT");
-        //    model.TemplateList = dttemplateList.ToSelectList(listItems, "VALUE", "TEXT");
-        //    return View(model);
-        //}
-
-        //[Route("Campaign")]
+        
         [HttpPost]
         public virtual ActionResult Instantsmsreport(InstantSmsModel model)
         {

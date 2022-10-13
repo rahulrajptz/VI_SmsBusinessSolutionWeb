@@ -862,11 +862,43 @@ namespace Templateprj.DataAccess
             }
         }
 
+        public DataTable getcampaigntestreportlist()
+        {
+            //`Web_Get_Campaign_List_Test_Report`(IN n_Acc_Id int, IN n_user_id int, IN n_Campaign_Id varchar(50))
+            try
+            {
+                DataTable dt = new DataTable();
+                using (MySqlCommand cmd = new MySqlCommand("Web_Get_Campaign_List_Test_Report"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@n_Acc_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
+                    cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"].ToString());
+                    //cmd.Parameters.Add("@n_Campaign_Id", MySqlDbType.VarChar, 200).Value = id;
+                    //cmd.Parameters.Add("@N_Sms_Type", MySqlDbType.Int32).Value = smstype;
 
+
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        var dataTable = new DataTable();
+                        dataAdapter.Fill(dataTable);
+                        return dataTable;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.Campaign.getcampaigntestreportlist::Exce ::  :: " + ex.Message);
+                return null;
+            }
+        }
 
         public string getcampaignstatusreport(SMSCampaignModel model)
         {
-
+            
             try
             {
                 //`Web_Get_Campaign_Status_Details`(IN n_Acc_Id int, 
@@ -876,28 +908,40 @@ namespace Templateprj.DataAccess
                 //                            IN Ln_Camp_Status int, 
                 //                            IN Ln_Campaign_Type int)
 
+                //`Web_Get_Campaign_Status_Details`(IN n_Acc_Id int,
+                //IN n_user_id int,
+                //IN Ln_Camp_name_Id int,
+                //IN Lv_From_Date varchar(50),
+                //IN Ln_Camp_Status int,
+                //IN Ln_Campaign_Type int,
+                //IN Ln_Campaign_Priority int)
 
                 using (MySqlCommand cmd = new MySqlCommand("Web_Get_Campaign_Status_Details"))
                 {
 
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@n_Acc_Id", MySqlDbType.Int32).Value = HttpContext.Current.Session["AccountID"].ToString();
-                    cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
-                    cmd.Parameters.Add("@Ln_Camp_name_Id", MySqlDbType.VarChar).Value = model.statuscampaignName;
-                    cmd.Parameters.Add("@Lv_To_Date", MySqlDbType.VarChar).Value = model.statusCreatedDate;
+                    cmd.Parameters.Add("@n_Acc_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
+                    cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"].ToString());
+                    cmd.Parameters.Add("@Ln_Camp_name_Id", MySqlDbType.Int32).Value = model.statuscampaignName;
+                    cmd.Parameters.Add("@Lv_From_Date", MySqlDbType.VarChar).Value = model.statusCreatedDate;
                     cmd.Parameters.Add("@Ln_Camp_Status", MySqlDbType.Int32).Value = model.statusCampaignStatus;
+                    cmd.Parameters.Add("@Ln_Campaign_Priority", MySqlDbType.Int32).Value = model.statusCampaignPriority;
                     cmd.Parameters.Add("@Ln_Campaign_Type", MySqlDbType.Int32).Value = model.statusCampaignType;
+                    //cmd.Parameters.Add("@v_Message", MySqlDbType.LongText).Direction = ParameterDirection.Output;
 
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
                         cmd.Connection = con;
+                        cmd.ExecuteNonQuery();
                         var dataReader_new = cmd.ExecuteReader();
                         return GetJsonString(dataReader_new);
+                        //MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        //var dataTable = new DataTable();
+                        //dataAdapter.Fill(dataTable);
+
                     }
                 }
-
-
             }
             catch (Exception ex)
             {

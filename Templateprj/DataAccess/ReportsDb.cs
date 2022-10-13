@@ -132,7 +132,7 @@ namespace Templateprj.DataAccess
             }
         }
 
-        public void ExportDetailedReport(DeatailedReportModel model, string fileName, out int status)
+        public void ExportDetailedReport(DeatailedReportModel model, string name, out int status)
         {
            // `Web_get_bulksms_report`(IN N_Campaign_id bigint(20),IN FromDate varchar(50),In ToDate Varchar(50),out N_Status int)
 
@@ -148,8 +148,11 @@ namespace Templateprj.DataAccess
                 cmd.Parameters.Add("@FromDate", MySqlDbType.VarChar).Value = model.fromdate;
                 cmd.Parameters.Add("@ToDate", MySqlDbType.VarChar).Value = model.todate;
                 cmd.Parameters.Add("@N_Status", MySqlDbType.Int32).Direction = ParameterDirection.Output;
-                var dataReader = cmd.ExecuteReader();
-                _xlsx.ExportToCSV(dataReader, fileName);
+                //var dataReader = cmd.ExecuteReader();
+                MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                var dataTable = new DataTable();
+                dataAdapter.Fill(dataTable);
+                _xlsx.ExportToExcel(dataTable, name);
                 status = Convert.ToInt32(cmd.Parameters["@N_Status"].Value.ToString());
 
             }

@@ -548,35 +548,35 @@
                     <div class="col-md-2">
                         @Html.Label("Campaign Name")
                         <div class="form-group">
-                            @Html.DropDownListFor(m => m.listcampaignName, Model.listcampaignNameList, new { @class = "form-control cl-black", @required = "required" })
+                            @Html.DropDownListFor(m => m.listcampaignName, Model.listcampaignNameList, new { @class = "form-control cl-black" })
 
                         </div>
                     </div>
                     <div class="col-md-2">
                         @Html.Label("Created Date")
                         <div class="form-group">
-                            @Html.TextBoxFor(m => m.listCreatedDate, new { @class = " form-control", style = "background:white", required = "required", placeholder = "-Date-", @readonly = "@readonly" })
+                            @Html.TextBoxFor(m => m.listCreatedDate, new { @class = " form-control", style = "background:white",  placeholder = "-Date-", @readonly = "@readonly" })
 
                         </div>
                     </div>
                     <div class="col-md-2">
                         @Html.Label("Status")
                         <div class="form-group">
-                            @Html.DropDownListFor(m => m.listCampaignStatus, Model.listCampaignStatusList, new { @class = "form-control cl-black", @required = "required" })
+                            @Html.DropDownListFor(m => m.listCampaignStatus, Model.listCampaignStatusList, new { @class = "form-control cl-black" })
 
                         </div>
                     </div>
                     <div class="col-md-2">
                         @Html.Label("Priority")
                         <div class="form-group">
-                            @Html.DropDownListFor(m => m.listCampaignPriority, Model.listCampaignPriorityList, new { @class = "form-control cl-black", @required = "required" })
+                            @Html.DropDownListFor(m => m.listCampaignPriority, Model.listCampaignPriorityList, new { @class = "form-control cl-black" })
 
                         </div>
                     </div>
                     <div class="col-md-2">
                         @Html.Label("Campaign Type")
                         <div class="form-group">
-                            @Html.DropDownListFor(m => m.listCampaignType, Model.listCampaignTypeList, new { @class = "form-control cl-black", @required = "required" })
+                            @Html.DropDownListFor(m => m.listCampaignType, Model.listCampaignTypeList, new { @class = "form-control cl-black" })
 
                         </div>
                     </div>
@@ -706,12 +706,6 @@
                                         </div>
                                     </div>
 
-
-
-
-
-
-
                                 </div>
                                 <div class="ml-3 mr-2" style="border:1px solid rgb(61, 61, 61) ;"></div>
 
@@ -791,7 +785,7 @@
                             </div>
                             <div class="col-md-4" id="scheduleDiv">
                                 <div class="form-group" style="margin-left:-139px">
-                                    @Html.TextBoxFor(m => m.scheduleDate, new { @class = "form-control cl-black", @style = "width:105px" })
+                                    @Html.TextBoxFor(m => m.scheduleDate, new { @class = "form-control cl-black", @style = "width:105px", @required = "required" })
 
                                 </div>
                             </div>
@@ -840,35 +834,34 @@
                     <div class="col-md-2">
                         @Html.Label("Campaign Name")
                         <div class="form-group">
-                            @Html.DropDownListFor(m => m.statuscampaignName, Model.statuscampaignNameList, new { @class = "form-control cl-black", @required = "required" })
-
+                            @Html.DropDownListFor(m => m.statuscampaignName, Model.statuscampaignNameList, new { @class = "form-control cl-black" })
                         </div>
                     </div>
                     <div class="col-md-2">
                         @Html.Label("Created Date")
                         <div class="form-group">
-                            @Html.TextBoxFor(m => m.statusCreatedDate, new { @class = " form-control", style = "background:white", required = "required", placeholder = "-Date-", @readonly = "@readonly" })
+                            @Html.TextBoxFor(m => m.statusCreatedDate, new { @class = " form-control", style = "background:white", placeholder = "-Date-", @readonly = "@readonly" })
 
                         </div>
                     </div>
                     <div class="col-md-2">
                         @Html.Label("Status")
                         <div class="form-group">
-                            @Html.DropDownListFor(m => m.statusCampaignStatus, Model.statusCampaignStatusList, new { @class = "form-control cl-black", @required = "required" })
+                            @Html.DropDownListFor(m => m.statusCampaignStatus, Model.statusCampaignStatusList, new { @class = "form-control cl-black", })
 
                         </div>
                     </div>
                     <div class="col-md-2">
                         @Html.Label("Priority")
                         <div class="form-group">
-                            @Html.DropDownListFor(m => m.statusPriority, Model.statusPriorityList, new { @class = "form-control cl-black", @required = "required" })
+                            @Html.DropDownListFor(m => m.statusCampaignPriority, Model.statusPriorityList, new { @class = "form-control cl-black" })
 
                         </div>
                     </div>
                     <div class="col-md-2">
                         @Html.Label("Campaign Type")
                         <div class="form-group">
-                            @Html.DropDownListFor(m => m.statusCampaignType, Model.statusCampaignTypeList, new { @class = "form-control cl-black", @required = "required" })
+                            @Html.DropDownListFor(m => m.statusCampaignType, Model.statusCampaignTypeList, new { @class = "form-control cl-black" })
 
                         </div>
                     </div>
@@ -905,28 +898,28 @@
                     <div class="col-md-2">
                         @Html.Label("Campaign Name")
                         <div class="form-group">
-                            @Html.DropDownListFor(m => m.reportcampaignName, Model.reportcampaignNameList, new { @class = "form-control cl-black", @required = "required" })
+                            @Html.DropDownListFor(m => m.reportcampaignName, Model.reportcampaignNameList, new { @class = "form-control cl-black"})
 
                         </div>
                     </div>
                     <div class="col-md-2">
                         @Html.Label("Created Date")
                         <div class="form-group">
-                            @Html.TextBoxFor(m => m.reportCreatedDate, new { @class = " form-control", style = "background:white", required = "required", placeholder = "-Date-", @readonly = "@readonly" })
+                            @Html.TextBoxFor(m => m.reportCreatedDate, new { @class = " form-control", style = "background:white",  placeholder = "-Date-", @readonly = "@readonly" })
 
                         </div>
                     </div>
                     <div class="col-md-2">
                         @Html.Label("Status")
                         <div class="form-group">
-                            @Html.DropDownListFor(m => m.reportCampaignStatus, Model.reportCampaignStatusList, new { @class = "form-control cl-black", @required = "required" })
+                            @Html.DropDownListFor(m => m.reportCampaignStatus, Model.reportCampaignStatusList, new { @class = "form-control cl-black" })
 
                         </div>
                     </div>
                     <div class="col-md-2">
                         @Html.Label("Priority")
                         <div class="form-group">
-                            @Html.DropDownListFor(m => m.reportCampaignPriority, Model.reportCampaignPriorityList, new { @class = "form-control cl-black", @required = "required" })
+                            @Html.DropDownListFor(m => m.reportCampaignPriority, Model.reportCampaignPriorityList, new { @class = "form-control cl-black" })
 
                         </div>
                     </div>
@@ -1863,15 +1856,15 @@
                                 "className": "text-left",
 
                                 "mRender": function (data, type, full) {
-                                    if (full[10] == 0) {
-                                        return "NA";
-                                    }
-                                    else {
+                                    //if (full[10] == 0) {
+                                    //    return "NA";
+                                    //}
+                                    //else {
 
 
                                         //return '<a class="btn fa fa-upload" id="upload"  ' + full[10] + '>' + '' + '</a>';
-                                        return '<button class="btn fa fa-upload" id="upload" onclick="fileupload();"  type="button"></button>';
-                                    }
+                                    return '<a onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;text-decoration:underline;">VIEW</a>';
+                                    //}
                                 }
 
 
@@ -1909,6 +1902,22 @@
         }
 
 
+        function popuptable(event) {
+            var id = event.id;
+           // alert(event.id);
+               $.ajax({
+                type: "get",
+                url: '@Url.Action("CampaignLisTestReport", "Campaign")',
+                   data: { id: id },
+                success: function (response) {
+                    console.log(response, "response");
+                    if (response != null && response != "") {
+                        download(response, "TestReport.xlsx");
+                    }
+                }
+            });
+        }
+
          function loadReportstatus() {
 
             $("#loading").show();
@@ -1937,27 +1946,27 @@
                         data: resp.tdata,
                         columns: resp.thead,
                         'columnDefs': [
-                            //{
-                            //    "targets": 0,
-                            //    "className": "text-left",
-                            //    "visible": false,
-                            //    "searchable": false
-                            //},
                             {
-                                "targets": 15,
+                                "targets": 0,
+                                "className": "text-left",
+                                "visible": false,
+                                "searchable": false
+                            },
+                            {
+                                "targets": 13,
                                 "className": "text-left",
 
                                 "mRender": function (data, type, full) {
                                   
-                                    if (full[15] == "1") {
+                                    if (full[13] == "1") {
                                       //  return '<button onclick="changestatus(this,1)" id='+full[0]+' class="fa fa-play" style="color:green;font-size:10px;"></button>';
                                         return '<i onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" style="color:green;font-size:10px;"></i>';
                                     }
-                                    else if (full[15] == "4" || full[15] == "2") {
+                                    else if (full[13] == "4" || full[15] == "2") {
                                         return '<i onclick="changestatus(this,2)" id=' + full[0] + ' class="fa fa-pause" style="color:black;font-size:10px;"></i>&nbsp; &nbsp;<i onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" style="color:red;font-size:10px;"></i>';
                                         //return '<i onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" style="color:green;font-size:10px;"></i>';
                                     }
-                                    else if (full[15] == "3") {
+                                    else if (full[13] == "3") {
                                         return '<i onclick="changestatus(this,3)" id=' + full[0] + ' class="fa fa-undo" style="color:#cc7a00;font-size:10px;"></i>&nbsp; &nbsp;<i onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" style="color:red;font-size:10px;"></i>';
 
                                     }
