@@ -1128,14 +1128,14 @@
             var a = $("#Idform").val();
             console.log(a);
             var jsondata;
-
+           
             if ($("#Idform").valid()) {
                 var data2 = $("#Idform").serialize();
                 $('#messageScriptdiv').show();
                 $('#sendsmsdiv').show();
-
+                
                 if ($("#smsType").val() == "1") {
-
+                    
                     $.ajax({
                         url: "@Url.Action(MVC.Campaign.createsms())",
                         type: 'POST',
@@ -1145,22 +1145,26 @@
                             jsondata = JSON.parse(e);
                             console.log(jsondata);
                             // [{ "SmsId": "1", "Sms_Leg": 136, "Sms_Parts": 1 }, { "SmsId": "2", "Sms_Leg": 136, "Sms_Parts": 1 }]
+                            if (jsondata.status == 1) {
+                                if (jsondata.response[0].SmsId == "1") {
+                                    document.getElementById("SMSTest_0__message").innerHTML = jsondata.response[0].message;
+                                    document.getElementById("smscountmessage1").innerHTML = '' + jsondata.response[0].Sms_Leg + '/' + jsondata.response[0].Sms_Parts + '';
 
-                            if (jsondata[0].SmsId == "1") {
-                                document.getElementById("SMSTest_0__message").innerHTML = jsondata[0].message;
-                                document.getElementById("smscountmessage1").innerHTML = '' + jsondata[0].Sms_Leg + '/' + jsondata[0].Sms_Parts + '';
+                                }
+                                if (jsondata.response[1].SmsId == "2") {
+
+                                    document.getElementById("SMSTest_1__message").innerHTML = jsondata.response[1].message;
+                                    document.getElementById("smscountmessage2").innerHTML = '' + jsondata.response[1].Sms_Leg + '/' + jsondata.response[1].Sms_Parts + '';
+
+                                }
 
                             }
-                            if (jsondata[1].SmsId == "2") {
 
-                                document.getElementById("SMSTest_1__message").innerHTML = jsondata[1].message;
-                                document.getElementById("smscountmessage2").innerHTML = '' + jsondata[1].Sms_Leg + '/' + jsondata[1].Sms_Parts + '';
 
+                            else {
+                                $('#sendsmsdiv').hide();
+                                ErrorMsg("Campaign name already exist.")
                             }
-
-
-
-
 
 
                             //console.log(jsondata.SMSvariable.length);
@@ -1169,29 +1173,43 @@
                     });
                 }
                 else if ($("#smsType").val() == "2") {
-
+                    
+                    
                     $.ajax({
                         url: "@Url.Action(MVC.Campaign.createsms())",
                         type: 'POST',
                         data: data2,
+
                         success: function (e) {
+                           
 
                             jsondata = JSON.parse(e);
                             console.log(jsondata);
+                           
                             // [{ "SmsId": "1", "Sms_Leg": 136, "Sms_Parts": 1 }, { "SmsId": "2", "Sms_Leg": 136, "Sms_Parts": 1 }]
+                           
+                            if (jsondata.status == 1)
+                            {
+                                if (jsondata.response[0].SmsId == "1")
+                                {
 
-                            if (jsondata[0].SmsId == "1") {
-                                document.getElementById("SMSTest_0__message").innerHTML = jsondata[0].message;
-                                document.getElementById("smscountmessage1").innerHTML = '' + jsondata[0].Sms_Leg + '/' + jsondata[0].Sms_Parts + '';
+                                    document.getElementById("SMSTest_0__message").innerHTML = jsondata.response[0].message;
+                                    document.getElementById("smscountmessage1").innerHTML = '' + jsondata.response[0].Sms_Leg + '/' + jsondata.response[0].Sms_Parts + '';
+                                    
+                                }
+                                if (jsondata.response[1].SmsId == "2")
+                                {
 
+                                    document.getElementById("SMSTest_1__message").innerHTML = jsondata.response[1].message;
+                                    document.getElementById("smscountmessage2").innerHTML = '' + jsondata.response[1].Sms_Leg + '/' + jsondata.response[1].Sms_Parts + '';
+
+                                }
                             }
-                            if (jsondata[1].SmsId == "2") {
-
-                                document.getElementById("SMSTest_1__message").innerHTML = jsondata[1].message;
-                                document.getElementById("smscountmessage2").innerHTML = '' + jsondata[1].Sms_Leg + '/' + jsondata[1].Sms_Parts + '';
-
+                            else
+                            {
+                                $('#sendsmsdiv').hide();
+                                ErrorMsg("Campaign name already exist.")
                             }
-
 
 
 

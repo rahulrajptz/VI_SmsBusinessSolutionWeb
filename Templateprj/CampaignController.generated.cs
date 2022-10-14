@@ -166,6 +166,7 @@ namespace Templateprj.Controllers
             public readonly string getcampaigndetailsfromid = "getcampaigndetailsfromid";
             public readonly string changeCampaignStatus = "changeCampaignStatus";
             public readonly string getcampaigncreatedlist = "getcampaigncreatedlist";
+            public readonly string CampaignLisTestReport = "CampaignLisTestReport";
             public readonly string getcampaignstatusReport = "getcampaignstatusReport";
             public readonly string getcampaigndetailReport = "getcampaigndetailReport";
         }
@@ -186,6 +187,7 @@ namespace Templateprj.Controllers
             public const string getcampaigndetailsfromid = "getcampaigndetailsfromid";
             public const string changeCampaignStatus = "changeCampaignStatus";
             public const string getcampaigncreatedlist = "getcampaigncreatedlist";
+            public const string CampaignLisTestReport = "CampaignLisTestReport";
             public const string getcampaignstatusReport = "getcampaignstatusReport";
             public const string getcampaigndetailReport = "getcampaigndetailReport";
         }
@@ -511,6 +513,17 @@ namespace Templateprj.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.getcampaigncreatedlist);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
             getcampaigncreatedlistOverride(callInfo, model);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void CampaignLisTestReportOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult CampaignLisTestReport()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.CampaignLisTestReport);
+            CampaignLisTestReportOverride(callInfo);
             return callInfo;
         }
 

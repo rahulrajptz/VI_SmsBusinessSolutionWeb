@@ -281,8 +281,8 @@ namespace Templateprj.Controllers
         public virtual ActionResult createsms(SMSCampaignModel model)
         {
 
-
             string messagedetailsjson = "";
+            string status="";
             string jsondata = "";
             string jsontodb = "";
 
@@ -295,9 +295,16 @@ namespace Templateprj.Controllers
                 jsondata = CreateJson(model);
 
                 jsontodb = "[" + jsondata + "]";
-                messagedetailsjson = _prc.getSmscountDetails(jsontodb);
-
-
+               status = _prc.getSmscountDetails(jsontodb,out string response);
+                if(status == "1")
+                {
+                    messagedetailsjson = "{\"status\":\"" + status + "\",\"response\":" + response + "}";
+                }
+                else
+                {
+                    messagedetailsjson = "{\"status\":\"9\",\"response\":\"error\"}";
+                }
+                
             }
             else if (model.smsType == 2)
             {
@@ -318,15 +325,17 @@ namespace Templateprj.Controllers
                 jsondata = CreateJson(model);
                 jsontodb = "[" + jsondata + "]";
 
-                messagedetailsjson = _prc.getSmscountDetails(jsontodb);
+                status = _prc.getSmscountDetails(jsontodb,out string response);
+                if (status == "1")
+                { messagedetailsjson = "{\"status\":\"" + status + "\",\"response\":" + response + "}"; }
+                else
+                {
+                    messagedetailsjson = "{\"status\":\"9\",\"response\":\"error\"}";
+                }
             }
 
-
-            // messagedetailsjson ="{ }";
-
-
-
             return Json(messagedetailsjson, JsonRequestBehavior.AllowGet);
+          
         }
 
 

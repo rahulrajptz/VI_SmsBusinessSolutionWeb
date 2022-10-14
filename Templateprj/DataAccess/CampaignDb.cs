@@ -659,21 +659,23 @@ namespace Templateprj.DataAccess
             }
         }
 
-        public string getSmscountDetails(string json)
+        public string getSmscountDetails(string json,out string response)
         {
-            string response = "";
-
+            response = "";
+            string status = "";
             //`Web_Get_SMS_Length_Count`(In Lv_Data Text, Out Lv_Response Text)
-
+            //`Web_Get_SMS_Length_Count`(IN n_Acc_id int, IN n_User_Id int, IN Lv_Data text, OUT Lv_Response text,out Ln_Status int);
             try
             {
                 using (MySqlCommand cmd = new MySqlCommand("Web_Get_SMS_Length_Count"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    
+                    cmd.Parameters.Add("@n_Acc_id", MySqlDbType.Int32).Value = HttpContext.Current.Session["AccountID"].ToString();
+                    cmd.Parameters.Add("@n_User_Id", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
                     cmd.Parameters.Add("@Lv_Data", MySqlDbType.Text).Value = json;
                     cmd.Parameters.Add("@Lv_Response", MySqlDbType.LongText).Direction = ParameterDirection.Output;
-
-
+                    cmd.Parameters.Add("@Ln_Status", MySqlDbType.Int32).Direction = ParameterDirection.Output;
 
                     DataTable dt = new DataTable();
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
@@ -683,7 +685,9 @@ namespace Templateprj.DataAccess
                         cmd.ExecuteNonQuery();
                     }
                     response = cmd.Parameters["@Lv_Response"].Value.ToString();
-                    return response;
+                    status = cmd.Parameters["@Ln_Status"].Value.ToString();
+                    
+                    return status;
                 }
             }
             catch (Exception ex)
