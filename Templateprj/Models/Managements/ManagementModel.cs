@@ -17,8 +17,6 @@ namespace Templateprj.Models.Managements
         public string PrincipalEntityId { get; set; }
         public string DltRegisteredAccount { get; set; }
         public string AccountExpiry { get; set; }
-        public string AccountExpiryDescription { get; set; }
-        public DateTime? AccountExpiryDate { get; set; }
         public string DltAddressDetails { get; set; }
         public string DltEmailAddress { get; set; }
 
