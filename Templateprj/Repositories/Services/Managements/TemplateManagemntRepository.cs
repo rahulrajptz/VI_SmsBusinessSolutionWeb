@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Web;
-using System.Web.Mvc;
 using Templateprj.Helpers;
 using Templateprj.Models;
 using Templateprj.Models.Managements;
@@ -28,6 +27,7 @@ namespace Templateprj.Repositories.Services
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
+                    cmd.Parameters.Add("@n_Account_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
 
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
@@ -40,102 +40,49 @@ namespace Templateprj.Repositories.Services
                         model.TemplateTypes = GetDatatables(dataset.Tables[0]).ToSelectList();
                         model.Status = GetDatatables(dataset.Tables[1]).ToSelectList();
                         model.ContentTypes = GetDatatables(dataset.Tables[2]).ToSelectList();
+                        model.ApprovalStatus = GetDatatables(dataset.Tables[3]).ToSelectList();
+                        model.ConsentType = GetDatatables(dataset.Tables[4]).ToSelectList();
                     }
 
                 }
             }
             catch (Exception ex)
             {
-                LogWriter.Write("Repositories.Services.TemplateManagemntRepository :: Exception :: " + ex.Message);
+                LogWriter.Write("TemplateManagemntRepository.GetTemplateFilters :: Exception :: " + ex.Message);
             }
             return model;
         }
 
-        public List<KeyValueModel> GetTemplateNames()
+        public TemplateAutoFilItemModel TemplateAutoFilItems()
         {
-            List<KeyValueModel> temaplteNames = new List<KeyValueModel>();
+            TemplateAutoFilItemModel template = new TemplateAutoFilItemModel();
             try
             {
                 using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Template_Name"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
+                    cmd.Parameters.Add("@n_Account_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
 
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
                         cmd.Connection = con;
                         MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
-                        var dataTable = new DataTable();
-                        dataAdapter.Fill(dataTable);
-                        temaplteNames = GetDataTableToKeyValue(dataTable);
+                        var dataset = new DataSet();
+                        dataAdapter.Fill(dataset);
+                        template.TemaplteNames = GetDataTableToKeyValueText(dataset.Tables[0]);
+                        template.TemplateIds = GetDataTableToKeyValueText(dataset.Tables[1]);
+                        template.Headers = GetDataTableToKeyValueText(dataset.Tables[2]);
                     }
 
                 }
             }
             catch (Exception ex)
             {
-                LogWriter.Write("TemplateManagemntRepository.GetTemplateNames :: Exception :: " + ex.Message);
+                LogWriter.Write("TemplateManagemntRepository.TemplateAutoFilItems :: Exception :: " + ex.Message);
             }
-            return temaplteNames;
-        }
-
-        public List<KeyValueModel> GetTemplateIds()
-        {
-            List<KeyValueModel> temaplteIds = new List<KeyValueModel>();
-            try
-            {
-                using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Template_Id"))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
-
-                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
-                    {
-                        con.Open();
-                        cmd.Connection = con;
-                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
-                        var dataTable = new DataTable();
-                        dataAdapter.Fill(dataTable);
-                        temaplteIds = GetDataTableToKeyValue(dataTable);
-                    }
-
-                }
-            }
-            catch (Exception ex)
-            {
-                LogWriter.Write("TemplateManagemntRepository.GetTemplateIds :: Exception :: " + ex.Message);
-            }
-            return temaplteIds;
-        }
-
-        public List<KeyValueModel> GetTemplateHeaders()
-        {
-            List<KeyValueModel> temaplteHeaders = new List<KeyValueModel>();
-            try
-            {
-                using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Template_Header"))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
-
-                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
-                    {
-                        con.Open();
-                        cmd.Connection = con;
-                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
-                        var dataTable = new DataTable();
-                        dataAdapter.Fill(dataTable);
-                        temaplteHeaders = GetDataTableToKeyValue(dataTable);
-                    }
-
-                }
-            }
-            catch (Exception ex)
-            {
-                LogWriter.Write("TemplateManagemntRepository.GetTemplateHeaders :: Exception :: " + ex.Message);
-            }
-            return temaplteHeaders;
+            return template;
         }
 
         public string GetTemplates(TemplateModel model)
@@ -149,6 +96,7 @@ namespace Templateprj.Repositories.Services
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
+                    cmd.Parameters.Add("@n_Account_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
                     cmd.Parameters.Add("@v_Data_Out", MySqlDbType.Text).Direction = ParameterDirection.Output;
 
                     DataTable dt = new DataTable();
@@ -163,9 +111,7 @@ namespace Templateprj.Repositories.Services
             }
             catch (Exception ex)
             {
-                var s = new StackTrace(ex);
-                var thisasm = Assembly.GetExecutingAssembly();
-                var methodname = s.GetFrames().Select(f => f.GetMethod()).First(m => m.Module.Assembly == thisasm).Name;
+           
                 LogWriter.Write("Repositories.Services.GetAccount :: Exception :: " + ex.Message);
             }
 
@@ -268,6 +214,19 @@ namespace Templateprj.Repositories.Services
                 foreach(DataRow row in dt.Rows)
                 {
                     keyValues.Add(new KeyValueModel() { Id= Convert.ToString(row["id"]),Value= Convert.ToString(row["value"]) });
+                }
+            }
+            return keyValues;
+        }
+
+        private List<KeyValueModel> GetDataTableToKeyValueText(DataTable dt)
+        {
+            List<KeyValueModel> keyValues = new List<KeyValueModel>();
+            if (dt != null)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    keyValues.Add(new KeyValueModel() { Id = Convert.ToString(row["value"]), Value = Convert.ToString(row["text"]) });
                 }
             }
             return keyValues;

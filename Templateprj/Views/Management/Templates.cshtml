@@ -62,26 +62,12 @@
     }
 
     .form-control {
-        height: 20px !important;
+        height: 25px !important;
         padding: 0px 5px !important;
         font-size: 12px !important;
         background-color: white !important;
         /*color:#5f004b;*/
     }
-
-    .form-group {
-        margin-bottom: 4px;
-    }
-
-    /*.card {
-        width: 420px;
-        height: 100px;
-        border-top-right-radius: 10px;
-        border-top-left-radius: 10px;
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
-        background: #ded0da;
-    }*/
 
     .navstyle {
         border: 0px solid black;
@@ -224,88 +210,97 @@
                 <div class="tab-pane show active navclr">
                     <div class="row" id="divList">
                         <div class="col">
-                            <div class="row">
-                                <div class="col-md-2">
-                                    @Html.Label("Template Name")
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            @Html.Label("Template Name")
 
-                                    <div class="form-group">
-                                        @Html.TextBoxFor(a => a.TemplateName, new { @class = "form-control cl-black", id = "txtName", autocomplete = "off" })
-                                        @*<input type="text" id="txtName" name="CustomerName" class="form-control autocomplete" autocomplete="off" />*@
-                                        <input type="hidden" id="hfCustomer" name="CustomerId" />
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.Label("Template Type")
-                                    <div class="form-group">
-                                        @Html.DropDownListFor(m => m.TemplateTypeId, Model.TemplateTypes, new { @class = "form-control cl-black" })
-
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.Label("Template Id")
-                                    <div class="form-group">
-                                        @Html.TextBoxFor(a => a.TemplateId, new { @class = "form-control cl-black", id = "TemplateId", autocomplete = "off" })
-                                      <input type="hidden" id="hfCustomer" name="CustomerId" />
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.Label("Header/Sender Id")
-                                    <div class="form-group">
-                                        @Html.TextBoxFor(a => a.HeaderSenderId, new { @class = "form-control cl-black", id = "HeaderSenderId", autocomplete = "off" })
-                                        <input type="hidden" id="hfCustomer" name="CustomerId" />
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.Label("Status")
-                                    <div class="form-group">
-                                        @Html.DropDownListFor(m => m.StatusId,Model.Status, new { @class = "form-control cl-black"  ,id = "txtName" })
-
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.Label("Content Type")
-                                    <div class="form-group">
-                                        @Html.DropDownListFor(m => m.ContentTypeId, Model.ContentTypes, new { @class = "form-control cl-black" })
-
-                                    </div>
-                                </div>
-
-                                <div class="col" style="text-align:right">
-
-                                    <button type="button" class="btn btn-outline-info" id="btnNewTemplate">
-                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                    </button>
-
-                                    <button id="btnSearch" type="button" class="btn btn-outline-danger">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
-                                        </svg>
-                                        Search
-                                    </button>
-
-
-                                </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="card ">
-
-
-                                        <div class="card-body col-sm-12" style="width:1100px">
-                                            <div class="col-sm-12" id="divTablereport" style="overflow-x:auto !important;">
-                                                <table id="tbl_rptreport" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;"></table>
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(a => a.TemplateName, new { @class = "form-control cl-black", id = "txtName", autocomplete = "off" })
+                                                @*<input type="text" id="txtName" name="CustomerName" class="form-control autocomplete" autocomplete="off" />*@
+                                                <input type="hidden" id="hfCustomer" name="CustomerId" />
                                             </div>
-                                            <div class="alert alert-info" id="divNoData" style="display:none;">
-                                                <span>No data found for the search</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.Label("Template Type")
+                                            <div class="form-group">
+                                                @Html.DropDownListFor(m => m.TemplateTypeId, Model.TemplateTypes, new { @class = "form-control cl-black" })
+
                                             </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.Label("Template Id")
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(a => a.TemplateId, new { @class = "form-control cl-black", id = "TemplateId", autocomplete = "off" })
+                                                <input type="hidden" id="hfCustomer" name="CustomerId" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.Label("Header/Sender Id")
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(a => a.HeaderSenderId, new { @class = "form-control cl-black", id = "HeaderSenderId", autocomplete = "off" })
+                                                <input type="hidden" id="hfCustomer" name="CustomerId" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.Label("Status")
+                                            <div class="form-group">
+                                                @Html.DropDownListFor(m => m.StatusId, Model.Status, new { @class = "form-control cl-black", id = "txtName" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.Label("Content Type")
+                                            <div class="form-group">
+                                                @Html.DropDownListFor(m => m.ContentTypeId, Model.ContentTypes, new { @class = "form-control cl-black" })
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col" style="text-align:right">
+
+                                            <button type="button" class="btn btn-outline-info" id="btnNewTemplate">
+                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                            </button>
+
+                                            <button id="btnSearch" type="button" class="btn btn-outline-danger">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
+                                                </svg>
+                                                Search
+                                            </button>
+
 
                                         </div>
 
                                     </div>
                                 </div>
+
+
+                               
                             </div>
-                        </div>
+                           
+                            <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card vh-100">
+
+
+                                            <div class="card-body col-sm-12" style="width:1100px">
+                                                <div class="col-sm-12" id="divTablereport" style="overflow-x:auto !important;">
+                                                    <table id="tbl_rptreport" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;"></table>
+                                                </div>
+                                                <div class="alert alert-info" id="divNoData" style="display:none;">
+                                                    <span>No data found for the search</span>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                           
+                            </div>
                     </div>
 
                     <div class="row" id="divAdd" style="display:none;">
@@ -319,61 +314,61 @@
                             <div class="collapse" id="addUpload">
                                 <div class="col">
                                     <div class="row">
-                                        <div class="col-3">
+                                        <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Template Id")
                                             <div class="form-group">
-                                                <input id="Template" style="width:100%">
+                                                <input id="Template" class="form-control w-100">
 
                                             </div>
                                         </div>
 
-                                        <div class="col-3">
+                                        <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Tele Marketer")
                                             <div class="form-group">
-                                                <input id="TeleMarketer" style="width:100%">
+                                                <input id="TeleMarketer" class="form-control w-100">
                                             </div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Temaplte Name")
                                             <div class="form-group">
-                                                <input id="txt_TemplateName" style="width:100%">
+                                                <input id="txt_TemplateName" class="form-control w-100">
                                             </div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Type")
                                             <div class="form-group">
                                                 
-                                                @Html.DropDownListFor(m => m.StatusId, Model.Status?.Where(a => a.Value != "0"), new { @id = "Type", @class = "form-control cl-black" })
+                                                @Html.DropDownListFor(m => m.TemplateTypeId, Model.TemplateTypes?.Where(a => a.Value != "0"), new { @id = "Type", @class = "form-control form-select" })
 
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-3">
+                                        <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Header")
                                             <div class="form-group">
-                                                <input id="Header" style="width:100%">
+                                                <input id="Header" class="form-control w-100">
                                             </div>
                                         </div>
 
-                                        <div class="col-3">
+                                        <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Category")
                                             <div class="form-group">
-                                                <input id="Category" style="width:100%">
+                                                <input id="Category" class="form-control w-100">
                                             </div>
                                         </div>
 
-                                        <div class="col-3">
+                                        <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Registered Dlt")
                                             <div class="form-group">
-                                                <input id="RegisteredDlt" style="width:100%">
+                                                <input id="RegisteredDlt" class="form-control w-100">
                                             </div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Requested On")
                                             <div class="form-group">
-                                                <input id="RequestedOn" style="width:100%">
+                                                <input id="RequestedOn" class="form-control w-100">
                                             </div>
                                         </div>
 
@@ -381,29 +376,29 @@
 
                                     <div class="row">
 
-                                        <div class="col-3">
+                                        <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Status Date")
                                             <div class="form-group">
-                                                <input id="StatusDate" style="width:100%">
+                                                <input id="StatusDate" class="form-control">
                                             </div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Created By")
                                             <div class="form-group">
-                                                <input id="createdBy" style="width:100%">
+                                                <input id="createdBy" class="form-control w-100">
                                             </div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("BlackListed By")
                                             <div class="form-group">
-                                                <input id="BlackListedBy" style="width:100%">
+                                                <input id="BlackListedBy" class="form-control w-100">
                                             </div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Approval Status")
                                             <div class="form-group">
                                               
-                                                @Html.DropDownListFor(m => m.StatusId, Model.Status?.Where(a => a.Value != "0"), new { @id = "ApprovalStatus", @class = "form-control cl-black" })
+                                                @Html.DropDownListFor(m => m.HeaderSenderId, Model.ApprovalStatus?.Where(a => a.Value != "0"), new { @id = "ApprovalStatus", @class = "form-control form-select w-100" })
 
                                             </div>
                                         </div>
@@ -413,36 +408,36 @@
                                         <div class="col-12">
                                             @Html.Label("Template Message")
                                             <div class="form-group">
-                                                <textarea type="text" value="" class="keyboardInput" style="width:100%" rows="4"></textarea>
+                                                <textarea type="text" value="" class="keyboardInput w-100" rows="4"></textarea>
                                             </div>
                                         </div>
 
                                     </div>
                                     <div class="row">
 
-                                        <div class="col-3">
+                                        <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Status")
                                             <div class="form-group">
                                                 @Html.DropDownListFor(m => m.StatusId, Model.Status?.Where(a => a.Value != "0"), new { @id = "Status", @class = "form-control cl-black" })
                                             </div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Consent Type")
                                             <div class="form-group">
-                                                @Html.DropDownListFor(m => m.StatusId, Model.Status?.Where(a => a.Value != "0"), new { @id = "ConsentType", @class = "form-control cl-black" })
+                                                @Html.DropDownListFor(m => m.ConsentTypeId, Model.ConsentType?.Where(a => a.Value != "0"), new { @id = "ConsentType", @class = "form-control cl-black" })
 
                                             </div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Reason")
                                             <div class="form-group">
-                                                <input id="reason" style="width:100%">
+                                                <input id="reason" class="form-control w-100">
                                             </div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Content Type")
                                             <div class="form-group">
-                                                @Html.DropDownListFor(m => m.StatusId, Model.Status?.Where(a => a.Value != "0"), new { @id = "ContentType", @class = "form-control cl-black" })
+                                                @Html.DropDownListFor(m => m.ContentTypeId, Model.ContentTypes?.Where(a => a.Value != "0"), new { @id = "ContentType", @class = "form-control cl-black" })
 
                                             </div>
                                         </div>
@@ -532,7 +527,7 @@
 
             function loadReportreport() {
 
-                //$("#loading").show();
+                @*//$("#loading").show();
                 //$("#divNoData").hide();
                 //$("input[type=button]").attr("disabled", "disabled");
                 $.post("@Url.Action(MVC.Template.GetTemplates())", $("form").serialize(), function (resp) {
@@ -559,37 +554,38 @@
                             "header": ["TemplateName","Type"],
                             "destroy": true,
                             bFilter: false, bInfo: false,
-                            "data": resp,
-                            "columns": [
-                                { "title": "Template Id", "data": "TemplateId", name: 'TemplateId' },
-                                { "title": "Tele Marketer", "data": "TeleMarketer", name: 'TeleMarketer' },
-                                { "title": "Template Name" ,"data": 'TemplateName', name:'TemplateName' },
-                                { "title": "Template Type", "data": "Type", name: 'Type' },
-                                { "title": "Category", "data": "Category", name: 'Category' },
-                                { "title": "Registered DLT", "data": "RegisteredDlt", name: 'RegisteredDlt' },
-                                { "title": "Requested On", "data": "RequestedOn", name: 'RequestedOn' },
-                                { "title": "Status Date", "data": "StatusDate", name: 'StatusDate' },
-                                { "title": "Created By", "data": "CreatedBy", name: 'CreatedBy' },
-                                { "title": "Approval Status", "data": "ApprovalStatus", name: 'ApprovalStatus' },
-                                { "title": "Status", "data": "Status", name: 'Status' },
-                                { "title": "Template Message", "data": "TemplateMessage", name: 'TemplateMessage' },
-                                { "title": "ConsentType", "data": "ConsentType", name: 'ConsentType' },
-                                { "title": "Reason", "data": "Reason", name: 'Reason' },
-                                {
-                                    "title": "Manage",
-                                    "data": "TemplateId",
-                                             "width": "55px" ,
+                            "data": resp.Data,
+                            "columns": resp.Header,
+                            //"columns": [
+                            //    { "title": "Template Id", "data": "TemplateId", name: 'TemplateId' },
+                            //    { "title": "Tele Marketer", "data": "TeleMarketer", name: 'TeleMarketer' },
+                            //    { "title": "Template Name" ,"data": 'TemplateName', name:'TemplateName' },
+                            //    { "title": "Template Type", "data": "Type", name: 'Type' },
+                            //    { "title": "Category", "data": "Category", name: 'Category' },
+                            //    { "title": "Registered DLT", "data": "RegisteredDlt", name: 'RegisteredDlt' },
+                            //    { "title": "Requested On", "data": "RequestedOn", name: 'RequestedOn' },
+                            //    { "title": "Status Date", "data": "StatusDate", name: 'StatusDate' },
+                            //    { "title": "Created By", "data": "CreatedBy", name: 'CreatedBy' },
+                            //    { "title": "Approval Status", "data": "ApprovalStatus", name: 'ApprovalStatus' },
+                            //    { "title": "Status", "data": "Status", name: 'Status' },
+                            //    { "title": "Template Message", "data": "TemplateMessage", name: 'TemplateMessage' },
+                            //    { "title": "ConsentType", "data": "ConsentType", name: 'ConsentType' },
+                            //    { "title": "Reason", "data": "Reason", name: 'Reason' },
+                            //    {
+                            //        "title": "Manage",
+                            //        "data": "TemplateId",
+                            //                 "width": "55px" ,
 
-                                    "render": function (data, type, row) {
-                                        return `<p>
-                                                <button class='delete' onClick="deleteTemplate(`+ data +`)" ><i class='fas fa-trash'></i></button>
-                                                <button class='edit'><i class='fas fa-edit'></i></button>
-                                                </p>`;
-                                    }
-                                },
+                            //        "render": function (data, type, row) {
+                            //            return `<p>
+                            //                    <button class='delete' onClick="deleteTemplate(`+ data +`)" ><i class='fas fa-trash'></i></button>
+                            //                    <button class='edit'><i class='fas fa-edit'></i></button>
+                            //                    </p>`;
+                            //        }
+                            //    },
 
-                            ],
-                            "columnDefs": [
+                            //],
+                            //"columnDefs": [
                                 { "width": "20% !important", "targets": 14 }
                             ]
                             //dom: 'Bfrtip',
@@ -614,7 +610,7 @@
                     //$("#loading").hide();
                     //$("input[type=button]").removeAttr("disabled");
                 }).fail(function (xhr, status, error) {
-                    alert('e')
+                    alert(error)
                     $("#loading").hide();
                     $("input[type=button]").removeAttr("disabled");
                     if (xhr.status == 401) {
@@ -628,12 +624,11 @@
                         $("#divNoData").show();
                         $("input[type=button]").removeAttr("disabled");
                     } else {
-                        alert("Unable to fetch data from server", "Failed");
+                        //alert("Unable to fetch data from server", "Failed");
 
                     }
-                });
+                });*@
             }
-
             function deleteTemplate(templateId) {
                 $.ajax({
                     url: "@Url.Action("Templates", "Template")",
@@ -656,13 +651,14 @@
             }
     </script>
 
-
+    @*Load autofill textboxes and reload report*@
     <script type="text/javascript">
-
 
         $(document).ready(function ()
         {
-                var  items = [];
+            var items = [];
+            var temaplteItems = [];
+            var headerItems = [];
                 $.ajax({
                                 url: "@Url.Action("GetTemplateNames", "Template")",
                                 type: "GET",
@@ -670,15 +666,30 @@
                                 success: function (data) {
 
                                     map = {};
-                                    $.each(data, function (i, item) {
+                                    $.each(data.TemaplteNames, function (i, item) {
                                         var id = item.Id;
                                         var name = item.Value;
                                         map[name] = { id: id, name: name };
                                         items.push(name);
                                     });
-                                    //response(items);
 
-                                    //$(".dropdown-menu").css("height", "auto");
+                                    map = {};
+                                    $.each(data.TemplateIds, function (i, item) {
+                                        var id = item.Id;
+                                        var name = item.Value;
+                                        map[name] = { id: id, name: name };
+                                        temaplteItems.push(name);
+                                    });
+
+
+                                    map = {};
+                                    $.each(data.Headers, function (i, item) {
+                                        var id = item.Id;
+                                        var name = item.Value;
+                                        map[name] = { id: id, name: name };
+                                        headerItems.push(name);
+                                    });
+                                   
                                 },
                                 error: function (response) {
                                     alert(response.responseText);
@@ -688,7 +699,8 @@
                                 }
                             });
 
-                $('#txtName').typeahead({
+            console.log(items);
+            $('#txtName').typeahead({
                 source: function (request, response) {
                     response(items);
                 },
@@ -698,34 +710,9 @@
                     }
                 },
                 updater: function (item) {
-                    $('#hfCustomer').val(map[item].id);
                     return item;
                 }
             });
-
-            
-                var  temaplteItems = [];
-                $.ajax({
-                                url: "@Url.Action("GetTemplateNames", "Template")",
-                                type: "GET",
-                                contentType: "application/json; charset=utf-8",
-                                success: function (data) {
-
-                                    map = {};
-                                    $.each(data, function (i, item) {
-                                        var id = item.Id;
-                                        var name = item.Value;
-                                        map[name] = { id: id, name: name };
-                                        temaplteItems.push(name);
-                                    });
-                                },
-                                error: function (response) {
-                                    alert(response.responseText);
-                                },
-                                failure: function (response) {
-                                    alert(response.responseText);
-                                }
-                            });
 
             $('#TemplateId').typeahead({
                 source: function (request, response) {
@@ -737,34 +724,9 @@
                     }
                 },
                 updater: function (item) {
-                    $('#hfCustomer').val(map[item].id);
                     return item;
                 }
             });
-
-
-            var  headerItems = [];
-                $.ajax({
-                                url: "@Url.Action("GetTemplateNames", "Template")",
-                                type: "GET",
-                                contentType: "application/json; charset=utf-8",
-                                success: function (data) {
-
-                                    map = {};
-                                    $.each(data, function (i, item) {
-                                        var id = item.Id;
-                                        var name = item.Value;
-                                        map[name] = { id: id, name: name };
-                                        headerItems.push(name);
-                                    });
-                                },
-                                error: function (response) {
-                                    alert(response.responseText);
-                                },
-                                failure: function (response) {
-                                    alert(response.responseText);
-                                }
-                            });
 
             $('#HeaderSenderId').typeahead({
                 source: function (request, response) {
@@ -776,12 +738,12 @@
                     }
                 },
                 updater: function (item) {
-                    $('#hfCustomer').val(map[item].id);
                     return item;
                 }
             });
+            //loadReportreport();
        });
-            loadReportreport();
+      
 
     </script>
 

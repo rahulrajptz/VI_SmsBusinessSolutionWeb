@@ -50,7 +50,7 @@ namespace Templateprj.Controllers
         [HttpGet]
         public virtual JsonResult GetTemplateNames()
         {
-            return Json(_templateManagemntRepository.GetTemplateNames(), JsonRequestBehavior.AllowGet);
+            return Json(_templateManagemntRepository.TemplateAutoFilItems(), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
