@@ -2,10 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Templateprj.DataAccess;
 using Templateprj.Filters;
 using Templateprj.Helpers;
@@ -255,7 +257,32 @@ namespace Templateprj.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
 
         }
-        // 
+      
+
+        public virtual ActionResult getcampaignSearchReport(string templateName, string templateType, string templateStatus, string ContentType)
+        {
+            int status = 1;
+        
+            string json = _prc.getcampaignSearchreport(templateName, templateType, templateStatus, ContentType);
+            //json = "{\"thead\": [{\"title\": \"Campaign ID\"}, {\"title\": \"Campaign Name\"}, {\"title\": \"Campaign Type\"}, {\"title\": \"Created Date\"}, {\"title\": \"Start Date & Time\"}, {\"title\": \"From Date\"}, {\"title\": \"To Date\"}, {\"title\": \"From Time\"}, {\"title\": \"To Time\"}, {\"title\": \"Status\"}, {\"title\": \"Upload Base\"}, {\"title\": \"Test  Report\"}],\"tdata\": [[\"7288806665\", \"AP\", \"IMI MOBILES\", \"404071719557642\", \"test\", \"Get\", \"Active\", \"2017-11-15 14:27:24\",\"Normal\", \"Yes\", \"0\", \"CDR Configured\"],[\"9505270111\", \"AP\", \"IMI MOBILES\", \"404071713625143\", \"asd\", \"Get\", \"Active\",\"2018-01-12 14:06:40\", \"Normal\", \"Yes\", \"1\", \"CDR Configured\"]]}";
+            if (status == 1)
+            {
+                return Content(json, "application/json");
+
+            }
+            else if (status == -2)
+            {
+                Response.StatusCode = 507;
+                return Content("Out of Memory", "text/plain");
+            }
+            else
+            {
+                Response.StatusCode = 503;
+                return Content("{\"Error\": \"Service Unavailable\"}", "application/json");
+            }
+        }
+
+      
         public virtual ActionResult GetmessagecontentfromTemplate(string templateId)
         {
             if (templateId == "")
@@ -267,11 +294,30 @@ namespace Templateprj.Controllers
             return Json(templatestring, JsonRequestBehavior.AllowGet);
 
         }
+        public int checkEndTimeValidity(string endTime, string starttime)
+        {
+            CultureInfo enUS = new CultureInfo("en-US");
+            DateTime endDate, startDate;
+            endDate = DateTime.ParseExact(endTime, "dd/M/yyyy h:mm tt", CultureInfo.InvariantCulture);
+            startDate = DateTime.ParseExact(starttime, "dd/M/yyyy h:mm tt", CultureInfo.InvariantCulture);
+            if (startDate >= endDate)
+                return 5;
+           else if (DateTime.Now.AddHours(1) > endDate)
+                return 7;
+            else
+                return 1;
+        }
         [HttpPost]
         public virtual ActionResult CreatebulksmsCampaign(SMSCampaignModel model)
         {
+            string jsondata = "";
+            int status = checkEndTimeValidity(model.toDate + " " + model.toTime, model.fromDate + " " + model.fromTime);
+            if (status != 1)
+                jsondata = "{\"status\":\"" + status + "\",\"response\":\"error\"}";
 
-            string jsondata = CreateJson(model);
+            else
+                jsondata = CreateJson(model);
+            
 
             return Json(jsondata, JsonRequestBehavior.AllowGet);
         }
@@ -286,7 +332,11 @@ namespace Templateprj.Controllers
             string jsondata = "";
             string jsontodb = "";
 
-            if (model.smsType == 1)
+            int checkStatus = checkEndTimeValidity(model.toDate + " " + model.toTime, model.fromDate + " " + model.fromTime);
+            if (checkStatus != 1)
+                return Json("{\"status\":\"" + checkStatus + "\",\"response\":\"error\"}", JsonRequestBehavior.AllowGet);
+
+            if (model.templateTypeName == "STATIC")
             {
                 model.SMSTest[0].smsId = "1";
                 model.SMSTest[1].smsId = "2";
@@ -306,7 +356,7 @@ namespace Templateprj.Controllers
                 }
                 
             }
-            else if (model.smsType == 2)
+            else if (model.templateTypeName == "DYNAMIC")
             {
                 model.SMSTest[0].message = model.smsContent;
                 model.SMSTest[1].message = model.smsContent;
@@ -345,6 +395,9 @@ namespace Templateprj.Controllers
 
         public virtual ActionResult SendSMS(SMSCampaignModel model)
         {
+            int checkStatus = checkEndTimeValidity(model.toDate + " " + model.toTime, model.fromDate + " " + model.fromTime);
+            if (checkStatus != 1)
+                return Json("{\"status\":\"" + checkStatus + "\",\"response\":\"error\"}", JsonRequestBehavior.AllowGet);
             string responsejson = "";
             string jsondata = CreateJson(model);
             string jsontodb = "[" + jsondata + "]";
@@ -451,7 +504,7 @@ namespace Templateprj.Controllers
             DataTable dtcampaignstarttype = _prc.getCampaignStarttypelist();
             DataTable dtstatuslist = _prc.getstatuslist();
             DataTable dtprioritylist = _prc.getprioritylist();
-
+            DataSet dspopupData = _prc.getTemplateSearchDetails();
 
 
 
@@ -465,6 +518,11 @@ namespace Templateprj.Controllers
             model.listCampaignStatusList = dtstatuslist.ToSelectList(listItemsAll, "VALUE", "TEXT");
             model.listCampaignPriorityList = dtprioritylist.ToSelectList(listItemsAll, "VALUE", "TEXT");
             model.listCampaignTypeList = dtCampaignType.ToSelectList(listItemsAll, "VALUE", "TEXT");
+            model.pouptemplateNameList = dspopupData.Tables[0].ToSelectList(listItemsAll, "VALUE", "TEXT");
+            model.pouptemplateTypeList = dspopupData.Tables[1].ToSelectList(listItemsAll, "VALUE", "TEXT");
+            model.pouptemplateStatusList = dspopupData.Tables[2].ToSelectList(listItemsAll, "VALUE", "TEXT");
+            model.poupContentTypeList = dspopupData.Tables[3].ToSelectList(listItemsAll, "VALUE", "TEXT");
+
 
             model.uploadCampaignNameList = dtcmpaignamelist.ToSelectList(listItems, "VALUE", "TEXT");
             model.uploadCampaignstarttypeList = dtcampaignstarttype.ToSelectList(listItems, "VALUE", "TEXT");
@@ -479,6 +537,7 @@ namespace Templateprj.Controllers
             model.reportcampaignNameList = dtcmpaignamelist.ToSelectList(listItemsAll, "VALUE", "TEXT");
             model.reportCampaignStatusList = dtstatuslist.ToSelectList(listItemsAll, "VALUE", "TEXT");
             model.reportCampaignPriorityList = dtprioritylist.ToSelectList(listItemsAll, "VALUE", "TEXT");
+            
 
 
             return View(model);
@@ -553,31 +612,17 @@ namespace Templateprj.Controllers
 
         }
 
-        public virtual ActionResult CampaignLisTestReport()
+        public void CampaignLisTestReport(string id)
         {
 
-
-            int status = 1;
-            _prc.getcampaigntestreportlist();
-            //string json = "{\"thead\": [{\"title\": \"Campaign ID\"}, {\"title\": \"Campaign Name\"}, {\"title\": \"Created Date\"}, {\"title\": \"Start Date & Time\"}, {\"title\": \"From Date\"}, {\"title\": \"To Date\"}, {\"title\": \"From Time\"}, {\"title\": \"To Time\"}, {\"title\": \"Status\"}, {\"title\": \"Upload Base\"}, {\"title\": \"Test  Report\"}],\"tdata\": [[\"7288806665\", \"AP\", \"IMI MOBILES\", \"404071719557642\", \"test\", \"Get\", \"Active\", \"2017-11-15 14:27:24\",\"Normal\", \"Yes\", \"0\", \"CDR Configured\"],[\"9505270111\", \"AP\", \"IMI MOBILES\", \"404071713625143\", \"asd\", \"Get\", \"Active\",\"2018-01-12 14:06:40\", \"Normal\", \"Yes\", \"1\", \"CDR Configured\"]]}";
-            //{\"title\": \"Campaign Type\"},
-            if (status == 1)
+            DataTable dt = _prc.getcampaigntestreportlist(id);
+            dt.TableName = "TestReport";
+            if (dt != null)
             {
-                return Content("application/json");
-            }
-            else if (status == -2)
-            {
-                Response.StatusCode = 507;
-                return Content("Out of Memory", "text/plain");
-            }
-            else
-            {
-                Response.StatusCode = 503;
-                return Content("{\"Error\": \"Service Unavailable\"}", "application/json");
-            }
 
-
-
+                RKLib.ExportData.Export objExport = new RKLib.ExportData.Export();
+                objExport.ExportDetails(dt, RKLib.ExportData.Export.ExportFormat.Excel, "");
+            }
         }
 
         [HttpPost]

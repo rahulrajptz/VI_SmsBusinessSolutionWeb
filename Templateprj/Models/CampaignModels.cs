@@ -195,7 +195,7 @@ namespace Templateprj.Models
         [Required]
         public string campaignName { get; set; }
         public string campaignId { get; set; }
-        [Required]
+        public string templateTypeName { get; set; }        
         public int campaignType { get; set; }
         public SelectList campaignTypeList { get; set; }
         [Required]
@@ -234,6 +234,19 @@ namespace Templateprj.Models
         public SelectList templateIdList { get; set; }
 
         public string smsContent { get; set; }
+
+        
+        public string pouptemplateName { get; set; }        
+        public SelectList pouptemplateNameList { get; set; }        
+        public int pouptemplateType { get; set; }      
+        public SelectList pouptemplateTypeList { get; set; }
+       
+        public int pouptemplateStatus { get; set; }       
+        public SelectList pouptemplateStatusList { get; set; }
+        
+        public int poupContentType { get; set; }
+      
+        public SelectList poupContentTypeList { get; set; }
 
 
         public List<variableList> SMSvariable { get; set; }

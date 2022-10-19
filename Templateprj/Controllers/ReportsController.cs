@@ -117,7 +117,7 @@ namespace Templateprj.Controllers
             {
                 string name = "";
                 name = "Detailedrpt" + "_" + DateTime.Now.ToString();
-                _prc.ExportDetailedReport(model, name, out status);
+                _prc.ExportDetailedReport(model, name, out  status);
             }
             catch (Exception ex)
             {
