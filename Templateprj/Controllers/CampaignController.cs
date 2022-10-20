@@ -589,19 +589,18 @@ namespace Templateprj.Controllers
         public virtual ActionResult getcampaigncreatedlist(SMSCampaignModel model)
         {
 
-
-            int status = 1;
+            //int status = 1;
             string json = _prc.getcampaigncreatedlist(model);
             //string json = "{\"thead\": [{\"title\": \"Campaign ID\"}, {\"title\": \"Campaign Name\"}, {\"title\": \"Campaign Type\"}, {\"title\": \"Created Date\"}, {\"title\": \"Start Date & Time\"}, {\"title\": \"From Date\"}, {\"title\": \"To Date\"}, {\"title\": \"From Time\"}, {\"title\": \"To Time\"}, {\"title\": \"Status\"}, {\"title\": \"Upload Base\"}, {\"title\": \"Test  Report\"}],\"tdata\": [[\"7288806665\", \"AP\", \"IMI MOBILES\", \"404071719557642\", \"test\", \"Get\", \"Active\", \"2017-11-15 14:27:24\",\"Normal\", \"Yes\", \"0\", \"CDR Configured\"],[\"9505270111\", \"AP\", \"IMI MOBILES\", \"404071713625143\", \"asd\", \"Get\", \"Active\",\"2018-01-12 14:06:40\", \"Normal\", \"Yes\", \"1\", \"CDR Configured\"]]}";
-            if (status == 1)
+            if (json!="")
             {
                 return Content(json, "application/json");
             }
-            else if (status == -2)
-            {
-                Response.StatusCode = 507;
-                return Content("Out of Memory", "text/plain");
-            }
+            //else if (status == -2)
+            //{
+            //    Response.StatusCode = 507;
+            //    return Content("Out of Memory", "text/plain");
+            //}
             else
             {
                 Response.StatusCode = 503;
@@ -632,18 +631,18 @@ namespace Templateprj.Controllers
         {
 
 
-            int status = 1;
+            //int status = 1;
             string json = _prc.getcampaignstatusreport(model);
             //json = "{\"thead\": [{\"title\": \"Campaign ID\"}, {\"title\": \"Campaign Name\"}, {\"title\": \"Campaign Type\"}, {\"title\": \"Created Date\"}, {\"title\": \"Start Date & Time\"}, {\"title\": \"From Date\"}, {\"title\": \"To Date\"}, {\"title\": \"From Time\"}, {\"title\": \"To Time\"}, {\"title\": \"Status\"}, {\"title\": \"Upload Base\"}, {\"title\": \"Test  Report\"}],\"tdata\": [[\"7288806665\", \"AP\", \"IMI MOBILES\", \"404071719557642\", \"test\", \"Get\", \"Active\", \"2017-11-15 14:27:24\",\"Normal\", \"Yes\", \"0\", \"CDR Configured\"],[\"9505270111\", \"AP\", \"IMI MOBILES\", \"404071713625143\", \"asd\", \"Get\", \"Active\",\"2018-01-12 14:06:40\", \"Normal\", \"Yes\", \"1\", \"CDR Configured\"]]}";
-            if (status == 1)
+            if (json!="")
             {
                 return Content(json, "application/json");
             }
-            else if (status == -2)
-            {
-                Response.StatusCode = 507;
-                return Content("Out of Memory", "text/plain");
-            }
+            //else if (status == -2)
+            //{
+            //    Response.StatusCode = 507;
+            //    return Content("Out of Memory", "text/plain");
+            //}
             else
             {
                 Response.StatusCode = 503;
@@ -661,18 +660,18 @@ namespace Templateprj.Controllers
         {
 
 
-            int status = 1;
+            //int status = 1;
             string json = _prc.getcampaigndetailreport(model);
             // string json = "{\"thead\": [{\"title\": \"Campaign ID\"}, {\"title\": \"Campaign Name\"}, {\"title\": \"Campaign Type\"}, {\"title\": \"Created Date\"}, {\"title\": \"Start Date & Time\"}, {\"title\": \"From Date\"}, {\"title\": \"To Date\"}, {\"title\": \"From Time\"}, {\"title\": \"To Time\"}, {\"title\": \"Status\"}, {\"title\": \"Upload Base\"}, {\"title\": \"Test  Report\"}],\"tdata\": [[\"7288806665\", \"AP\", \"IMI MOBILES\", \"404071719557642\", \"test\", \"Get\", \"Active\", \"2017-11-15 14:27:24\",\"Normal\", \"Yes\", \"0\", \"CDR Configured\"],[\"9505270111\", \"AP\", \"IMI MOBILES\", \"404071713625143\", \"asd\", \"Get\", \"Active\",\"2018-01-12 14:06:40\", \"Normal\", \"Yes\", \"1\", \"CDR Configured\"]]}";
-            if (status == 1)
+            if (json!="")
             {
                 return Content(json, "application/json");
             }
-            else if (status == -2)
-            {
-                Response.StatusCode = 507;
-                return Content("Out of Memory", "text/plain");
-            }
+            //else if (status == -2)
+            //{
+            //    Response.StatusCode = 507;
+            //    return Content("Out of Memory", "text/plain");
+            //}
             else
             {
                 Response.StatusCode = 503;

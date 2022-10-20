@@ -868,26 +868,24 @@ namespace Templateprj.DataAccess
                     cmd.Parameters.Add("@n_Acc_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
                     cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"].ToString());
                     cmd.Parameters.Add("@Ln_Camp_Name_Id", MySqlDbType.Int32).Value = model.listcampaignName;
-                    cmd.Parameters.Add("@Lv_Created_Date", MySqlDbType.VarChar).Value = model.listCreatedDate;
+                    cmd.Parameters.Add("@Lv_Created_Date", MySqlDbType.VarChar).Value = model.listCreatedDate == null ? "0" : model.listCreatedDate;
                     cmd.Parameters.Add("@Ln_Campaign_Status", MySqlDbType.Int32).Value = model.listCampaignStatus;
                     cmd.Parameters.Add("@Ln_Campaign_Priority", MySqlDbType.Int32).Value = model.listCampaignPriority;
                     cmd.Parameters.Add("@Ln_Campaign_Type", MySqlDbType.Int32).Value = model.listCampaignType;
-                    //cmd.Parameters.Add("@v_Message", MySqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@v_Message", MySqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
                         cmd.Connection = con;
-                       // cmd.ExecuteNonQuery();
+                       cmd.ExecuteNonQuery();
                         //var dataTable = new DataTable();
-                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
-                        dataAdapter.Fill(dt);
-                        return GetJsonString(dt);
+                        //MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        //dataAdapter.Fill(dt);
+                        //return GetJsonString(dt);
                     }
-                    //string response = cmd.Parameters["@v_Message"].Value.ToString();
-                    //return response;
+                    string response = cmd.Parameters["@v_Message"].Value.ToString();
+                    return response;
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -959,7 +957,7 @@ namespace Templateprj.DataAccess
                     cmd.Parameters.Add("@n_Acc_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
                     cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"].ToString());
                     cmd.Parameters.Add("@Ln_Camp_name_Id", MySqlDbType.Int32).Value = model.statuscampaignName;
-                    cmd.Parameters.Add("@Lv_From_Date", MySqlDbType.VarChar).Value = model.statusCreatedDate;
+                    cmd.Parameters.Add("@Lv_From_Date", MySqlDbType.VarChar).Value = model.statusCreatedDate == null ? "0" : model.statusCreatedDate;
                     cmd.Parameters.Add("@Ln_Camp_Status", MySqlDbType.Int32).Value = model.statusCampaignStatus;
                     cmd.Parameters.Add("@Ln_Campaign_Priority", MySqlDbType.Int32).Value = model.statusCampaignPriority;
                     cmd.Parameters.Add("@Ln_Campaign_Type", MySqlDbType.Int32).Value = model.statusCampaignType;
@@ -1005,7 +1003,7 @@ namespace Templateprj.DataAccess
                     cmd.Parameters.Add("@n_Acc_Id", MySqlDbType.Int32).Value = HttpContext.Current.Session["AccountID"].ToString();
                     cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
                     cmd.Parameters.Add("@Ln_Camp_name_Id", MySqlDbType.Int32).Value = model.reportcampaignName;
-                    cmd.Parameters.Add("@Lv_From_Date", MySqlDbType.VarChar, 200).Value = model.reportCreatedDate;
+                    cmd.Parameters.Add("@Lv_From_Date", MySqlDbType.VarChar, 200).Value = model.reportCreatedDate == null ? "0" : model.reportCreatedDate;
                     cmd.Parameters.Add("@Ln_Camp_Status", MySqlDbType.Int32).Value = model.reportCampaignStatus;
 
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
