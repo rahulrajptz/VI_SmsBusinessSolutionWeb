@@ -340,7 +340,7 @@
 
                     <div class="row mt-3">
                         <div class="col-sm-2">
-                            <div class="form-group" id="jrange">
+                            <div class="form-group">
                                 @Html.Label("Date Range*")
                                 @Html.TextBoxFor(m => m.dateFrom, new { @class = "form-control", style = "background:white", placeholder = "-From & To Dates-", @readonly = "@readonly" })
                                 @*@Html.TextBoxFor(m => m.dateTo, new { @class = "form-control", style = "background:white", required = "required", placeholder = "-To Date-", @readonly = "@readonly" })*@
@@ -953,26 +953,30 @@
             });
         }
 
-        function SuccessMsg(msg) {
-            $.notify(msg, {
-                animate: {
-                    enter: 'animated fadeInRight',
-                    exit: 'animated fadeOutRight'
-                }, type: 'success',
-                placement: {
-                    from: "bottom",
-                    align: "right"
-                },
-                delay: 1000000
-            });
-        }
+        //function SuccessMsg(msg) {
+        //    $.notify(msg, {
+        //        animate: {
+        //            enter: 'animated fadeInRight',
+        //            exit: 'animated fadeOutRight'
+        //        }, type: 'success',
+        //        placement: {
+        //            from: "bottom",
+        //            align: "right"
+        //        },
+        //        delay: 1000000
+        //    });
+        //}
 
        $("#dateFrom").flatpickr({
             //dateFormat: "d/m/Y",
             enableTime: false,
-            mode:"multiple",
+            mode:"range",
             dateFormat: "d/m/Y",
-            maxDate: "today",
+           maxDate: "today",
+           locale: {
+               rangeSeparator: ', '
+           }
+            
 
         });
 

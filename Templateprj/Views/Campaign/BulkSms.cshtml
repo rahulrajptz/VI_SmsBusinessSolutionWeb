@@ -537,7 +537,7 @@
 
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2" style="display:none;">
                         @Html.Label("Priority")
                         <div class="form-group">
                             @Html.DropDownListFor(m => m.listCampaignPriority, Model.listCampaignPriorityList, new { @class = "form-control cl-black" })
@@ -762,12 +762,12 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4" id="prioritynameDiv">
+                            <div class="col-md-4" id="prioritynameDiv" style="display:none;">
                                 @Html.Label("Priority*")
                             </div>
                             <div class="col-md-4" id="priorityDiv">
-                                <div class="form-group" style="margin-left:-139px">
-                                    @Html.DropDownListFor(m => m.uploadpriority, Model.uploadpriorityList, new { @class = "form-control cl-black", @required = "required", @style = "width:105px" })
+                                <div class="form-group" style="margin-left:-139px;display:none;">
+                                    @Html.DropDownListFor(m => m.uploadpriority, Model.uploadpriorityList, new { @class = "form-control cl-black", @style = "width:105px" })
 
                                 </div>
                             </div>
@@ -814,7 +814,7 @@
 
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2" style="display:none;">
                         @Html.Label("Priority")
                         <div class="form-group">
                             @Html.DropDownListFor(m => m.statusCampaignPriority, Model.statusPriorityList, new { @class = "form-control cl-black" })
@@ -879,7 +879,7 @@
 
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2" style="display:none;">
                         @Html.Label("Priority")
                         <div class="form-group">
                             @Html.DropDownListFor(m => m.reportCampaignPriority, Model.reportCampaignPriorityList, new { @class = "form-control cl-black" })
@@ -1050,12 +1050,18 @@
         }*@
 
         //$("#Idform").validate({
-
         //});
-        $('form input').on('keypress', function (e) {
+
+        $('form').on('keypress', function (e) {
             return e.which != 13;
         });
 
+        //$(window).keydown(function (event) {
+        //    if ((event.keyCode == 13) && (validationFunction() == false)) {
+        //        event.preventDefault();
+        //        return false;
+        //    }
+        //});
         $('#senderId').on('change', function () {
             if ($('#smsType').val() != "3") {
 
@@ -1984,29 +1990,29 @@
 
             if ($('#uploadCampaignstarttype').val() == "1") {
 
-                $('#prioritynameDiv').show();
-                $('#priorityDiv').show();
+                //$('#prioritynameDiv').show();
+               // $('#priorityDiv').show();
                 $('#schedulenameDiv').hide();
                 $('#scheduleDiv').hide();
                 
             }
             else if ($('#uploadCampaignstarttype').val() == "2") {
-                $('#prioritynameDiv').show();
-                $('#priorityDiv').show();
+                //$('#prioritynameDiv').show();
+                //$('#priorityDiv').show();
                 $('#schedulenameDiv').show();
                 $('#scheduleDiv').show();
             }
             else if ($('#uploadCampaignstarttype').val() == "3") {
 
-                $('#prioritynameDiv').show();
-                $('#priorityDiv').show();
+                //$('#prioritynameDiv').show();
+                //$('#priorityDiv').show();
                 $('#schedulenameDiv').hide();
                 $('#scheduleDiv').hide();
 
             }
             else {
-                $('#prioritynameDiv').hide();
-                $('#priorityDiv').hide();
+               // $('#prioritynameDiv').hide();
+               // $('#priorityDiv').hide();
                 $('#schedulenamediv').hide();
                 $('#schedulediv').hide();
 
@@ -2583,7 +2589,8 @@
             $('#messageScriptdiv').hide();
             $('#savecampaignM2M').hide();
             $('#campaignsubmit').hide();
-
+            $('#prioritynameDiv').hide();
+            $('#priorityDiv').hide();
             $("#Uploadingdiv").hide();
             $("#smstemplatediv").hide();
             $('#CampaignCreationButtondiv').hide();
