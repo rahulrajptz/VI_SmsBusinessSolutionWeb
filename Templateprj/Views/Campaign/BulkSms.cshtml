@@ -133,7 +133,7 @@
         background-color: #ebecf1;
     }
     input:read-only {
-        background-color: yellow;
+        background-color: transparent;
     }
     .navclr {
         background-color: #ebecf1;
@@ -614,7 +614,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                @Html.DropDownListFor(m => m.uploadCampaignName, Model.uploadCampaignNameList, new { @class = "form-control cl-black", @required = "required" })
+                                @Html.DropDownListFor(m => m.uploadCampaignName, Model.uploadCampaignNameList, new { @class = "form-control cl-black", @required = "required", MaxLength="20" })
 
                             </div>
                         </div>
@@ -775,28 +775,20 @@
                         <div id="fileUploadm2m">
                             <div class="d-flex">
                                 <span class="mt-3">@Html.Label("Upload Base", new { style = "width:75px" }) </span>
-
                                 <div style="margin-left:20px">
-
-                                    <input style="width:234px;font-size:13px;color:#5f004b;" id="fileToUpload" type="file" name="file" required="required" class="btn">
-
+                                    <input style="width:234px;font-size:13px;color:#5f004b;" id="fileToUpload" type="file" name="file" required="required" class="btn" accept=".xlsx">
                                 </div>
                                 <div class="mr-3 mt-4 col-6">
-
-                                    <button id="samplefiledownlod" style="color:#5f004b;font-size:13px"> <i class="now-ui-icons files_single-copy-04"></i>Sample Template</button>
+                                    <button id="samplefiledownlod" style="color:#5f004b;font-size:13px" > <i class="now-ui-icons files_single-copy-04" ></i>Sample Template</button>
                                 </div>
                                 @*<button type="button" id="uploadfileid" class="btn btn-primary">Upload</button>*@
                                 <div class="col-md-4 mt-3" id="">
                                     <button class="btn-success mt-1" style="margin-left: -298px;" id="uploadfileid" type="button">Upload</button>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
-
                 </div>
-
             </div>
             <div class="tab-pane navclr" id="campaignstatusnav">
 
@@ -1060,6 +1052,9 @@
         //$("#Idform").validate({
 
         //});
+        $('form input').on('keypress', function (e) {
+            return e.which != 13;
+        });
 
         $('#senderId').on('change', function () {
             if ($('#smsType').val() != "3") {
@@ -1973,7 +1968,7 @@
             for (i = 0, j = 1; i < variablecnt; i++ , j++) {
 
                 var div = document.createElement('row');
-                div.innerHTML = '<div class="row" style="margin-top:10px;" ><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName" required="required" MinLength="3" readonly="readonly" MaxLength="12" style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable" required="required" MaxLength="12" MinLength="3" type="text" value=""></div></div>';
+                div.innerHTML = '<div class="row" style="margin-top:10px;" ><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName" required="required"  readonly="readonly" MaxLength="12" MinLength="3" style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable" required="required" MaxLength="12" MinLength="3" type="text" value=""></div></div>';
 
                 document.getElementById("generated").appendChild(div);
             }
@@ -2177,8 +2172,10 @@
             $("#divNoData").hide();
 
             // $("#divTable").html("<table class=\"table table-bordered dataTable dtr-inline \" id=\"tbl_rpt\" role=\"grid\" aria-describedby=\"datatable_info\" style=\"width:100 % !important;\" cellspacing=\"0\"><thead style= \"font-size:11px;width:auto;text-align:center;\" ><tr></tr> </thead ></table >");
-            $("input[type=button]").attr("disabled", "disabled");
-            $.post("@Url.Action(MVC.Campaign.getcampaignstatusReport())", $("form").serialize(), function (resp) {
+             $("input[type=button]").attr("disabled", "disabled");
+            
+             $.post("@Url.Action(MVC.Campaign.getcampaignstatusReport())", $("form").serialize(), function (resp) {
+                 
                 if (jQuery.isEmptyObject(resp.tdata)) {
 
                     $("#divNoData span").text(" No data available");
@@ -2206,20 +2203,20 @@
                                 "searchable": false
                             },
                             {
-                                "targets": 13,
+                                "targets": 14,
                                 "className": "text-left",
 
                                 "mRender": function (data, type, full) {
                                   
-                                    if (full[13] == "1") {
+                                    if (full[14] == "1") {
                                       //  return '<button onclick="changestatus(this,1)" id='+full[0]+' class="fa fa-play" style="color:green;font-size:10px;"></button>';
                                         return '<i onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" style="color:green;font-size:10px;"></i>';
                                     }
-                                    else if (full[13] == "4" || full[15] == "2") {
+                                    else if ( full[14] == "2") {
                                         return '<i onclick="changestatus(this,2)" id=' + full[0] + ' class="fa fa-pause" style="color:black;font-size:10px;"></i>&nbsp; &nbsp;<i onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" style="color:red;font-size:10px;"></i>';
                                         //return '<i onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" style="color:green;font-size:10px;"></i>';
                                     }
-                                    else if (full[13] == "3") {
+                                    else if (full[14] == "3") {
                                         return '<i onclick="changestatus(this,3)" id=' + full[0] + ' class="fa fa-undo" style="color:#cc7a00;font-size:10px;"></i>&nbsp; &nbsp;<i onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" style="color:red;font-size:10px;"></i>';
 
                                     }
@@ -2322,8 +2319,10 @@
                         //                return "NA";
                         //            }
                         //            else {
-
-                                    return '<i class="fa fa-download" id=' + full[0] + ' onclick="downLoadReport(this)"></i>';
+                                    if (full[14] == 1)
+                                        return '<i class="fa fa-download" id=' + full[0] + ' onclick="downLoadReport(this)"></i>';
+                                    else
+                                        return "";
                         //                return '<a class="btn fa fa-upload" id="upload"  ' + full[10] + '>' + '' + '</a>';
                         //                return '<button class="btn fa fa-upload" id="upload" "  type="button"></button>';
                         //            }
@@ -2537,18 +2536,20 @@
                 url: "@Url.Action(MVC.Campaign.getcampaigndetailsfromid())",
                 type: 'GET',
                 data: { campaignid: campaignid},
-                 success: function (minames) {
+                success: function (minames) {
+                    //alert(minames);
+                   //console.log(minames);
                      var obj = JSON.parse(minames);
-                     //console.log(obj);
-                     document.getElementById("bindcampaignname").innerHTML = obj[0].campaignName;
-                     document.getElementById("bindcampaigntype").innerHTML = obj[0].campaignType;
-                     document.getElementById("bindfromdate").innerHTML = obj[0].fromDate;
-                     document.getElementById("bindtodate").innerHTML = obj[0].toDate;
-                     document.getElementById("bindfromtime").innerHTML = obj[0].fromTime;
-                     document.getElementById("bindtotime").innerHTML = obj[0].toTime;
-                     document.getElementById("bindsenderid").innerHTML = obj[0].senderId;
-                     document.getElementById("bindtemplateid").innerHTML = obj[0].templateId;
-                     document.getElementById("bindmsgcontent").innerHTML = obj[0].smsContent;
+                    //console.log(obj);  
+                    document.getElementById("bindcampaignname").innerHTML = obj.campaignName;
+                    document.getElementById("bindcampaigntype").innerHTML = obj.campaignType;
+                    document.getElementById("bindfromdate").innerHTML = obj.fromDate;
+                    document.getElementById("bindtodate").innerHTML = obj.toDate;
+                    document.getElementById("bindfromtime").innerHTML = obj.fromTime;
+                    document.getElementById("bindtotime").innerHTML = obj.toTime;
+                    document.getElementById("bindsenderid").innerHTML = obj.senderId;
+                    document.getElementById("bindtemplateid").innerHTML = obj.templateId;
+                    document.getElementById("bindmsgcontent").innerHTML = obj.smsContent;
 
                      /*bindcampaignname
                             bindcampaigntype

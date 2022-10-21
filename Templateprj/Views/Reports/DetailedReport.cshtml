@@ -112,7 +112,10 @@
                         closing = true; $("#loading").hide();
                         if (html.indexOf("Out of Memory") >= 0) {
                             NotifyMessage(" Result is too large. Please reduce date range");
-                        } else {
+                        } else if (html.indexOf("No data found") >= 0) {
+                            ErrorMsg("No data to download");
+                        }
+                        else {
                             alert("Server is busy. Please try after sometime", "Error");
                         }
                     });

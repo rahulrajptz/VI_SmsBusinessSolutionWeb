@@ -152,9 +152,15 @@ namespace Templateprj.DataAccess
                 MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
                 var dataTable = new DataTable();
                 dataAdapter.Fill(dataTable);
-                _xlsx.ExportToExcel(dataTable, name);
-                status = Convert.ToInt32(cmd.Parameters["@N_Status"].Value.ToString());
-
+                if (dataTable != null && dataTable.Rows.Count>0)
+                {
+                    RKLib.ExportData.Export objExport = new RKLib.ExportData.Export();
+                    objExport.ExportDetails(dataTable, RKLib.ExportData.Export.ExportFormat.Excel,name+".xlsx");
+                   // _xlsx.ExportToExcel(dataTable, name + ".xlsx");
+                    status = Convert.ToInt32(cmd.Parameters["@N_Status"].Value.ToString());
+                }
+                else
+                    status = 9;
             }
             catch (OutOfMemoryException)
             {

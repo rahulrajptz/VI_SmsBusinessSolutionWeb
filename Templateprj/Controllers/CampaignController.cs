@@ -161,7 +161,7 @@ namespace Templateprj.Controllers
 
             DataTable dt = _prc.getCampaignwiseDetailReport(id);
             dt.TableName = "Report";
-            if (dt != null)
+            if (dt != null && dt.Rows.Count>0)
             {
                 RKLib.ExportData.Export objExport = new RKLib.ExportData.Export();
                 objExport.ExportDetails(dt, RKLib.ExportData.Export.ExportFormat.Excel, "");
@@ -603,8 +603,8 @@ namespace Templateprj.Controllers
             //}
             else
             {
-                Response.StatusCode = 503;
-                return Content("{\"Error\": \"Service Unavailable\"}", "application/json");
+               // Response.StatusCode = 503;
+                return Content("{\"Error\": \"No data\"}", "application/json");
             }
 
 
@@ -645,7 +645,7 @@ namespace Templateprj.Controllers
             //}
             else
             {
-                Response.StatusCode = 503;
+               // Response.StatusCode = 503;
                 return Content("{\"Error\": \"Service Unavailable\"}", "application/json");
             }
 
@@ -674,7 +674,7 @@ namespace Templateprj.Controllers
             //}
             else
             {
-                Response.StatusCode = 503;
+               // Response.StatusCode = 503;
                 return Content("{\"Error\": \"Service Unavailable\"}", "application/json");
             }
             
