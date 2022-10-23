@@ -5,176 +5,13 @@
     ViewBag.Title = "Management";
 }
 
-<style>
-    table.dataTable thead > tr > td.sorting, table.dataTable thead > tr > td.sorting_asc, table.dataTable thead > tr > td.sorting_desc, table.dataTable thead > tr > th.sorting, table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sorting_desc {
-        font-size: 9.5pt;
-        text-align: center;
-        font-weight: bold;
-        white-space: nowrap !important;
-        table-layout: fixed;
-        color: #5f004b;
-    }
-
-
-    .alert-danger {
-        color: white;
-    }
-
-    .alert-success {
-        color: white;
-    }
-
-    hr {
-        border: 1px solid #5f004b
-    }
-
-    .box {
-        /*border: 1px solid #878080;*/
-        padding: 20px;
-        box-shadow: rgba(0, 0, 0, 0.35) 1px 5px 10px;
-        /*min-height: 150px;*/
-        /*width:25%;*/
-    }
-
-    .blue {
-        width: 60%;
-        background-color: #57b4eb;
-    }
-
-    .yellow {
-        width: 30%;
-        background-color: yellow;
-    }
-
-    .red {
-        width: 10%;
-        background-color: red;
-    }
-
-    .head {
-        position: sticky;
-        top: 0;
-        z-index: 5;
-    }
-
-    body {
-        font-size: 13px !important;
-    }
-
-    .form-control {
-        height: 25px !important;
-        padding: 0px 5px !important;
-        font-size: 12px !important;
-        background-color: white !important;
-        /*color:#5f004b;*/
-    }
-
-    .navstyle {
-        border: 0px solid black;
-    }
-
-        .navstyle > ul > li {
-            border: 1px solid black;
-            background-color: #5f004b;
-            margin-left: 5px;
-            border-top-right-radius: 10px;
-            border-top-left-radius: 10px;
-            width: 200px;
-        }
-
-    a {
-        color: white;
-    }
-
-        a:hover {
-            color: white;
-        }
-
-    .active {
-        background-color: white;
-        color: black;
-    }
-
-        .active:hover {
-            background-color: white;
-            color: black;
-        }
-
-    .nav-link {
-        border-top-right-radius: 10px;
-        border-top-left-radius: 10px;
-    }
-
-    label {
-        color: #5f004b;
-        font-size: 12px;
-    }
-
-    .label_side_head {
-        color: #5f004b;
-        font-size: 12px;
-        font-weight: bold;
-    }
-
-    .navclr:hover {
-        background-color: #ebecf1;
-    }
-
-    .navclr {
-        background-color: #ebecf1;
-    }
-    /*.dropdown-toggle {
-        float: right;
-    }*/
-    .cl-black {
-        color: #495057 !important;
-    }
-
-    .text-danger {
-        width: 109px;
-        font-size: 10px;
-        height: 0px;
-    }
-
-    labelvariable {
-        color: #5f004b;
-        font-size: 12px;
-    }
-
-    .button-edit {
-        background-color: #5f004b;
-        border-radius: 10px;
-        border-bottom-color: #5f004b;
-        color: white;
-        padding: 8px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 12px;
-        min-width: 65px !important;
-    }
-
-    .choose-position .select2-container--default .select2-selection--single .select2-selection__arrow {
-        height: 105px;
-        top: 50%;
-        transform: translateY(-50%);
-        right: 10px;
-        width: 35px;
-        background-color: #fff;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 5px 20px rgba(35, 49, 45, 0.14);
-    }
-</style>
+<link href="~/assets/css/common-style.css" rel="stylesheet" />
 
 <div class="row" style="margin-top:50px">
     <div class="col">
 
         @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "Idform" }))
         {
-
 
             <div class="container" style="margin-left:10px">
                 <div class="row">
@@ -208,11 +45,19 @@
 
             <div class="tab-content" style="margin-left:15px;margin-top:10px;">
                 <div class="tab-pane show active navclr">
+
                     <div class="row" id="divList">
                         <div class="col">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
+                            @*Search Filters*@
+
+                            <p>
+                                <a class="btn btn-block text-white dropdown-toggle" style="height:25px;text-align:left;background-color:#5f004b;font-size:9.2846px;vertical-align:middle;"
+                                   data-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false">
+                                    Search Templates
+                                </a>
+                            </p>
+                       
+                            <div class="row" id="collapseSearch">
                                         <div class="col-md-2">
                                             @Html.Label("Template Name")
 
@@ -259,48 +104,42 @@
                                         </div>
 
                                         <div class="col" style="text-align:right">
-
-                                            <button type="button" class="btn btn-outline-info" id="btnNewTemplate">
-                                                <i class="fa fa-plus" aria-hidden="true"></i>
-                                            </button>
-
                                             <button id="btnSearch" type="button" class="btn btn-outline-danger">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
                                                 </svg>
                                                 Search
                                             </button>
-
-
                                         </div>
 
                                     </div>
-                                </div>
-
-
-                               
-                            </div>
-                           
+                              
+                            @*Listing table*@
                             <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="card vh-100">
-
-
-                                            <div class="card-body col-sm-12" style="width:1100px">
-                                                <div class="col-sm-12" id="divTablereport" style="overflow-x:auto !important;">
-                                                    <table id="tbl_rptreport" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;"></table>
-                                                </div>
-                                                <div class="alert alert-info" id="divNoData" style="display:none;">
-                                                    <span>No data found for the search</span>
-                                                </div>
-
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body col-12">
+                                            <div class="col-12 w-100" id="divTablereport" style="overflow-x:auto !important;">
+                                                <button type="button" class="btn btn-outline-info" id="btnNewTemplate" style="float:right">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                                </button>
+                                                <table id="tbl_rptreport" class="table-striped table-bordered dataTable dtr-inline w-100" role="grid" aria-describedby="datatable_info"></table>
                                             </div>
+                                            <div class="alert alert-info" id="divNoData" style="display:none;">
+                                                <span>No data found for the search</span>
+                                            </div>
+                                            <div class="d-flex justify-content-center" id="loading" style="display:none !important;">
+                                                <div class="spinner-grow" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         </div>
-                                    </div>
                                 </div>
-                           
                             </div>
+
+                        </div>
                     </div>
 
                     <div class="row" id="divAdd" style="display:none;">
@@ -337,7 +176,7 @@
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Type")
                                             <div class="form-group">
-                                                
+
                                                 @Html.DropDownListFor(m => m.TemplateTypeId, Model.TemplateTypes?.Where(a => a.Value != "0"), new { @id = "Type", @class = "form-control form-select" })
 
                                             </div>
@@ -397,7 +236,7 @@
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Approval Status")
                                             <div class="form-group">
-                                              
+
                                                 @Html.DropDownListFor(m => m.HeaderSenderId, Model.ApprovalStatus?.Where(a => a.Value != "0"), new { @id = "ApprovalStatus", @class = "form-control form-select w-100" })
 
                                             </div>
@@ -506,130 +345,27 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
 
     <script>
-        $("#RequestedOn").flatpickr({
+     $("#RequestedOn").flatpickr({
 
             dateFormat: "d/m/Y",
 
         });
 
-        $("#StatusDate").flatpickr({
+     $("#StatusDate").flatpickr({
 
             dateFormat: "d/m/Y",
 
         });
 
-            $(document).on('click', '#btnSearch', function (e) {
+     $(document).on('click', '#btnSearch', function (e) {
                 loadReportreport();
-            });
-
-            function loadReportreport() {
-
-                @*//$("#loading").show();
-                //$("#divNoData").hide();
-                //$("input[type=button]").attr("disabled", "disabled");
-                $.post("@Url.Action(MVC.Template.GetTemplates())", $("form").serialize(), function (resp) {
-
-                    console.log(resp);
-
-                    //if (jQuery.isEmptyObject(resp.tdata)) {
-
-                    //    $("#divNoData span").text(" No data available");
-                    //    //$("#divNoData").show();
-                    //    $("input[type=button]").removeAttr("disabled");
-                    //    $("#loading").hide();
-                    //    $("#divTablereport").hide();
-                    //    ErrorMsg('No data available');
-                    //}
-                    //else
-                    {
-                        $("#tbl_rptreport").show();
-                        $("#divTablereport").show();
-
-                        rpt_datatable = $("#tbl_rptreport").DataTable({
-                            responsive: true,
-                            deferRender: true,
-                            "header": ["TemplateName","Type"],
-                            "destroy": true,
-                            bFilter: false, bInfo: false,
-                            "data": resp.Data,
-                            "columns": resp.Header,
-                            //"columns": [
-                            //    { "title": "Template Id", "data": "TemplateId", name: 'TemplateId' },
-                            //    { "title": "Tele Marketer", "data": "TeleMarketer", name: 'TeleMarketer' },
-                            //    { "title": "Template Name" ,"data": 'TemplateName', name:'TemplateName' },
-                            //    { "title": "Template Type", "data": "Type", name: 'Type' },
-                            //    { "title": "Category", "data": "Category", name: 'Category' },
-                            //    { "title": "Registered DLT", "data": "RegisteredDlt", name: 'RegisteredDlt' },
-                            //    { "title": "Requested On", "data": "RequestedOn", name: 'RequestedOn' },
-                            //    { "title": "Status Date", "data": "StatusDate", name: 'StatusDate' },
-                            //    { "title": "Created By", "data": "CreatedBy", name: 'CreatedBy' },
-                            //    { "title": "Approval Status", "data": "ApprovalStatus", name: 'ApprovalStatus' },
-                            //    { "title": "Status", "data": "Status", name: 'Status' },
-                            //    { "title": "Template Message", "data": "TemplateMessage", name: 'TemplateMessage' },
-                            //    { "title": "ConsentType", "data": "ConsentType", name: 'ConsentType' },
-                            //    { "title": "Reason", "data": "Reason", name: 'Reason' },
-                            //    {
-                            //        "title": "Manage",
-                            //        "data": "TemplateId",
-                            //                 "width": "55px" ,
-
-                            //        "render": function (data, type, row) {
-                            //            return `<p>
-                            //                    <button class='delete' onClick="deleteTemplate(`+ data +`)" ><i class='fas fa-trash'></i></button>
-                            //                    <button class='edit'><i class='fas fa-edit'></i></button>
-                            //                    </p>`;
-                            //        }
-                            //    },
-
-                            //],
-                            //"columnDefs": [
-                                { "width": "20% !important", "targets": 14 }
-                            ]
-                            //dom: 'Bfrtip',
-                            //buttons: [
-                            //    {
-                            //        extend: 'excelHtml5',
-                            //        title: "Campaign Report",
-                            //    },
-                            //    {
-                            //        extend: 'csvHtml5',
-                            //        title: "Campaign Report",
-                            //    }
-                            //],
-                            //order: [],
-                            //fnInitComplete: function (o) {
-                            //    $("#loading").hide();
-                            //    $("input[type=button]").removeAttr("disabled");
-
-                            //},
-                        });
-                    }
-                    //$("#loading").hide();
-                    //$("input[type=button]").removeAttr("disabled");
-                }).fail(function (xhr, status, error) {
-                    alert(error)
-                    $("#loading").hide();
-                    $("input[type=button]").removeAttr("disabled");
-                    if (xhr.status == 401) {
-                        alert("Click to continue", "Session Timedout", function () {
-                            closing = false;
-                            window.location = JSON.parse(xhr.responseText).LogOnUrl;
-                        })
-                    }
-                    else if (xhr.status == 507) {
-                        $("#divNoData span").text(" Result is too large.");
-                        $("#divNoData").show();
-                        $("input[type=button]").removeAttr("disabled");
-                    } else {
-                        //alert("Unable to fetch data from server", "Failed");
-
-                    }
-                });*@
-            }
-            function deleteTemplate(templateId) {
+       });
+     function deleteTemplate(templateId) {
                 $.ajax({
                     url: "@Url.Action("Templates", "Template")",
                     data: { id: templateId },
@@ -646,9 +382,156 @@
                     }
                 });
             }
-            function editTemplate(templateId) {
+     function editTemplate(templateId) {
                 alert(templateId);
             }
+    </script>
+
+    <script>
+
+        function loadReportreport() {
+            
+                var columnHeaders = [];
+                var coulmnLimit = 1;
+            $("#loading").show();
+          
+      
+                $("#divNoData").hide();
+                $.post("@Url.Action(MVC.Template.GetTemplates())", $("form").serialize(), function (resp) {
+                    $("#loading").hide();
+                    $(".spinner-grow").hide();
+                    if (jQuery.isEmptyObject(resp.Data)) {
+                    $("#divNoData span").text(" No data available");
+                    $("#divNoData").show();
+                    $("#divTablereport").hide();
+                }
+                    else {
+                    columnHeaders = resp.Header;
+                    coulmnLimit = resp.Count;
+                    var headers = [{
+                        className: 'dt-control',
+                        orderable: false,
+                        data: null,
+                        defaultContent: '',
+                    }];
+                    var i = 0;
+                    $.each(resp.Header, function (i, item) {
+                        i = i + 1;
+                        var title = item.Title;
+                        var data = item.Data;
+                        /*map[name] = { data: id, title: name };*/
+                        headers.push({ "data": data, "title": title, "name": title });
+                        if (i > resp.Count) {
+
+                            headers.push({
+                                "title": "Manage",
+                                "data": "TemplateId",
+                                "width": "50px !mportant",
+
+                                "render": function (data, type, row) {
+                                    return `<p>
+
+                                                <a class="delete" title="Add" data-toggle="tooltip" onClick="deleteTemplate(`+ data + `)"><i class='fas fa-trash'></i></a>
+
+                                                <a class="edit" title="Add" data-toggle="tooltip" onClick="deleteTemplate(`+ data + `)"><i class='fas fa-edit'></i></a>
+
+                                         </p>`;
+                                }
+                            });
+                            return false;
+                        }
+                    });
+
+                    {
+                        $("#tbl_rptreport").show();
+                        $("#divTablereport").show();
+
+                        rpt_datatable = $("#tbl_rptreport").DataTable({
+                            responsive: true,
+                            deferRender: true,
+                            "destroy": true,
+                            bFilter: false,
+                            bInfo: false,
+                            "data": resp.Data,
+                            "columns":
+                                headers,
+                            "columnDefs": [
+                                { "width": "30px !important", "targets": 0 }
+                            ],
+                            fnInitComplete: function (o) {
+                                $("#loading").hide();
+                                $(".spinner-grow").hide();
+                            },
+                        });
+                    }
+
+                }
+                 
+                }).fail(function (xhr, status, error) {
+                    $("#loading").hide();
+                    $(".spinner-grow").hide();
+                    $("input[type=button]").removeAttr("disabled");
+                    if (xhr.status == 401) {
+                        alert("Click to continue", "Session Timedout", function () {
+                            closing = false;
+                            window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                        })
+                    }
+                    else if (xhr.status == 507) {
+                        $("#divNoData span").text(" Result is too large.");
+                        $("#divNoData").show();
+                        $("input[type=button]").removeAttr("disabled");
+                    } else {
+                        alert("Unable to fetch data from server", "Failed");
+
+                    }
+                    });
+
+                $(function () {
+                    $("#tbl_rptreport").click(function (event) {
+                   
+                        event.stopPropagation();
+                        var $target = $(event.target);
+
+                        var tr = $target.closest('tr');
+                        var row = rpt_datatable.row(tr);
+
+                        if (row.child.isShown()) {
+                            console.log('hide')
+                            // This row is already open - close it
+                            row.child.hide();
+                            tr.removeClass('shown');
+                        } else {
+                            console.log('shown')
+                            // Open this row
+                            row.child(format(row.data(), columnHeaders, coulmnLimit)).show();
+                            tr.addClass('shown');
+                        }
+                    });
+        });
+
+        }
+
+        /* Formatting function d.TemplateId for row details - modify as you need */
+        function format(d,h,c) {
+            // `d` is the original data object for the row
+            var expandedRpw = '<div class="row expandcontainer g-2 d-flex justify-content-center gx-5" style="padding:4px;margin-left:-12px !important;background:#ffffff">';
+            var i = 0;
+            for (var key in d) {
+                i = i + 1;
+                if (i > c) {
+                    expandedRpw = expandedRpw + '<div class="col-3 border font-weight-bold" >' + h.find((o) => { return o["Data"] === key }).Title + '</div>' + '<div class="col-3 border">'
+                        +
+                    d[key]
+                        + '</div>';
+                }
+            }
+            expandedRpw = expandedRpw + '</div>';
+            return (
+                expandedRpw
+            );
+        }
+
     </script>
 
     @*Load autofill textboxes and reload report*@
@@ -689,7 +572,7 @@
                                         map[name] = { id: id, name: name };
                                         headerItems.push(name);
                                     });
-                                   
+
                                 },
                                 error: function (response) {
                                     alert(response.responseText);
@@ -741,9 +624,9 @@
                     return item;
                 }
             });
-            //loadReportreport();
+            loadReportreport();
        });
-      
+
 
     </script>
 
@@ -814,7 +697,7 @@
     @*Add Temaplte*@
     <script>
         $(document).on('click', '#addNewTemplate', function (e) {
-      
+
                 var templateModel = {};
                 var isValid = true;
                 templateModel.templateName = $("#txt_TemplateName").val();
