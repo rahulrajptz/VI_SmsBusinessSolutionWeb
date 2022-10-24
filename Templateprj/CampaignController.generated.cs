@@ -175,6 +175,7 @@ namespace Templateprj.Controllers
             public readonly string getcampaigncreatedlist = "getcampaigncreatedlist";
             public readonly string getcampaignstatusReport = "getcampaignstatusReport";
             public readonly string getcampaigndetailReport = "getcampaigndetailReport";
+            public readonly string UpdateCampaignList = "UpdateCampaignList";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -196,6 +197,7 @@ namespace Templateprj.Controllers
             public const string getcampaigncreatedlist = "getcampaigncreatedlist";
             public const string getcampaignstatusReport = "getcampaignstatusReport";
             public const string getcampaigndetailReport = "getcampaigndetailReport";
+            public const string UpdateCampaignList = "UpdateCampaignList";
         }
 
 
@@ -323,6 +325,16 @@ namespace Templateprj.Controllers
         public class ActionParamsClass_getcampaigndetailReport
         {
             public readonly string model = "model";
+        }
+        static readonly ActionParamsClass_UpdateCampaignList s_params_UpdateCampaignList = new ActionParamsClass_UpdateCampaignList();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_UpdateCampaignList UpdateCampaignListParams { get { return s_params_UpdateCampaignList; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_UpdateCampaignList
+        {
+            public readonly string Id = "Id";
+            public readonly string toDate = "toDate";
+            public readonly string toTime = "toTime";
         }
         static readonly ViewsClass s_views = new ViewsClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -569,6 +581,31 @@ namespace Templateprj.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.getcampaigndetailReport);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
             getcampaigndetailReportOverride(callInfo, model);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void UpdateCampaignListOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult UpdateCampaignList()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.UpdateCampaignList);
+            UpdateCampaignListOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void UpdateCampaignListOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string Id, string toDate, string toTime);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult UpdateCampaignList(string Id, string toDate, string toTime)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.UpdateCampaignList);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "Id", Id);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "toDate", toDate);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "toTime", toTime);
+            UpdateCampaignListOverride(callInfo, Id, toDate, toTime);
             return callInfo;
         }
 

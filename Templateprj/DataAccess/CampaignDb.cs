@@ -273,6 +273,37 @@ namespace Templateprj.DataAccess
             }
         }
 
+        public DataTable getstatus()
+        {
+            // `Web_Get_SMS_Type`()
+
+
+            try
+            {
+
+                using (MySqlCommand cmd = new MySqlCommand("Web_get_Camp_running_status"))
+                {
+
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        var dataTable = new DataTable();
+                        dataAdapter.Fill(dataTable);
+                        return dataTable;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.Campaign.getstatus::Exception::" + ex.Message);
+                return null;
+            }
+        }
+
         public DataTable getprioritylist()
         {
             // `Web_Get_SMS_Type`()
@@ -400,7 +431,7 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.Campaign.getCampaignNameList::Exception::" + ex.Message);
+                LogWriter.Write("DataAccess.Campaign.getCampaignStarttypelist::Exception::" + ex.Message);
                 return null;
             }
         }
@@ -475,7 +506,7 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.Capaign.getTemplateId::Exce ::  :: " + ex.Message);
+                LogWriter.Write("DataAccess.Capaign.getTemplateSearchDetails::Exce ::  :: " + ex.Message);
                 return null;
             }
         }
@@ -534,7 +565,7 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.Capaign.getSenderIdFromsmstype::Exce ::  :: " + ex.Message);
+                LogWriter.Write("DataAccess.Capaign.getTemplateIdFromsenderId::Exce ::  :: " + ex.Message);
                 return null;
             }
         }
@@ -634,7 +665,7 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.Campaigndbprc.getcmapigndetailsfromcampid :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.Campaigndbprc.changestatuscampign :: Exception :: " + ex.Message);
 
             }
         }
@@ -667,7 +698,7 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.Capaign.getSenderIdFromsmstype::Exce ::  :: " + ex.Message);
+                LogWriter.Write("DataAccess.Capaign.getsenderidfromsmstype::Exce ::  :: " + ex.Message);
                 return null;
             }
         }
@@ -765,7 +796,7 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.CampaignDb.getTemplatebytemplateId :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.CampaignDb.getSmscountDetails :: Exception :: " + ex.Message);
                 return "";
             }
         }
@@ -795,7 +826,7 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.Campaigndbprc.getsamplefilesms :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.Campaigndbprc.getCampaignwiseDetailReport :: Exception :: " + ex.Message);
                 return null;
 
             }
@@ -849,7 +880,7 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.CampaignDb.getTemplatebytemplateId :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.CampaignDb.testsms :: Exception :: " + ex.Message);
                 return "";
             }
         }
@@ -940,6 +971,50 @@ namespace Templateprj.DataAccess
                 return "";
             }
         }
+        //UpdateCampList
+        public string UpdateCampList(string Id, string toDate, string toTime)
+        {
+
+            //`Web_Update_Campaign`(IN N_Scm_Id int, IN V_to_Date varchar(100), IN V_to_Time varchar(100), Out N_Status INt,Out V_Response varchar(100))
+            string sts = "";
+            string resp = "";
+
+
+            try
+            {
+
+                using (MySqlCommand cmd = new MySqlCommand("Web_Update_Campaign"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("N_Scm_Id", MySqlDbType.Int32).Value = Id;
+                    cmd.Parameters.Add("V_to_Date", MySqlDbType.VarChar).Value =toDate;
+                    cmd.Parameters.Add("V_to_Time", MySqlDbType.VarChar).Value =toTime;
+                    cmd.Parameters.Add("N_Status", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("V_Response", MySqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
+
+
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        cmd.ExecuteNonQuery();
+
+
+                    }
+                    sts = cmd.Parameters["N_Status"].Value.ToString();
+                    resp = cmd.Parameters["V_Response"].Value.ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.Campaign.UpdateCampList :: Exception :: " + ex.Message);
+                return null;
+            }
+            return sts;
+
+        }
+
 
         public DataTable getcampaigntestreportlist(string id)
         {
@@ -1164,7 +1239,7 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.CampaignDb.getcampaignstatusreport :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.CampaignDb.getcampaignSearchreport :: Exception :: " + ex.Message);
                 return null;
             }
         }
@@ -1221,7 +1296,7 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.campaigndb.Insights :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.campaigndb.getInsightDetails :: Exception :: " + ex.Message);
                 smsallow = "";
                 smsDeliv = "";
                 smssub = "";

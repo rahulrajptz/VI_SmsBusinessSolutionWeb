@@ -71,6 +71,12 @@
     .form-control1 {
         margin-top: 4px;
     }
+    .form-controlnew {
+        height: 20px !important;
+        padding: 0px 5px !important;
+        font-size: 12px !important;
+    
+    }
     .form-group {
         margin-bottom: 4px;
     }
@@ -228,7 +234,7 @@
 
                                         </div>
                                         <div class="form-group col-md-4">
-                                            @Html.TextBoxFor(m => m.campaignName, new { @class = " form-control", @onkeypress = "return (event.which!==32)", style = "background:white", required = "required", placeholder = "-Campaign Name-", MaxLength = "20", autocomplete = "off" })
+                                            @Html.TextBoxFor(m => m.campaignName, new { @class = " form-control", @onkeypress = "return (event.which!==32)", style = "background:white", required = "required", placeholder = "-Campaign Name-", MaxLength = "15", autocomplete = "off" })
                                         </div>
 
                                         @*<div class="col-md-2">
@@ -419,7 +425,7 @@
 
                         </div>*@
                             <div class="row col-md-9 ml-3" id="SMSTestingCompleteDiv">
-                                <div class="col-md-2">
+                                <div class="col-md-3">
 
                                     <div class="form-group">
 
@@ -614,7 +620,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                @Html.DropDownListFor(m => m.uploadCampaignName, Model.uploadCampaignNameList, new { @class = "form-control cl-black", @required = "required", MaxLength="20" })
+                                @Html.DropDownListFor(m => m.uploadCampaignName, Model.uploadCampaignNameList, new { @class = "form-control cl-black", @required = "required", MaxLength="15" })
 
                             </div>
                         </div>
@@ -750,13 +756,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-4" id="schedulenameDiv">
+                        <div class="row" >
+                            <div class="col-md-4" id="schedulenameDiv" style="display:none;">
                                 @Html.Label("Schedule Time")
                             </div>
-                            <div class="col-md-4" id="scheduleDiv">
+                            <div class="col-md-4" id="scheduleDiv" style="display:none;">
                                 <div class="form-group" style="margin-left:-139px">
-                                    @Html.TextBoxFor(m => m.scheduleDate, new { @class = "form-control cl-black", @style = "width:105px", @required = "required" })
+                                    @Html.TextBoxFor(m => m.scheduleDate, new { @class = "form-control cl-black", @style = "width:125px", @required = "required" })
 
                                 </div>
                             </div>
@@ -775,11 +781,13 @@
                         <div id="fileUploadm2m">
                             <div class="d-flex">
                                 <span class="mt-3">@Html.Label("Upload Base", new { style = "width:75px" }) </span>
-                                <div style="margin-left:20px">
-                                    <input style="width:234px;font-size:13px;color:#5f004b;" id="fileToUpload" type="file" name="file" required="required" class="btn" accept=".xlsx">
+                               
+                                    <div style="margin-left:20px">
+                                        <input style="width:234px;font-size:13px;color:#5f004b;" id="fileToUpload" type="file" name="file" required="required" class="btn" accept=".xlsx" title=" Upload only .xlsx file format. The maximum file size is 40MB.">
+
                                 </div>
                                 <div class="mr-3 mt-4 col-6">
-                                    <button id="samplefiledownlod" style="color:#5f004b;font-size:13px" > <i class="now-ui-icons files_single-copy-04" ></i>Sample Template</button>
+                                    <button id="samplefiledownlod" style="color:#5f004b;font-size:13px"> <i class="now-ui-icons files_single-copy-04"></i>Sample Template</button>
                                 </div>
                                 @*<button type="button" id="uploadfileid" class="btn btn-primary">Upload</button>*@
                                 <div class="col-md-4 mt-3" id="">
@@ -1156,25 +1164,27 @@
                             }
                             document.getElementById('SMSTest_0__message').innerHTML = "";
                             document.getElementById('SMSTest_1__message').innerHTML = "";
-                            for (i = 0; i < jsondata.SMSvariable.length; i++) {
+                            if (templateTypeId == "DYNAMIC" && jsondata.SMSvariable != null) {
+                                for (i = 0; i < jsondata.SMSvariable.length; i++) {
 
-                                var div = document.createElement('div');
-                                div.innerHTML = '<labelvariable class="form-control1">' + jsondata.SMSvariable[i].renameVariable + '*' + '</labelvariable>';                                
-                                div.style.wordWrap = "break-word";
-                                document.getElementById("generatelabel").appendChild(div);
-                            }
-                            for (i = 0; i < jsondata.SMSvariable.length; i++) {
-                                var div1 = document.createElement('div');
-                                div1.innerHTML = '<input class="form-control form-control1" id="SMSTest_0__variableData_' + i + '__variableContent" name="SMSTest[0].variableData[' + i + '].variableContent" required="required" MaxLength="30" MinLength="3" type="text" value=""><input type="hidden" id="SMSTest_0__variableData_' + i + 'variableLabel" name="SMSTest[0].variableData[' + i + '].variableLabel" required="required" MaxLength="30" MinLength="3" type="text" value="' + jsondata.SMSvariable[i].renameVariable + '">';
-                                document.getElementById("messageto1stnumber").appendChild(div1);
-                            }
+                                    var div = document.createElement('div');
+                                    div.innerHTML = '<labelvariable class="form-controlnew ">' + jsondata.SMSvariable[i].renameVariable + '*' + '</labelvariable>';
+                                    div.style.wordWrap = "break-word";
+                                    document.getElementById("generatelabel").appendChild(div);
+                                }
+                                for (i = 0; i < jsondata.SMSvariable.length; i++) {
+                                    var div1 = document.createElement('div');
+                                    div1.innerHTML = '<input class="form-control" id="SMSTest_0__variableData_' + i + '__variableContent" name="SMSTest[0].variableData[' + i + '].variableContent" required="required" MaxLength="30" MinLength="3" type="text" value=""><input type="hidden" id="SMSTest_0__variableData_' + i + 'variableLabel" name="SMSTest[0].variableData[' + i + '].variableLabel" required="required" MaxLength="30" MinLength="3" type="text" value="' + jsondata.SMSvariable[i].renameVariable + '">';
+                                    document.getElementById("messageto1stnumber").appendChild(div1);
+                                }
 
-                            for (i = 0; i < jsondata.SMSvariable.length; i++) {
-                                var div2 = document.createElement('div');
-                                div2.innerHTML = '<input class=" form-control form-control1" id="SMSTest_1__variableData_' + i + '__variableContent" name="SMSTest[1].variableData[' + i + '].variableContent" required="required" MaxLength="30" MinLength="3" type="text" value=""><input type="hidden" id="SMSTest_1__variableData_' + i + 'variableLabel" name="SMSTest[1].variableData[' + i + '].variableLabel" required="required" MaxLength="30" MinLength="3" type="text" value="' + jsondata.SMSvariable[i].renameVariable + '">';
-                                document.getElementById("messageto2ndnumber").appendChild(div2);
+                                for (i = 0; i < jsondata.SMSvariable.length; i++) {
+                                    var div2 = document.createElement('div');
+                                    div2.innerHTML = '<input class=" form-control" id="SMSTest_1__variableData_' + i + '__variableContent" name="SMSTest[1].variableData[' + i + '].variableContent" required="required" MaxLength="30" MinLength="3" type="text" value=""><input type="hidden" id="SMSTest_1__variableData_' + i + 'variableLabel" name="SMSTest[1].variableData[' + i + '].variableLabel" required="required" MaxLength="30" MinLength="3" type="text" value="' + jsondata.SMSvariable[i].renameVariable + '">';
+                                    document.getElementById("messageto2ndnumber").appendChild(div2);
 
 
+                                }
                             }
                         }
 
@@ -1500,10 +1510,6 @@
 
                 //$("#SMSTestingCompleteDiv").hide()
                 //$('#sendsmsdiv').hide();
-
-
-
-
                     $.ajax({
                         url: "@Url.Action(MVC.Campaign.SaveCampaign())",
                         type: 'POST',
@@ -1524,35 +1530,15 @@
                                 //("#smsType").find("select").val("");
                                 //("#senderId").find("select").val("");
                                 //("#templateId").find("select").val("");
-
-
-
-
-
-                                SuccessMsg(jsondata.response);
+                                //SuccessMsg(jsondata.response);
                                 getcampigndrowpdown();
                                 redirectToBaseupload();
-
-
-
                             }
                             else {
                                 ErrorMsg(jsondata.response);
                             }
-
-
-
-
-
-
-
-
                         }
                     });
-
-
-
-
             }
             else {
                 ErrorMsg("Please fill in all fields.")
@@ -1573,10 +1559,6 @@
 
                 $("#SMSTestingCompleteDiv").hide()
                 $('#sendsmsdiv').hide();
-
-
-
-
                     $.ajax({
                         url: "@Url.Action(MVC.Campaign.SaveCampaign())",
                         type: 'POST',
@@ -1601,7 +1583,7 @@
                                 //("#smsType").find("select").val("");
                                 //("#senderId").find("select").val("");
                                 //("#templateId").find("select").val("");
-                                SuccessMsg(jsondata.response);
+                                //SuccessMsg(jsondata.response);
                                 getcampigndrowpdown();
                                 $("#smstemplatediv").hide();
                                 $('#StaticSmsDiv').hide();
@@ -1622,18 +1604,8 @@
                             else {
                                 ErrorMsg(jsondata.response);
                             }
-
-
-
-
-
-
                         }
                     });
-
-
-
-
             }
             else {
                 ErrorMsg("Please fill in all fields.")
@@ -1664,7 +1636,7 @@
         }
 
 
-        $('#smsType').on('change', function () {
+        //$('#smsType').on('change', function () {
 
             //$('#testsmsdiv').hide();
             //$('#messageScriptdiv').hide();
@@ -1695,11 +1667,8 @@
             //getsenderidfromsmstype($("#smsType").val());
 
 
-        });
+        //});
 
-
-
-        //
         function getsenderidfromsmstype(smstype)
         {
 
@@ -1763,7 +1732,7 @@
         $("#scheduleDate").flatpickr({
             //dateFormat: "d/m/Y",
             enableTime: true,
-            dateFormat: "Y-m-d H:i",
+            dateFormat: "d/m/Y h:i K",
             minDate: "today",
 
         });
@@ -1817,6 +1786,7 @@
 
         //fromTime
         
+
 
         $('#templateId').on('change', function () {
 
@@ -1875,53 +1845,7 @@
             $('#Idform')[0].reset();
         });
 
-        
-
-        //$('#smsType').on('change', function () {
-
-        //    if ($('#smsType').val() == "1") {
-
-        //        $('#StaticSmsDiv').show();
-        //        $('#dynamicSmsDiv').hide();
-        //        $('#templateiddiv').show();
-        //        $('#templateidnamediv').show();
-        //        $('#savecampaignM2M').hide();
-        //        $('#campaignsubmit').show();
-        //    }
-        //    else if ($('#smsType').val() == "2") {
-        //        $('#StaticSmsDiv').show();
-        //        $('#dynamicSmsDiv').show();
-        //        $('#templateiddiv').show();
-        //        $('#templateidnamediv').show();
-        //        $('#savecampaignM2M').hide();
-        //        $('#campaignsubmit').show();
-
-        //    }
-        //    else if ($('#smsType').val() == "3") {
-
-        //        $('#StaticSmsDiv').hide();
-        //        $('#dynamicSmsDiv').hide();
-        //        $('#templateiddiv').hide();
-        //        $('#templateidnamediv').hide();
-        //        $('#savecampaignM2M').show();
-        //        $('#campaignsubmit').hide();
-
-        //    }
-        //    else {
-        //        $('#StaticSmsDiv').hide();
-        //        $('#dynamicSmsDiv').hide();
-        //        $('#templateiddiv').show();
-        //        $('#templateidnamediv').show();
-        //        $('#savecampaignM2M').hide();
-        //        $('#campaignsubmit').hide();
-
-        //        const container = document.querySelector('#generated');
-        //        removeAllChildNodes(container);
-        //        document.getElementById("smsContent").innerHTML = "";
-        //        //$('#templateId').find("input").val("");
-
-        //    }
-        //});
+       
         function getTamplateDetails(event) {
            
             var currentRow = $(event).closest("tr");            
@@ -2113,7 +2037,7 @@
 
                         {
                             "targets": 11,
-                                "className": "text-left",
+                                "className": "text-center",
 
                                 "mRender": function (data, type, full) {
                                     //if (full[10] == 0) {
@@ -2123,12 +2047,30 @@
 
 
                                         //return '<a class="btn fa fa-upload" id="upload"  ' + full[10] + '>' + '' + '</a>';
-                                    return '<i class="btn btn-link"onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
+                                    return '<i class="fa fa-download" onclick="popuptable(this)" id=' + full[0] + ' style="color:black;font-size:12px;"></i>';
                                     //}
                                 }
 
 
-                        },
+                            },
+                            {
+                                "targets": 12,
+                                "className": "text-center",
+
+                                "mRender": function (data, type, full) {
+                                    //if (full[10] == 0) {
+                                    //    return "NA";
+                                    //}
+                                    //else {
+
+
+                                    //return '<a class="btn fa fa-upload" id="upload"  ' + full[10] + '>' + '' + '</a>';
+                                    return '<i class="fa fa-edit" id=' + full[0] + ' style="color:blue;"></i>';
+                                    //}
+                                }
+
+
+                            },
                         ],
                         order: [],
                         fnInitComplete: function (o) {
@@ -2139,6 +2081,106 @@
 
                     });
                 }
+               
+
+                 $(".fa-edit").click(function ()
+                 {
+                    var id = $(this).attr("id");
+                   // alert("id is :" + id);
+                    $("#tbl_rpt").DataTable(
+
+                        {
+
+                            responsive: true,
+                            deferRender: true,
+                            "destroy": true,
+
+                            data: resp.tdata,
+                            columns: resp.thead,
+                            "columnDefs": [
+                                //hide first column...
+                                //{
+                                //    'visible': false,
+                                //    'targets': [0]
+                                //},
+
+                                {
+                                    "targets": 12,
+                                    "className": "text-center",
+                                    "mRender": function (data, type, full) {
+
+                                        if (id == full[0])
+                                            return '<div><span><i id=' + id + ' type= "button" class="fa fa-save" style="color:green"></i></span></div>';
+                                        else
+                                            return '<i id=' + full[0] + ' type= "button" class="fa fa-edit" style="color:blue"></i>';
+
+                                    }
+                                },
+
+                                {
+                                    "targets": 7,
+                                    "className": "text-center",
+                                    "mRender": function (data, type, full) {
+                                        if (id == full[0])
+                                            return '<input class="form-control date" id=toDate_' + full[0] + '  type="text"  style="border-radius:10px;height:30px;width:60px"/>';
+                                        else
+                                            return '<div>' + full[7] + '</div>';
+                                    }
+
+                                },
+
+                                {
+                                    "targets": 8,
+                                    "className": "text-center",
+
+                                    "mRender": function (data, type, full) {
+                                        if (id == full[0])
+                                            return '<input class="form-control time" id=toTime_' + full[0] + '  type="text"  style="border-radius:10px;height:30px;width:60px"/>';
+                                        else
+                                            return '<div>' + full[8] + '</div>';
+                                    }
+
+                                }
+                            ],
+                            
+                        });
+
+
+                     $('.fa-save').click(function () {
+                         
+                         var Id = $(this).attr("id");
+                         var toDate = "#toDate_" + $(this).closest('tr').children('td:eq(0)').text();
+                         var toTime = "#toTime_" + $(this).closest('tr').children('td:eq(0)').text();
+                         //alert(document.getElementById('toDate_1000').innerHTML);
+                         alert($(toDate).val());
+                         alert($(toTime).val());
+                         UpdateCampaignList(Id, $(toDate).val(), $(toTime).val());
+                        $(".fa-save").hide();
+
+                    });
+
+                     
+
+                     function UpdateCampaignList(Id, toDate, toTime) {
+                         alert(toDate);
+
+                        $.ajax(
+                            {
+                                url: "@Url.Action(MVC.Campaign.UpdateCampaignList())",
+                                type: 'POST',
+                                data: {
+                                    Id: Id,
+                                    Todate: toDate,
+                                    Totime: toTime
+                                },
+                                success: function () {
+                                    SuccessMsg("SUCCESSFULLY UPDATED");
+                                }
+
+                            });
+
+                    }
+                });
                 $("#loading").hide();
                 $("input[type=button]").removeAttr("disabled");
             }).fail(function (xhr, status, error) {
@@ -2154,7 +2196,8 @@
                     $("#divNoData span").text(" Result is too large.");
                     $("#divNoData").show();
                     $("input[type=button]").removeAttr("disabled");
-                } else {
+                }
+                else {
                     alert("Unable to fetch data from server", "Failed");
 
                 }
@@ -2503,27 +2546,7 @@
                 }
             });
         }
-
-            //samplefiledownlod
-        //$('#samplefiledownlod').on('click', function () {
-        //    var id = $("#uploadCampaignName").val();
-        @*function download(id) {
-           // var campaignid = event.id;
-            $.ajax({
-                type: 'GET',
-                url: '@Url.Action("getcampaignReportDownload", "Campaign")',
-                data: { id: id },
-                success: function (id) {
-                    //console.log(response, "response");
-                    //if (response != null && response != "") {
-                    //    download(response, "Upload.xlsx");
-                    //}
-                    SuccessMsg("Downloaded Successfully");
-                }
-            });
-
-        };*@
-
+        
         $('#samplefiledownlod').on('click', function () {
             var id = $("#uploadCampaignName").val();
 

@@ -158,26 +158,18 @@ namespace Templateprj.Controllers
         [NoCompress]
         public void DownloadCampaignDetailReport(string id)
         {
-
             DataTable dt = _prc.getCampaignwiseDetailReport(id);
-            dt.TableName = "Report";
             if (dt != null && dt.Rows.Count>0)
             {
+                dt.TableName = "Report";
                 RKLib.ExportData.Export objExport = new RKLib.ExportData.Export();
                 objExport.ExportDetails(dt, RKLib.ExportData.Export.ExportFormat.Excel, "");
             }
 
         }
 
-
-
-
         #endregion
 
-        
-
-
-        //
         #region Create Json
         public static string CreateJson(Object ob)
         {
@@ -261,23 +253,21 @@ namespace Templateprj.Controllers
 
         public virtual ActionResult getcampaignSearchReport(string templateName, string templateType, string templateStatus, string ContentType)
         {
-            int status = 1;
-        
             string json = _prc.getcampaignSearchreport(templateName, templateType, templateStatus, ContentType);
             //json = "{\"thead\": [{\"title\": \"Campaign ID\"}, {\"title\": \"Campaign Name\"}, {\"title\": \"Campaign Type\"}, {\"title\": \"Created Date\"}, {\"title\": \"Start Date & Time\"}, {\"title\": \"From Date\"}, {\"title\": \"To Date\"}, {\"title\": \"From Time\"}, {\"title\": \"To Time\"}, {\"title\": \"Status\"}, {\"title\": \"Upload Base\"}, {\"title\": \"Test  Report\"}],\"tdata\": [[\"7288806665\", \"AP\", \"IMI MOBILES\", \"404071719557642\", \"test\", \"Get\", \"Active\", \"2017-11-15 14:27:24\",\"Normal\", \"Yes\", \"0\", \"CDR Configured\"],[\"9505270111\", \"AP\", \"IMI MOBILES\", \"404071713625143\", \"asd\", \"Get\", \"Active\",\"2018-01-12 14:06:40\", \"Normal\", \"Yes\", \"1\", \"CDR Configured\"]]}";
-            if (status == 1)
+            if (json!="")
             {
                 return Content(json, "application/json");
 
             }
-            else if (status == -2)
-            {
-                Response.StatusCode = 507;
-                return Content("Out of Memory", "text/plain");
-            }
+            //else if (status == -2)
+            //{
+            //    Response.StatusCode = 507;
+            //    return Content("Out of Memory", "text/plain");
+            //}
             else
             {
-                Response.StatusCode = 503;
+               // Response.StatusCode = 503;
                 return Content("{\"Error\": \"Service Unavailable\"}", "application/json");
             }
         }
@@ -387,9 +377,6 @@ namespace Templateprj.Controllers
             return Json(messagedetailsjson, JsonRequestBehavior.AllowGet);
           
         }
-
-
-
 
         [HttpPost]
 
@@ -503,6 +490,7 @@ namespace Templateprj.Controllers
             DataTable dtcmpaignamelist = _prc.getCampaignNameList();
             DataTable dtcampaignstarttype = _prc.getCampaignStarttypelist();
             DataTable dtstatuslist = _prc.getstatuslist();
+            DataTable dtstatus = _prc.getstatus();
             DataTable dtprioritylist = _prc.getprioritylist();
             DataSet dspopupData = _prc.getTemplateSearchDetails();
 
@@ -515,7 +503,7 @@ namespace Templateprj.Controllers
             model.templateIdList = dt.ToSelectList();
 
             model.listcampaignNameList = dtcmpaignamelist.ToSelectList(listItemsAll, "VALUE", "TEXT");
-            model.listCampaignStatusList = dtstatuslist.ToSelectList(listItemsAll, "VALUE", "TEXT");
+            model.listCampaignStatusList = dtstatus.ToSelectList(listItemsAll, "VALUE", "TEXT");
             model.listCampaignPriorityList = dtprioritylist.ToSelectList(listItemsAll, "VALUE", "TEXT");
             model.listCampaignTypeList = dtCampaignType.ToSelectList(listItemsAll, "VALUE", "TEXT");
             model.pouptemplateNameList = dspopupData.Tables[0].ToSelectList(listItemsAll, "VALUE", "TEXT");
@@ -615,10 +603,10 @@ namespace Templateprj.Controllers
         {
 
             DataTable dt = _prc.getcampaigntestreportlist(id);
-            dt.TableName = "TestReport";
+           
             if (dt != null && dt.Rows.Count>0)
             {
-
+                dt.TableName = "TestReport";
                 RKLib.ExportData.Export objExport = new RKLib.ExportData.Export();
                 objExport.ExportDetails(dt, RKLib.ExportData.Export.ExportFormat.Excel, "");
             }
@@ -673,26 +661,43 @@ namespace Templateprj.Controllers
             }
             
         }
-        //public virtual ActionResult getcampaignReportDownload(SMSCampaignModel model)
-        //{
-        //    int status = 1;
-        //    string json = _prc.getcampaignreportDownload(model);
-        //    // string json = "{\"thead\": [{\"title\": \"Campaign ID\"}, {\"title\": \"Campaign Name\"}, {\"title\": \"Campaign Type\"}, {\"title\": \"Created Date\"}, {\"title\": \"Start Date & Time\"}, {\"title\": \"From Date\"}, {\"title\": \"To Date\"}, {\"title\": \"From Time\"}, {\"title\": \"To Time\"}, {\"title\": \"Status\"}, {\"title\": \"Upload Base\"}, {\"title\": \"Test  Report\"}],\"tdata\": [[\"7288806665\", \"AP\", \"IMI MOBILES\", \"404071719557642\", \"test\", \"Get\", \"Active\", \"2017-11-15 14:27:24\",\"Normal\", \"Yes\", \"0\", \"CDR Configured\"],[\"9505270111\", \"AP\", \"IMI MOBILES\", \"404071713625143\", \"asd\", \"Get\", \"Active\",\"2018-01-12 14:06:40\", \"Normal\", \"Yes\", \"1\", \"CDR Configured\"]]}";
-        //    if (status == 1)
-        //    {
-        //        return Content(json, "application/json");
-        //    }
-        //    else if (status == -2)
-        //    {
-        //        Response.StatusCode = 507;
-        //        return Content("Out of Memory", "text/plain");
-        //    }
-        //    else
-        //    {
-        //        Response.StatusCode = 503;
-        //        return Content("{\"Error\": \"Service Unavailable\"}", "application/json");
-        //    }
+        // editCampaignList
 
-        //}
+        public virtual ActionResult UpdateCampaignList()
+        {
+            UpdateCampListModel model = new UpdateCampListModel();
+            return View(model);
+        }
+
+
+
+        [HttpPost]
+        public virtual ActionResult UpdateCampaignList(string Id,string toDate, string toTime)
+        {
+
+            if (ModelState.IsValid)
+            {
+                //int status = 1;
+                string status = _prc.UpdateCampList(Id,  toDate,  toTime);
+                //json = System.Text.RegularExpressions.Regex.Replace(json, @"\s+", "");
+
+                if (status == "1")
+                {
+                    return Content(status, "application/json");
+                }
+                
+                else
+                {
+                    //Response.StatusCode = 503;
+                    return Content("{\"Error\": \"Service Unavailable\"}", "application/json");
+                }
+            }
+
+
+            return Content("{\"Error\": \"Invalid data\"}", "application/json");
+
+            //return View(model);
+        }
+
     }
 }

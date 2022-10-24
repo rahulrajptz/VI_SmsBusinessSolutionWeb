@@ -374,4 +374,14 @@ namespace Templateprj.Models
         public string variableContent{ get; set; }
 
     }
+    public class UpdateCampListModel
+    {
+        public string Id { get; set; }
+
+        public string Todate { get; set; }
+
+        public string Totime { get; set; }
+
+
+    }
 }
