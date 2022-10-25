@@ -1,11 +1,15 @@
-﻿using Templateprj.Models.InstantSms;
+﻿using System.Collections.Generic;
 using Templateprj.Models.Managements;
 
 namespace Templateprj.Repositories.Interfaces
 {
-    public interface IAccountManagemntRepository
+    public interface ITemplateManagemntRepository
     {
-        ManagementModel GetAccount();
-        string SaveAccount(ManagementModel model, out string response);
+        TemplateModel GetTemplateFilters();
+        TemplateAutoFilItemModel TemplateAutoFilItems();
+        string GetTemplates(TemplateModel model);
+        string SaveTemplate(List<RegisterTemplateCommand> commands, out string response);
+        string DeleteTemplate(string id, out string response);
+        string GetTemplateFilters(TemplateModel model);
     }
 }

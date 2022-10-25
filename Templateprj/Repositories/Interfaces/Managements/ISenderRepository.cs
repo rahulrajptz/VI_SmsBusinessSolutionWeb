@@ -3,7 +3,7 @@ using Templateprj.Models.Managements;
 
 namespace Templateprj.Repositories.Interfaces
 {
-    public interface IAccountManagemntRepository
+    public interface ISenderRepository
     {
         ManagementModel GetAccount();
         string SaveAccount(ManagementModel model, out string response);

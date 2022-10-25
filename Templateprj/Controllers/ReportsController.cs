@@ -115,15 +115,18 @@ namespace Templateprj.Controllers
             int status = 0;
             try
             {
-                string fileName = "";
-                fileName = "Detailedrpt" + "_" + DateTime.Now.ToString();
-                _prc.ExportDetailedReport(model, fileName, out status);
+                string name = "";
+                name = "Detailedrpt" + "_" + DateTime.Now.ToString();
+                _prc.ExportDetailedReport(model, name, out  status);
             }
             catch (Exception ex)
             {
                 LogWriter.Write(DateTime.Now + "::ReportsController::DetailedReport::Exception::" + ex.Message);
             }
-            if (status == 1) { return View("DetailedReport", model); }
+            if (status == 1)
+            {
+                return View("DetailedReport", model);
+            }
             else if (status == -2)
             {
                 Response.StatusCode = 507;

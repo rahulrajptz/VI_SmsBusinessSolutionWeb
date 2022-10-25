@@ -401,12 +401,14 @@ namespace Templateprj.DataAccess
 
         }
 
-        public int AuthenticateUser(AuthenticateUserModel model, out string OTP, out int mid, out string mailId)
+        public int AuthenticateUser(AuthenticateUserModel model, out string OTP, out int mid, out string mailId,out string response)
         {
             //For Reset/Forgot password Step 1
             mailId = "";
             mid = 0;
             OTP = _rnd.Next(100000, 999999).ToString();
+            response = "";
+
 
             MySqlConnection con = null;
             try
@@ -422,7 +424,8 @@ namespace Templateprj.DataAccess
                 //OUT v_Email_Out varchar(1000),
                 //OUT n_Mid_Out bigint(11),
                 //OUT n_User_Id_Out bigint(11),
-                //OUT n_Status_Out int)
+                //OUT n_Status_Out int,
+                //OUT V_response varchar(1000))
 
                 MySqlCommand cmd = new MySqlCommand();
                 con = new MySqlConnection(GlobalValues.ConnStr);
@@ -456,9 +459,12 @@ namespace Templateprj.DataAccess
                 cmd.Parameters.Add("@n_Mid_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
                 cmd.Parameters.Add("@n_User_Id_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
                 cmd.Parameters.Add("@n_Status_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("@V_response", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
                 cmd.ExecuteNonQuery();
                 con.Close();
                 int status = Convert.ToInt32(cmd.Parameters["@n_Status_Out"].Value.ToString());
+                response = cmd.Parameters["@V_response"].Value.ToString();
+
                 if (status == 1)
                 {
                     mid = Convert.ToInt32(cmd.Parameters["@n_Mid_Out"].Value.ToString());
