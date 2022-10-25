@@ -187,7 +187,8 @@
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Header")
                                             <div class="form-group">
-                                                <input id="Header" class="form-control w-100">
+                                                @Html.DropDownListFor(a => a.HeaderSenderId, Model.Headers ,new { @class = "form-control cl-black", id = "Header", autocomplete = "off" })
+                                                <input type="hidden" id="hfCustomer" name="CustomerId" />
                                             </div>
                                         </div>
 
@@ -224,7 +225,7 @@
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Created By")
                                             <div class="form-group">
-                                                <input id="createdBy" class="form-control w-100">
+                                                <input id="CreatedBy" class="form-control w-100">
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-6">
@@ -247,7 +248,7 @@
                                         <div class="col-12">
                                             @Html.Label("Template Message")
                                             <div class="form-group">
-                                                <textarea type="text" value="" class="keyboardInput w-100" rows="4"></textarea>
+                                                <textarea id="TemaplteMessage" type="text" value="" class="keyboardInput w-100" rows="4"></textarea>
                                             </div>
                                         </div>
 
@@ -268,9 +269,10 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-6">
-                                            @Html.Label("Reason")
+                                            @Html.Label("Delivery Status")
                                             <div class="form-group">
-                                                <input id="reason" class="form-control w-100">
+                                                @Html.DropDownListFor(m => m.DeliveryStatusId, Model.DeliveryStatus, new { @class = "form-control cl-black" })
+
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-6">
@@ -278,6 +280,24 @@
                                             <div class="form-group">
                                                 @Html.DropDownListFor(m => m.ContentTypeId, Model.ContentTypes?.Where(a => a.Value != "0"), new { @id = "ContentType", @class = "form-control cl-black" })
 
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-6" id="divVariableCount">
+                                            @Html.Label("Variable Count")
+                                            <div class="form-group">
+                                                <input id="VariableCount" class="form-control w-100">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-6" id="divVariableCount">
+                                            @Html.Label("Validity Period")
+                                            <div class="form-group">
+                                                <input id="ValidityPeriod" type="number" class="form-control w-100">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-12">
+                                            @Html.Label("Reason")
+                                            <div class="form-group">
+                                                <textarea id="Reason" type="text" value="" class="w-100" rows="3"></textarea>
                                             </div>
                                         </div>
 
@@ -338,9 +358,6 @@
 
     <link href="~/Scripts/virtualkeyboard/keyboard.css" rel="stylesheet" />
     <script type="text/javascript" src="~/Scripts/virtualkeyboard/keyboard.js" charset="UTF-8"></script>
-
-    @*<script type="text/javascript" src='http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.3.min.js'></script>*@
-    @*<script type="text/javascript" src='http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js'></script>*@
     <script type="text/javascript" src="http://cdn.rawgit.com/bassjobsen/Bootstrap-3-Typeahead/master/bootstrap3-typeahead.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
@@ -464,7 +481,6 @@
                             },
                         });
                     }
-
                 }
                  
                 }).fail(function (xhr, status, error) {
@@ -703,8 +719,8 @@
                 templateModel.templateName = $("#txt_TemplateName").val();
                 templateModel.teleMarketer = $("#TeleMarketer").val();
                 templateModel.templateId = $("#Template").val();
-                templateModel.type = $("#DltEmailAddress").val();
-                templateModel.header = $("#DltEmailAddress").val();
+                templateModel.type = $("#Type").val();
+                templateModel.header = $("#Header").val();
                 templateModel.category = $("#Category").val();
                 templateModel.requestedOn = $("#RequestedOn").val();
                 templateModel.statusDate = $("#StatusDate").val();
@@ -714,7 +730,12 @@
                 templateModel.status = $("#Status").val();
                 templateModel.temaplteMessage = $("#TemaplteMessage").val();
                 templateModel.consentType = $("#ConsentType").val();
+                templateModel.contentType = $("#ContentType").val();
                 templateModel.reason = $("#Reason").val();
+                templateModel.registeredDlt = $("#RegisteredDlt").val();
+                templateModel.deliveryStatus = $("#DeliveryStatus").val();
+                templateModel.variableCount = $("#VariableCount").val();
+                templateModel.validityPeriod = $("#ValidityPeriod").val();
 
                 if (isValid) {
                     $.ajax({
@@ -730,8 +751,7 @@
                                 //location.reload();
 
                                 SuccessMsg("Successfully update account details");
-                                $('#rw_view').show();
-                                $('#rw_edit').hide();
+                                location.reload();
                             }
                             else {
                                 ErrorMsg("Failed to save account details.")

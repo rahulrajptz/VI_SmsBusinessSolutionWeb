@@ -834,8 +834,6 @@ namespace Templateprj.Helpers
                     DataTable dt;
                     excelConnection.Open();
 
-
-
                     dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
                     if (dt == null)
                     {

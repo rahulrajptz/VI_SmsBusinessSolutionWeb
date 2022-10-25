@@ -26,8 +26,22 @@ namespace Templateprj.Models.Managements
         public SelectList ConsentType { get; set; }
 
         [JsonIgnore]
+        public SelectList Headers { get; set; }
+      
+        [JsonIgnore]
+        public SelectList DeliveryStatus { get; set; }
+
+        [JsonIgnore]
         public int ConsentTypeId { get; set; }
+
         [JsonIgnore]
         public int ApprovalStatusId { get; set; }
+
+        [JsonIgnore]
+        public int DeliveryStatusId { get; set; }
+
+        [JsonIgnore]
+        public int HeaderId { get; set; }
+
     }
 }

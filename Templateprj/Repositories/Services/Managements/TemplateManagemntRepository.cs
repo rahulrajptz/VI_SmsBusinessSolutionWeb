@@ -42,9 +42,11 @@ namespace Templateprj.Repositories.Services
                         model.ContentTypes = GetDatatables(dataset.Tables[2]).ToSelectList();
                         model.ApprovalStatus = GetDatatables(dataset.Tables[3]).ToSelectList();
                         model.ConsentType = GetDatatables(dataset.Tables[4]).ToSelectList();
+                        model.Headers = dataset.Tables[5].ToSelectList();
                     }
 
                 }
+                model.DeliveryStatus = GetDeliveryStatus().ToSelectList();
             }
             catch (Exception ex)
             {
@@ -118,23 +120,20 @@ namespace Templateprj.Repositories.Services
             return string.Empty;
         }
 
-        public string SaveTemplate(RegisterTemplateCommand command, out string response)
+        public string SaveTemplate(List<RegisterTemplateCommand> commands, out string response)
         {
             response = "";
-            return response;
-            List<RegisterTemplateCommand> commands = new List<RegisterTemplateCommand>() { command };
             try
             {
                 using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Add_New_Template"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
-                    cmd.Parameters.Add("@v_Data_In", MySqlDbType.Text).Value = JsonConvert.SerializeObject(commands, new JsonSerializerSettings
-                    {
-                        ContractResolver = new CamelCasePropertyNamesContractResolver()
-                    });
+                    cmd.Parameters.Add("@n_Account_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
+                    cmd.Parameters.Add("@v_Data_In", MySqlDbType.Text).Value = JsonConvert.SerializeObject(commands);
                     cmd.Parameters.Add("@n_Status_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("@v_Message_Out", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@v_Message_Out", MySqlDbType.VarChar, 1000).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@v_Data_Out", MySqlDbType.MediumText).Direction = ParameterDirection.Output;
 
                     DataTable dt = new DataTable();
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
@@ -145,6 +144,7 @@ namespace Templateprj.Repositories.Services
                     }
                     string status = cmd.Parameters["@n_Status_Out"].Value.ToString();
                     response = cmd.Parameters["@v_Message_Out"].Value.ToString();
+                    string data = cmd.Parameters["@v_Data_Out"].Value.ToString();
                     return status;
                 }
             }
@@ -205,18 +205,21 @@ namespace Templateprj.Repositories.Services
             return dt;
         }
 
-
-        private List<KeyValueModel> GetDataTableToKeyValue(DataTable dt)
+        private DataTable GetDeliveryStatus()
         {
-            List<KeyValueModel> keyValues = new List<KeyValueModel>();
-            if (dt != null)
-            {
-                foreach(DataRow row in dt.Rows)
-                {
-                    keyValues.Add(new KeyValueModel() { Id= Convert.ToString(row["id"]),Value= Convert.ToString(row["value"]) });
-                }
-            }
-            return keyValues;
+            DataTable dt = new DataTable();
+            dt.Clear();
+            dt.Columns.Add("VALUE");
+            dt.Columns.Add("TEXT");
+            DataRow newRow = dt.NewRow();
+            newRow[0] = 0;
+            newRow[1] = "No";
+            dt.Rows.InsertAt(newRow, 0);
+            newRow = dt.NewRow();
+            newRow[0] = 1;
+            newRow[1] = "Yes";
+            dt.Rows.InsertAt(newRow, 0);
+            return dt;
         }
 
         private List<KeyValueModel> GetDataTableToKeyValueText(DataTable dt)
@@ -231,6 +234,47 @@ namespace Templateprj.Repositories.Services
             }
             return keyValues;
         }
+
+        public string GetTemplateFilters(TemplateModel model)
+        {
+            try
+            {
+                JsonSerializerSettings jsSettings = new JsonSerializerSettings();
+                jsSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                string filter = JsonConvert.SerializeObject(model, Formatting.None, jsSettings);
+                using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Get_Account_Template_List_Flir"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
+                    cmd.Parameters.Add("@n_Account_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
+                    cmd.Parameters.Add("@v_template", MySqlDbType.VarChar, 200).Value = !string.IsNullOrEmpty(model.TemplateName) ? model.TemplateName : "0";
+                    cmd.Parameters.Add("@v_Template_Id", MySqlDbType.VarChar, 200).Value = !string.IsNullOrEmpty(model.TemplateId)? model.TemplateId:"0";
+                    cmd.Parameters.Add("@v_senderid", MySqlDbType.VarChar, 200).Value = !string.IsNullOrEmpty(model.HeaderSenderId)? model.HeaderSenderId:"0";
+
+                    cmd.Parameters.Add("@v_template_type", MySqlDbType.Int32).Value = model.TemplateTypeId;
+                    cmd.Parameters.Add("@n_status_Id", MySqlDbType.Int32).Value = model.StatusId;
+                    cmd.Parameters.Add("@n_Content_Type", MySqlDbType.Int32).Value = model.ContentTypeId;
+                    cmd.Parameters.Add("@v_Data_Out", MySqlDbType.Text).Direction = ParameterDirection.Output;
+
+                    DataTable dt = new DataTable();
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        cmd.ExecuteNonQuery();
+                    }
+                    return cmd.Parameters["@v_Data_Out"].Value.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                LogWriter.Write("Repositories.Services.GetAccount :: Exception :: " + ex.Message);
+            }
+
+            return string.Empty;
+        }
+
 
     }
 }

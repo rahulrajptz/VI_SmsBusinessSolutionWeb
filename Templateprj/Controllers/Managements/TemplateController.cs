@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
@@ -30,7 +31,7 @@ namespace Templateprj.Controllers
         [HttpPost]
         public virtual ActionResult Templates(RegisterTemplateCommand command)
         {
-            string status = _templateManagemntRepository.SaveTemplate(command, out string response);
+            string status = _templateManagemntRepository.SaveTemplate(new List<RegisterTemplateCommand>() { command }, out string response);
 
             string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\"}";
 
@@ -53,11 +54,13 @@ namespace Templateprj.Controllers
             return Json(_templateManagemntRepository.TemplateAutoFilItems(), JsonRequestBehavior.AllowGet);
         }
 
+
         [HttpPost]
         [AuthorizeUser]
         public virtual ActionResult GetTemplates(TemplateModel model)
         {
-            string json = _templateManagemntRepository.GetTemplates(model);
+            //string json = _templateManagemntRepository.GetTemplates(model);
+            string json = _templateManagemntRepository.GetTemplateFilters(model);
             return Content(json, "application/json");
         }
 
@@ -102,7 +105,8 @@ namespace Templateprj.Controllers
                                 if (d?.Tables[0]?.Rows != null && d.Tables[0].Rows.Count > 0)
                                 {
                                     string data = JsonConvert.SerializeObject(d.Tables[0]);
-                                    string status = "1";//_prc.insertfilepath(path, CampignId, starttype);
+                                    var commands = JsonConvert.DeserializeObject<List<RegisterTemplateCommand>>(data);
+                                    string status = _templateManagemntRepository.SaveTemplate(commands, out string response);
                                     if (status == "1")
                                     {
                                         json = "{\"status\":\"1\",\"response\":\"File Successfully Uploaded\" }";
