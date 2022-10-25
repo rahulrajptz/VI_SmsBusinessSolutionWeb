@@ -39,12 +39,14 @@ namespace T4MVC
             public class _ViewNamesClass
             {
                 public readonly string _DeskNavLinks = "_DeskNavLinks";
+                public readonly string _html5shiv = "_html5shiv";
                 public readonly string _Layout = "_Layout";
                 public readonly string _LayoutPageCampaign = "_LayoutPageCampaign";
                 public readonly string _navlinksms = "_navlinksms";
                 public readonly string Error = "Error";
             }
             public readonly string _DeskNavLinks = "~/Views/Shared/_DeskNavLinks.cshtml";
+            public readonly string _html5shiv = "~/Views/Shared/_html5shiv.cshtml";
             public readonly string _Layout = "~/Views/Shared/_Layout.cshtml";
             public readonly string _LayoutPageCampaign = "~/Views/Shared/_LayoutPageCampaign.cshtml";
             public readonly string _navlinksms = "~/Views/Shared/_navlinksms.cshtml";

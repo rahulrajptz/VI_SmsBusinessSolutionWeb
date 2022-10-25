@@ -2055,18 +2055,12 @@
                             },
                             {
                                 "targets": 12,
-                                "className": "text-center",
+                                "className": "text-center editor-edit",
 
                                 "mRender": function (data, type, full) {
-                                    //if (full[10] == 0) {
-                                    //    return "NA";
-                                    //}
-                                    //else {
-
-
-                                    //return '<a class="btn fa fa-upload" id="upload"  ' + full[10] + '>' + '' + '</a>';
+                                   
                                     return '<i class="fa fa-edit" id=' + full[0] + ' style="color:blue;"></i>';
-                                    //}
+                                   
                                 }
 
 
@@ -2085,9 +2079,8 @@
 
                  $(".fa-edit").click(function ()
                  {
-                    var id = $(this).attr("id");
-                   // alert("id is :" + id);
-                    $("#tbl_rpt").DataTable(
+                     var id = $(this).attr("id");
+                     $("#tbl_rpt").DataTable(
 
                         {
 
@@ -2099,10 +2092,10 @@
                             columns: resp.thead,
                             "columnDefs": [
                                 //hide first column...
-                                //{
-                                //    'visible': false,
-                                //    'targets': [0]
-                                //},
+                                {
+                                    'visible': true,
+                                    'targets': [0]
+                                },
 
                                 {
                                     "targets": 12,
@@ -2122,7 +2115,7 @@
                                     "className": "text-center",
                                     "mRender": function (data, type, full) {
                                         if (id == full[0])
-                                            return '<input class="form-control date" id=toDate_' + full[0] + '  type="text"  style="border-radius:10px;height:30px;width:60px"/>';
+                                            return '<input class="form-control date" id=toDate_' + full[0] + '  type="date"  style="border-radius:10px;height:30px;width:60px"/>';
                                         else
                                             return '<div>' + full[7] + '</div>';
                                     }
@@ -2135,7 +2128,7 @@
 
                                     "mRender": function (data, type, full) {
                                         if (id == full[0])
-                                            return '<input class="form-control time" id=toTime_' + full[0] + '  type="text"  style="border-radius:10px;height:30px;width:60px"/>';
+                                            return '<input class="form-control time" id=toTime_' + full[0] + '  type="time"  style="border-radius:10px;height:30px;width:60px"/>';
                                         else
                                             return '<div>' + full[8] + '</div>';
                                     }
@@ -2149,13 +2142,13 @@
                      $('.fa-save').click(function () {
                          
                          var Id = $(this).attr("id");
-                         var toDate = "#toDate_" + $(this).closest('tr').children('td:eq(0)').text();
-                         var toTime = "#toTime_" + $(this).closest('tr').children('td:eq(0)').text();
-                         //alert(document.getElementById('toDate_1000').innerHTML);
+                         var toDate = "#toDate_" + Id;//$(this).closest('tr').children('td:eq(0)').text();
+                         var toTime = "#toTime_" + Id;//$(this).closest('tr').children('td:eq(0)').text();
+                        // alert(document.getElementById('toDate_1000').innerHTML);
                          alert($(toDate).val());
                          alert($(toTime).val());
                          UpdateCampaignList(Id, $(toDate).val(), $(toTime).val());
-                        $(".fa-save").hide();
+                        //$(".fa-save").hide();
 
                     });
 
@@ -2177,8 +2170,8 @@
                                     SuccessMsg("SUCCESSFULLY UPDATED");
                                 }
 
-                            });
-
+                             });
+                         loadReport();
                     }
                 });
                 $("#loading").hide();
@@ -2775,8 +2768,8 @@
                 console.log(fsize);
                 const filesizeinkb = Math.round((fsize / 1024));
 
-                if (filesizeinkb >= 100000) {
-                    ErrorMsg("File is too large,Please upload file less than 100 MB")
+                if (filesizeinkb >= 40000) {
+                    ErrorMsg("File is too large,Please upload file less than 40 MB")
                 }
                 else {
                     fileData.append(files[0].name, files[0]);
@@ -2814,6 +2807,102 @@
 
 
         });
+
+
+        function loadReport123() {
+
+            $("#loading").show();
+            $("#divNoData").hide();
+
+            // $("#divTable").html("<table class=\"table table-bordered dataTable dtr-inline \" id=\"tbl_rpt\" role=\"grid\" aria-describedby=\"datatable_info\" style=\"width:100 % !important;\" cellspacing=\"0\"><thead style= \"font-size:11px;width:auto;text-align:center;\" ><tr></tr> </thead ></table >");
+            $("input[type=button]").attr("disabled", "disabled");
+            $.post("@Url.Action(MVC.Campaign.getcampaigncreatedlist())", $("form").serialize(), function (resp) {
+                if (jQuery.isEmptyObject(resp.tdata)) {
+
+                    $("#divNoData span").text(" No data available");
+                    //$("#divNoData").show();
+                    $("input[type=button]").removeAttr("disabled");
+                    $("#loading").hide();
+                    $("#divTable").hide();
+                    ErrorMsg('No data available');
+                }
+                else {
+                    $("#tbl_rpt").show();
+                    $("#divTable").show();
+                    rpt_datatable = $("#tbl_rpt").DataTable({
+                        responsive: true,
+                        deferRender: true,
+                        "destroy": true,
+
+                        data: resp.tdata,
+                        columns:[ resp.thead,
+                            {
+                                //"targets": 12,
+                                "data": null,
+                                "className": "dt-center editor-edit",
+                                "defaultContent": '<i class="fa fa-pencil" />',
+                                "orderable": false
+                            },
+                            {
+                                //"targets": 12,
+                                "data": null,
+                                "className": "dt-center editor-delete",
+                                "defaultContent": '<i class="fa fa-trash"/>',
+                                "orderable": false
+                            },
+                        ],
+                        order: [],
+                        fnInitComplete: function (o) {
+                            $("#loading").hide();
+                            $("input[type=button]").removeAttr("disabled");
+
+                        },
+
+                    });
+                }
+                $('#tbl_rpt').on('click', 'td.editor-edit', function (e) {
+                    e.preventDefault();
+
+                    editor.edit($(this).closest('tr'), {
+                        "title": 'Edit record',
+                        "buttons": 'Update'
+                    });
+                });
+
+                // Delete a record
+                $('#tbl_rpt').on('click', 'td.editor-delete', function (e) {
+                    e.preventDefault();
+
+                    editor.remove($(this).closest('tr'), {
+                        "title": 'Delete record',
+                        "message": 'Are you sure you wish to remove this record?',
+                        "buttons": 'Delete'
+                    });
+                });
+            
+                //});
+                $("#loading").hide();
+                $("input[type=button]").removeAttr("disabled");
+            }).fail(function (xhr, status, error) {
+                $("#loading").hide();
+                $("input[type=button]").removeAttr("disabled");
+                if (xhr.status == 401) {
+                    alert("Click to continue", "Session Timedout", function () {
+                        closing = false;
+                        window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                    })
+                }
+                else if (xhr.status == 507) {
+                    $("#divNoData span").text(" Result is too large.");
+                    $("#divNoData").show();
+                    $("input[type=button]").removeAttr("disabled");
+                }
+                else {
+                    alert("Unable to fetch data from server", "Failed");
+
+                }
+            });
+    }
 
 
     </script>
