@@ -2,26 +2,39 @@
     $.notify(msg, {
         animate: {
             enter: 'animated fadeInRight',
-            exit: 'animated fadeOutRight'
-        }, type: 'success',
+            exit: 'animated fadeOutRight'            
+        },
+        type: 'success',        
         placement: {
             from: "bottom",
             align: "right"
         },
-        delay: 1000000
+        autoHideDelay: 2000,
+        showAnimation: "fadeIn",
+        hideAnimation: "fadeOut",
+        hideDuration: 700,
+        arrowShow: false,
+        className: "success"
     });
 }
 
 function ErrorMsg(msg) {
     $.notify(msg, {
+       
         animate: {
             enter: 'animated fadeInRight',
-            exit: 'animated fadeOutRight'
+            exit: 'animated fadeOutRight'            
         }, type: 'danger',
         placement: {
             from: "bottom",
             align: "right"
         },
-        delay: 1000000
+
+        autoHideDelay: 2000,
+        showAnimation: "fadeIn",
+        hideAnimation: "fadeOut",
+        hideDuration: 700,
+        arrowShow: false,
+        className: "fail"
     });
 }

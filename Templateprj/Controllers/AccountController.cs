@@ -209,9 +209,10 @@ namespace Templateprj.Controllers
                 //}
                 //else
                 //{
-                    int mid; string mailId, otp;
+                    int mid;
+                    string mailId, otp, response;
                     model.OldPwd = "";
-                    int status = _prc.AuthenticateUser(model, out otp, out mid, out mailId);
+                    int status = _prc.AuthenticateUser(model, out otp, out mid, out mailId, out response);
 
                     if (status == 1)
                     {
@@ -225,7 +226,7 @@ namespace Templateprj.Controllers
                     }
                     else
                     {
-                        ViewBag.ErrorMsg = "Wrong Answer";
+                        ViewBag.ErrorMsg = response;
                     }
                // }
             }
@@ -332,8 +333,8 @@ namespace Templateprj.Controllers
                 }
                 else
                 {
-                    int mid; string otp, emailId;
-                    int status = _prc.AuthenticateUser(model, out otp, out mid, out emailId);
+                    int mid; string otp, emailId, response;
+                    int status = _prc.AuthenticateUser(model, out otp, out mid, out emailId,out response);
 
                     if (status == 1)
                     {

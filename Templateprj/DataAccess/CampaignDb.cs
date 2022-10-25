@@ -19,7 +19,86 @@ namespace Templateprj.DataAccess
     {
         ExcelExtension _xlsx = new ExcelExtension();
 
+        private string GetJsonString(DataTable dt)
+        {
+            int columnCount =dt.Columns.Count;
+           // DataTable dtSchema = dr.GetSchemaTable();
 
+            StringBuilder json = new StringBuilder();
+            string[] tmpHeadRow = new string[columnCount];
+
+            if (dt != null)
+            {
+                //for (int i = 0; i < 1; i++)
+                //{
+                //    tmpHeadRow[i] = "{\"title\":\"" + dtSchema.Rows[i]["ColumnName"].ToString() + "\", \"visible\":false}";
+                //}
+                for (int colIndex = 0; colIndex < columnCount; colIndex++)
+                {
+                    tmpHeadRow[colIndex] = "{\"title\":\"" + dt.Columns[colIndex].ColumnName.ToString() + "\"}";
+                }
+            }
+
+            json.Append("{\"thead\":[" + string.Join(",", tmpHeadRow) + "],\"tdata\":[");
+
+            //  if (dr.HasRows)
+            // {
+            //  while (dr.Read())
+            // {
+            for (int rowIndex = 0; rowIndex < dt.Rows.Count; rowIndex++)
+            {
+                for (int colIndex = 0; colIndex < columnCount; colIndex++)
+                {
+                    tmpHeadRow[colIndex] = dt.Rows[rowIndex].ItemArray[colIndex].ToString().Trim();
+                }
+                json.Append("[\"" + string.Join("\",\"", tmpHeadRow) + "\"],");
+            }
+              //  }
+              if(dt.Rows.Count>0)
+                json.Length--;
+          //  }
+
+            return json.ToString() + "]}";
+        }
+
+        private string GetJsonStringwithName(DataTable dt)
+        {
+            int columnCount = dt.Columns.Count;
+            // DataTable dtSchema = dr.GetSchemaTable();
+
+            StringBuilder json = new StringBuilder();
+            string[] tmpHeadRow = new string[columnCount];
+
+            if (dt != null)
+            {
+                //for (int i = 0; i < 1; i++)
+                //{
+                //    tmpHeadRow[i] = "{\"title\":\"" + dtSchema.Rows[i]["ColumnName"].ToString() + "\", \"visible\":false}";
+                //}
+            
+            }
+
+            json.Append("{");
+
+            //  if (dr.HasRows)
+            // {
+            //  while (dr.Read())
+            // {
+            for (int rowIndex = 0; rowIndex < dt.Rows.Count; rowIndex++)
+            {
+                for (int colIndex = 0; colIndex < columnCount; colIndex++)
+                { 
+                    tmpHeadRow[colIndex] = dt.Columns[colIndex].ColumnName.ToString()+ "\":\"" + dt.Rows[rowIndex].ItemArray[colIndex].ToString().Trim();
+                }
+                json.Append("\"" + string.Join("\",\"", tmpHeadRow) + "\",");
+            }
+            //  }
+            if (dt.Rows.Count > 0)
+                json.Length--;
+            //  }
+
+            return json.ToString() + "}";
+        }
         private string GetJsonString(OracleDataReader dr)
         {
             int columnCount = dr.FieldCount;
@@ -34,9 +113,9 @@ namespace Templateprj.DataAccess
                 //{
                 //    tmpHeadRow[i] = "{\"title\":\"" + dtSchema.Rows[i]["ColumnName"].ToString() + "\", \"visible\":false}";
                 //}
-                for (int i = 0; i < columnCount; i++)
+                for (int colIndex = 0; colIndex < columnCount; colIndex++)
                 {
-                    tmpHeadRow[i] = "{\"title\":\"" + dtSchema.Rows[i]["ColumnName"].ToString() + "\"}";
+                    tmpHeadRow[colIndex] = "{\"title\":\"" + dtSchema.Rows[colIndex]["ColumnName"].ToString() + "\"}";
                 }
             }
 
@@ -46,9 +125,9 @@ namespace Templateprj.DataAccess
             {
                 while (dr.Read())
                 {
-                    for (int i = 0; i < columnCount; i++)
+                    for (int colIndex = 0; colIndex < columnCount; colIndex++)
                     {
-                        tmpHeadRow[i] = dr[i].ToString();
+                        tmpHeadRow[colIndex] = dr[colIndex].ToString();
                     }
                     json.Append("[\"" + string.Join("\",\"", tmpHeadRow) + "\"],");
                 }
@@ -71,9 +150,9 @@ namespace Templateprj.DataAccess
                 //{
                 //    tmpHeadRow[i] = "{\"title\":\"" + dtSchema.Rows[i]["ColumnName"].ToString() + "\", \"visible\":false}";
                 //}
-                for (int i = 0; i < columnCount; i++)
+                for (int colIndex = 0; colIndex < columnCount; colIndex++)
                 {
-                    tmpHeadRow[i] = "{\"title\":\"" + dtSchema.Rows[i]["ColumnName"].ToString() + "\"}";
+                    tmpHeadRow[colIndex] = "{\"title\":\"" + dtSchema.Rows[colIndex]["ColumnName"].ToString() + "\"}";
                 }
             }
 
@@ -83,9 +162,9 @@ namespace Templateprj.DataAccess
             {
                 while (dr.Read())
                 {
-                    for (int i = 0; i < columnCount; i++)
+                    for (int colIndex = 0; colIndex < columnCount; colIndex++)
                     {
-                        tmpHeadRow[i] = dr[i].ToString().Trim();
+                        tmpHeadRow[colIndex] = dr[colIndex].ToString().Trim();
                     }
                     json.Append("[\"" + string.Join("\",\"", tmpHeadRow) + "\"],");
                 }
@@ -190,6 +269,37 @@ namespace Templateprj.DataAccess
             catch (Exception ex)
             {
                 LogWriter.Write("DataAccess.Campaign.getstatuslist::Exception::" + ex.Message);
+                return null;
+            }
+        }
+
+        public DataTable getstatus()
+        {
+            // `Web_Get_SMS_Type`()
+
+
+            try
+            {
+
+                using (MySqlCommand cmd = new MySqlCommand("Web_get_Camp_running_status"))
+                {
+
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        var dataTable = new DataTable();
+                        dataAdapter.Fill(dataTable);
+                        return dataTable;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.Campaign.getstatus::Exception::" + ex.Message);
                 return null;
             }
         }
@@ -321,7 +431,7 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.Campaign.getCampaignNameList::Exception::" + ex.Message);
+                LogWriter.Write("DataAccess.Campaign.getCampaignStarttypelist::Exception::" + ex.Message);
                 return null;
             }
         }
@@ -361,6 +471,45 @@ namespace Templateprj.DataAccess
                 return null;
             }
         }
+        public DataSet getTemplateSearchDetails()
+        {
+
+            // `Web_templates_out`(IN N_Account_id int, IN V_temp_name varchar(100),
+            //IN N_Status int, IN N_Content_type int )
+
+
+            //`Web_get_template_id`(in N_Acc_id int, in N_sender_id varchar(20))
+            //Web_get_template_id`(in N_Acc_id int, in N_sender_id varchar(20),in N_Sms_Type int)
+            try
+            {
+                DataSet dt = new DataSet();
+                using (MySqlCommand cmd = new MySqlCommand("Web_templatelist_dropdowns_out"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@N_Acc_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
+                    //   cmd.Parameters.Add("@N_Acc_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
+                    //cmd.Parameters.Add("@N_sender_id", MySqlDbType.VarChar, 200).Value = senderid;
+                    // cmd.Parameters.Add("@N_Sms_Type", MySqlDbType.Int32).Value = smstype;
+
+
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        var dataTable = new DataSet();
+                        dataAdapter.Fill(dataTable);
+                        return dataTable;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.Capaign.getTemplateSearchDetails::Exce ::  :: " + ex.Message);
+                return null;
+            }
+        }
 
         public DataTable getTemplateIdFromsenderId(string senderid, string smstype)
         {
@@ -383,47 +532,31 @@ namespace Templateprj.DataAccess
                         MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
                         var dataTable = new DataTable();
                         dataAdapter.Fill(dataTable);
-                        string text = "";
+                        string SMSData = "";
                         foreach (DataRow row in dataTable.Rows)
                         {
-                            string text1 = row["value"].ToString();
-                            string text2 = row["text"].ToString();
-                            if (text1 == "10" || text1 == "11")
-                            {
-
-                                //RS.SOURCE_ADDR As "Msisdn",
-                                //RS.DESTINATION_ADDR As "VMN",
-                                //RS.SHORT_MESSAGE As "Message",
-                                //RS.RECEIVED_TIME As "Receive Time"
-
-                                string str = text2.ToString();
-
-                                //  string correctString = "";
-                                if (text2.Trim() != "")
+                            // string text1 = row["value"].ToString();
+                            string unicodeStatus = row["unicode_status"].ToString();
+                            string SMSContent = row["text"].ToString();
+                            if (unicodeStatus=="8")
+                            {                       
+                                 //  string correctString = "";
+                                if (SMSContent.Trim() != "")
                                 {
                                     //  correctString = str.Replace("[PARAMETER]", "005B0050004100520041004D0045005400450052005D");
-                                    string s = "\\u" + Regex.Replace(text2, ".{4}", "$0\\u");
-                                    text = Regex.Unescape(s.Substring(0, s.Length - 2));
+                                     SMSData = "\\u" + Regex.Replace(SMSContent, ".{4}", "$0\\u");
+                                    SMSData = Regex.Unescape(SMSData.Substring(0, SMSData.Length - 2));
+                                    row["text"] = SMSData;
 
                                 }
-                            }
-                            if (text1 == "10" || text1 == "11")
-                            {
-                                row["text"] = text.ToString();
-                            }
+                            }                            
                             else
                             {
-                                string data = text2.Replace("\r\n", "");
-                                row["text"] = data;
+                                SMSData = SMSContent.Replace("\r\n", "");
+                                row["text"] = SMSData;
                             }
-                            //  dt.ImportRow(row);
-                            // dt.Rows.Add(row);
-                            //  dt.AcceptChanges();
-
-                            //dt.ImportRow(row);
-
                         }
-                        //dataTable.Columns.Remove("unicode_flag");
+                        dataTable.Columns.Remove("unicode_status");
                         //con.Close();
                         return dataTable;
                     }
@@ -432,7 +565,7 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.Capaign.getSenderIdFromsmstype::Exce ::  :: " + ex.Message);
+                LogWriter.Write("DataAccess.Capaign.getTemplateIdFromsenderId::Exce ::  :: " + ex.Message);
                 return null;
             }
         }
@@ -447,7 +580,7 @@ namespace Templateprj.DataAccess
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@Ln_Campaign_Id", MySqlDbType.Int32).Value = id/*Convert.ToInt32(HttpContext.Current.Session["id"].ToString())*/;
-                    cmd.Parameters.Add("@V_Out", MySqlDbType.Text).Direction = ParameterDirection.Output;
+                    //cmd.Parameters.Add("@V_Out", MySqlDbType.Text).Direction = ParameterDirection.Output;
 
                     // DataTable dt = new DataTable();
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
@@ -459,51 +592,42 @@ namespace Templateprj.DataAccess
                         dataAdapter.Fill(dataTable);
                         string text = "";
                         string subtxt = "";
+                        string SMSData = "";
                         foreach (DataRow row in dataTable.Rows)
                         {
-                            string txt = row["UnicodeStatus"].ToString();
-                            if (txt == "8")
-                            {
-                                string text1 = row["templateId"].ToString();
-                                string text2 = row["smsContent"].ToString();
-                                string text3 = row["template"].ToString();
-                                if (text1 == "10" || text1 == "11")
-                                {
-                                    string str = text2.ToString();
-                                    string str1 = text3.ToString();
-                                    //  string correctString = "";
-                                    if (text2.Trim() != "" && text3.Trim() != "")
-                                    {
-                                        //  correctString = str.Replace("[PARAMETER]", "005B0050004100520041004D0045005400450052005D");
-                                        string s = "\\u" + Regex.Replace(text2, ".{4}", "$0\\u");
-                                        text = Regex.Unescape(s.Substring(0, s.Length - 2));
-                                        string s1 = "\\u" + Regex.Replace(text3, ".{4}", "$0\\u");
-                                        subtxt = Regex.Unescape(s1.Substring(0, s1.Length - 2));
-                                    }
-                                }
-                                if (text1 == "10" || text1 == "11")
-                                {
-                                    row["template"] = subtxt.ToString();
-                                    row["smsContent"] = text.ToString();
-                                }
-                                else
-                                {
-                                    string data1 = text3.Replace("\r\n", "");
-                                    row["template"] = data1;
-                                    string data = text2.Replace("\r\n", "");
-                                    row["smsContent"] = data;
-                                }
-                                response = "[{\"campaignName\":\"" + row["campaignName"] + "\",\"campaignType\":\"" + row["campaignType"] + "\",\"fromDate\":\"" + row["fromDate"] + "\",\"toDate\":\"" + row["toDate"] + "\",\"fromTime\":\"" + row["fromTime"] + "\",\"toTime\":\"" + row["toTime"] + "\",\"senderId\":\"" + row["senderId"] + "\", \"templateId\":\"" + row["template"] + "\",\"smsContent\":\"" + row["smsContent"] + "\"}]";
 
+                            string unicodeStatus = row["UnicodeStatus"].ToString();
+                            string SMSContent = row["smsContent"].ToString();
+                            //string template = row["template"].ToString();
+                            if (unicodeStatus == "8")
+                            {                              
 
+                                if (SMSContent.Trim() != "")
+                                {
+                                    //  correctString = str.Replace("[PARAMETER]", "005B0050004100520041004D0045005400450052005D");
+                                    SMSData = "\\u" + Regex.Replace(SMSContent, ".{4}", "$0\\u");
+                                    SMSData = Regex.Unescape(SMSData.Substring(0, SMSData.Length - 2));
+                                  //  string TemplateData = "\\u" + Regex.Replace(template, ".{4}", "$0\\u");
+                                    //TemplateData = Regex.Unescape(TemplateData.Substring(0, TemplateData.Length - 2));
+                                    //row["template"] = TemplateData.ToString();
+                                    row["smsContent"] = SMSData.ToString();
+                                }
+                                //response = "[{\"campaignName\":\"" + row["campaignName"] + "\",\"campaignType\":\"" + row["campaignType"] + "\",\"fromDate\":\"" + row["fromDate"] + "\",\"toDate\":\"" + row["toDate"] + "\",\"fromTime\":\"" + row["fromTime"] + "\",\"toTime\":\"" + row["toTime"] + "\",\"senderId\":\"" + row["senderId"] + "\", \"templateId\":\"" + row["template"] + "\",\"smsContent\":\"" + row["smsContent"] + "\"}]";                                
                             }
                             else
                             {
-                                response = cmd.Parameters["@V_Out"].Value.ToString();
-                                return response;
+                                SMSData = SMSContent.Replace("\r\n", "");
+                                row["smsContent"] = SMSData;
+                                
+                                //response = cmd.Parameters["@V_Out"].Value.ToString();
+                                //return response;
                             }
                         }
-                        return response;
+                        dataTable.Columns.Remove("UnicodeStatus");
+                        return GetJsonStringwithName(dataTable);
+                        
+                        //response = cmd.Parameters["@V_Out"].Value.ToString();
+                        //return response;
                     }
                 }
             }
@@ -541,7 +665,7 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.Campaigndbprc.getcmapigndetailsfromcampid :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.Campaigndbprc.changestatuscampign :: Exception :: " + ex.Message);
 
             }
         }
@@ -574,7 +698,7 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.Capaign.getSenderIdFromsmstype::Exce ::  :: " + ex.Message);
+                LogWriter.Write("DataAccess.Capaign.getsenderidfromsmstype::Exce ::  :: " + ex.Message);
                 return null;
             }
         }
@@ -609,36 +733,16 @@ namespace Templateprj.DataAccess
                         // response = cmd.Parameters["@n_message"].Value.ToString();
                         foreach (DataRow row in dataTable.Rows)
                         {
-                            string txt = row["unicode_status"].ToString();
-                            if (txt == "8")
+                            string unicodeStatus = row["unicode_status"].ToString();
+                            if (unicodeStatus == "8")
                             {
-                                string text1 = row["template_id"].ToString();
-                                string text2 = row["template"].ToString();
-                                if (text1 == "10" || text1 == "11")
-                                {
-                                    string str = text2.ToString();
-
-                                    //  string correctString = "";
-                                    if (text2.Trim() != "")
-                                    {
-                                        //  correctString = str.Replace("[PARAMETER]", "005B0050004100520041004D0045005400450052005D");
-                                        string s = "\\u" + Regex.Replace(text2, ".{4}", "$0\\u");
-                                        text = Regex.Unescape(s.Substring(0, s.Length - 2));
-
-                                    }
-                                }
-                                if (text1 == "10" || text1 == "11")
-                                {
-                                    row["template"] = text.ToString();
-                                }
-                                else
-                                {
-                                    string data = text2.Replace("\r\n", "");
-                                    row["template"] = data;
-                                }
+                                
+                                string SMSContent = row["template"].ToString();
+                              
+                                string data = "\\u" + Regex.Replace(SMSContent, ".{4}", "$0\\u");
+                                data = Regex.Unescape(data.Substring(0, data.Length - 2));
+                                row["template"] = data.ToString();                             
                                 response = "[{ \"smsLength\":\"" + row["sms_length"] + "\", \"variableCount\":" + row["variable_cnt"] + ",\"templateContent\":\"" + row["template"] + "\"}]";
-
-
                             }
                             else
                             {
@@ -659,21 +763,23 @@ namespace Templateprj.DataAccess
             }
         }
 
-        public string getSmscountDetails(string json)
+        public string getSmscountDetails(string json,out string response)
         {
-            string response = "";
-
+            response = "";
+            string status = "";
             //`Web_Get_SMS_Length_Count`(In Lv_Data Text, Out Lv_Response Text)
-
+            //`Web_Get_SMS_Length_Count`(IN n_Acc_id int, IN n_User_Id int, IN Lv_Data text, OUT Lv_Response text,out Ln_Status int);
             try
             {
                 using (MySqlCommand cmd = new MySqlCommand("Web_Get_SMS_Length_Count"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    
+                    cmd.Parameters.Add("@n_Acc_id", MySqlDbType.Int32).Value = HttpContext.Current.Session["AccountID"].ToString();
+                    cmd.Parameters.Add("@n_User_Id", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
                     cmd.Parameters.Add("@Lv_Data", MySqlDbType.Text).Value = json;
                     cmd.Parameters.Add("@Lv_Response", MySqlDbType.LongText).Direction = ParameterDirection.Output;
-
-
+                    cmd.Parameters.Add("@Ln_Status", MySqlDbType.Int32).Direction = ParameterDirection.Output;
 
                     DataTable dt = new DataTable();
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
@@ -683,12 +789,14 @@ namespace Templateprj.DataAccess
                         cmd.ExecuteNonQuery();
                     }
                     response = cmd.Parameters["@Lv_Response"].Value.ToString();
-                    return response;
+                    status = cmd.Parameters["@Ln_Status"].Value.ToString();
+                    
+                    return status;
                 }
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.CampaignDb.getTemplatebytemplateId :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.CampaignDb.getSmscountDetails :: Exception :: " + ex.Message);
                 return "";
             }
         }
@@ -718,7 +826,7 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.Campaigndbprc.getsamplefilesms :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.Campaigndbprc.getCampaignwiseDetailReport :: Exception :: " + ex.Message);
                 return null;
 
             }
@@ -772,7 +880,7 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.CampaignDb.getTemplatebytemplateId :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.CampaignDb.testsms :: Exception :: " + ex.Message);
                 return "";
             }
         }
@@ -831,29 +939,31 @@ namespace Templateprj.DataAccess
                 //    IN Ln_Campaign_Priority int, 
                 //    IN Ln_Campaign_Type int,
                 //    OUT v_Message Longtext);
-
+                DataTable dt = new DataTable();
                 using (MySqlCommand cmd = new MySqlCommand("Web_Get_Campaign_List"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@n_Acc_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
                     cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"].ToString());
                     cmd.Parameters.Add("@Ln_Camp_Name_Id", MySqlDbType.Int32).Value = model.listcampaignName;
-                    cmd.Parameters.Add("@Lv_Created_Date", MySqlDbType.VarChar).Value = model.listCreatedDate;
+                    cmd.Parameters.Add("@Lv_Created_Date", MySqlDbType.VarChar).Value = model.listCreatedDate == null ? "0" : model.listCreatedDate;
                     cmd.Parameters.Add("@Ln_Campaign_Status", MySqlDbType.Int32).Value = model.listCampaignStatus;
                     cmd.Parameters.Add("@Ln_Campaign_Priority", MySqlDbType.Int32).Value = model.listCampaignPriority;
                     cmd.Parameters.Add("@Ln_Campaign_Type", MySqlDbType.Int32).Value = model.listCampaignType;
-                    cmd.Parameters.Add("@v_Message", MySqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
+                   // cmd.Parameters.Add("@v_Message", MySqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
                         cmd.Connection = con;
-                        cmd.ExecuteNonQuery();
+                        //cmd.ExecuteNonQuery();
+                        var dataTable = new DataTable();
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        dataAdapter.Fill(dt);
+                        return GetJsonString(dt);
                     }
-                    string response = cmd.Parameters["@v_Message"].Value.ToString();
-                    return response;
+                    //string response = cmd.Parameters["@v_Message"].Value.ToString();
+                    //return response;
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -861,12 +971,90 @@ namespace Templateprj.DataAccess
                 return "";
             }
         }
+        //UpdateCampList
+        public string UpdateCampList(string Id, string toDate, string toTime)
+        {
+
+            //`Web_Update_Campaign`(IN N_Scm_Id int, IN V_to_Date varchar(100), IN V_to_Time varchar(100), Out N_Status INt,Out V_Response varchar(100))
+            string sts = "";
+            string resp = "";
 
 
+            try
+            {
+
+                using (MySqlCommand cmd = new MySqlCommand("Web_Update_Campaign"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("N_Scm_Id", MySqlDbType.Int32).Value = Id;
+                    cmd.Parameters.Add("V_to_Date", MySqlDbType.VarChar).Value =toDate;
+                    cmd.Parameters.Add("V_to_Time", MySqlDbType.VarChar).Value =toTime;
+                    cmd.Parameters.Add("N_Status", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("V_Response", MySqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
+
+
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        cmd.ExecuteNonQuery();
+
+
+                    }
+                    sts = cmd.Parameters["N_Status"].Value.ToString();
+                    resp = cmd.Parameters["V_Response"].Value.ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.Campaign.UpdateCampList :: Exception :: " + ex.Message);
+                return null;
+            }
+            return sts;
+
+        }
+
+
+        public DataTable getcampaigntestreportlist(string id)
+        {
+            //`Web_Get_Campaign_List_Test_Report`(IN n_Acc_Id int, IN n_user_id int, IN n_Campaign_Id varchar(50))
+            DataTable dt = new DataTable();
+            try
+            {
+               
+                using (MySqlCommand cmd = new MySqlCommand("Web_Get_Campaign_List_Test_Report"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@n_Acc_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
+                    cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"].ToString());
+                    cmd.Parameters.Add("@n_Campaign_Id", MySqlDbType.VarChar, 200).Value = id;
+                    //cmd.Parameters.Add("@N_Sms_Type", MySqlDbType.Int32).Value = smstype;
+
+
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        //var dt = new DataTable();
+                        dataAdapter.Fill(dt);
+                        
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.Campaign.getcampaigntestreportlist::Exce ::  :: " + ex.Message);
+                return null;
+            }
+            return dt;
+        }
 
         public string getcampaignstatusreport(SMSCampaignModel model)
         {
-
+            
             try
             {
                 //`Web_Get_Campaign_Status_Details`(IN n_Acc_Id int, 
@@ -876,28 +1064,43 @@ namespace Templateprj.DataAccess
                 //                            IN Ln_Camp_Status int, 
                 //                            IN Ln_Campaign_Type int)
 
-
+                //`Web_Get_Campaign_Status_Details`(IN n_Acc_Id int,
+                //IN n_user_id int,
+                //IN Ln_Camp_name_Id int,
+                //IN Lv_From_Date varchar(50),
+                //IN Ln_Camp_Status int,
+                //IN Ln_Campaign_Type int,
+                //IN Ln_Campaign_Priority int)
+                DataTable dt = new DataTable();
                 using (MySqlCommand cmd = new MySqlCommand("Web_Get_Campaign_Status_Details"))
                 {
 
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@n_Acc_Id", MySqlDbType.Int32).Value = HttpContext.Current.Session["AccountID"].ToString();
-                    cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
-                    cmd.Parameters.Add("@Ln_Camp_name_Id", MySqlDbType.VarChar).Value = model.statuscampaignName;
-                    cmd.Parameters.Add("@Lv_To_Date", MySqlDbType.VarChar).Value = model.statusCreatedDate;
+                    cmd.Parameters.Add("@n_Acc_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
+                    cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"].ToString());
+                    cmd.Parameters.Add("@Ln_Camp_name_Id", MySqlDbType.Int32).Value = model.statuscampaignName;
+                    cmd.Parameters.Add("@Lv_From_Date", MySqlDbType.VarChar).Value = model.statusCreatedDate == null ? "0" : model.statusCreatedDate;
                     cmd.Parameters.Add("@Ln_Camp_Status", MySqlDbType.Int32).Value = model.statusCampaignStatus;
+                    cmd.Parameters.Add("@Ln_Campaign_Priority", MySqlDbType.Int32).Value = model.statusCampaignPriority;
                     cmd.Parameters.Add("@Ln_Campaign_Type", MySqlDbType.Int32).Value = model.statusCampaignType;
+                    //cmd.Parameters.Add("@v_Message", MySqlDbType.LongText).Direction = ParameterDirection.Output;
 
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
                         cmd.Connection = con;
-                        var dataReader_new = cmd.ExecuteReader();
-                        return GetJsonString(dataReader_new);
+                        //cmd.ExecuteNonQuery();
+                        //var dataReader_new = cmd.ExecuteReader();
+                        //return GetJsonString(dataReader_new);
+                        //MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        //var dataTable = new DataTable();
+                        //dataAdapter.Fill(dataTable);
+                        var dataTable = new DataTable();
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        dataAdapter.Fill(dt);
+                        return GetJsonString(dt);
                     }
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -917,7 +1120,7 @@ namespace Templateprj.DataAccess
                 //                                 IN Lv_From_Date varchar(50),
                 //                                 IN Ln_Camp_Status int)
 
-
+                DataTable dt = new DataTable();
                 using (MySqlCommand cmd = new MySqlCommand("Web_Get_Campaign_Summary_Report"))
                 {
 
@@ -925,15 +1128,19 @@ namespace Templateprj.DataAccess
                     cmd.Parameters.Add("@n_Acc_Id", MySqlDbType.Int32).Value = HttpContext.Current.Session["AccountID"].ToString();
                     cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
                     cmd.Parameters.Add("@Ln_Camp_name_Id", MySqlDbType.Int32).Value = model.reportcampaignName;
-                    cmd.Parameters.Add("@Lv_From_Date", MySqlDbType.VarChar, 200).Value = model.reportCreatedDate;
+                    cmd.Parameters.Add("@Lv_From_Date", MySqlDbType.VarChar, 200).Value = model.reportCreatedDate == null ? "0" : model.reportCreatedDate;
                     cmd.Parameters.Add("@Ln_Camp_Status", MySqlDbType.Int32).Value = model.reportCampaignStatus;
 
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
                         cmd.Connection = con;
-                        var dataReader_new = cmd.ExecuteReader();
-                        return GetJsonString(dataReader_new);
+                        //var dataReader_new = cmd.ExecuteReader();
+                        //return GetJsonString(dataReader_new);
+                        var dataTable = new DataTable();
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        dataAdapter.Fill(dt);
+                        return GetJsonString(dt);
                     }
                 }
 
@@ -979,6 +1186,64 @@ namespace Templateprj.DataAccess
         }
         #endregion
 
+        public string getcampaignSearchreport(string templateName, string templateType, string templateStatus, string ContentType)
+        {
+            try
+            {
+                // `Web_Get_Campaign_Status_Details`(IN n_Acc_Id int, IN n_user_id int, IN Ln_Camp_name_Id int, IN Lv_From_Date varchar(50),
+                // IN Ln_Camp_Status int, IN Ln_Campaign_Type int, IN Ln_Campaign_Priority int);
+                //`Web_templates_out`(IN N_Account_id int, IN V_temp_name bigint, IN N_temp_type int, IN N_Status int, IN N_Content_type int )
+                using (MySqlCommand cmd = new MySqlCommand("Web_templates_out"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@N_Account_id", MySqlDbType.Int32).Value = HttpContext.Current.Session["AccountID"].ToString();
+                    cmd.Parameters.Add("@V_temp_name", MySqlDbType.Int64).Value = templateName == null ? "0" : templateName;
+                    cmd.Parameters.Add("@N_temp_type", MySqlDbType.Int32).Value = Convert.ToInt32(templateType);
+                    cmd.Parameters.Add("@N_Status", MySqlDbType.Int32).Value = Convert.ToInt32(templateStatus);
+                    cmd.Parameters.Add("@N_Content_type", MySqlDbType.Int32).Value = Convert.ToInt32(ContentType);
+
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        var dataTable = new DataTable();                       
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        dataAdapter.Fill(dataTable);
+                        string data = "";
+                        foreach (DataRow row in dataTable.Rows)
+                        {
+                            string unicodeStatus = row["UNICODE_STATUS"].ToString();
+                            string message = row["MESSAGE"].ToString();
+                            if (unicodeStatus == "8")
+                            {
+                                string str = message.ToString();
+                                //  string correctString = "";
+                                if (message.Trim() != "")
+                                {
+                                    //  correctString = str.Replace("[PARAMETER]", "005B0050004100520041004D0045005400450052005D");
+                                    string tempMessage = "\\u" + Regex.Replace(message, ".{4}", "$0\\u");
+                                    data = Regex.Unescape(tempMessage.Substring(0, tempMessage.Length - 2));
+                                }
+                                row["MESSAGE"] = data.ToString();
+                            }                            
+                            else
+                            {
+                                data = message.Replace("\r\n", "");
+                                row["MESSAGE"] = data;
+                            }                            
+                        }
+                        dataTable.Columns.Remove("UNICODE_STATUS");                       
+                        return GetJsonString(dataTable);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.CampaignDb.getcampaignSearchreport :: Exception :: " + ex.Message);
+                return null;
+            }
+        }
+        // ``(IN N_Account_id int,IN V_temp_name varchar(100),IN N_temp_type int,IN N_Status int,IN N_Content_type int )
 
         public void getInsightDetails(out string smsallow, out string smsDeliv, out string smssub, out string success
           , out string instant, out string apibased, out string campaigns, out string apiinstant)
@@ -1031,7 +1296,7 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.campaigndb.Insights :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.campaigndb.getInsightDetails :: Exception :: " + ex.Message);
                 smsallow = "";
                 smsDeliv = "";
                 smssub = "";
@@ -1138,6 +1403,8 @@ namespace Templateprj.DataAccess
                     return dt;
                 }
             }
+
+
             catch (Exception ex)
             {
                 LogWriter.Write("DataAccess.Campaigndbprc.getsamplefilesms :: Exception :: " + ex.Message);
@@ -1318,36 +1585,31 @@ namespace Templateprj.DataAccess
                         MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
                         var dataTable = new DataTable();
                         dataAdapter.Fill(dataTable);
-                        string text = "";
+                        string SMSData = "";
                         foreach (DataRow row in dataTable.Rows)
                         {
-                            string text1 = row["value"].ToString();
-                            string text2 = row["text"].ToString();
-                            if (text1 == "10" || text1 == "11")
+                            string unicodeStatus = row["unicode_status"].ToString();
+                            string SMSContent = row["text"].ToString();
+                            if (unicodeStatus == "8")
                             {
-
-                                string str = text2.ToString();
-
                                 //  string correctString = "";
-                                if (text2.Trim() != "")
+                                if (SMSContent.Trim() != "")
                                 {
                                     //  correctString = str.Replace("[PARAMETER]", "005B0050004100520041004D0045005400450052005D");
-                                    string s = "\\u" + Regex.Replace(text2, ".{4}", "$0\\u");
-                                    text = Regex.Unescape(s.Substring(0, s.Length - 2));
+                                    SMSData = "\\u" + Regex.Replace(SMSContent, ".{4}", "$0\\u");
+                                    SMSData = Regex.Unescape(SMSData.Substring(0, SMSData.Length - 2));
+                                    row["text"] = SMSData;
 
                                 }
                             }
-                            if (text1 == "10" || text1 == "11")
-                            {
-                                row["text"] = text.ToString();
-                            }
                             else
                             {
-                                string data = text2.Replace("\r\n", "");
-                                row["text"] = data;
+                                SMSData = SMSContent.Replace("\r\n", "");
+                                row["text"] = SMSData;
                             }
-                            
                         }
+                        dataTable.Columns.Remove("unicode_status");
+                        //con.Close();
                         return dataTable;
                     }
                 }

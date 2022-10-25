@@ -79,6 +79,12 @@ namespace Templateprj.Controllers
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult getcampaignSearchReport()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.getcampaignSearchReport);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public virtual System.Web.Mvc.ActionResult GetmessagecontentfromTemplate()
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetmessagecontentfromTemplate);
@@ -157,6 +163,7 @@ namespace Templateprj.Controllers
             public readonly string GetTemplateIdfromSenderId = "GetTemplateIdfromSenderId";
             public readonly string GetSenderIdFromSmsType = "GetSenderIdFromSmsType";
             public readonly string getcampaignnames = "getcampaignnames";
+            public readonly string getcampaignSearchReport = "getcampaignSearchReport";
             public readonly string GetmessagecontentfromTemplate = "GetmessagecontentfromTemplate";
             public readonly string CreatebulksmsCampaign = "CreatebulksmsCampaign";
             public readonly string createsms = "createsms";
@@ -168,6 +175,7 @@ namespace Templateprj.Controllers
             public readonly string getcampaigncreatedlist = "getcampaigncreatedlist";
             public readonly string getcampaignstatusReport = "getcampaignstatusReport";
             public readonly string getcampaigndetailReport = "getcampaigndetailReport";
+            public readonly string UpdateCampaignList = "UpdateCampaignList";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -177,6 +185,7 @@ namespace Templateprj.Controllers
             public const string GetTemplateIdfromSenderId = "GetTemplateIdfromSenderId";
             public const string GetSenderIdFromSmsType = "GetSenderIdFromSmsType";
             public const string getcampaignnames = "getcampaignnames";
+            public const string getcampaignSearchReport = "getcampaignSearchReport";
             public const string GetmessagecontentfromTemplate = "GetmessagecontentfromTemplate";
             public const string CreatebulksmsCampaign = "CreatebulksmsCampaign";
             public const string createsms = "createsms";
@@ -188,6 +197,7 @@ namespace Templateprj.Controllers
             public const string getcampaigncreatedlist = "getcampaigncreatedlist";
             public const string getcampaignstatusReport = "getcampaignstatusReport";
             public const string getcampaigndetailReport = "getcampaigndetailReport";
+            public const string UpdateCampaignList = "UpdateCampaignList";
         }
 
 
@@ -215,6 +225,17 @@ namespace Templateprj.Controllers
         public class ActionParamsClass_GetSenderIdFromSmsType
         {
             public readonly string smstype = "smstype";
+        }
+        static readonly ActionParamsClass_getcampaignSearchReport s_params_getcampaignSearchReport = new ActionParamsClass_getcampaignSearchReport();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_getcampaignSearchReport getcampaignSearchReportParams { get { return s_params_getcampaignSearchReport; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_getcampaignSearchReport
+        {
+            public readonly string templateName = "templateName";
+            public readonly string templateType = "templateType";
+            public readonly string templateStatus = "templateStatus";
+            public readonly string ContentType = "ContentType";
         }
         static readonly ActionParamsClass_GetmessagecontentfromTemplate s_params_GetmessagecontentfromTemplate = new ActionParamsClass_GetmessagecontentfromTemplate();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -305,6 +326,16 @@ namespace Templateprj.Controllers
         {
             public readonly string model = "model";
         }
+        static readonly ActionParamsClass_UpdateCampaignList s_params_UpdateCampaignList = new ActionParamsClass_UpdateCampaignList();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_UpdateCampaignList UpdateCampaignListParams { get { return s_params_UpdateCampaignList; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_UpdateCampaignList
+        {
+            public readonly string Id = "Id";
+            public readonly string toDate = "toDate";
+            public readonly string toTime = "toTime";
+        }
         static readonly ViewsClass s_views = new ViewsClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ViewsClass Views { get { return s_views; } }
@@ -391,6 +422,21 @@ namespace Templateprj.Controllers
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.getcampaignnames);
             getcampaignnamesOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void getcampaignSearchReportOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string templateName, string templateType, string templateStatus, string ContentType);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult getcampaignSearchReport(string templateName, string templateType, string templateStatus, string ContentType)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.getcampaignSearchReport);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "templateName", templateName);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "templateType", templateType);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "templateStatus", templateStatus);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "ContentType", ContentType);
+            getcampaignSearchReportOverride(callInfo, templateName, templateType, templateStatus, ContentType);
             return callInfo;
         }
 
@@ -535,6 +581,31 @@ namespace Templateprj.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.getcampaigndetailReport);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
             getcampaigndetailReportOverride(callInfo, model);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void UpdateCampaignListOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult UpdateCampaignList()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.UpdateCampaignList);
+            UpdateCampaignListOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void UpdateCampaignListOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string Id, string toDate, string toTime);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult UpdateCampaignList(string Id, string toDate, string toTime)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.UpdateCampaignList);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "Id", Id);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "toDate", toDate);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "toTime", toTime);
+            UpdateCampaignListOverride(callInfo, Id, toDate, toTime);
             return callInfo;
         }
 

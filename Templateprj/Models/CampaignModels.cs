@@ -195,7 +195,7 @@ namespace Templateprj.Models
         [Required]
         public string campaignName { get; set; }
         public string campaignId { get; set; }
-        [Required]
+        public string templateTypeName { get; set; }        
         public int campaignType { get; set; }
         public SelectList campaignTypeList { get; set; }
         [Required]
@@ -235,6 +235,19 @@ namespace Templateprj.Models
 
         public string smsContent { get; set; }
 
+        
+        public string pouptemplateName { get; set; }        
+        public SelectList pouptemplateNameList { get; set; }        
+        public int pouptemplateType { get; set; }      
+        public SelectList pouptemplateTypeList { get; set; }
+       
+        public int pouptemplateStatus { get; set; }       
+        public SelectList pouptemplateStatusList { get; set; }
+        
+        public int poupContentType { get; set; }
+      
+        public SelectList poupContentTypeList { get; set; }
+
 
         public List<variableList> SMSvariable { get; set; }
 
@@ -244,21 +257,21 @@ namespace Templateprj.Models
 
 
         [JsonIgnore]
-        public string listcampaignName { get; set; }
+        public int listcampaignName { get; set; }
         [JsonIgnore]
         public SelectList listcampaignNameList { get; set; }
         [JsonIgnore]
         public string listCreatedDate { get; set; }
         [JsonIgnore]
-        public string listCampaignStatus { get; set; }
+        public int listCampaignStatus { get; set; }
         [JsonIgnore]
         public SelectList listCampaignStatusList { get; set; }
         [JsonIgnore]
-        public string listCampaignPriority { get; set; }
+        public int listCampaignPriority { get; set; }
         [JsonIgnore]
         public SelectList listCampaignPriorityList { get; set; }
         [JsonIgnore]
-        public string listCampaignType { get; set; }
+        public int listCampaignType { get; set; }
         [JsonIgnore]
         public SelectList listCampaignTypeList { get; set; }
 
@@ -287,23 +300,23 @@ namespace Templateprj.Models
 
 
         [JsonIgnore]
-        public string statuscampaignName { get; set; }
+        public int statuscampaignName { get; set; }
         [JsonIgnore]
         public SelectList statuscampaignNameList { get; set; }
         [JsonIgnore]
         public string statusCreatedDate { get; set; }
         [JsonIgnore]
-        public string statusCampaignStatus { get; set; }
+        public int statusCampaignStatus { get; set; }
         [JsonIgnore]
         public SelectList statusCampaignStatusList { get; set; }
         [JsonIgnore]
-        public string statusCampaignType { get; set; }
+        public int statusCampaignType { get; set; }
         [JsonIgnore]
         public SelectList statusCampaignTypeList { get; set; }
         [JsonIgnore]
-        [Required]
+        //[Required]
         [Display(Name = "Priority")]
-        public string statusPriority { get; set; }
+        public int statusCampaignPriority { get; set; }
         [JsonIgnore]
         public SelectList statusPriorityList { get; set; }
 
@@ -319,7 +332,7 @@ namespace Templateprj.Models
         [JsonIgnore]
         public SelectList reportCampaignStatusList { get; set; }
         [JsonIgnore]
-        [Required]
+        //[Required]
         [Display(Name = "Priority")]
         public string reportCampaignPriority { get; set; }
         [JsonIgnore]
@@ -359,6 +372,16 @@ namespace Templateprj.Models
         public string variableLabel { get; set; }
 
         public string variableContent{ get; set; }
+
+    }
+    public class UpdateCampListModel
+    {
+        public string Id { get; set; }
+
+        public string Todate { get; set; }
+
+        public string Totime { get; set; }
+
 
     }
 }
