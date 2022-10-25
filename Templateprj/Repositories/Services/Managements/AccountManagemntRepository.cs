@@ -2,7 +2,9 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Web;
 using Templateprj.Helpers;
 using Templateprj.Models.Managements;
@@ -21,6 +23,7 @@ namespace Templateprj.Repositories.Services
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
+                    cmd.Parameters.Add("@n_Account_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
                     cmd.Parameters.Add("@v_Data_Out", MySqlDbType.Text).Direction = ParameterDirection.Output;
 
                     DataTable dt = new DataTable();
@@ -31,7 +34,7 @@ namespace Templateprj.Repositories.Services
                         cmd.ExecuteNonQuery();
                     }
                     string data = cmd.Parameters["@v_Data_Out"].Value.ToString();
-                    return JsonConvert.DeserializeObject<ManagementModel>(data);
+                    return (JsonConvert.DeserializeObject<List<ManagementModel>>(data)).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -51,6 +54,7 @@ namespace Templateprj.Repositories.Services
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
+                    cmd.Parameters.Add("@n_Account_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
                     cmd.Parameters.Add("@v_Data_In", MySqlDbType.Text).Value = JsonConvert.SerializeObject(model, new JsonSerializerSettings
                     {
                         ContractResolver = new CamelCasePropertyNamesContractResolver()

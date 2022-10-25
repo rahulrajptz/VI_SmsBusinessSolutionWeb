@@ -1,0 +1,259 @@
+﻿@model Templateprj.Models.Managements.ManagementModel
+@{
+    System.Data.DataTable project = ViewBag.inboundData;
+
+    ViewBag.Title = "Management";
+}
+
+<style>
+    table.dataTable thead > tr > td.sorting, table.dataTable thead > tr > td.sorting_asc, table.dataTable thead > tr > td.sorting_desc, table.dataTable thead > tr > th.sorting, table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sorting_desc {
+        font-size: 9.5pt;
+        text-align: center;
+        font-weight: bold;
+        white-space: nowrap !important;
+        table-layout: fixed;
+        color: #5f004b;
+    }
+
+
+    .alert-danger {
+        color: white;
+    }
+
+    .alert-success {
+        color: white;
+    }
+
+    hr {
+        border: 1px solid #5f004b
+    }
+
+    .box {
+        /*border: 1px solid #878080;*/
+        padding: 20px;
+        box-shadow: rgba(0, 0, 0, 0.35) 1px 5px 10px;
+        /*min-height: 150px;*/
+        /*width:25%;*/
+    }
+
+    .blue {
+        width: 60%;
+        background-color: #57b4eb;
+    }
+
+    .yellow {
+        width: 30%;
+        background-color: yellow;
+    }
+
+    .red {
+        width: 10%;
+        background-color: red;
+    }
+
+    .head {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+    }
+
+    body {
+        font-size: 13px !important;
+    }
+
+    .form-control {
+        height: 20px !important;
+        padding: 0px 5px !important;
+        font-size: 12px !important;
+        background-color: white !important;
+        /*color:#5f004b;*/
+    }
+
+    .form-group {
+        margin-bottom: 4px;
+    }
+
+    /*.card {
+        width: 420px;
+        height: 100px;
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        background: #ded0da;
+    }*/
+
+    .navstyle {
+        border: 0px solid black;
+    }
+
+        .navstyle > ul > li {
+            border: 1px solid black;
+            background-color: #5f004b;
+            margin-left: 5px;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+            width: 200px;
+        }
+
+    a {
+        color: white;
+    }
+
+        a:hover {
+            color: white;
+        }
+
+    .active {
+        background-color: white;
+        color: black;
+    }
+
+        .active:hover {
+            background-color: white;
+            color: black;
+        }
+
+    .nav-link {
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+    }
+
+    label {
+        color: #5f004b;
+        font-size: 12px;
+    }
+
+    .label_side_head {
+        color: #5f004b;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .navclr:hover {
+        background-color: #ebecf1;
+    }
+
+    .navclr {
+        background-color: #ebecf1;
+    }
+    /*.dropdown-toggle {
+        float: right;
+    }*/
+    .cl-black {
+        color: #495057 !important;
+    }
+
+    .text-danger {
+        width: 109px;
+        font-size: 10px;
+        height: 0px;
+    }
+
+    labelvariable {
+        color: #5f004b;
+        font-size: 12px;
+    }
+
+    .button-edit {
+        background-color: #5f004b;
+        border-radius: 10px;
+        border-bottom-color: #5f004b;
+        color: white;
+        padding: 8px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        min-width: 65px !important;
+    }
+</style>
+
+<div class="row" style="margin-top:50px">
+    <div class="col">
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "Idform" }))
+        {
+            <div class="container" style="margin-left:10px">
+                <div class="row">
+                    <div class="wizard-navigation">
+                        <div class="col-xs-12 navstyle">
+                            <ul class="nav">
+                                <li class="nav-item" style="width: 100px;height:35px">
+                                    <a style="font-size:9.2846px" class="nav-link active" href="@Url.Action("Account", "Management")" >
+                                        <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                        ACCOUUNT
+                                    </a>
+                                </li>
+                                <li class="nav-item " style="width: 111px;height:35px">
+                                    <a style="font-size:9.2846px" class="nav-link" href="@Url.Action("Templates", "Management")" >
+                                        <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                        TEMPLATES
+                                    </a>
+                                </li>
+                                <li class="nav-item arrow" style="width: 131px;height:35px">
+                                    <a style="font-size:9.2846px" class="nav-link" href="@Url.Action("SenderIds", "Management")" >
+                                        <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                        SENDER ID
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+    </div>
+@section scripts {
+    <script>
+        $("#AccountExpiry").flatpickr({
+           
+            dateFormat: "d/m/Y",
+       
+        });
+
+        $(document).on('click', '#btn_edit', function (e) {
+            $('#rw_edit').show();
+            $('#rw_view').hide();
+        });
+        $(document).on('click', '#btn_save', function (e) {
+      
+                var accountModel = {};
+                var isValid = true;
+                accountModel.dltRegisteredAccount = $("#DltRegisteredAccount").val();
+                accountModel.accountExpiry = $("#AccountExpiry").val();
+                accountModel.dltAddressDetails = $("#DltAddressDetails").val();
+                accountModel.dltEmailAddress = $("#DltEmailAddress").val();
+                if (isValid) {
+                    $.ajax({
+                        url: "@Url.Action("SaveAccount","Management")",
+                        type: 'POST',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        data: JSON.stringify(accountModel),
+                        success: function (e) {
+
+                            jsondata = JSON.parse(e);
+                            if (jsondata.status == "1") {
+                                location.reload();
+
+                                SuccessMsg("Successfully update account details");
+                                $('#rw_view').show();
+                                $('#rw_edit').hide();
+                            }
+                            else {
+                                ErrorMsg("Failed to save account details.")
+                            }
+                            console.log(jsondata);
+                        }
+                    });
+                }
+                else {
+                    ErrorMsg("Please confirm the entries, there are some alerts exist.")
+                }
+        });
+    </script>
+}

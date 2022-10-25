@@ -143,22 +143,24 @@
                         MANAGEMENT <b class="caret"></b>
                     </p>
                 </a>
-                <div class="@((ViewContext.RouteData.Values["Action"].ToString() == "Management") ? "collapse show" : "collapse") not-close" id="Management">
+                <div class="@( (ViewContext.RouteData.Values["Action"].ToString() == "SenderIds") 
+                                        || (ViewContext.RouteData.Values["Action"].ToString() == "Account")
+                                        || (ViewContext.RouteData.Values["Action"].ToString() == "Templates" ) ? "collapse show" : "collapse") not-close" id="Management">
                     <ul class="nav">
-                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "account" ? "navact active" : "") not-close">
+                        <li class="@((ViewContext.RouteData.Values["Action"].ToString() == "Account")||(ViewContext.RouteData.Values["Action"].ToString() == "Account") ? "navact active" : "") not-close">
                             <a href="Management/Account" class="not-close">
                                 <span class="fa fa-share-square sidebar-mini-icon"></span>
                                 <span class="sidebar-normal">ACCOUNT</span>
                             </a>
                         </li>
-                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "template" ? "navact active" : "") not-close">
-                            <a @*href="Campaign/template" class="not-close"*@>
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Templates" ? "navact active" : "") not-close">
+                            <a href="Template/Templates" class="not-close">
                                 <span class="fa fa-comments sidebar-mini-icon"></span>
                                 <span class="sidebar-normal">TEMPLATE</span>
                             </a>
                         </li>
-                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "senderId" ? "navact active" : "") not-close">
-                            <a @*href="Campaign/senderId" class="not-close"*@>
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "SenderIds" ? "navact active" : "") not-close">
+                            <a href="Management/SenderIds" class="not-close">
                                 <span class="fa fa-comment-alt sidebar-mini-icon"></span>
                                 <span class="sidebar-normal">SENDER ID</span>
                             </a>
@@ -166,6 +168,7 @@
 
                     </ul>
                 </div>
+
             </li>
         </ul>
 
