@@ -23,103 +23,11 @@ using System.Web.Mvc.Ajax;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
 using T4MVC;
-namespace Templateprj.Controllers
+namespace T4MVC
 {
-    public partial class ReportsController
+    public class ReportsController
     {
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ReportsController() { }
 
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        protected ReportsController(Dummy d) { }
-
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        protected RedirectToRouteResult RedirectToAction(ActionResult result)
-        {
-            var callInfo = result.GetT4MVCResult();
-            return RedirectToRoute(callInfo.RouteValueDictionary);
-        }
-
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        protected RedirectToRouteResult RedirectToAction(Task<ActionResult> taskResult)
-        {
-            return RedirectToAction(taskResult.Result);
-        }
-
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        protected RedirectToRouteResult RedirectToActionPermanent(ActionResult result)
-        {
-            var callInfo = result.GetT4MVCResult();
-            return RedirectToRoutePermanent(callInfo.RouteValueDictionary);
-        }
-
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        protected RedirectToRouteResult RedirectToActionPermanent(Task<ActionResult> taskResult)
-        {
-            return RedirectToActionPermanent(taskResult.Result);
-        }
-
-        [NonAction]
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public virtual System.Web.Mvc.ActionResult viewcustomerfeedbackdetails()
-        {
-            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.viewcustomerfeedbackdetails);
-        }
-
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ReportsController Actions { get { return MVC.Reports; } }
-        [GeneratedCode("T4MVC", "2.0")]
-        public readonly string Area = "";
-        [GeneratedCode("T4MVC", "2.0")]
-        public readonly string Name = "Reports";
-        [GeneratedCode("T4MVC", "2.0")]
-        public const string NameConst = "Reports";
-        [GeneratedCode("T4MVC", "2.0")]
-        static readonly ActionNamesClass s_actions = new ActionNamesClass();
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionNamesClass ActionNames { get { return s_actions; } }
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionNamesClass
-        {
-            public readonly string FeedbackReports = "FeedbackReports";
-            public readonly string viewcustomerfeedbackdetails = "viewcustomerfeedbackdetails";
-            public readonly string DetailedReport = "DetailedReport";
-        }
-
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionNameConstants
-        {
-            public const string FeedbackReports = "FeedbackReports";
-            public const string viewcustomerfeedbackdetails = "viewcustomerfeedbackdetails";
-            public const string DetailedReport = "DetailedReport";
-        }
-
-
-        static readonly ActionParamsClass_FeedbackReports s_params_FeedbackReports = new ActionParamsClass_FeedbackReports();
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_FeedbackReports FeedbackReportsParams { get { return s_params_FeedbackReports; } }
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_FeedbackReports
-        {
-            public readonly string model = "model";
-            public readonly string Download = "Download";
-        }
-        static readonly ActionParamsClass_viewcustomerfeedbackdetails s_params_viewcustomerfeedbackdetails = new ActionParamsClass_viewcustomerfeedbackdetails();
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_viewcustomerfeedbackdetails viewcustomerfeedbackdetailsParams { get { return s_params_viewcustomerfeedbackdetails; } }
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_viewcustomerfeedbackdetails
-        {
-            public readonly string customerId = "customerId";
-        }
-        static readonly ActionParamsClass_DetailedReport s_params_DetailedReport = new ActionParamsClass_DetailedReport();
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_DetailedReport DetailedReportParams { get { return s_params_DetailedReport; } }
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_DetailedReport
-        {
-            public readonly string model = "model";
-        }
         static readonly ViewsClass s_views = new ViewsClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ViewsClass Views { get { return s_views; } }
@@ -138,71 +46,6 @@ namespace Templateprj.Controllers
         }
     }
 
-    [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-    public partial class T4MVC_ReportsController : Templateprj.Controllers.ReportsController
-    {
-        public T4MVC_ReportsController() : base(Dummy.Instance) { }
-
-        [NonAction]
-        partial void FeedbackReportsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
-
-        [NonAction]
-        public override System.Web.Mvc.ActionResult FeedbackReports()
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.FeedbackReports);
-            FeedbackReportsOverride(callInfo);
-            return callInfo;
-        }
-
-        [NonAction]
-        partial void FeedbackReportsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Templateprj.Models.feedbackreportmodel model, string Download);
-
-        [NonAction]
-        public override System.Web.Mvc.ActionResult FeedbackReports(Templateprj.Models.feedbackreportmodel model, string Download)
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.FeedbackReports);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "Download", Download);
-            FeedbackReportsOverride(callInfo, model, Download);
-            return callInfo;
-        }
-
-        [NonAction]
-        partial void viewcustomerfeedbackdetailsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string customerId);
-
-        [NonAction]
-        public override System.Web.Mvc.ActionResult viewcustomerfeedbackdetails(string customerId)
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.viewcustomerfeedbackdetails);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "customerId", customerId);
-            viewcustomerfeedbackdetailsOverride(callInfo, customerId);
-            return callInfo;
-        }
-
-        [NonAction]
-        partial void DetailedReportOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
-
-        [NonAction]
-        public override System.Web.Mvc.ActionResult DetailedReport()
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DetailedReport);
-            DetailedReportOverride(callInfo);
-            return callInfo;
-        }
-
-        [NonAction]
-        partial void DetailedReportOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Templateprj.Models.DeatailedReportModel model);
-
-        [NonAction]
-        public override System.Web.Mvc.ActionResult DetailedReport(Templateprj.Models.DeatailedReportModel model)
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DetailedReport);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
-            DetailedReportOverride(callInfo, model);
-            return callInfo;
-        }
-
-    }
 }
 
 #endregion T4MVC
