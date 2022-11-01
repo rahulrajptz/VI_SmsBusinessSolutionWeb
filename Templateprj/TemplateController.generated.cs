@@ -58,6 +58,12 @@ namespace Templateprj.Controllers
 
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult AddTemplates()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.AddTemplates);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public virtual System.Web.Mvc.ActionResult GetTemplates()
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetTemplates);
@@ -79,6 +85,7 @@ namespace Templateprj.Controllers
         public class ActionNamesClass
         {
             public readonly string Templates = "Templates";
+            public readonly string AddTemplates = "AddTemplates";
             public readonly string GetTemplateNames = "GetTemplateNames";
             public readonly string GetTemplates = "GetTemplates";
             public readonly string UploadTemplate = "UploadTemplate";
@@ -88,12 +95,21 @@ namespace Templateprj.Controllers
         public class ActionNameConstants
         {
             public const string Templates = "Templates";
+            public const string AddTemplates = "AddTemplates";
             public const string GetTemplateNames = "GetTemplateNames";
             public const string GetTemplates = "GetTemplates";
             public const string UploadTemplate = "UploadTemplate";
         }
 
 
+        static readonly ActionParamsClass_AddTemplates s_params_AddTemplates = new ActionParamsClass_AddTemplates();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_AddTemplates AddTemplatesParams { get { return s_params_AddTemplates; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_AddTemplates
+        {
+            public readonly string id = "id";
+        }
         static readonly ActionParamsClass_Templates s_params_Templates = new ActionParamsClass_Templates();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ActionParamsClass_Templates TemplatesParams { get { return s_params_Templates; } }
@@ -138,6 +154,18 @@ namespace Templateprj.Controllers
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Templates);
             TemplatesOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void AddTemplatesOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, long? id);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult AddTemplates(long? id)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.AddTemplates);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            AddTemplatesOverride(callInfo, id);
             return callInfo;
         }
 

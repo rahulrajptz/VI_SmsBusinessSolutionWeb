@@ -111,10 +111,12 @@ namespace Templateprj.Controllers
             public class _ViewNamesClass
             {
                 public readonly string Account = "Account";
+                public readonly string AddTemplate = "AddTemplate";
                 public readonly string SenderIds = "SenderIds";
                 public readonly string Templates = "Templates";
             }
             public readonly string Account = "~/Views/Management/Account.cshtml";
+            public readonly string AddTemplate = "~/Views/Management/AddTemplate.cshtml";
             public readonly string SenderIds = "~/Views/Management/SenderIds.cshtml";
             public readonly string Templates = "~/Views/Management/Templates.cshtml";
         }

@@ -1,4 +1,7 @@
-﻿namespace Templateprj.Models.Managements
+﻿using Newtonsoft.Json;
+using System.Web.Mvc;
+
+namespace Templateprj.Models.Managements
 {
     public class RegisterTemplateCommand
     {
@@ -27,6 +30,9 @@
         public string ValidityPeriod { get; set; }
         public int DeliveryStatus { get; set; }
         public string VariableCount { get; set; }
-      
+
+        [JsonIgnore]
+        public TemplateModel Masters { get; set; }
+
     }
 }

@@ -1,4 +1,4 @@
-﻿@model Templateprj.Models.Managements.TemplateModel
+﻿@model Templateprj.Models.Managements.RegisterTemplateCommand
 @{
     System.Data.DataTable project = ViewBag.inboundData;
 
@@ -45,118 +45,21 @@
 
             <div class="tab-content" style="margin-left:15px;margin-top:10px;">
                 <div class="tab-pane show active navclr">
-
-                    <div class="row" id="divList">
-                        <div class="col">
-                            @*Search Filters*@
-
-                            <p>
-                                <a class="btn btn-block text-white dropdown-toggle" style="height:25px;text-align:left;background-color:#5f004b;font-size:9.2846px;vertical-align:middle;"
-                                   data-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false">
-                                    Search Templates
-                                </a>
-                            </p>
-                       
-                            <div class="row" id="collapseSearch">
-                                        <div class="col-md-2">
-                                            @Html.Label("Template Name")
-
-                                            <div class="form-group">
-                                                @Html.TextBoxFor(a => a.TemplateName, new { @class = "form-control cl-black", id = "txtName", autocomplete = "off" })
-                                                @*<input type="text" id="txtName" name="CustomerName" class="form-control autocomplete" autocomplete="off" />*@
-                                                <input type="hidden" id="hfCustomer" name="CustomerId" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            @Html.Label("Template Type")
-                                            <div class="form-group">
-                                                @Html.DropDownListFor(m => m.TemplateTypeId, Model.TemplateTypes, new { @class = "form-control cl-black" })
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            @Html.Label("Template Id")
-                                            <div class="form-group">
-                                                @Html.TextBoxFor(a => a.TemplateId, new { @class = "form-control cl-black", id = "TemplateId", autocomplete = "off" })
-                                                <input type="hidden" id="hfCustomer" name="CustomerId" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            @Html.Label("Header/Sender Id")
-                                            <div class="form-group">
-                                                @Html.TextBoxFor(a => a.HeaderSenderId, new { @class = "form-control cl-black", id = "HeaderSenderId", autocomplete = "off" })
-                                                <input type="hidden" id="hfCustomer" name="CustomerId" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            @Html.Label("Status")
-                                            <div class="form-group">
-                                                @Html.DropDownListFor(m => m.StatusId, Model.Status, new { @class = "form-control cl-black", id = "txtName" })
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            @Html.Label("Content Type")
-                                            <div class="form-group">
-                                                @Html.DropDownListFor(m => m.ContentTypeId, Model.ContentTypes, new { @class = "form-control cl-black" })
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col" style="text-align:right">
-                                            <button id="btnSearch" type="button" class="btn btn-outline-danger">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
-                                                </svg>
-                                                Search
-                                            </button>
-                                        </div>
-
-                                    </div>
-                              
-                            @*Listing table*@
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="card">
-                                        <div class="card-body col-12">
-                                            <div class="col-12 w-100" id="divTablereport" style="overflow-x:auto !important;">
-                                                <button type="button" class="btn btn-outline-info" id="btnNewTemplate" style="float:right">
-                                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                                </button>
-                                                <table id="tbl_rptreport" class="table-striped table-bordered dataTable dtr-inline w-100" role="grid" aria-describedby="datatable_info"></table>
-                                            </div>
-                                            <div class="alert alert-info" id="divNoData" style="display:none;">
-                                                <span>No data found for the search</span>
-                                            </div>
-                                            <div class="d-flex justify-content-center" id="loading" style="display:none !important;">
-                                                <div class="spinner-grow" role="status">
-                                                    <span class="sr-only">Loading...</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="row" id="divAdd" style="display:none;">
+                    <div class="row" id="divAdd">
                         <div class="col-md-12">
                             <p>
                                 <a class="btn btn-block text-white dropdown-toggle" style="text-align:left;background-color:#5f004b;font-size:9.2846px"
-                                   data-toggle="collapse" href="#addUpload" role="button" aria-expanded="false">
+                                   data-toggle="collapse" href="#addUpload" role="button" aria-expanded=@(ViewBag.IsEdit? "true":"false")>
                                     ADD TEMPLATE
                                 </a>
                             </p>
-                            <div class="collapse" id="addUpload">
+                            <div class= @( (ViewBag.IsEdit? "collapse show":"collapse"))  id="addUpload">
                                 <div class="col">
                                     <div class="row">
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Template Id")
                                             <div class="form-group">
-                                                <input id="Template" class="form-control w-100">
+                                                <input id="Template" class="form-control w-100" @( (ViewBag.IsEdit? "disabled":""))>
 
                                             </div>
                                         </div>
@@ -164,20 +67,20 @@
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Tele Marketer")
                                             <div class="form-group">
-                                                <input id="TeleMarketer" class="form-control w-100">
+                                                <input id="TeleMarketer" class="form-control w-100" @( (ViewBag.IsEdit? "disabled":""))>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Temaplte Name")
                                             <div class="form-group">
-                                                <input id="txt_TemplateName" class="form-control w-100">
+                                                <input id="txt_TemplateName" class="form-control w-100" @( (ViewBag.IsEdit? "disabled":""))>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Type")
                                             <div class="form-group">
 
-                                                @Html.DropDownListFor(m => m.TemplateTypeId, Model.TemplateTypes?.Where(a => a.Value != "0"), new { @id = "Type", @class = "form-control form-select" })
+                                                @Html.DropDownListFor(m => m.Type, Model.Masters.TemplateTypes?.Where(a => a.Value != "0"), new { @id = "Type", @class = "form-control form-select", @disabled =  @ViewBag.IsEdit ? "disabled" : "" })
 
                                             </div>
                                         </div>
@@ -187,7 +90,7 @@
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Header")
                                             <div class="form-group">
-                                                @Html.DropDownListFor(a => a.HeaderSenderId, Model.Headers ,new { @class = "form-control cl-black", id = "Header", autocomplete = "off" })
+                                                @Html.DropDownListFor(a => a.Header, Model.Masters.Headers, new { @class = "form-control cl-black", id = "Header", autocomplete = "off" })
                                                 <input type="hidden" id="hfCustomer" name="CustomerId" />
                                             </div>
                                         </div>
@@ -238,7 +141,7 @@
                                             @Html.Label("Approval Status")
                                             <div class="form-group">
 
-                                                @Html.DropDownListFor(m => m.HeaderSenderId, Model.ApprovalStatus?.Where(a => a.Value != "0"), new { @id = "ApprovalStatus", @class = "form-control form-select w-100" })
+                                                @Html.DropDownListFor(m => m.Header, Model.Masters.ApprovalStatus?.Where(a => a.Value != "0"), new { @id = "ApprovalStatus", @class = "form-control form-select w-100" })
 
                                             </div>
                                         </div>
@@ -258,27 +161,27 @@
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Status")
                                             <div class="form-group">
-                                                @Html.DropDownListFor(m => m.StatusId, Model.Status?.Where(a => a.Value != "0"), new { @id = "Status", @class = "form-control cl-black" })
+                                                @Html.DropDownListFor(m => m.Status, Model.Masters.Status?.Where(a => a.Value != "0"), new { @id = "Status", @class = "form-control cl-black" })
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Consent Type")
                                             <div class="form-group">
-                                                @Html.DropDownListFor(m => m.ConsentTypeId, Model.ConsentType?.Where(a => a.Value != "0"), new { @id = "ConsentType", @class = "form-control cl-black" })
+                                                @Html.DropDownListFor(m => m.ConsentType, Model.Masters.ConsentType?.Where(a => a.Value != "0"), new { @id = "ConsentType", @class = "form-control cl-black" })
 
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Delivery Status")
                                             <div class="form-group">
-                                                @Html.DropDownListFor(m => m.DeliveryStatusId, Model.DeliveryStatus, new { @class = "form-control cl-black" })
+                                                @Html.DropDownListFor(m => m.DeliveryStatus, Model.Masters.DeliveryStatus, new { @class = "form-control cl-black" })
 
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Content Type")
                                             <div class="form-group">
-                                                @Html.DropDownListFor(m => m.ContentTypeId, Model.ContentTypes?.Where(a => a.Value != "0"), new { @id = "ContentType", @class = "form-control cl-black" })
+                                                @Html.DropDownListFor(m => m.ContentType, Model.Masters.ContentTypes?.Where(a => a.Value != "0"), new { @id = "ContentType", @class = "form-control cl-black" })
 
                                             </div>
                                         </div>
@@ -310,43 +213,46 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="row" id="divUpload">
-                                <div class="col-md-12">
-                                    <p>
-                                        <a class="btn btn-block text-white dropdown-toggle" style="text-align:left;background-color:#5f004b;font-size:9.2846px"
-                                           data-toggle="collapse" href="#collapseupload" role="button" aria-expanded="false">
-                                            UPLOAD TEMPLATE
-                                        </a>
-                                    </p>
-                                    <div class="collapse ml-5" id="collapseupload">
+                        @if (!ViewBag.IsEdit)
+                        {
+                            <div class="col-md-12">
+                                <div class="row" id="divUpload">
+                                    <div class="col-md-12">
+                                        <p>
+                                            <a class="btn btn-block text-white dropdown-toggle" style="text-align:left;background-color:#5f004b;font-size:9.2846px"
+                                               data-toggle="collapse" href="#collapseupload" role="button" aria-expanded="false">
+                                                UPLOAD TEMPLATE
+                                            </a>
+                                        </p>
+                                        <div class="collapse ml-5" id="collapseupload">
 
-                                        <div id="fileUploadm2m">
-                                            <div class="row">
-                                                <div class="col" style="text-align:right;">
-                                                    <button id="samplefiledownlod" style="color:#5f004b;font-size:13px"> <i class="now-ui-icons files_single-copy-04"></i>Sample Template</button>
+                                            <div id="fileUploadm2m">
+                                                <div class="row">
+                                                    <div class="col" style="text-align:right;">
+                                                        <button id="samplefiledownlod" style="color:#5f004b;font-size:13px"> <i class="now-ui-icons files_single-copy-04"></i>Sample Template</button>
+
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-4" style="text-align:left;">
+                                                        <span>@Html.Label("Upload Template") </span>
+
+                                                        <input style="width:234px;font-size:13px;color:#5f004b;" id="fileToUpload" type="file" name="file" required="required">
+
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <button class="btn-success" id="uploadfileid" type="button">Upload</button>
+                                                    </div>
 
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-4" style="text-align:left;">
-                                                    <span>@Html.Label("Upload Template") </span>
 
-                                                    <input style="width:234px;font-size:13px;color:#5f004b;" id="fileToUpload" type="file" name="file" required="required">
-
-                                                </div>
-                                                <div class="col-4">
-                                                    <button class="btn-success" id="uploadfileid" type="button">Upload</button>
-                                                </div>
-
-                                            </div>
                                         </div>
 
                                     </div>
-
                                 </div>
                             </div>
-                        </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -382,26 +288,6 @@
      $(document).on('click', '#btnSearch', function (e) {
                 loadReportreport();
        });
-     function deleteTemplate(templateId) {
-                $.ajax({
-                    url: "@Url.Action("Templates", "Template")",
-                    data: { id: templateId },
-                    type: 'DELETE',
-                    success: function (e) {
-                        jsondata = JSON.parse(e);
-                        if (jsondata.status == "1") {
-                            location.reload();
-                            SuccessMsg("Successfully removed");
-                        }
-                        else {
-                            ErrorMsg("Failed to remove the template.")
-                        }
-                    }
-                });
-            }
-     function editTemplate(templateId) {
-                alert(templateId);
-            }
     </script>
 
     @*List Templates*@
@@ -452,7 +338,7 @@
 
                                                 <a class="delete" title="Add" data-toggle="tooltip" onClick="deleteTemplate(`+ row.ID + `)"><i class='fas fa-trash'></i></a>
 
-                                                <a class="edit" title="Add" data-toggle="tooltip" href="AddTemplates/`+ row.ID + `""><i class='fas fa-edit'></i></a>
+                                                <a class="edit" title="Add" data-toggle="tooltip" onClick="editTemplate(`+ row.ID + `)"><i class='fas fa-edit'></i></a>
 
                                          </p>`;
                                 }
@@ -653,18 +539,11 @@
                     return item;
                 }
             });
-            loadReportreport();
        });
 
 
     </script>
 
-    <script>
-        $(document).on('click', '#btnNewTemplate', function (e) {
-            $('#divAdd').show();
-            $("#divList").hide();
-        });
-    </script>
 
     @*Upload Tempalte File*@
     <script>

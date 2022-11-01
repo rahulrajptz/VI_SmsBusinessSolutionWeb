@@ -28,6 +28,18 @@ namespace Templateprj.Controllers
             return View("~/Views/Management/Templates.cshtml", model);
         }
 
+
+        [Route("~/AddTemplates/{id:long?}")]
+        public virtual ActionResult AddTemplates(long? id)
+        {
+            TemplateModel masters = _templateManagemntRepository.GetTemplateFilters();
+            RegisterTemplateCommand model = new RegisterTemplateCommand() { Masters = masters };
+            ViewBag.IsEdit = id.HasValue;
+
+            return View("~/Views/Management/AddTemplate.cshtml", model);
+        }
+
+
         [HttpPost]
         public virtual ActionResult Templates(RegisterTemplateCommand command)
         {
