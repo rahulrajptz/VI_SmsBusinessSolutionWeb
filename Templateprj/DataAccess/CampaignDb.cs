@@ -99,6 +99,32 @@ namespace Templateprj.DataAccess
 
             return json.ToString() + "}";
         }
+
+        private string GetJsonStringtoinsert(DataTable dt)
+        {
+            int columnCount = dt.Columns.Count;
+            // DataTable dtSchema = dr.GetSchemaTable();
+
+            StringBuilder json = new StringBuilder();
+            string[] tmpHeadRow = new string[columnCount];
+
+            json.Append("[");
+            for (int rowIndex = 0; rowIndex < dt.Rows.Count; rowIndex++)
+            {
+                for (int colIndex = 0; colIndex < columnCount; colIndex++)
+                {
+                    tmpHeadRow[colIndex] = dt.Columns[colIndex].ColumnName.ToString() + "\":\"" + dt.Rows[rowIndex].ItemArray[colIndex].ToString().Trim();
+                }
+                json.Append("{\"" + string.Join("\",\"", tmpHeadRow) + "\"},");
+
+            }
+            if (dt.Rows.Count > 0)
+                json.Length--;
+
+
+            return json.ToString() + "]";
+        }
+
         private string GetJsonString(OracleDataReader dr)
         {
             int columnCount = dr.FieldCount;
@@ -400,6 +426,40 @@ namespace Templateprj.DataAccess
             }
         }
 
+        public DataTable getCampaignName()
+        {
+
+            // `Web_Get_Active_Campaign_Name`(IN N_Acc_Id int)
+
+            try
+            {
+
+                using (MySqlCommand cmd = new MySqlCommand("Web_Get_Active_Campaign_Name"))
+                {
+
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    //cmd.Parameters.Add("@N_user_id", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
+                    cmd.Parameters.Add("@N_Acc_Id", MySqlDbType.Int32).Value = HttpContext.Current.Session["AccountID"].ToString();
+
+
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        var dataTable = new DataTable();
+                        dataAdapter.Fill(dataTable);
+                        return dataTable;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.Campaign.getCampaignName::Exception::" + ex.Message);
+                return null;
+            }
+        }
 
         public DataTable getCampaignStarttypelist()
         {
@@ -573,9 +633,10 @@ namespace Templateprj.DataAccess
         public string getcmapigndetailsfromcampid(string id)
         {
             //  `Web_Get_Campaign_details`(In Ln_Campaign_Id int,out V_Out text)
+           
             try
             {
-                string response = "";
+                
                 using (MySqlCommand cmd = new MySqlCommand("Web_Get_Campaign_details"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -590,8 +651,8 @@ namespace Templateprj.DataAccess
                         MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
                         var dataTable = new DataTable();
                         dataAdapter.Fill(dataTable);
-                        string text = "";
-                        string subtxt = "";
+                        //string text = "";
+                        //string subtxt = "";
                         string SMSData = "";
                         foreach (DataRow row in dataTable.Rows)
                         {
@@ -682,8 +743,6 @@ namespace Templateprj.DataAccess
                     cmd.Parameters.Add("@N_user_id", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
                     cmd.Parameters.Add("@N_Acc_Id", MySqlDbType.Int32).Value = HttpContext.Current.Session["AccountID"].ToString();
                     cmd.Parameters.Add("@N_Sms_Type", MySqlDbType.Int32).Value = smstype;
-
-
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
@@ -694,7 +753,6 @@ namespace Templateprj.DataAccess
                         return dataTable;
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -720,8 +778,6 @@ namespace Templateprj.DataAccess
                     //cmd.Parameters.Add("@N_Acc_Id", MySqlDbType.Int32).Value = HttpContext.Current.Session["AccountID"].ToString();
                     cmd.Parameters.Add("@n_template_Id", MySqlDbType.Int32).Value = templateId;
                     cmd.Parameters.Add("@n_message", MySqlDbType.LongText).Direction = ParameterDirection.Output;
-
-
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
@@ -754,7 +810,6 @@ namespace Templateprj.DataAccess
                         return response;
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -884,7 +939,49 @@ namespace Templateprj.DataAccess
                 return "";
             }
         }
+        public bulkFileuploadModel InsertBulk(DataTable dt, string CampaignId)
+        {
+            bulkFileuploadModel bulkInsert = new bulkFileuploadModel();
+            int status = -1, newCampId=0;
+            //`Web_Bulk_campaign_load`(IN N_scm_id bigint ,In v_Data longtext,In n_user_id Int ,In n_acc_id int,out scamp_id int,out n_status int,out v_response varchar(100))
 
+            try
+            {
+                using (MySqlCommand cmd = new MySqlCommand("Web_Bulk_campaign_load"))
+                {
+                    
+                    cmd.CommandType = CommandType.StoredProcedure;                   
+                    cmd.Parameters.Add("@N_scm_id", MySqlDbType.Int64).Value = (CampaignId != null && CampaignId != "") ? Convert.ToInt64(CampaignId) : 0;
+                    cmd.Parameters.Add("@v_Data", MySqlDbType.LongText).Value = GetJsonStringtoinsert(dt);
+                    cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"].ToString());
+                    cmd.Parameters.Add("@n_acc_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
+                    cmd.Parameters.Add("@scamp_id", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@n_status", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@v_response", MySqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
+                    //`Temp_Bulk_campaign_load`(IN N_campaign_id bigint, In v_Data longtext,out n_status int,out v_response varchar(100))
+
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        cmd.ExecuteNonQuery();
+                    }
+                    //response = cmd.Parameters["@Lv_Response"].Value.ToString();
+                    bulkInsert.status = Convert.ToInt32(cmd.Parameters["@n_status"].Value);
+                    bulkInsert.newCampaignId = cmd.Parameters["@scamp_id"].Value.ToString();
+                    bulkInsert.message = "";
+                    return bulkInsert;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.CampaignDb.getTemplatebytemplateId :: Exception :: " + ex.Message);
+                bulkInsert.status = -1;
+                bulkInsert.newCampaignId = "-1";
+                bulkInsert.message = "";
+                return bulkInsert;
+            }
+        }
 
         public string saveCampaign(string json, out string response)
         {
@@ -972,47 +1069,44 @@ namespace Templateprj.DataAccess
             }
         }
         //UpdateCampList
-        public string UpdateCampList(string Id, string toDate, string toTime)
+
+        public string getcampaigntestreportlistNew(string id)
         {
-
-            //`Web_Update_Campaign`(IN N_Scm_Id int, IN V_to_Date varchar(100), IN V_to_Time varchar(100), Out N_Status INt,Out V_Response varchar(100))
-            string sts = "";
-            string resp = "";
-
-
+            //`Web_Get_Campaign_List_Test_Report`(IN n_Acc_Id int, IN n_user_id int, IN n_Campaign_Id varchar(50))
+            DataTable dt = new DataTable();
             try
             {
 
-                using (MySqlCommand cmd = new MySqlCommand("Web_Update_Campaign"))
+                using (MySqlCommand cmd = new MySqlCommand("Web_Get_Campaign_List_Test_Report"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("N_Scm_Id", MySqlDbType.Int32).Value = Id;
-                    cmd.Parameters.Add("V_to_Date", MySqlDbType.VarChar).Value =toDate;
-                    cmd.Parameters.Add("V_to_Time", MySqlDbType.VarChar).Value =toTime;
-                    cmd.Parameters.Add("N_Status", MySqlDbType.Int32).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("V_Response", MySqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@n_Acc_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
+                    cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"].ToString());
+                    cmd.Parameters.Add("@n_Campaign_Id", MySqlDbType.VarChar, 200).Value = id;
+                    //cmd.Parameters.Add("@N_Sms_Type", MySqlDbType.Int32).Value = smstype;
 
 
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
                         cmd.Connection = con;
-                        cmd.ExecuteNonQuery();
-
-
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        //var dt = new DataTable();
+                        dataAdapter.Fill(dt);
+                        if (dt.Rows.Count > 0)
+                            return GetJsonString(dt);
+                        else
+                            return "";
                     }
-                    sts = cmd.Parameters["N_Status"].Value.ToString();
-                    resp = cmd.Parameters["V_Response"].Value.ToString();
                 }
 
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.Campaign.UpdateCampList :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.Campaign.getcampaigntestreportlist::Exce ::  :: " + ex.Message);
                 return null;
             }
-            return sts;
-
+           
         }
 
 
@@ -1186,7 +1280,7 @@ namespace Templateprj.DataAccess
         }
         #endregion
 
-        public string getcampaignSearchreport(string templateName, string templateType, string templateStatus, string ContentType)
+        public string getcampaignSearchreport(string templateName, string templateType, string ContentType)
         {
             try
             {
@@ -1199,7 +1293,7 @@ namespace Templateprj.DataAccess
                     cmd.Parameters.Add("@N_Account_id", MySqlDbType.Int32).Value = HttpContext.Current.Session["AccountID"].ToString();
                     cmd.Parameters.Add("@V_temp_name", MySqlDbType.Int64).Value = templateName == null ? "0" : templateName;
                     cmd.Parameters.Add("@N_temp_type", MySqlDbType.Int32).Value = Convert.ToInt32(templateType);
-                    cmd.Parameters.Add("@N_Status", MySqlDbType.Int32).Value = Convert.ToInt32(templateStatus);
+                    //cmd.Parameters.Add("@N_Status", MySqlDbType.Int32).Value = Convert.ToInt32(templateStatus);
                     cmd.Parameters.Add("@N_Content_type", MySqlDbType.Int32).Value = Convert.ToInt32(ContentType);
 
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
@@ -1413,25 +1507,34 @@ namespace Templateprj.DataAccess
             }
         }
 
-        public string insertfilepath(string path,SMSCampaignModel model)
+        public string insertfilepath(string path,SMSCampaignModel model,int newCampaignId,int newstatus,string message,int packcnt,int baseCount)
         {
             path = path.Replace("\\", "/");
+            int packetcnt;
+            // `Web_bulk_upload_campaign_details`(IN N_Scm_id int, 
+            //IN N_packet_cnt int, IN N_Status int, IN Ln_Action_Type int, 
+            //IN Ln_scheduled_time varchar(50), IN Error_descp varchar(2000), 
+            //IN V_filepath varchar(300), OUT N_STATUS_OUT int)
 
-            //`Web_Insert_campaign_file`(IN Ln_Campaign_id int,IN Lv_Path varchar(1000),IN Ln_Action_Type int,Out Ln_Status int)
-
-            
             try
             {
 
-                using (MySqlCommand cmd = new MySqlCommand("Web_Insert_campaign_file"))
+                using (MySqlCommand cmd = new MySqlCommand("Web_bulk_upload_campaign_details"))
                 {
+                    //`Web_bulk_upload_campaign_details`(IN N_Scm_id int, IN N_packet_cnt int, IN N_Status int, IN Ln_Action_Type int,
+                    //IN Ln_scheduled_time varchar(50), IN Error_descp varchar(2000), IN V_filepath varchar(300),
+                    //IN n_Base_Count bigint, OUT N_STATUS_OUT int)
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@Ln_Campaign_id", MySqlDbType.Int32).Value = model.campaignId;
-                    cmd.Parameters.Add("@Lv_Path", MySqlDbType.VarChar,200).Value = path;
+                    cmd.Parameters.Add("@N_Scm_id", MySqlDbType.Int32).Value = newCampaignId;
+                    cmd.Parameters.Add("@N_packet_cnt", MySqlDbType.Int32).Value =packcnt;
+                    cmd.Parameters.Add("@N_Status", MySqlDbType.Int32).Value =newstatus;
                     cmd.Parameters.Add("@Ln_Action_Type", MySqlDbType.Int32).Value = model.uploadCampaignstarttype;
-                    cmd.Parameters.Add("@Ln_scheduled_time", MySqlDbType.VarChar).Value = model.scheduleDate;
-                    cmd.Parameters.Add("@Ln_prioity", MySqlDbType.VarChar).Value = model.uploadpriority;
-                    cmd.Parameters.Add("@Ln_Status", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@Ln_scheduled_time", MySqlDbType.VarChar).Value = model.scheduleDate /*== null ? "0" : model.scheduleDate*/;
+                    // cmd.Parameters.Add("@Ln_prioity", MySqlDbType.VarChar).Value = model.uploadpriority;
+                    cmd.Parameters.Add("@Error_descp", MySqlDbType.VarChar).Value = message;
+                    cmd.Parameters.Add("@V_filepath", MySqlDbType.VarChar, 200).Value = path;
+                    cmd.Parameters.Add("@n_Base_Count", MySqlDbType.Int64).Value = baseCount;
+                    cmd.Parameters.Add("@N_STATUS_OUT", MySqlDbType.Int32).Direction = ParameterDirection.Output;
 
                     DataTable dt = new DataTable();
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
@@ -1441,7 +1544,7 @@ namespace Templateprj.DataAccess
                         cmd.Connection = con;
                         cmd.ExecuteNonQuery();
                     }
-                    string status = cmd.Parameters["@Ln_Status"].Value.ToString();
+                    string status = cmd.Parameters["@N_STATUS_OUT"].Value.ToString();
 
                     return status;
 
@@ -1455,6 +1558,44 @@ namespace Templateprj.DataAccess
 
             }
         }
+        public string CampaignUpdate(string toDate, string toTime, string campaignId)
+        {
+            // `Web_update_control_status`(In N_scm_Id int, In n_control Int)
+            string status = "0";
+            try
+            {
+
+                using (MySqlCommand cmd = new MySqlCommand("Web_Update_Campaign"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@N_scm_Id", MySqlDbType.Int32).Value = Convert.ToInt32(campaignId);
+                    cmd.Parameters.Add("@V_to_Date", MySqlDbType.VarChar).Value = toDate;
+                    cmd.Parameters.Add("@V_to_Time", MySqlDbType.VarChar).Value = toTime;
+                    cmd.Parameters.Add("@N_Status", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@V_Response", MySqlDbType.VarChar).Direction = ParameterDirection.Output;
+
+
+                    //`Web_Update_Campaign`(IN N_Scm_Id int, IN V_to_Date varchar(100), IN V_to_Time varchar(100), Out N_Status INt,Out V_Response varchar(100))
+                    //  DataTable dt = new DataTable();
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+
+                        con.Open();
+                        cmd.Connection = con;
+                        cmd.ExecuteNonQuery();
+                    }
+                    status = cmd.Parameters["@N_Status"].Value.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.Campaigndbprc.CampaignUpdate :: Exception :: " + ex.Message);
+                status = "-1";
+
+            }
+            return status;
+        }
+
         public string GetUnicodeStatus(int templateid)
         {
             string statusOut = "-1";

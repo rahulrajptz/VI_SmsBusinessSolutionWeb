@@ -187,6 +187,17 @@ namespace Templateprj.Models
         public string errordata { get; set; }
     }
 
+    public class bulkFileuploadModel
+    {
+        public string message { get; set; }
+        public int status { get; set; }
+        public string newCampaignId { get; set; }
+        public int newstatus { get; set; }
+        public string newmessage { get; set; }
+        public int packetcnt { get; set; }
+        public int baseCount { get; set; }
+    }
+
 
     public class SMSCampaignModel
     {
@@ -337,6 +348,11 @@ namespace Templateprj.Models
         public string reportCampaignPriority { get; set; }
         [JsonIgnore]
         public SelectList reportCampaignPriorityList { get; set; }
+
+        public string updatedToDate { get; set; }
+        public string updatedToTime { get; set; }
+        public string updatedId { get; set; }
+        public string updatedFromDate { get; set; }
 
 
     }
