@@ -167,6 +167,7 @@
         font-size: 12px;
         min-width: 65px !important;
     }
+    
 </style>
 
 <div class="row" style="margin-top:50px">
@@ -175,31 +176,29 @@
         @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "Idform" }))
         {
 
-
             <div class="container" style="margin-left:10px">
                 <div class="row">
                     <div class="wizard-navigation">
                         <div class="col-xs-12 navstyle">
                             <ul class="nav">
                                 <li class="nav-item" style="width: 100px;height:35px">
-                                    <a style="font-size:9.2846px" id="campaigncreationnavitem" onclick="resetfunction()" class="nav-link active" href="#campaignnav" data-toggle="tab" role="tab" aria-controls="about" aria-selected="true">
+                                    <a style="font-size:9.2846px" class="nav-link active" href="@Url.Action("Account", "Management")">
                                         <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
                                         ACCOUUNT
                                     </a>
                                 </li>
                                 <li class="nav-item " style="width: 111px;height:35px">
-                                    <a style="font-size:9.2846px" id="uploadlistnavitem" class="nav-link" href="#uploadbasenav" data-toggle="tab" role="tab" aria-controls="account" aria-selected="false">
+                                    <a style="font-size:9.2846px" class="nav-link" href="@Url.Action("Templates", "Template")">
                                         <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
-                                        UPLOAD BASE
+                                        TEMPLATES
                                     </a>
                                 </li>
                                 <li class="nav-item arrow" style="width: 131px;height:35px">
-                                    <a style="font-size:9.2846px" id="campaignstatusnavitem" class="nav-link" href="#campaignstatusnav" data-toggle="tab" role="tab" aria-controls="address" aria-selected="false">
+                                    <a style="font-size:9.2846px" class="nav-link" href="@Url.Action("SenderIds", "Management")">
                                         <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
-                                        CAMPAIGN STATUS
+                                        SENDER ID
                                     </a>
                                 </li>
-
                             </ul>
                         </div>
                     </div>
@@ -207,90 +206,133 @@
             </div>
 
             <div class="tab-content">
-                <div class="tab-pane show active navclr" id="Instantsmsnav">
-                    <div style="margin-top:5px;background:#ebecf1" class="col-md-8">
+                <div class="tab-pane show active navclr overlay" id="divCredentialsForApi">
 
-                        <div class="shadow bg-white rounded" style="border-radius:10px;">
-                            <div class="card-header" style="color:#5f004b;font-size:16px;font-weight: bold;">
-                                DLT ACCOUNT DETAILS
+                    <div class="row " style="margin-left: 3px;">
+                        <div style="margin-top: 5px; background: #ebecf1;" class="col-lg-6 col-md-6 col-12">
+
+                            <div class="shadow bg-white rounded" style="border-radius:10px;">
+                                <div class="card-header" style="color:#5f004b;font-size:16px;font-weight: bold;">
+                                    DLT ACCOUNT DETAILS
+                                </div>
+                                <div class="card-body">
+                                    <div class="row gy-5">
+                                        <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px; ">@Html.Label("CUSTOMER NAME", new { @class = "label_side_head" })</div>
+                                        <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;"> @Html.DisplayFor(m => m.CustomerName,new {@style= "margin-left:4px;" })  </div>
+
+                                        <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("ACCOUNT NUMBER", new { @class = "label_side_head" })  </div>
+                                        <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;"> @Html.DisplayFor(m => m.AccountNumber)  </div>
+
+                                        <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("BILLING NUMBER", new { @class = "label_side_head" })  </div>
+                                        <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;"> @Html.DisplayFor(m => m.AccountID)  </div>
+
+                                        <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("PRINICIPAL ENTITY ID", new { @class = "label_side_head" })  </div>
+                                        <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;"> @Html.DisplayFor(m => m.BuildingNumber)  </div>
+                                    </div>
+                                    <div class="row mt-1"></div>
+                                    <div class="row mt-1"></div>
+                                    <div class="row">
+                                        <div class="col"> <hr></div>
+                                    </div>
+                                    <div class="row mt-1"></div>
+                                    <div class="row mt-1"></div>
+                                    <div class="row" id="rw_view">
+                                        <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("DLT REGISTERED ACCOUNT NAME", new { @class = "label_side_head" })</div>
+                                        <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;" id="divDltAccount"> @Html.DisplayFor(m => m.DltRegisteredAccount)</div>
+
+                                        <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("ACCOUNT EXPIRY", new { @class = "label_side_head" }) </div>
+                                        <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;" id="divAccountExpiry"> @Html.DisplayFor(m => m.AccountExpiry, new { id = "accExpiryView" }) </div>
+
+                                        <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("DLT ADDRESS DETAILS", new { @class = "label_side_head" }) </div>
+                                        <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;" id="divDltAddress"> @Html.DisplayFor(m => m.DltAddressDetails) </div>
+
+                                        <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("DLT EMAIL ADDRESS", new { @class = "label_side_head" })</div>
+                                        <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;" id="divEmailAddress"> @Html.DisplayFor(m => m.DltEmailAddress) </div>
+                                        <div class="col-md-12" style="text-align:right"> <button id="btn_edit" type="button" class="button-edit"><i class="fa fa-edit" style="text-align:left !important"></i> Edit</button> </div>
+
+                                    </div>
+
+                                    <div class="row" id="rw_edit" style="display:none;">
+                                        <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("DLT REGISTERED ACCOUNT NAME", new { @class = "label_side_head" }) <span style="color:red">*</span>  </div>
+                                        <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;">
+                                            @Html.TextBoxFor(m => m.DltRegisteredAccount, new { @class = "form-control", required = "required", @style = "height: auto !important;background:white;", @rows = "5" })
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("ACCOUNT EXPIRY", new { @class = "label_side_head" }) <span style="color:red">*</span> </div>
+                                        <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;">
+                                            @Html.TextBoxFor(m => m.AccountExpiry, new { @class = "form-control", required = "required", @style = "height: auto !important;background:white;", @rows = "5" })
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("DLT ADDRESS DETAILS", new { @class = "label_side_head" }) <span style="color:red">*</span> </div>
+                                        <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;">
+                                            @Html.TextBoxFor(m => m.DltAddressDetails, new { @class = "form-control", required = "required", @style = "height: auto !important;background:white;", @rows = "5" })
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("DLT EMAIL ADDRESS", new { @class = "label_side_head" }) <span style="color:red">*</span> </div>
+                                        <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;">
+                                            @Html.TextBoxFor(m => m.DltEmailAddress, new { @class = "form-control", required = "required", @style = "height: auto !important;background:white;", @rows = "5" })
+                                        </div>
+                                        <div class="col-md-12" style="text-align:right"> <button id="btn_save" type="button" class="button-edit"><i class="fa fa-save" style="text-align:left !important"></i> Save</button> </div>
+                                        <div class="row mt-1"></div>
+                                        <div class="row mt-1"></div>
+                                        <div class="row mt-1"></div>
+                                        <div class="row mt-1"></div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <div class="row gy-5">
-                                    <div class="col-md-6" style="padding-top:4px; ">@Html.Label("CUSTOMER NAME", new { @class = "label_side_head" })  </div>
-                                    <div class="col-md-6" style="text-align:left;padding:4px;"> @Html.DisplayFor(m => m.CustomerName)  </div>
 
-                                    <div class="col-md-6" style="padding-top:4px;">@Html.Label("ACCOUNT NUMBER", new { @class = "label_side_head" })  </div>
-                                    <div class="col-md-6" style="text-align:left;padding:4px;"> @Html.DisplayFor(m => m.AccountNumber)  </div>
-
-                                    <div class="col-md-6" style="padding-top:4px;">@Html.Label("BILLING NUMBER", new { @class = "label_side_head" })  </div>
-                                    <div class="col-md-6" style="text-align:left;padding:4px;"> @Html.DisplayFor(m => m.AccountID)  </div>
-
-                                    <div class="col-md-6" style="padding-top:4px;">@Html.Label("PRINICIPAL ENTITY ID", new { @class = "label_side_head" })  </div>
-                                    <div class="col-md-6" style="text-align:left;padding:4px;"> @Html.DisplayFor(m => m.BuildingNumber)  </div>
-                                </div>
-                                <div class="row mt-1"></div>
-                                <div class="row mt-1"></div>
-                                <div class="row">
-                                    <div class="col"> <hr></div>
-
-                                </div>
-                                <div class="row mt-1"></div>
-                                <div class="row mt-1"></div>
-                                <div class="row" id="rw_view">
-                                    <div class="col-md-6" style="padding-top:4px;">@Html.Label("DLT REGISTERED ACCOUNT NAME", new { @class = "label_side_head" })  </div>
-                                    <div class="col-md-6" style="text-align:left;padding:4px;"> @Html.DisplayFor(m=>m.DltRegisteredAccount) </div>
-
-                                    <div class="col-md-6" style="padding-top:4px;">@Html.Label("ACCOUNT EXPIRY", new { @class = "label_side_head" })  </div>
-                                    <div class="col-md-6" style="text-align:left;padding:4px;"> @Html.DisplayFor(m => m.AccountExpiryDescription) </div>
-
-                                    <div class="col-md-6" style="padding-top:4px;">@Html.Label("DLT ADDRESS DETAILS", new { @class = "label_side_head" })  </div>
-                                    <div class="col-md-6" style="text-align:left;padding:4px;"> @Html.DisplayFor(m => m.DltAddressDetails) </div>
-
-                                    <div class="col-md-6" style="padding-top:4px;">@Html.Label("DLT EMAIL ADDRESS", new { @class = "label_side_head" })  </div>
-                                    <div class="col-md-6" style="text-align:left;padding:4px;"> @Html.DisplayFor(m => m.DltEmailAddress) </div>
-                                    <div class="col-md-12" style="text-align:right"> <button id="btn_edit" type="button"class="button-edit"><i class="fa fa-edit" style="text-align:left !important"></i> Edit</button> </div>
-
-                                </div>
-
-                                <div class="row" id="rw_edit" style="display:none;">
-                                    <div class="col-md-6" style="padding-top:4px;">@Html.Label("DLT REGISTERED ACCOUNT NAME", new { @class = "label_side_head" })  </div>
-                                    <div class="col-md-6" style="text-align:left;padding:4px;">
-                                        @Html.TextBoxFor(m => m.DltRegisteredAccount, new { @class = "form-control", required = "required", @style = "height: auto !important;background:white;", @rows = "5" })
-                                    </div>
-
-                                    <div class="col-md-6" style="padding-top:4px;">@Html.Label("ACCOUNT EXPIRY", new { @class = "label_side_head" })  </div>
-                                    <div class="col-md-6" style="text-align:left;padding:4px;">
-                                        @Html.TextBoxFor(m => m.AccountExpiry, new { @class = "form-control", required = "required", @style = "height: auto !important;background:white;", @rows = "5" })
-                                    </div>
-
-                                    <div class="col-md-6" style="padding-top:4px;">@Html.Label("DLT ADDRESS DETAILS", new { @class = "label_side_head" })  </div>
-                                    <div class="col-md-6" style="text-align:left;padding:4px;">
-                                        @Html.TextBoxFor(m => m.DltAddressDetails, new { @class = "form-control", required = "required", @style = "height: auto !important;background:white;", @rows = "5" })
-                                    </div>
-
-                                    <div class="col-md-6" style="padding-top:4px;">@Html.Label("DLT EMAIL ADDRESS", new { @class = "label_side_head" })  </div>
-                                    <div class="col-md-6" style="text-align:left;padding:4px;">
-                                        @Html.TextBoxFor(m => m.DltEmailAddress, new { @class = "form-control", required = "required", @style = "height: auto !important;background:white;", @rows = "5" })
-                                    </div>
-                                    <div class="col-md-12" style="text-align:right"> <button  id="btn_save" type="button" class="button-edit"><i class="fa fa-save" style="text-align:left !important"></i> Save</button> </div>
-
-                                </div>
-                            </div>
                         </div>
 
+                        <div style="margin-top: 5px; background: #ebecf1;" class="col-lg-6 col-md-6 col-12">
+                            
+                                <div class="shadow bg-white rounded" style="border-radius:10px;">
+                                    <div class="card-header" style="color:#5f004b;font-size:16px;font-weight: bold;">
+                                        CREDENTIALS FOR API
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row gy-5">
+                                            <div class="col-md-6" style="padding-top:4px; ">@Html.Label("User Name", new { @class = "label_side_head" })  </div>
+                                            <div class="col-md-6" style="text-align:left;padding:4px;"> - </div>
+
+                                            <div class="col-md-6" style="padding-top:4px;">@Html.Label("Password", new { @class = "label_side_head" })  </div>
+                                            <div class="col-md-6" style="text-align:left;padding:4px;"> -  </div>
+
+                                            <div class="col-md-6" style="padding-top:4px;">@Html.Label("Download API Document", new { @class = "label_side_head" })  </div>
+                                            <div class="col-md-6" style="text-align:left;padding:4px;"> -  </div>
+                                        </div>
+
+
+                                        <div class="row" id="rw_view">
+                                            <div class="col-md-6" style="padding-top:4px;">@Html.Label("Authentication Token", new { @class = "label_side_head" })  </div>
+
+
+                                            <div class="col-md-12" style="padding-top:4px;"><textarea disabled style="width:100%" rows="4" cols="50"></textarea> </div>
+
+                                            <div class="col-md-6" style="padding-top:4px;">@Html.Label("Validity", new { @class = "label_side_head" })  </div>
+                                            <div class="col-md-6" style="text-align:left;padding:4px;" id="divDltAddress"> - </div>
+
+                                        </div>
+                                        <div class="row mt-5"></div>
+                                        <div class="row mt-4"></div>
+                                        <div class="row mt-2"></div>
+                                        
+                                    </div>
+                              
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
         }
 
     </div>
-
 </div>
 @section scripts {
     <script>
         $("#AccountExpiry").flatpickr({
            
-            dateFormat: "d/m/Y",
+            dateFormat: "d/m/Y"
        
         });
 
@@ -298,10 +340,11 @@
             $('#rw_edit').show();
             $('#rw_view').hide();
         });
+
         $(document).on('click', '#btn_save', function (e) {
       
                 var accountModel = {};
-                var isValid = true;
+                var isValid = $("#DltRegisteredAccount").val() && $("#AccountExpiry").val() && $("#DltAddressDetails").val() && $("#DltEmailAddress").val();
                 accountModel.dltRegisteredAccount = $("#DltRegisteredAccount").val();
                 accountModel.accountExpiry = $("#AccountExpiry").val();
                 accountModel.dltAddressDetails = $("#DltAddressDetails").val();
@@ -317,9 +360,13 @@
 
                             jsondata = JSON.parse(e);
                             if (jsondata.status == "1") {
-                                location.reload();
-
                                 SuccessMsg("Successfully update account details");
+
+                                document.getElementById("divDltAccount").innerHTML = accountModel.dltRegisteredAccount;
+                                document.getElementById("divDltAddress").innerHTML = accountModel.accountExpiry;
+                                document.getElementById("divAccountExpiry").innerHTML = accountModel.dltAddressDetails;
+                                document.getElementById("divEmailAddress").innerHTML = accountModel.dltEmailAddress;
+
                                 $('#rw_view').show();
                                 $('#rw_edit').hide();
                             }

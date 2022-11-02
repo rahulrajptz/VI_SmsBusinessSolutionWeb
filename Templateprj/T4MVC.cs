@@ -32,6 +32,7 @@ public static partial class MVC
     public static Templateprj.Controllers.HomeController Home = new Templateprj.Controllers.T4MVC_HomeController();
     public static Templateprj.Controllers.InstantSmsController InstantSms = new Templateprj.Controllers.T4MVC_InstantSmsController();
     public static Templateprj.Controllers.ManagementController Management = new Templateprj.Controllers.T4MVC_ManagementController();
+    public static Templateprj.Controllers.TemplateController Template = new Templateprj.Controllers.T4MVC_TemplateController();
     public static Templateprj.Controllers.ReportsController Reports = new Templateprj.Controllers.T4MVC_ReportsController();
     public static Templateprj.Controllers.TestController Test = new Templateprj.Controllers.T4MVC_TestController();
     public static T4MVC.SharedController Shared = new T4MVC.SharedController();

@@ -166,5 +166,12 @@ namespace Templateprj.Helpers
             get { return bulkPath; }
         }
         #endregion
+        #region BulkPath
+        private static string tempPath = EncDec.DecryptDes(ConfigurationManager.AppSettings["TemPath"].ToString(), GlobalValues.Key);
+        public static string TempPath
+        {
+            get { return tempPath; }
+        }
+        #endregion
     }
 }

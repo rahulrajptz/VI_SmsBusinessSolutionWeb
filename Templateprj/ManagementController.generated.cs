@@ -79,6 +79,7 @@ namespace Templateprj.Controllers
         public class ActionNamesClass
         {
             public readonly string Account = "Account";
+            public readonly string SenderIds = "SenderIds";
             public readonly string SaveAccount = "SaveAccount";
         }
 
@@ -86,6 +87,7 @@ namespace Templateprj.Controllers
         public class ActionNameConstants
         {
             public const string Account = "Account";
+            public const string SenderIds = "SenderIds";
             public const string SaveAccount = "SaveAccount";
         }
 
@@ -109,8 +111,12 @@ namespace Templateprj.Controllers
             public class _ViewNamesClass
             {
                 public readonly string Account = "Account";
+                public readonly string SenderIds = "SenderIds";
+                public readonly string Templates = "Templates";
             }
             public readonly string Account = "~/Views/Management/Account.cshtml";
+            public readonly string SenderIds = "~/Views/Management/SenderIds.cshtml";
+            public readonly string Templates = "~/Views/Management/Templates.cshtml";
         }
     }
 
@@ -127,6 +133,17 @@ namespace Templateprj.Controllers
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Account);
             AccountOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void SenderIdsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult SenderIds()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.SenderIds);
+            SenderIdsOverride(callInfo);
             return callInfo;
         }
 

@@ -1,4 +1,6 @@
 ﻿using System.Web.Mvc;
+using Templateprj.Filters;
+using Templateprj.Helpers;
 using Templateprj.Models.Managements;
 using Templateprj.Repositories.Interfaces;
 
@@ -16,9 +18,17 @@ namespace Templateprj.Controllers
 
         public virtual ActionResult Account()
         {
-            ViewBag.ItemList = "Computer Shop Item List Page";
+            ViewBag.ItemList = "Account";
             ManagementModel model= _accountManagemntRepository.GetAccount();
        
+            return View(model);
+        }
+
+        public virtual ActionResult SenderIds()
+        {
+            ViewBag.ItemList = "Computer Shop Item List Page";
+            ManagementModel model = _accountManagemntRepository.GetAccount();
+
             return View(model);
         }
 
@@ -31,5 +41,6 @@ namespace Templateprj.Controllers
 
             return Json(responsejson, JsonRequestBehavior.AllowGet);
         }
+
     }
 }
