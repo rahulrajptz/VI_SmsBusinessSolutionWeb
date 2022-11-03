@@ -19,6 +19,7 @@ namespace Templateprj.Models.Managements
         public string AccountExpiry { get; set; }
         public string DltAddressDetails { get; set; }
         public string DltEmailAddress { get; set; }
-
+        
+        
     }
 }

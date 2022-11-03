@@ -481,6 +481,8 @@
     <Content Include="Content\empty.txt" />
     <Content Include="Content\flatpickr.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\Images\bx_loader.gif" />
+    <Content Include="Content\Images\loading.gif" />
     <Content Include="Content\Images\Login-Page-image-removebg-preview.png" />
     <Content Include="Content\Images\Login-Page-image.png" />
     <Content Include="Content\Images\Logo.png" />

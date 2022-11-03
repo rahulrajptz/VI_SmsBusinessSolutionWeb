@@ -821,7 +821,7 @@
                                     <span class="mt-3">@Html.Label("Upload Base", new { style = "width:75px" }) </span>
 
                                     <div style="margin-left:20px">
-                                        <input style="width:234px;font-size:13px;color:#5f004b;" id="fileToUpload" type="file" name="file" required="required" class="btn" accept=".xlsx" title=" Upload only .xlsx file format. The maximum file size is 40MB.">
+                                        <input style="width:234px;font-size:13px;color:#5f004b;" id="fileToUpload" type="file" name="file" required="required" class="btn" accept=".xlsx,.csv" title=" Upload only .xlsx,.csv file format. The maximum file size is 40MB.">
 
                                     </div>
                                     <div class="mr-3 col-4">
@@ -2753,7 +2753,7 @@
                 success: function (response) {
                     console.log(response, "response");
                     if (response != null && response != "") {
-                        download(response, "Upload.xlsx");
+                        download(response, "Upload.csv");
                     }
                 }
             });

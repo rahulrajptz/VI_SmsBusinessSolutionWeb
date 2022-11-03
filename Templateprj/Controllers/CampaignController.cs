@@ -27,95 +27,6 @@ namespace Templateprj.Controllers
 
         [HttpPost]
         [NoCompress]
-
-        //public virtual ActionResult CampaignBase(SMSCampaignModel model)
-        //{
-        //    string json = "";
-
-        //    string CampaignId = Request["CampaignId"].ToString();
-        //    string uploadCampaignstarttype = Request["uploadCampaignstarttype"].ToString();
-        //    string scheduleDate = Request["scheduleDate"].ToString();
-        //    string uploadpriority = Request["uploadpriority"].ToString();
-
-        //    if (Request.Files.Count > 0)
-        //    {
-        //        ExcelExtension _xls = new ExcelExtension();
-        //        if (!Directory.Exists(GlobalValues.BULKPath))
-        //            Directory.CreateDirectory(GlobalValues.BULKPath);
-
-        //        string path = GlobalValues.BULKPath + "/" + DateTime.Now.ToString("MMddyyyyHHmmss") + "_" + CampaignId;
-        //        if (!Directory.Exists(path))
-        //            Directory.CreateDirectory(path);
-
-        //        var file = Request.Files[0];
-        //        var fileName = Path.GetFileName(file.FileName);
-        //        int cnt = file.FileName.Count(f => f == '.');
-        //        if (cnt <= 1)
-        //        {
-
-        //            string xtn = Path.GetExtension(fileName).ToUpper();
-        //            try
-        //            {
-        //                if (xtn == ".XLS" || xtn == ".XLSX")
-        //                {
-        //                    path = Path.Combine(path, fileName);
-        //                    file.SaveAs(path);
-
-        //                    string status = _prc.insertfilepath(path, model);
-        //                    if (status == "1")
-        //                    {
-        //                        json = "{\"status\":\"1\",\"response\":\"File Successfully Uploaded\" }";
-        //                    }
-        //                    else
-        //                    {
-        //                        json = "{\"status\":\"0\",\"response\":\"File not Uploaded\" }";
-
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    json = "{\"status\":\"0\",\"response\":\"Please upload file in .XLS or .XLSX format \" }";
-        //                }
-
-
-
-
-        //            }
-        //            catch (Exception e)
-        //            {
-
-
-        //                json = "{\"status\":\"0\",\"response\":\"Unable to load file\" }";
-        //                LogWriter.Write(DateTime.Now + " :: Controller.CampaignBase :: Exception :: " + e.Message.ToString());
-        //            }
-        //        }
-        //        else
-        //        {
-        //            //TempData["UploadBase"] = "2";
-
-        //            //TempData["UploadBaseMessage"] = "Input file contain more than one extention , Please Chcek and upload !";
-        //            json = "{\"status\":\"0\",\"response\":\"Input file contain more than one extention , Please Chcek and upload !\" }";
-
-        //            // ViewBag.ErrorMsg = "Input file contain more than one extention , Please Chcek and upload !";
-        //        }
-
-
-        //    }
-        //    else
-        //    {
-
-        //        //TempData["UploadBase"] = "2";
-
-        //        //TempData["UploadBaseMessage"] = "Input file not found !";
-        //        ViewBag.ErrorMsg = "Input file not found !";
-        //        json = "{\"status\":\"0\",\"response\":\"Input file not found!\" }";
-
-        //    }
-        //    //return RedirectToAction("CampaignView", "Campaign", new { area = "" });
-
-        //    return Json(json, JsonRequestBehavior.AllowGet);
-        //}
-
         public virtual ActionResult CampaignBase(SMSCampaignModel model)
         {
             string json = "";
@@ -170,15 +81,15 @@ namespace Templateprj.Controllers
                     string xtn = Path.GetExtension(fileName).ToUpper();
                     try
                     {
-                        if (xtn == ".XLSX")
+                        if (xtn == ".XLSX" || xtn == ".CSV" )
                         {
-                            string actualFilename = "upload_" + CampaignId + "_" + (System.DateTime.Now.ToLongTimeString()).Replace(":", "") + ".xlsx";
+                            string actualFilename = "upload_" + CampaignId + "_" + (System.DateTime.Now.ToLongTimeString()).Replace(":", "") + xtn.ToLower();
                             pathtoMove = Path.Combine(pathtoMove, actualFilename);
                             pos = 1;
                             file.SaveAs(pathtoMove);
                             pos = 2;
                             //  string message = "";
-                            bulkFileuploadModel uploadStatus = bulkUpload(pathtoMove, CampaignId);
+                            bulkFileuploadModel uploadStatus = bulkUpload(pathtoMove, CampaignId,xtn);
                             pos = 3;
 
                             if (uploadStatus.status == 1)
@@ -227,7 +138,7 @@ namespace Templateprj.Controllers
                         }
                         else
                         {
-                            json = "{\"status\":\"0\",\"response\":\"Please upload file in  .XLSX format \" }";
+                            json = "{\"status\":\"0\",\"response\":\"Please upload file in  .XLSX/.CSV format \" }";
 
                         }
                       
@@ -295,7 +206,7 @@ namespace Templateprj.Controllers
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
-        public bulkFileuploadModel bulkUpload(string filename, string CampaignId)
+        public bulkFileuploadModel bulkUpload(string filename, string CampaignId,string fileExtension)
         {
             DataTable dt = new DataTable();
             bulkFileuploadModel uploadStatus = new bulkFileuploadModel();
@@ -307,7 +218,11 @@ namespace Templateprj.Controllers
             //string conString = "Provider=Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties='Excel 8.0;HDR=YES'";
             //string conString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filename + ";Excel 12.0 Xml;HDR=YES";
 
-            dt= ExcelToDataTable(filename);
+            // dt= ExcelToDataTable(filename);
+            if (fileExtension == ".XLSX")
+                dt = ExcelToDataTable(filename);
+            else if (fileExtension == ".CSV")
+                dt = GetDataTableFromExcel(filename, true);
             int pos = 0, status = 0, packetcnt=0,  baseCount = 0; ;
             try
             {
@@ -776,8 +691,6 @@ namespace Templateprj.Controllers
                 LogWriter.Write($"CampaignController.ConvertToUnicode::Exception ::{ ex.Message}");
                 return "";
             }
-
-            //      6666
         }
 
         [HttpPost]
@@ -788,6 +701,10 @@ namespace Templateprj.Controllers
             string convertedCode = "";
 
             string responsejson = "";
+            int checkStatus = checkEndTimeValidity(model.toDate + " " + model.toTime, model.fromDate + " " + model.fromTime, true);
+            if (checkStatus != 1)
+                return Json("{\"status\":\"" + checkStatus + "\",\"response\":\"error\"}", JsonRequestBehavior.AllowGet);
+
             isUnicode = _prc.GetUnicodeStatus(model.templateId);
             if (isUnicode == "1")
             {
@@ -1030,6 +947,91 @@ namespace Templateprj.Controllers
             }
             
         }
+        public static DataTable GetDataTableFromExcel(string path, bool hasHeader = true)
+        {
+            char csvDelimiter = ';';
+            DataTable dtCSV = new DataTable();
+            using (var pck = new ExcelPackage())
+            {
+                ExcelWorksheet ws = null;
+                if (path.EndsWith(".csv"))
+                {
+                    ws = pck.Workbook.Worksheets.Add("Sheet1");
+                    ExcelTextFormat format = new ExcelTextFormat()
+                    {
+                        Delimiter = csvDelimiter
+                    };
+                    ws.Cells[1, 1].LoadFromText(System.IO.File.ReadAllText(path), format);
+                }
+                else
+                {
+                    using (var stream = System.IO.File.OpenRead(path))
+                    {
+                        pck.Load(stream);
+                    }
+                    ws = pck.Workbook.Worksheets.First();
+                }
+
+
+                DataTable tbl = new DataTable();
+                foreach (var firstRowCell in ws.Cells[1, 1, 1, ws.Dimension.End.Column])
+                {
+                    tbl.Columns.Add(hasHeader ? firstRowCell.Text : string.Format("Column {0}", firstRowCell.Start.Column));
+                }
+                var startRow = hasHeader ? 2 : 1;
+                for (int rowNum = startRow; rowNum <= ws.Dimension.End.Row; rowNum++)
+                {
+                    var wsRow = ws.Cells[rowNum, 1, rowNum, ws.Dimension.End.Column];
+                    DataRow row = tbl.Rows.Add();
+                    foreach (var cell in wsRow)
+                    {
+                        row[cell.Start.Column - 1] = cell.Text;
+                    }
+                }
+
+                string csvRow = "", csvCol = "";
+                DataRow dr;
+                if (tbl.Rows.Count > 1)
+                {
+                    csvRow = tbl.Columns[0].ColumnName;
+                    string[] csvarray = csvRow.Split(',');
+                    for (int indx = 0; indx < csvarray.Length; indx++)
+                    {
+                        csvCol = csvarray[indx];
+                        csvCol = csvCol.Replace("\"", "");
+                        dtCSV.Columns.Add(csvCol);
+                    }
+                    for (int rowIndex = 0; rowIndex < tbl.Rows.Count; rowIndex++)
+                    {
+                        try
+                        {
+                            csvRow = tbl.Rows[rowIndex].ItemArray[0].ToString();
+                            if (csvRow != "")
+                            {
+                                dr = dtCSV.NewRow();
+                                csvarray = csvRow.Split(',');
+                                for (int indx = 0; indx < csvarray.Length; indx++)
+                                {
+                                    csvCol = csvarray[indx];
+                                    csvCol = csvCol.Replace("\"", "");
+                                    dr[indx] = csvCol;
+                                }
+
+                                dtCSV.Rows.Add(dr);
+                            }
+                        }
+                        catch (Exception exec)
+                        {
+
+                        }
+
+
+                    }
+                }
+            }
+            return dtCSV;
+        }
+
         public DataTable ExcelToDataTable(string path)
         {
             var pck = new OfficeOpenXml.ExcelPackage();
