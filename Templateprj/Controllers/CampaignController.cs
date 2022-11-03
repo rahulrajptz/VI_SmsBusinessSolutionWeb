@@ -829,10 +829,7 @@ namespace Templateprj.Controllers
             public string VALUE { get; set; }
 
         }
-
-
-
-
+        
         [HttpPost]
         [AuthorizeUser]
 
@@ -846,11 +843,7 @@ namespace Templateprj.Controllers
             {
                 return Content(json, "application/json");
             }
-            //else if (status == -2)
-            //{
-            //    Response.StatusCode = 507;
-            //    return Content("Out of Memory", "text/plain");
-            //}
+            
             else
             {
                // Response.StatusCode = 503;
@@ -887,11 +880,7 @@ namespace Templateprj.Controllers
             {
                 return Content(json, "application/json");
             }
-            //else if (status == -2)
-            //{
-            //    Response.StatusCode = 507;
-            //    return Content("Out of Memory", "text/plain");
-            //}
+            
             else
             {
                 // Response.StatusCode = 503;
@@ -912,11 +901,7 @@ namespace Templateprj.Controllers
             {
                 return Content(json, "application/json");
             }
-            //else if (status == -2)
-            //{
-            //    Response.StatusCode = 507;
-            //    return Content("Out of Memory", "text/plain");
-            //}
+            
             else
             {
                // Response.StatusCode = 503;
@@ -935,11 +920,7 @@ namespace Templateprj.Controllers
             {
                 return Content(json, "application/json");
             }
-            //else if (status == -2)
-            //{
-            //    Response.StatusCode = 507;
-            //    return Content("Out of Memory", "text/plain");
-            //}
+            
             else
             {
                // Response.StatusCode = 503;
