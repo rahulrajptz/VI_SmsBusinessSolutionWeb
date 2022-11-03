@@ -8,8 +8,10 @@ namespace Templateprj.Repositories.Interfaces
         TemplateModel GetTemplateFilters();
         TemplateAutoFilItemModel TemplateAutoFilItems();
         string GetTemplates(TemplateModel model);
-        string SaveTemplate(List<RegisterTemplateCommand> commands, out string response);
+        string SaveTemplate(List<RegisterTemplateCommand> commands, out string response, out string data);
+        string UpdateTemplate(UpdateTemplateCommand command, out string response);
         string DeleteTemplate(string id, out string response);
         string GetTemplateFilters(TemplateModel model);
+        RegisterTemplateCommand GetTemplateById(int id);
     }
 }
