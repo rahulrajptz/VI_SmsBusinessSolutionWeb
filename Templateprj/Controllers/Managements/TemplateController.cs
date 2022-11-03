@@ -23,18 +23,20 @@ namespace Templateprj.Controllers
 
         public virtual ActionResult Templates()
         {
-            ViewBag.ItemList = "Computer Shop Item List Page";
             TemplateModel model = _templateManagemntRepository.GetTemplateFilters();
             return View("~/Views/Management/Templates.cshtml", model);
         }
 
 
-        [Route("~/AddTemplates/{id:long?}")]
-        public virtual ActionResult AddTemplates(long? id)
+        [Route("~/AddTemplates/{id:int?}")]
+        public virtual ActionResult AddTemplates(int? id)
         {
             TemplateModel masters = _templateManagemntRepository.GetTemplateFilters();
-            RegisterTemplateCommand model = new RegisterTemplateCommand() { Masters = masters };
+            RegisterTemplateCommand model=new RegisterTemplateCommand();
+            if (id.HasValue) { model= _templateManagemntRepository.GetTemplateById(id.Value); }
+            model.Masters= masters;
             ViewBag.IsEdit = id.HasValue;
+         
 
             return View("~/Views/Management/AddTemplate.cshtml", model);
         }
@@ -43,7 +45,17 @@ namespace Templateprj.Controllers
         [HttpPost]
         public virtual ActionResult Templates(RegisterTemplateCommand command)
         {
-            string status = _templateManagemntRepository.SaveTemplate(new List<RegisterTemplateCommand>() { command }, out string response);
+            string status = _templateManagemntRepository.SaveTemplate(new List<RegisterTemplateCommand>() { command }, out string response, out string data);
+            string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\",\"data\":" + data + "}";
+            TempData["Message"] = response;
+            return Json(responsejson, JsonRequestBehavior.AllowGet);
+
+        } 
+        
+        [HttpPut]
+        public virtual ActionResult Templates(UpdateTemplateCommand command)
+        {
+            string status = _templateManagemntRepository.UpdateTemplate(command, out string response);
 
             string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\"}";
 
@@ -118,16 +130,9 @@ namespace Templateprj.Controllers
                                 {
                                     string data = JsonConvert.SerializeObject(d.Tables[0]);
                                     var commands = JsonConvert.DeserializeObject<List<RegisterTemplateCommand>>(data);
-                                    string status = _templateManagemntRepository.SaveTemplate(commands, out string response);
-                                    if (status == "1")
-                                    {
-                                        json = "{\"status\":\"1\",\"response\":\"File Successfully Uploaded\" }";
-                                    }
-                                    else
-                                    {
-                                        json = "{\"status\":\"0\",\"response\":\"File not Uploaded\" }";
-
-                                    }
+                                    string status = _templateManagemntRepository.SaveTemplate(commands, out string response, out string dataduplicate);
+                                    string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\",\"data\":" + dataduplicate + "}";
+                                    TempData["Message"] = response;
                                 }
                                 else
                                 {

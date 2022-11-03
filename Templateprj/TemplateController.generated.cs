@@ -158,10 +158,10 @@ namespace Templateprj.Controllers
         }
 
         [NonAction]
-        partial void AddTemplatesOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, long? id);
+        partial void AddTemplatesOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int? id);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult AddTemplates(long? id)
+        public override System.Web.Mvc.ActionResult AddTemplates(int? id)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.AddTemplates);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
@@ -174,6 +174,18 @@ namespace Templateprj.Controllers
 
         [NonAction]
         public override System.Web.Mvc.ActionResult Templates(Templateprj.Models.Managements.RegisterTemplateCommand command)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Templates);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "command", command);
+            TemplatesOverride(callInfo, command);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void TemplatesOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Templateprj.Models.Managements.UpdateTemplateCommand command);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult Templates(Templateprj.Models.Managements.UpdateTemplateCommand command)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Templates);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "command", command);

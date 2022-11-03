@@ -9,9 +9,7 @@
 
 <div class="row" style="margin-top:50px">
     <div class="col">
-
-        @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "Idform" }))
-        {
+        <form id="templateform">
 
             <div class="container" style="margin-left:10px">
                 <div class="row">
@@ -49,38 +47,39 @@
                         <div class="col-md-12">
                             <p>
                                 <a class="btn btn-block text-white dropdown-toggle" style="text-align:left;background-color:#5f004b;font-size:9.2846px"
-                                   data-toggle="collapse" href="#addUpload" role="button" aria-expanded=@(ViewBag.IsEdit? "true":"false")>
+                                   data-toggle="collapse" href="#addUpload" role="button" aria-expanded=@(ViewBag.IsEdit ? "true" : "false")>
                                     ADD TEMPLATE
                                 </a>
                             </p>
-                            <div class= @( (ViewBag.IsEdit? "collapse show":"collapse"))  id="addUpload">
+                            <div class=@( (ViewBag.IsEdit ? "collapse show" : "collapse")) id="addUpload">
                                 <div class="col">
                                     <div class="row">
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Template Id")
                                             <div class="form-group">
-                                                <input id="Template" class="form-control w-100" @( (ViewBag.IsEdit? "disabled":""))>
-
+                                                @Html.TextBoxFor(m => m.TemplateId, new { @class = "form-control w-100" })
+                                                @Html.HiddenFor(m => m.Id)
                                             </div>
                                         </div>
 
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Tele Marketer")
                                             <div class="form-group">
-                                                <input id="TeleMarketer" class="form-control w-100" @( (ViewBag.IsEdit? "disabled":""))>
+                                                @Html.TextBoxFor(m => m.TeleMarketer, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Temaplte Name")
                                             <div class="form-group">
-                                                <input id="txt_TemplateName" class="form-control w-100" @( (ViewBag.IsEdit? "disabled":""))>
+                                                @Html.TextBoxFor(m => m.TemplateName, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Type")
                                             <div class="form-group">
 
-                                                @Html.DropDownListFor(m => m.Type, Model.Masters.TemplateTypes?.Where(a => a.Value != "0"), new { @id = "Type", @class = "form-control form-select", @disabled =  @ViewBag.IsEdit ? "disabled" : "" })
+                                                @Html.DropDownListFor(m => m.Type, Model.Masters.TemplateTypes?.Where(a => a.Value != "0"), new { @id = "Type", @class = "form-control form-select", @disabled = @ViewBag.IsEdit ? "disabled" : "" })
 
                                             </div>
                                         </div>
@@ -98,20 +97,22 @@
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Category")
                                             <div class="form-group">
-                                                <input id="Category" class="form-control w-100">
+                                                @Html.TextBoxFor(m => m.Category, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
                                             </div>
                                         </div>
 
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Registered Dlt")
                                             <div class="form-group">
-                                                <input id="RegisteredDlt" class="form-control w-100">
+                                                @Html.TextBoxFor(m => m.RegisteredDlt, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Requested On")
                                             <div class="form-group">
-                                                <input id="RequestedOn" class="form-control w-100">
+                                                @Html.TextBoxFor(m => m.RequestedOn, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+
                                             </div>
                                         </div>
 
@@ -122,36 +123,38 @@
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Status Date")
                                             <div class="form-group">
-                                                <input id="StatusDate" class="form-control">
+                                                @Html.TextBoxFor(m => m.StatusDate, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Created By")
                                             <div class="form-group">
-                                                <input id="CreatedBy" class="form-control w-100">
+                                                @Html.TextBoxFor(m => m.CreatedBy, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("BlackListed By")
                                             <div class="form-group">
-                                                <input id="BlackListedBy" class="form-control w-100">
+                                                @Html.TextBoxFor(m => m.BlackListedBy, new { @class = "form-control w-100" })
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Approval Status")
                                             <div class="form-group">
 
-                                                @Html.DropDownListFor(m => m.Header, Model.Masters.ApprovalStatus?.Where(a => a.Value != "0"), new { @id = "ApprovalStatus", @class = "form-control form-select w-100" })
+                                                @Html.DropDownListFor(m => m.Header, Model.Masters.ApprovalStatus?.Where(a => a.Value != "0"), new { @id = "ApprovalStatus", @class = "form-control form-select w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
                                             </div>
                                         </div>
-
                                     </div>
                                     <div class="row">
                                         <div class="col-12">
                                             @Html.Label("Template Message")
                                             <div class="form-group">
-                                                <textarea id="TemaplteMessage" type="text" value="" class="keyboardInput w-100" rows="4"></textarea>
+                                                @Html.TextAreaFor(m => m.TemplateMessage, new { @class = "keyboardInput w-100", @rows = "4", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+
                                             </div>
                                         </div>
 
@@ -167,31 +170,31 @@
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Consent Type")
                                             <div class="form-group">
-                                                @Html.DropDownListFor(m => m.ConsentType, Model.Masters.ConsentType?.Where(a => a.Value != "0"), new { @id = "ConsentType", @class = "form-control cl-black" })
+                                                @Html.DropDownListFor(m => m.ConsentType, Model.Masters.ConsentType?.Where(a => a.Value != "0"), new { @id = "ConsentType", @class = "form-control cl-black", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Delivery Status")
                                             <div class="form-group">
-                                                @Html.DropDownListFor(m => m.DeliveryStatus, Model.Masters.DeliveryStatus, new { @class = "form-control cl-black" })
+                                                @Html.DropDownListFor(m => m.DeliveryStatus, Model.Masters.DeliveryStatus, new { @class = "form-control cl-black", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Content Type")
                                             <div class="form-group">
-                                                @Html.DropDownListFor(m => m.ContentType, Model.Masters.ContentTypes?.Where(a => a.Value != "0"), new { @id = "ContentType", @class = "form-control cl-black" })
+                                                @Html.DropDownListFor(m => m.ContentType, Model.Masters.ContentTypes?.Where(a => a.Value != "0"), new { @id = "ContentType", @onchange = "onContentTypeChange(this.value)", @class = "form-control cl-black", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-6 col-6" id="divVariableCount">
+                                        <div class="col-lg-3 col-md-6 col-6" id="divVariableCount" style="display:none">
                                             @Html.Label("Variable Count")
                                             <div class="form-group">
                                                 <input id="VariableCount" class="form-control w-100">
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-6 col-6" id="divVariableCount">
+                                        <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Validity Period")
                                             <div class="form-group">
                                                 <input id="ValidityPeriod" type="number" class="form-control w-100">
@@ -200,16 +203,29 @@
                                         <div class="col-lg-12 col-md-12 col-12">
                                             @Html.Label("Reason")
                                             <div class="form-group">
-                                                <textarea id="Reason" type="text" value="" class="w-100" rows="3"></textarea>
+                                                @Html.TextAreaFor(m => m.Reason, new { @class = "form-control w-100", @rows = "3", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+
                                             </div>
                                         </div>
 
                                     </div>
-                                    <div class="row">
-                                        <div class="col-12" style="text-align:right">
-                                            <button class="btn-success mt-1" id="addNewTemplate" type="button">Add Template</button>
+                                    @if (!ViewBag.IsEdit)
+                                    {
+                                        <div class="row">
+                                            <div class="col-12" style="text-align:right">
+                                                <button class="btn-success mt-1" id="addNewTemplate" type="button">Add Template</button>
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="row">
+                                            <div class="col-12" style="text-align:right">
+                                                <button class="btn-success mt-1" id="updateNewTemplate" type="button">Update</button>
+                                            </div>
+                                        </div>
+                                    }
+
                                 </div>
                             </div>
                         </div>
@@ -254,52 +270,111 @@
                             </div>
                         }
                     </div>
-                </div>
+
+                    <div class="row" id="divSummary" style="display:none">
+                        <div class="col">
+                            <span class="btn btn-primary">
+                                Total <span class="badge badge-light" id="spnTotal">0</span>
+                            </span>
+                            <span class="btn btn-danger">
+                                Duplicate <span class="badge badge-light" id="spnDuplicate">0</span>
+                            </span>
+                            <table class="table" id="alertTable">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">TemplateId</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> 
+
             </div>
-        }
+</form>
 
-    </div>
-</div>
-@section scripts {
+            </div>
+        </div>
+        @section scripts {
 
-    <link href="~/Scripts/virtualkeyboard/keyboard.css" rel="stylesheet" />
-    <script type="text/javascript" src="~/Scripts/virtualkeyboard/keyboard.js" charset="UTF-8"></script>
-    <script type="text/javascript" src="http://cdn.rawgit.com/bassjobsen/Bootstrap-3-Typeahead/master/bootstrap3-typeahead.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+            <link href="~/Scripts/virtualkeyboard/keyboard.css" rel="stylesheet" />
+            <script type="text/javascript" src="~/Scripts/virtualkeyboard/keyboard.js" charset="UTF-8"></script>
+            <script type="text/javascript" src="http://cdn.rawgit.com/bassjobsen/Bootstrap-3-Typeahead/master/bootstrap3-typeahead.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+            <script src="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"></script>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+            <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
 
-    <script>
-     $("#RequestedOn").flatpickr({
+            <script>
+                $(document).ready(function () {
+                    $("#addNewTemplate").click(function (e) {
+                        //Serialize the form datas.
+                        var valdata = $("#templateform").serialize();
+                        $.ajax({
+                            url: "/Template/Templates",
+                            type: "POST",
+                            dataType: 'json',
+                            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                            data: valdata
+                            , success: function (e) {
+                                jsondata = JSON.parse(e);
+                                if (jsondata.status == "1") {
+                                    $('#divSummary').hide();
+                                    $('#divAdd').show();
+                                    window.location.href = '/Template/Templates';
+                                }
+                                else {
+                                    $('#divSummary').show();
+                                    $('#divAdd').hide();
+                                    $('#addUpload').hide();
+                                    ErrorMsg("Failed to save account details.")
+                                    $('#spnTotal').text(jsondata.data.Total);
+                                    $('#spnDuplicate').text(jsondata.data.Duplicate);
+                                    $.each(jsondata.data.Data, function (index, val) {
+                                        //console.log(index, val);
+                                        addRow(index + 1, val.TemplateId);
+                                    });
+                                }
+                                console.log(jsondata);
+                            }
+                        });
+                    });
+                });
+            </script>
 
-            dateFormat: "d/m/Y",
+            <script>
+                $("#RequestedOn").flatpickr({
 
-        });
+                    dateFormat: "d/m/Y",
 
-     $("#StatusDate").flatpickr({
+                });
 
-            dateFormat: "d/m/Y",
+                $("#StatusDate").flatpickr({
 
-        });
+                    dateFormat: "d/m/Y",
 
-     $(document).on('click', '#btnSearch', function (e) {
-                loadReportreport();
-       });
-    </script>
+                });
 
-    @*List Templates*@
-    <script>
+                $(document).on('click', '#btnSearch', function (e) {
+                    loadReportreport();
+                });
+            </script>
+
+            @*List Templates*@
+            <script>
         var columnHeaders = [];
         function loadReportreport() {
-            
-               
+
+
                 var coulmnLimit = 1;
             $("#loading").show();
-          
-      
+
+
                 $("#divNoData").hide();
                 $.post("@Url.Action(MVC.Template.GetTemplates())", $("form").serialize(), function (resp) {
                     $("#loading").hide();
@@ -338,7 +413,7 @@
 
                                                 <a class="delete" title="Add" data-toggle="tooltip" onClick="deleteTemplate(`+ row.ID + `)"><i class='fas fa-trash'></i></a>
 
-                                                <a class="edit" title="Add" data-toggle="tooltip" onClick="editTemplate(`+ row.ID + `)"><i class='fas fa-edit'></i></a>
+                                                <a class="edit" title="Add" data-toggle="tooltip" onClick="editTemplate(`+ row.ID + `)"></i></a>
 
                                          </p>`;
                                 }
@@ -370,7 +445,7 @@
                         });
                     }
                 }
-                 
+
                 }).fail(function (xhr, status, error) {
                     $("#loading").hide();
                     $(".spinner-grow").hide();
@@ -393,7 +468,7 @@
 
                 $(function () {
                     $("#tbl_rptreport").click(function (event) {
-                   
+
                         event.stopPropagation();
                         var $target = $(event.target);
 
@@ -447,13 +522,28 @@
             return columnHeaders;
         }
 
-    </script>
+            </script>
 
-    @*Load autofill textboxes and reload report*@
-    <script type="text/javascript">
+            @*Load autofill textboxes and reload report*@
+            <script type="text/javascript">
+        function onSubmit(form) {
+            var data = JSON.stringify($(form).serializeArray()); //  <-----------
+
+            console.log(data);
+            return false; //don't submit
+        }
 
         $(document).ready(function ()
         {
+
+
+
+            if ('@ViewBag.IsEdit' === 'False') {
+                $("input").removeAttr('disabled', 'disabled');
+                $("select").removeAttr('disabled', 'disabled');
+                $("textarea").removeAttr('disabled', 'disabled');
+            }
+
             var items = [];
             var temaplteItems = [];
             var headerItems = [];
@@ -542,11 +632,21 @@
        });
 
 
-    </script>
+            </script>
 
+            <script>
+                function onContentTypeChange(val) {
+                    if (val == 1) {
+                        $('#divVariableCount').hide();
+                    }
+                    else {
+                        $('#divVariableCount').show();
+                    }
+                }
+            </script>
 
-    @*Upload Tempalte File*@
-    <script>
+            @*Upload Tempalte File*@
+            <script>
 
              $('#uploadfileid').on('click', function () {
             if ($("#Idform").valid()) {
@@ -594,59 +694,37 @@
             }
             else {
                 ErrorMsg("Please fill in all fields.")
-
             }
 
 
         });
 
-    </script>
+            </script>
 
-    @*Add Temaplte*@
-    <script>
-        $(document).on('click', '#addNewTemplate', function (e) {
+            @*Update Temaplte*@
+            <script>
+        $(document).on('click', '#updateNewTemplate', function (e) {
 
                 var templateModel = {};
                 var isValid = true;
-                templateModel.templateName = $("#txt_TemplateName").val();
-                templateModel.teleMarketer = $("#TeleMarketer").val();
-                templateModel.templateId = $("#Template").val();
-                templateModel.type = $("#Type").val();
-                templateModel.header = $("#Header").val();
-                templateModel.category = $("#Category").val();
-                templateModel.requestedOn = $("#RequestedOn").val();
-                templateModel.statusDate = $("#StatusDate").val();
-                templateModel.createdBy = $("#CreatedBy").val();
+                templateModel.id = $("#Id").val();
                 templateModel.blackListedBy = $("#BlackListedBy").val();
-                templateModel.approvalStatus = $("#ApprovalStatus").val();
                 templateModel.status = $("#Status").val();
-                templateModel.temaplteMessage = $("#TemaplteMessage").val();
-                templateModel.consentType = $("#ConsentType").val();
-                templateModel.contentType = $("#ContentType").val();
-                templateModel.reason = $("#Reason").val();
-                templateModel.registeredDlt = $("#RegisteredDlt").val();
-                templateModel.deliveryStatus = $("#DeliveryStatus").val();
-                templateModel.variableCount = $("#VariableCount").val();
-                templateModel.validityPeriod = $("#ValidityPeriod").val();
 
                 if (isValid) {
                     $.ajax({
                         url: "@Url.Action("Templates", "Template")",
-                        type: 'POST',
+                        type: 'PUT',
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         data: JSON.stringify(templateModel),
                         success: function (e) {
-
                             jsondata = JSON.parse(e);
                             if (jsondata.status == "1") {
-                                //location.reload();
-
-                                SuccessMsg("Successfully update account details");
-                                location.reload();
+                                SuccessMsg("Successfully update template details");
                             }
                             else {
-                                ErrorMsg("Failed to save account details.")
+                                ErrorMsg("Failed to upate template details.")
                             }
                             console.log(jsondata);
                         }
@@ -656,5 +734,16 @@
                     ErrorMsg("Please confirm the entries, there are some alerts exist.")
                 }
         });
-    </script>
-}
+            </script>
+
+            <script>
+                function addRow(rid,tid) {
+                    var table = document.getElementById("alertTable"); //get the table
+                    var rowcount = table.rows.length; //get no. of rows in the table      
+                    //append the controls in the row      
+                    var tblRow = '<tr><th scope = "row"> ' + rid + '</th><td>' + tid+'</td></tr >';
+                    $("#alertTable").append(tblRow);
+                }
+
+            </script>
+        }

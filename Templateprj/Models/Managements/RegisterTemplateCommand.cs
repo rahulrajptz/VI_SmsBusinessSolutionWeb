@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Web.Mvc;
 
 namespace Templateprj.Models.Managements
 {
@@ -19,13 +18,13 @@ namespace Templateprj.Models.Managements
         public string BlackListedBy { get; set; }
         public int ApprovalStatus { get; set; }
         public int Status { get; set; }
-        public string TemaplteMessage { get; set; }
+        public string TemplateMessage { get; set; }
         public int ConsentType { get; set; }
         public string Reason { get; set; }
         public string ContentType { get; set; }
         public int UnicodeStatus { get {
-            return !string.IsNullOrEmpty(TemaplteMessage) 
-                   && System.Text.ASCIIEncoding.GetEncoding(0).GetString(System.Text.ASCIIEncoding.GetEncoding(0).GetBytes(TemaplteMessage)) != TemaplteMessage?8:0;
+            return !string.IsNullOrEmpty(TemplateMessage) 
+                   && System.Text.ASCIIEncoding.GetEncoding(0).GetString(System.Text.ASCIIEncoding.GetEncoding(0).GetBytes(TemplateMessage)) != TemplateMessage?8:0;
             }  }
         public string ValidityPeriod { get; set; }
         public int DeliveryStatus { get; set; }

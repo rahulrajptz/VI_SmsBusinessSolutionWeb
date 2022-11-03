@@ -119,10 +119,44 @@ namespace Templateprj.Repositories.Services
 
             return string.Empty;
         }
+        
+        public RegisterTemplateCommand GetTemplateById(int id)
+        {
+            try
+            {                
+                using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Get_Update_Template_List"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
+                    cmd.Parameters.Add("@n_Account_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
+                    cmd.Parameters.Add("@n_template_id", MySqlDbType.Int32).Value = id;
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        var dataset = new DataSet();
+                        dataAdapter.Fill(dataset);
 
-        public string SaveTemplate(List<RegisterTemplateCommand> commands, out string response)
+                        var result = (dataset.Tables[0].ConvertToList<RegisterTemplateCommand>()).FirstOrDefault();
+                        result.Id = id;
+                        return result;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+           
+                LogWriter.Write("Repositories.Services.GetTemplateById :: Exception :: " + ex.Message);
+            }
+
+            return new RegisterTemplateCommand();
+        }
+
+        public string SaveTemplate(List<RegisterTemplateCommand> commands, out string response, out string data)
         {
             response = "";
+            data = "";
             try
             {
                 using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Add_New_Template"))
@@ -144,13 +178,47 @@ namespace Templateprj.Repositories.Services
                     }
                     string status = cmd.Parameters["@n_Status_Out"].Value.ToString();
                     response = cmd.Parameters["@v_Message_Out"].Value.ToString();
-                    string data = cmd.Parameters["@v_Data_Out"].Value.ToString();
+                    data = cmd.Parameters["@v_Data_Out"].Value.ToString();
                     return status;
                 }
             }
             catch (Exception ex)
             {
                 LogWriter.Write("Repositories.Services.SaveTemplate :: Exception :: " + ex.Message);
+                return "";
+            }
+        }
+        public string UpdateTemplate(UpdateTemplateCommand command, out string response)
+        {
+            response = "";
+            try
+            {
+                using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Update_Template"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
+                    cmd.Parameters.Add("@n_Account_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
+                    cmd.Parameters.Add("@n_tm_id", MySqlDbType.Int32).Value = command.Id;
+                    cmd.Parameters.Add("@v_blacklist", MySqlDbType.VarChar,200).Value = command.BlackListedBy;
+                    cmd.Parameters.Add("@n_template_status", MySqlDbType.Int32).Value = command.Status;
+                    cmd.Parameters.Add("@n_Status_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@v_Message_Out", MySqlDbType.VarChar, 1000).Direction = ParameterDirection.Output;
+
+                    DataTable dt = new DataTable();
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        cmd.ExecuteNonQuery();
+                    }
+                    string status = cmd.Parameters["@n_Status_Out"].Value.ToString();
+                    response = cmd.Parameters["@v_Message_Out"].Value.ToString();
+                    return status;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("Repositories.Services.UpdateTemplate :: Exception :: " + ex.Message);
                 return "";
             }
         }
