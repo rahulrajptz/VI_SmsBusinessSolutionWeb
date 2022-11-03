@@ -21,7 +21,7 @@ namespace Templateprj.Models.Managements
         public string TemplateMessage { get; set; }
         public int ConsentType { get; set; }
         public string Reason { get; set; }
-        public string ContentType { get; set; }
+        public int ContentType { get; set; }
         public int UnicodeStatus { get {
             return !string.IsNullOrEmpty(TemplateMessage) 
                    && System.Text.ASCIIEncoding.GetEncoding(0).GetString(System.Text.ASCIIEncoding.GetEncoding(0).GetBytes(TemplateMessage)) != TemplateMessage?8:0;
