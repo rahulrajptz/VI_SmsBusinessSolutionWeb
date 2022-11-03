@@ -186,7 +186,7 @@ namespace Templateprj.Controllers
 
                 return Json(json, JsonRequestBehavior.AllowGet);
             }
-            catch
+            catch(Exception ex)
             {
                 ViewBag.Message = "File upload failed!!";
                 return View();

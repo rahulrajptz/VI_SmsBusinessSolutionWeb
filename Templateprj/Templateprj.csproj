@@ -122,7 +122,7 @@
       <HintPath>..\packages\SSH.NET.2016.1.0\lib\net40\Renci.SshNet.dll</HintPath>
     </Reference>
     <Reference Include="RKLib.ExportData">
-      <HintPath>F:\MyProjects\WebSite\PI REPORT MODULE WEB\Bin\RKLib.ExportData.dll</HintPath>
+      <HintPath>..\dlls\RKLib.ExportData.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Common, Version=5.0.0.0, Culture=neutral, PublicKeyToken=02c12cbda47e6587, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.Common.5.10.4\lib\net472\ServiceStack.Common.dll</HintPath>
@@ -335,6 +335,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CryptoAlg.cs" />
+    <Compile Include="Helpers\DataTableExtension.cs" />
     <Compile Include="Helpers\ExcelExtension.cs" />
     <Compile Include="Helpers\ExtensionClass.cs" />
     <Compile Include="Helpers\GlobalValues.cs" />
@@ -366,6 +367,7 @@
     <Compile Include="Models\KeyValueModel.cs" />
     <Compile Include="Models\MailModel.cs" />
     <Compile Include="Models\Managements\ManagementModel.cs" />
+    <Compile Include="Models\Managements\UpdateTemplateCommand.cs" />
     <Compile Include="Models\Managements\RegisterTemplateCommand.cs" />
     <Compile Include="Models\Managements\TemplateAutoFilItemModel.cs" />
     <Compile Include="Models\Managements\TemplateModel.cs" />
@@ -1159,6 +1161,7 @@
     <Content Include="Views\Shared\_html5shiv.cshtml" />
     <Content Include="Views\Management\SenderIds.cshtml" />
     <Content Include="Views\Management\Templates.cshtml" />
+    <Content Include="Views\Management\AddTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
