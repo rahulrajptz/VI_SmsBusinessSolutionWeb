@@ -1300,10 +1300,14 @@ namespace Templateprj.DataAccess
                     {
                         con.Open();
                         cmd.Connection = con;
-                        var dataTable = new DataTable();                       
+                        var dataTable = new DataTable();
                         MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
                         dataAdapter.Fill(dataTable);
                         string data = "";
+
+                        dataTable.Columns.Add("val", typeof(System.String));
+                        int colCount = dataTable.Columns.Count;
+
                         foreach (DataRow row in dataTable.Rows)
                         {
                             string unicodeStatus = row["UNICODE_STATUS"].ToString();
@@ -1319,14 +1323,15 @@ namespace Templateprj.DataAccess
                                     data = Regex.Unescape(tempMessage.Substring(0, tempMessage.Length - 2));
                                 }
                                 row["MESSAGE"] = data.ToString();
-                            }                            
+                            }
                             else
                             {
                                 data = message.Replace("\r\n", "");
                                 row["MESSAGE"] = data;
-                            }                            
+                            }
+                            row["val"] = row[colCount - 5].ToString() + "," + row[colCount - 4].ToString() + "," + row[colCount - 3].ToString() + "," + row[colCount - 2].ToString();
                         }
-                        dataTable.Columns.Remove("UNICODE_STATUS");                       
+                        dataTable.Columns.Remove("UNICODE_STATUS");
                         return GetJsonString(dataTable);
                     }
                 }

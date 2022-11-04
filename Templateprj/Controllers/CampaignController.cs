@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using ExcelDataReader;
+using Newtonsoft.Json;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -81,7 +82,7 @@ namespace Templateprj.Controllers
                     string xtn = Path.GetExtension(fileName).ToUpper();
                     try
                     {
-                        if (xtn == ".XLSX" || xtn == ".CSV" )
+                        if (xtn == ".XLSX" || xtn == ".CSV" || xtn == ".XLS")
                         {
                             string actualFilename = "upload_" + CampaignId + "_" + (System.DateTime.Now.ToLongTimeString()).Replace(":", "") + xtn.ToLower();
                             pathtoMove = Path.Combine(pathtoMove, actualFilename);
@@ -138,7 +139,7 @@ namespace Templateprj.Controllers
                         }
                         else
                         {
-                            json = "{\"status\":\"0\",\"response\":\"Please upload file in  .XLSX/.CSV format \" }";
+                            json = "{\"status\":\"0\",\"response\":\"Please upload file in  .XLSX/.CSV/.XLS format \" }";
 
                         }
                       
@@ -205,6 +206,50 @@ namespace Templateprj.Controllers
             }
             return Json(json, JsonRequestBehavior.AllowGet);
         }
+        public DataTable ConverttoDataTable(string FilePath, string extension)
+        {
+            try
+            {
+                IExcelDataReader reader = null;
+                switch (extension)
+                {
+                    case ".XLSX":
+                        reader = ExcelReaderFactory.CreateOpenXmlReader(System.IO.File.OpenRead(FilePath));
+                        break;
+                    case ".XLS":
+                        reader = ExcelReaderFactory.CreateBinaryReader(System.IO.File.OpenRead(FilePath));
+                        break;
+                    case ".CSV":
+                        reader = ExcelReaderFactory.CreateCsvReader(System.IO.File.OpenRead(FilePath));
+                        break;
+                }
+
+                DataTable FileTable = new DataTable();
+                DataRow datarow;
+                if (reader != null)
+                {
+                    DataTable dataTab = reader.AsDataSet().Tables[0];
+                    for (int index = 0; index < dataTab.Columns.Count; index++)
+                    {
+                        FileTable.Columns.Add(dataTab.Rows[0][index].ToString());
+                    }
+                    for (int index = 1; index < dataTab.Rows.Count; index++)
+                    {
+                        DataRow drNew = FileTable.NewRow();
+                        drNew.ItemArray = dataTab.Rows[index].ItemArray;
+                        FileTable.Rows.Add(drNew);
+                    }
+                }
+
+                return FileTable;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
 
         public bulkFileuploadModel bulkUpload(string filename, string CampaignId,string fileExtension)
         {
@@ -219,10 +264,12 @@ namespace Templateprj.Controllers
             //string conString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filename + ";Excel 12.0 Xml;HDR=YES";
 
             // dt= ExcelToDataTable(filename);
-            if (fileExtension == ".XLSX")
-                dt = ExcelToDataTable(filename);
-            else if (fileExtension == ".CSV")
-                dt = GetDataTableFromExcel(filename, true);
+            //if (fileExtension == ".XLSX")
+            //    dt = ExcelToDataTable(filename);
+            //else if (fileExtension == ".CSV")
+            //    dt = GetDataTableFromExcel(filename, true);
+
+            dt = ConverttoDataTable(filename, fileExtension);
             int pos = 0, status = 0, packetcnt=0,  baseCount = 0; ;
             try
             {
@@ -369,7 +416,7 @@ namespace Templateprj.Controllers
                 //    }
                 //}
                 RKLib.ExportData.Export objExport = new RKLib.ExportData.Export();
-                objExport.ExportDetails(dt, RKLib.ExportData.Export.ExportFormat.Excel, "");
+                objExport.ExportDetails(dt, RKLib.ExportData.Export.ExportFormat.CSV, "");
             }
 
         }
@@ -573,16 +620,36 @@ namespace Templateprj.Controllers
         }
 
         [HttpPost]
+        public static string GetSingleUnicodeHex(string strTextMsg)
+        {
+            byte[] s1 = UTF8Encoding.Unicode.GetBytes(strTextMsg);
+            string strUnicode = "";
+            string strTmp1 = "";
+            string strTmp2 = "";
 
+            for (int i = 0; i < s1.Length; i += 2)
+            {
+                strTmp1 = int.Parse(s1[i + 1].ToString()).ToString("x");
+                if (strTmp1.Length == 1)
+                    strTmp1 = "0" + strTmp1;
+
+                strTmp2 = int.Parse(s1[i].ToString()).ToString("x");
+                if (strTmp2.Length == 1)
+                    strTmp2 = "0" + strTmp2;
+
+                strUnicode += strTmp1 + strTmp2;
+            }
+            return strUnicode;
+        }
         public virtual ActionResult createsms(SMSCampaignModel model)
         {
 
             string messagedetailsjson = "";
-            string status="";
+            string status = "";
             string jsondata = "";
             string jsontodb = "";
 
-            int checkStatus = checkEndTimeValidity(model.toDate + " " + model.toTime, model.fromDate + " " + model.fromTime,true);
+            int checkStatus = checkEndTimeValidity(model.toDate + " " + model.toTime, model.fromDate + " " + model.fromTime, true);
             if (checkStatus != 1)
                 return Json("{\"status\":\"" + checkStatus + "\",\"response\":\"error\"}", JsonRequestBehavior.AllowGet);
 
@@ -592,11 +659,16 @@ namespace Templateprj.Controllers
                 model.SMSTest[1].smsId = "2";
                 model.SMSTest[0].message = model.smsContent;
                 model.SMSTest[1].message = model.smsContent;
+                if (model.unicodeStatus == "8")
+                {
+                    model.SMSTest[0].message = GetSingleUnicodeHex(model.SMSTest[0].message);
+                    model.SMSTest[1].message = GetSingleUnicodeHex(model.SMSTest[1].message);
+                }
                 jsondata = CreateJson(model);
 
                 jsontodb = "[" + jsondata + "]";
-               status = _prc.getSmscountDetails(jsontodb,out string response);
-                if(status == "1")
+                status = _prc.getSmscountDetails(jsontodb, out string response);
+                if (status == "1")
                 {
                     messagedetailsjson = "{\"status\":\"" + status + "\",\"response\":" + response + "}";
                 }
@@ -604,7 +676,7 @@ namespace Templateprj.Controllers
                 {
                     messagedetailsjson = "{\"status\":\"9\",\"response\":\"error\"}";
                 }
-                
+
             }
             else if (model.templateTypeName == "DYNAMIC")
             {
@@ -615,17 +687,23 @@ namespace Templateprj.Controllers
                 for (int i = 0, j = 1; i < model.SMSTest[0].variableData.Count(); i++, j++)
                 {
                     model.SMSTest[0].message = model.SMSTest[0].message.Replace("[VAR" + j + "]", "" + model.SMSTest[0].variableData[i].variableContent + "");
+                    if (model.unicodeStatus == "8")
+                        model.SMSTest[0].message = GetSingleUnicodeHex(model.SMSTest[0].message);
                     model.SMSTest[0].smsId = "1";
                 }
                 for (int i = 0, j = 1; i < model.SMSTest[1].variableData.Count(); i++, j++)
                 {
                     model.SMSTest[1].message = model.SMSTest[1].message.Replace("[VAR" + j + "]", "" + model.SMSTest[1].variableData[i].variableContent + "");
+                    if (model.unicodeStatus == "8")
+                        model.SMSTest[1].message = GetSingleUnicodeHex(model.SMSTest[1].message);
                     model.SMSTest[1].smsId = "2";
                 }
+                //string str11 = GetSingleUnicodeHex(model.SMSTest[1].message);
+
                 jsondata = CreateJson(model);
                 jsontodb = "[" + jsondata + "]";
 
-                status = _prc.getSmscountDetails(jsontodb,out string response);
+                status = _prc.getSmscountDetails(jsontodb, out string response);
                 if (status == "1")
                 { messagedetailsjson = "{\"status\":\"" + status + "\",\"response\":" + response + "}"; }
                 else
@@ -635,9 +713,8 @@ namespace Templateprj.Controllers
             }
 
             return Json(messagedetailsjson, JsonRequestBehavior.AllowGet);
-          
-        }
 
+        }
         [HttpPost]
 
         public virtual ActionResult SendSMS(SMSCampaignModel model)

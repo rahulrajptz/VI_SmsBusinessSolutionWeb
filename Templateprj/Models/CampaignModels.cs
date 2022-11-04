@@ -353,7 +353,8 @@ namespace Templateprj.Models
         public string updatedToTime { get; set; }
         public string updatedId { get; set; }
         public string updatedFromDate { get; set; }
-
+        public string unicodeStatus { get; set; }
+        
 
     }
 
