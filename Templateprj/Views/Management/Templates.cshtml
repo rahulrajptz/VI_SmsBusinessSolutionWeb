@@ -157,9 +157,9 @@
 
     <link href="~/Scripts/virtualkeyboard/keyboard.css" rel="stylesheet" />
     <script type="text/javascript" src="~/Scripts/virtualkeyboard/keyboard.js" charset="UTF-8"></script>
-    <script type="text/javascript" src="http://cdn.rawgit.com/bassjobsen/Bootstrap-3-Typeahead/master/bootstrap3-typeahead.min.js"></script>
+  
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
+    <script type="text/javascript" src="~/assets/js/bootstrap3-typeahead.min.js"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
@@ -213,6 +213,7 @@
     @*List Templates*@
     <script>
         var columnHeaders = [];
+        var columnKeys = [];
         function loadReportreport() {
              
             var coulmnLimit = 1;
@@ -224,13 +225,13 @@
                     $("#loading").hide();
                     $(".spinner-grow").hide();
                     if (jQuery.isEmptyObject(resp.Data)) {
-                    $("#divNoData span").text(" No data available");
-                    $("#divNoData").show();
-                    $("#divTablereport").hide();
-                }
+                        $("#divNoData span").text(" No data available");
+                        $("#divNoData").show();
+                        $("#divTablereport").hide();
+                    }
                     else {
                         columnHeaders = resp.Header;
-                        columnHeaders= sortResults("Id",true);
+                        columnHeaders = sortResults("Id", true);
                     coulmnLimit = resp.Count;
                     var headers = [{
                         className: 'dt-control',
@@ -240,24 +241,21 @@
                     }];
                     var i = 0;
                         $.each(columnHeaders, function (i, item) {
-                        i = i + 1;
+                            i = i + 1;
+                        columnKeys.push(item.Data);
                         var title = item.Title;
                         var data = item.Data;
                         /*map[name] = { data: id, title: name };*/
                         headers.push({ "data": data, "title": title, "name": title });
                         if (i > resp.Count) {
-
                             headers.push({
                                 "title": "Manage",
                                 "data": "TemplateId",
                                 "width": "50px !mportant",
-
                                 "render": function (data1, type, row) {
                                     return `<p>
                                                 <a class="edit" title="Add" data-toggle="tooltip" href="AddTemplates/`+ row.ID + `" style="color: #004d00 !important""><i class='fas fa-edit'></i></a>
-
                                                 <a class="delete" title="Add" data-toggle="tooltip" onClick="deleteTemplate(`+ row.ID + `)" style="color: #4a0e0e !important""><i class='fas fa-trash'></i></a>
-
                                          </p>`;
                                 }
                             });
@@ -318,14 +316,12 @@
                         var row = rpt_datatable.row(tr);
 
                         if (row.child.isShown()) {
-                            console.log('hide')
                             // This row is already open - close it
                             row.child.hide();
                             tr.removeClass('shown');
                         } else {
-                            console.log('shown')
                             // Open this row
-                            row.child(format(row.data(), columnHeaders, coulmnLimit)).show();
+                            row.child(format(row.data(), columnHeaders, coulmnLimit, columnKeys)).show();
                             tr.addClass('shown');
                         }
                     });
@@ -334,17 +330,19 @@
         }
 
         /* Formatting function d.TemplateId for row details - modify as you need */
-        function format(d,h,c) {
+        function format(d,h,c,ck) {
             // `d` is the original data object for the row
             var expandedRpw = '<div class="row expandcontainer g-2 d-flex justify-content-center gx-5" style="padding:4px;margin-left:-12px !important;background:#ffffff">';
-            var i = 0;
+          
             for (var key in d) {
-                i = i + 1;
-                if (i > c) {
-                    expandedRpw = expandedRpw + '<div class="col-3 border font-weight-bold" >' + h.find((o) => { return o["Data"] === key }).Title + '</div>' + '<div class="col-3 border">'
-                        +
-                    d[key]
-                        + '</div>';
+                if (!ck.includes(key)) {
+                    var titleData = h.find((o) => { return o["Data"] === key });
+                    if (titleData != '' && typeof titleData !== 'undefined') {
+                        expandedRpw = expandedRpw + '<div class="col-3 border font-weight-bold" >' + titleData.Title + '</div>' + '<div class="col-3 border">'
+                            +
+                            d[key]
+                            + '</div>';
+                    }
                 }
             }
             expandedRpw = expandedRpw + '</div>';
@@ -414,7 +412,6 @@
                                 }
                             });
 
-            console.log(items);
             $('#txtName').typeahead({
                 source: function (request, response) {
                     response(items);

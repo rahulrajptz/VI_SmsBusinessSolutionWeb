@@ -194,10 +194,10 @@ namespace Templateprj.Controllers
         }
 
         [NonAction]
-        partial void TemplatesOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string id);
+        partial void TemplatesOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int id);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Templates(string id)
+        public override System.Web.Mvc.ActionResult Templates(int id)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Templates);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
