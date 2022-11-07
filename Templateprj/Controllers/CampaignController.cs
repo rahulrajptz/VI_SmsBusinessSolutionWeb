@@ -648,7 +648,7 @@ namespace Templateprj.Controllers
             string status = "";
             string jsondata = "";
             string jsontodb = "";
-
+          
             int checkStatus = checkEndTimeValidity(model.toDate + " " + model.toTime, model.fromDate + " " + model.fromTime, true);
             if (checkStatus != 1)
                 return Json("{\"status\":\"" + checkStatus + "\",\"response\":\"error\"}", JsonRequestBehavior.AllowGet);
@@ -659,11 +659,15 @@ namespace Templateprj.Controllers
                 model.SMSTest[1].smsId = "2";
                 model.SMSTest[0].message = model.smsContent;
                 model.SMSTest[1].message = model.smsContent;
+                model.SMSTest[0].DBMessage = model.smsContent;
+                model.SMSTest[1].DBMessage = model.smsContent;
                 if (model.unicodeStatus == "8")
                 {
-                    model.SMSTest[0].message = GetSingleUnicodeHex(model.SMSTest[0].message);
-                    model.SMSTest[1].message = GetSingleUnicodeHex(model.SMSTest[1].message);
+                   
+                    model.SMSTest[0].DBMessage = GetSingleUnicodeHex(model.SMSTest[0].message);
+                    model.SMSTest[1].DBMessage = GetSingleUnicodeHex(model.SMSTest[1].message);
                 }
+                
                 jsondata = CreateJson(model);
 
                 jsontodb = "[" + jsondata + "]";
@@ -682,20 +686,31 @@ namespace Templateprj.Controllers
             {
                 model.SMSTest[0].message = model.smsContent;
                 model.SMSTest[1].message = model.smsContent;
+              
 
                 //string jsondata = CreateJson(model);
                 for (int i = 0, j = 1; i < model.SMSTest[0].variableData.Count(); i++, j++)
                 {
                     model.SMSTest[0].message = model.SMSTest[0].message.Replace("[VAR" + j + "]", "" + model.SMSTest[0].variableData[i].variableContent + "");
+                    model.SMSTest[0].DBMessage = model.SMSTest[0].message;
+
+                  // SMSTestUnicode
                     if (model.unicodeStatus == "8")
-                        model.SMSTest[0].message = GetSingleUnicodeHex(model.SMSTest[0].message);
+                    {
+                       //message1 = model.SMSTest[0].message;
+                        model.SMSTest[0].DBMessage = GetSingleUnicodeHex(model.SMSTest[0].message);
+                    }
                     model.SMSTest[0].smsId = "1";
                 }
                 for (int i = 0, j = 1; i < model.SMSTest[1].variableData.Count(); i++, j++)
                 {
                     model.SMSTest[1].message = model.SMSTest[1].message.Replace("[VAR" + j + "]", "" + model.SMSTest[1].variableData[i].variableContent + "");
+                    model.SMSTest[1].DBMessage = model.SMSTest[1].message;
                     if (model.unicodeStatus == "8")
-                        model.SMSTest[1].message = GetSingleUnicodeHex(model.SMSTest[1].message);
+                    {
+                       // message2 = model.SMSTest[1].message;
+                        model.SMSTest[1].DBMessage = GetSingleUnicodeHex(model.SMSTest[1].message);
+                    }
                     model.SMSTest[1].smsId = "2";
                 }
                 //string str11 = GetSingleUnicodeHex(model.SMSTest[1].message);
@@ -703,8 +718,10 @@ namespace Templateprj.Controllers
                 jsondata = CreateJson(model);
                 jsontodb = "[" + jsondata + "]";
 
+
                 status = _prc.getSmscountDetails(jsontodb, out string response);
-                if (status == "1")
+                
+                    if (status == "1")
                 { messagedetailsjson = "{\"status\":\"" + status + "\",\"response\":" + response + "}"; }
                 else
                 {

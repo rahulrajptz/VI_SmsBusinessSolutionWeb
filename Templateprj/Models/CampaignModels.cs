@@ -263,7 +263,7 @@ namespace Templateprj.Models
         public List<variableList> SMSvariable { get; set; }
 
         public List<testSMS> SMSTest { get; set; }
-
+      //  public List<string> SMSTestUnicode { get; set; }
 
 
 
@@ -381,6 +381,7 @@ namespace Templateprj.Models
 
         public List<data> variableData { get; set; }
         public string message { get; set; }
+        public string DBMessage { get; set; }
         public string smsId { get; set; }
 
     }

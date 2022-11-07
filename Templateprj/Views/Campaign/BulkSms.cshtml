@@ -270,7 +270,7 @@
                                         @Html.HiddenFor(m => m.campaignId)
                                         @Html.HiddenFor(m => m.unicodeStatus, new { Value = "-1" })
                                         <div class="col-md-2">
-                                            @Html.Label("Name*")
+                                            @Html.Label("Name")<span style="color:red;">*</span>
 
                                         </div>
                                         <div class="form-group col-md-4">
@@ -278,21 +278,21 @@
                                         </div>
 
                                         @*<div class="col-md-2">
-            @Html.Label(" Type*")
+                                                @Html.Label(" Type*")
 
-        </div>
-        <div class="form-group col-md-4">
-            <div class="form-group" style="width:100px">
-                @Html.DropDownListFor(m => m.campaignType, Model.campaignTypeList, new { @class = "form-control cl-black", @style = "width:117px", @required = "required" })
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <div class="form-group" style="width:100px">
+                                                    @Html.DropDownListFor(m => m.campaignType, Model.campaignTypeList, new { @class = "form-control cl-black", @style = "width:117px", @required = "required" })
 
-            </div>
-        </div>*@
+                                                </div>
+                                            </div>*@
 
                                     </div>
 
                                     <div class="row">
                                         <div class="col-md-4">
-                                            @Html.Label("Date Window*")
+                                            @Html.Label("Date Window")<span style="color:red;">*</span>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
@@ -307,7 +307,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            @Html.Label("Time Window*")
+                                            @Html.Label("Time Window")<span style="color:red;">*</span>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
@@ -320,7 +320,7 @@
                                     </div>
                                     <div class="row" style="margin-top:10px;">
                                         <div class="col-md-3">
-                                            @Html.Label("SMS Type*")
+                                            @Html.Label("SMS Type")<span style="color:red;">*</span>
                                         </div>
                                         <div class="col-md-5">
                                             <div class="form-group">
@@ -340,7 +340,7 @@
                                     </div>
                                     <div id="smstemplatediv">
                                         <div class="row">
-                                            @Html.Label("Sender*", new { style = "margin-left:15px;" })
+                                            @Html.Label("Sender", new { style = "margin-left:15px;" })
 
                                             @Html.TextAreaFor(m => m.senderId, new { @class = " form-control", required = "required", @style = "display:none;width:80px; height: auto !important;background:white;", @readonly = "readonly", @rows = "1" })
                                             <div class="col-md" style="">
@@ -465,11 +465,12 @@
 
                         </div>*@
                             <div class="row col-md-9 ml-3" id="SMSTestingCompleteDiv">
-                                <div class="col-md-3">
+                                <div class="col-md-6">
 
                                     <div class="form-group">
 
-                                        @Html.Label("Test Numbers*")
+                                        @Html.Label("Test Numbers", new { style = "font-weight:bold;font-size:12px" })<span style="color:red;">[country code mandatory]*</span>
+
                                     </div>
 
                                     <div class="form-group" id="variablesnameid">
@@ -485,74 +486,76 @@
 
 
                                 </div>
-                                <div class="col-md-4">
+                               
+                                    <div class="col-md-3">
 
-                                    @Html.TextBoxFor(m => m.SMSTest[0].mobileNumber, new { @class = " form-control NumFld", required = "required", MaxLength = "12", MinLength = "8" })
-                                    @Html.ValidationMessageFor(m => m.SMSTest[0].mobileNumber)
+                                        @Html.TextBoxFor(m => m.SMSTest[0].mobileNumber, new { @class = " form-control NumFld", required = "required", MaxLength = "12", MinLength = "8" })
+                                        @Html.ValidationMessageFor(m => m.SMSTest[0].mobileNumber)
 
-                                    <div class="form-group mt-5">
-                                        <div id="messageto1stnumber">
+                                        <div class="form-group mt-5">
+                                            <div id="messageto1stnumber">
 
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-
-                                    @Html.TextBoxFor(m => m.SMSTest[1].mobileNumber, new { @class = " form-control NumFld", required = "required", MaxLength = "12", MinLength = "8" })
-                                    @Html.ValidationMessageFor(m => m.SMSTest[1].mobileNumber)
-                                    <div class="form-group mt-5">
-                                        <div id="messageto2ndnumber">
-
+                                            </div>
                                         </div>
                                     </div>
 
+                                    <div class="col-md-3">
 
-                                </div>
-                                <div class="row">
+                                        @Html.TextBoxFor(m => m.SMSTest[1].mobileNumber, new { @class = " form-control NumFld", required = "required", MaxLength = "12", MinLength = "8" })
+                                        @Html.ValidationMessageFor(m => m.SMSTest[1].mobileNumber)
+                                        <div class="form-group mt-5">
+                                            <div id="messageto2ndnumber">
 
-                                    <div class="col-md-12">
-                                        <button class="btn-success mt-1" style="margin-left:482px" type="button" id="createsms">Create SMS</button>
+                                            </div>
+                                        </div>
 
-                                    </div>
-
-                                </div>
-                                <div class="row" id="messageScriptdiv">
-                                    <div id="messagescriptlabeldiv" class="form-group">
-                                        @Html.Label("Message Script", new { style = "font-weight:bold;margin-left:27px" })
 
                                     </div>
+
                                     <div class="row">
-                                        <div class="form-group mt-3" style="margin-left:147px"> SMS Count: <span id="smscountmessage1"></span></div>
-                                        <div class="form-group mt-3" style="margin-left:134px"> SMS Count: <span id="smscountmessage2"></span></div>
 
-                                    </div>
-                                    <div class="row">
-                                        <div id="message0" class="col-md-6">
-                                            @Html.TextAreaFor(m => m.SMSTest[0].message, new { @class = "form-control", @style = "height: auto !important;background:white;width:207px;margin-left:146px;", @readonly = "@readonly", @rows = "5" })
+                                        <div class="col-md-12">
+                                            <button class="btn-success mt-1" style="margin-left:482px" type="button" id="createsms">Create SMS</button>
 
                                         </div>
 
-
-                                        <div id="message1" class="col-md-6">
-                                            @Html.TextAreaFor(m => m.SMSTest[1].message, new { @class = "form-control", @readonly = "@readonly", @style = "height: auto !important;background:white;width:211px;margin-left:45px", @rows = "5" })
+                                    </div>
+                                    <div class="row" id="messageScriptdiv">
+                                        <div id="messagescriptlabeldiv" class="form-group">
+                                            @Html.Label("Message Script", new { style = "font-weight:bold;margin-left:27px" })
 
                                         </div>
+                                        <div class="row">
+                                            <div class="form-group mt-3" style="margin-left:147px"> SMS Count: <span id="smscountmessage1"></span></div>
+                                            <div class="form-group mt-3" style="margin-left:134px"> SMS Count: <span id="smscountmessage2"></span></div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div id="message0" class="col-md-6">
+                                                @Html.TextAreaFor(m => m.SMSTest[0].message, new { @class = "form-control", @style = "height: auto !important;background:white;width:207px;margin-left:146px;", @readonly = "@readonly", @rows = "5" })
+
+                                            </div>
+
+
+                                            <div id="message1" class="col-md-6">
+                                                @Html.TextAreaFor(m => m.SMSTest[1].message, new { @class = "form-control", @readonly = "@readonly", @style = "height: auto !important;background:white;width:211px;margin-left:45px", @rows = "5" })
+
+                                            </div>
+                                        </div>
+
                                     </div>
-
                                 </div>
+
+                                <div class="row col-md-12">
+                                    <div class="col-md-2 mt-3" id="sendsmsdiv" style="display:none">
+                                        <button class="btn-success mt-1" style="margin-left:785px;width:96px" type="button" id="SendSms">Send SMS</button>
+                                    </div>
+                                    <div class="col-md-4 mt-3" id="CampaignCreationButtondiv" style="display:none">
+                                        <button class="btn-success mt-1" style="margin-left:746px;width:128px" id="SaveCampaignnew" type="button">Save Campaign</button>
+                                    </div>
+                                </div>
+
                             </div>
-
-                            <div class="row col-md-12">
-                                <div class="col-md-2 mt-3" id="sendsmsdiv" style="display:none">
-                                    <button class="btn-success mt-1" style="margin-left:785px;width:96px" type="button" id="SendSms">Send SMS</button>
-                                </div>
-                                <div class="col-md-4 mt-3" id="CampaignCreationButtondiv" style="display:none">
-                                    <button class="btn-success mt-1" style="margin-left:746px;width:128px" id="SaveCampaignnew" type="button">Save Campaign</button>
-                                </div>
-                            </div>
-
-                        </div>
 
                     </div>
                 </div>
@@ -604,10 +607,10 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card ">
+                        <div class="card" style="width:1100px;">
 
 
-                            <div class="card-body col-sm-12" style="width: 80%; height:80%;">
+                            <div class="card-body col-sm-12" style="width: 100%; height:80%;">
                                 <div class="col-m-12" id="divTable" style="overflow-x:auto !important;">
                                     <table id="tbl_rpt" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
                                 </div>
@@ -895,10 +898,10 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card ">
+                        <div class="card" style="width:1100px;">
 
 
-                            <div class="card-body col-sm-12" style="width:80%; height:80%;">
+                            <div class="card-body col-sm-12" style="width:100%; height:80%;">
                                 <div class="col-sm-12" id="divTablestatus" style="overflow-x:auto !important;">
                                     <table id="tbl_rptstatus" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
                                 </div>
@@ -916,7 +919,7 @@
 
             </div>
             <div class="tab-pane navclr" id="campaignreportsnav">
-                <div class="row ml-3 mt-3" style="width:740px;">
+                <div class="row ml-3 mt-3" style="width:900px;">
 
                     <div>
                         @Html.Label("Campaign Name")
@@ -954,7 +957,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card " style="width:1100px;">
+                        <div class="card" style="width:1100px;">
 
 
                             <div class="card-body col-sm-12" style="width:100%; height:80%;">
@@ -965,8 +968,8 @@
                                     <span>No data found for the search</span>
                                 </div>
                                 @*<div class="row">
-                                <div id="loading" class="col-sm-12" style="display:none;text-align:center;" st><img src="~/Content/Images/loading.gif" style="width:100px;height:50px;" /></div>
-                            </div>*@
+                            <div id="loading" class="col-sm-12" style="display:none;text-align:center;" st><img src="~/Content/Images/loading.gif" style="width:100px;height:50px;" /></div>
+                        </div>*@
                             </div>
 
                         </div>
@@ -1134,9 +1137,9 @@
             
             $('.modal1').hide();
         };
+
         $(document).ready(function () {
          
-        
             $('#StaticSmsDiv').hide();
             $('#dynamicSmsDiv').hide();
             $('#messageScriptdiv').hide();
@@ -1153,57 +1156,12 @@
 
         });
 
-        //$(document).ajaxStart(function () {
-        //    $('.modal1').show();
-        //}).ajaxStop(function () {
-        //    $('modal1').hide();
-        //});
-        @*function testsmsfunction() {
-
-
-            if ($("#Idform").valid()) {
-
-                $('#testsmsdiv').show();
-
-                var data2 = $("#Idform").serialize();
-
-                    $.ajax({
-                    url: "@Url.Action(MVC.Campaign.CreatebulksmsCampaign())",
-                    type: 'POST',
-                    data: data2,
-                    success: function (e) {
-
-                        var jsondata = JSON.parse(e)
-
-                    }
-                });
-
-                functionafterajax();
-
-            }
-
-            function functionafterajax() {
-
-                console.log(jsondata.SMSvariable.count);
-
-
-            }
-
-        }*@
-
-        //$("#Idform").validate({
-        //});
-
+        
         $('form').on('keypress', function (e) {
             return e.which != 13;
         });
 
-        //$(window).keydown(function (event) {
-        //    if ((event.keyCode == 13) && (validationFunction() == false)) {
-        //        event.preventDefault();
-        //        return false;
-        //    }
-        //});
+        
         $('#senderId').on('change', function () {
             if ($('#smsType').val() != "3") {
 
@@ -1261,7 +1219,7 @@
                         jsondata = JSON.parse(e);
                         //console.lo
                         if (jsondata.status != null && jsondata.status == 7) {
-                            ErrorMsg("The To time should be 1 hour more than the current time ");
+                            ErrorMsg("The To time should be 4 hours more than the current time ");
                             $('#savecampaignM2M').hide();
                         }
                         else if (jsondata.status != null && jsondata.status == 5) {
@@ -1302,7 +1260,7 @@
                                 for (i = 0; i < jsondata.SMSvariable.length; i++) {
 
                                     var div = document.createElement('div');
-                                    div.innerHTML = '<labelvariable class="form-controlnew ">' + jsondata.SMSvariable[i].renameVariable + '*' + '</labelvariable>';
+                                    div.innerHTML = '<labelvariable class="form-controlnew ">' + jsondata.SMSvariable[i].renameVariable + '<span style="color:red;">*</span>' + '</labelvariable>';
                                     div.style.wordWrap = "break-word";
                                     document.getElementById("generatelabel").appendChild(div);
                                 }
@@ -1400,7 +1358,7 @@
                                 }
                                 if (jsondata.response[1].SmsId == "2") {
 
-                                    document.getElementById("SMSTest_1__message").innerHTML = jsondata.response[1].message;
+                                  document.getElementById("SMSTest_1__message").innerHTML = jsondata.response[1].message;
                                     document.getElementById("smscountmessage2").innerHTML = '' + jsondata.response[1].Sms_Leg + '/' + jsondata.response[1].Sms_Parts + '';
 
                                 }
@@ -1435,7 +1393,7 @@
                             else if (jsondata.status == 7) {
                         $('#sendsmsdiv').hide();
                         $('#messageScriptdiv').hide();
-                        ErrorMsg("The To Time should be 1 hour more than the current time ");
+                        ErrorMsg("The To Time should be 4 hours more than the current time ");
                     }
                     else if (jsondata.status == 5) {
                         $('#sendsmsdiv').hide();
@@ -1470,9 +1428,10 @@
                           
                             if (jsondata.status == 1)
                             {
+                              
                                 if (jsondata.response[0].SmsId == "1")
                                 {
-                                    document.getElementById("SMSTest_0__message").innerHTML = jsondata.response[0].message;
+                                   document.getElementById("SMSTest_0__message").innerHTML = jsondata.response[0].message;
                                     document.getElementById("smscountmessage1").innerHTML = '' + jsondata.response[0].Sms_Leg + '/' + jsondata.response[0].Sms_Parts + '';                                    
                                 }
                                 if (jsondata.response[1].SmsId == "2")
@@ -1494,7 +1453,7 @@
                             else if (jsondata.status == 7) {
                                 $('#sendsmsdiv').hide();
                                 $('#messageScriptdiv').hide();
-                                ErrorMsg("The To time should be 1 hour more than the current time ");
+                                ErrorMsg("The To time should be 4 hours more than the current time ");
                             }
                             else if (jsondata.status == 5) {
                                 $('#sendsmsdiv').hide();
@@ -1545,7 +1504,7 @@
 
                             jsondata = JSON.parse(e);
                             if (jsondata.status == 7) {
-                                ErrorMsg("The To Time should be 1 hour more than the current time ");
+                                ErrorMsg("The To Time should be 4 hours more than the current time ");
                             }
                             else if (jsondata.status == 5) {
                                 ErrorMsg("The To Time should be greater than From Time ");
@@ -1580,7 +1539,7 @@
 
                             jsondata = JSON.parse(e);
                             if (jsondata.status == 7) {
-                                ErrorMsg("The To Time should be 1 hour more than the current time ");
+                                ErrorMsg("The To Time should be 4 hours more than the current time ");
                             }
                             else if (jsondata.status == 5) {
                                 ErrorMsg("The To Time should be greater than From Time ");
@@ -1714,7 +1673,7 @@
                                 // alert($("#campaignId").val());
                                
                                 getcampigndropdownList();
-                                
+                                getcampignlistdropdownList();
                                 $("#smstemplatediv").hide();
                                 $('#StaticSmsDiv').hide();
                                 $('#dynamicSmsDiv').hide();
@@ -1746,34 +1705,34 @@
 
 
         });
-        function submitUpdateTime() {
-     //   var datevalue = document.getElementById('updtaedToTime').innerHTML;// $('#updtaedToTime').text();
-       // alert(datevalue);
-        var a = $("#Idform").val();
-       if ($("#Idform").valid()) {
-             //   $('#testsmsdiv').show();
-             var data2 = $("#Idform").serialize();
-             $.ajax({
-                  url: "@Url.Action(MVC.Campaign.Campaignupdate())",
-                  type: 'POST',
-                  data: data2,
-                  success: function (e) {
-                      var obj = JSON.parse(e)
 
-                      if (obj.status == "1") {
-                          loadReport();
-                          $("#UpdateModal").modal('hide');
-                      }
-                      else {
-                          ErrorMsg(obj.response);
-                      }
+        function submitUpdateTime()
+        {
+            var a = $("#Idform").val();
+            if ($("#Idform").valid()) {
+                
+                 var data2 = $("#Idform").serialize();
+                 $.ajax({
+                      url: "@Url.Action(MVC.Campaign.Campaignupdate())",
+                      type: 'POST',
+                      data: data2,
+                      success: function (e) {
+                          var obj = JSON.parse(e)
+
+                          if (obj.status == "1") {
+                              loadReport();
+                              $("#UpdateModal").modal('hide');
+                          }
+                          else {
+                              ErrorMsg(obj.response);
+                          }
                      
-                    }
-                });
-                //functionafterajax();
-            }
-    }
-        //
+                        }
+                    });
+                   
+                }
+        }
+        
         function gettemplateidfromsenderidsmstype(senderId,smstype)
         {
 
@@ -1903,15 +1862,7 @@
             maxDate: "today",
 
         });
-        //$("#scheduleDate").flatpickr({
-        //    //dateFormat: "d/m/Y",
-        //    enableTime: true,
-        //    dateFormat: "d/m/Y h:i K"
-
-
-        //});
         
-     
 
         $("#fromTime").flatpickr({
 
@@ -1924,28 +1875,8 @@
             defaultHour: 00,
             defaultMinute:00
 
-
-
         });
-
-        //    $('#fromTime').on('change', function () {
-
-        //        var timevalue = $('#fromTime').val();
-        //        console.log(timevalue);
-        //        $("#toTime").flatpickr({
-
-        //            enableTime: true,
-        //            noCalendar: true,
-        //            minuteIncrement: 1,
-        //            defaultHour: 23,
-        //            defaultMinute: 59,
-        //            dateFormat: "h:i K",
-        //            time_24hr: false,
-        //            minTime: timevalue
-        //        });
-
-        //    });
-        //var timevalue1 = $('#fromTime').val();
+       
 
         $("#toTime").flatpickr({
 
@@ -1957,11 +1888,7 @@
             dateFormat: "h:i K",
             time_24hr: false
         });
-
-        //fromTime
         
-
-
         $('#templateId').on('change', function () {
 
             var templateId = $('#templateId').val();
@@ -2075,7 +2002,7 @@
             for (i = 0, j = 1; i < variablecnt; i++ , j++) {
 
                 var div = document.createElement('row');
-                div.innerHTML = '<div class="row" style="margin-top:10px;" ><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName" required="required"  readonly="readonly" MaxLength="12" MinLength="2" style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable" required="required" MaxLength="12" MinLength="2" type="text" value=""></div></div>';
+                div.innerHTML = '<div class="row" style="margin-top:10px;" ><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName" required="required"  readonly="readonly" MaxLength="12"  style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable" required="required" MaxLength="12"  type="text" value=""></div></div>';
 
                 document.getElementById("generated").appendChild(div);
             }
@@ -2083,7 +2010,7 @@
             $('#closebtn').click();
         }
 
-        //uploadCampaignstarttype
+        
         $('#uploadCampaignstarttype').on('change', function () {
 
             if ($('#uploadCampaignstarttype').val() == "1") {
@@ -2114,11 +2041,7 @@
                 $('#schedulenamediv').hide();
                 $('#schedulediv').hide();
 
-                //const container = document.querySelector('#uploadCampaignstarttype');
-                //removeAllChildNodes(container);
-                //document.getElementById("smsContent").innerHTML = "";
-                //$('#templateId').find("input").val("");
-
+              
             }
         });
 
@@ -2162,6 +2085,7 @@
             }
 
         });
+
         function reinitializeDataTable(table) {
             var $table = $(table);
             if ($.fn.dataTable.isDataTable(table)) {
@@ -2172,7 +2096,7 @@
             $table.hide();
         }
 
-    function loadReport() {
+     function loadReport() {
 
             $("#loading").show();
             $("#divNoData").hide();
@@ -2198,6 +2122,7 @@
                         responsive: true,
                         deferRender: true,
                         "destroy": true,
+                        searching: false,
 
                         data: resp.tdata,
                         columns: resp.thead,
@@ -2239,15 +2164,11 @@
                               "className": "text-left",
                                 "mRender": function(data, type, full) {                                
                                  
-                                   // console.log(full);
                                         if (full[9] == "Expired") {
                                             //return '<a class="fas fa-pencil-alt" onclick="EditData(' + full[0] + ')"></a><input id="HFrom_' + full[0] + '" type="hidden" value="' + full[6] + '" />';
                                             return "<a class='btn btn-default btn sm' onclick=EditData('" + full[0] + "');><i class='fas fa-pencil-alt'></i></a><input id=HFrom_" + full[0] + "  type=hidden value='" + full[6] + "' />";
                                         }
-
-                                    //  }
-                                 //  return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row[0] + "'); >Delete</a>";
-                                }
+                                 }
                             },  
                             
                         ],
@@ -2375,6 +2296,7 @@
             }
             return bytes;
         };
+
          function loadReportstatus() {
 
             $("#loading").show();
@@ -2401,6 +2323,7 @@
                         responsive: true,
                         deferRender: true,
                         "destroy": true,
+                        searching: false,
 
                         data: resp.tdata,
                         columns: resp.thead,
@@ -2461,7 +2384,9 @@
                     $("#divNoData span").text(" Result is too large.");
                     $("#divNoData").show();
                     $("input[type=button]").removeAttr("disabled");
-                } else {
+                }
+                else
+                {
                     alert("Unable to fetch data from server", "Failed");
 
                 }
@@ -2492,6 +2417,7 @@
                         responsive: true,
                         deferRender: true,
                         "destroy": true,
+                        searching:false,
 
                         data: resp.tdata,
                         columns: resp.thead,
@@ -2653,10 +2579,8 @@
 
                 }
             });
-
-
-
         }
+
         function getCamapignDetailsforUpload() {
 
             if ($('#uploadCampaignName').val() != "") {
@@ -2720,7 +2644,26 @@
                 }
             });
         }
-        
+
+        function getcampignlistdropdownList() {
+             $.ajax({
+                url: "@Url.Action(MVC.Campaign.getcampaignnames())",
+                type: 'GET',
+                data: { },
+                 success: function (minames) {  
+                     $("#statuscampaignName").val(null);
+                     $("#reportcampaignName").val(null);
+                     
+                     $.each(minames, function (i, minames) {                        
+                         $("#statuscampaignName").append(
+                             $('<option></option>').val(minames.VALUE).html(minames.TEXT));
+                         $("#reportcampaignName").append(
+                             $('<option></option>').val(minames.VALUE).html(minames.TEXT));
+                     });                    
+                                   
+                }
+            });
+        }
         $('#samplefiledownlod').on('click', function () {
             var id = $("#uploadCampaignName").val();
 
@@ -2967,6 +2910,7 @@
         //        $("body").removeClass("#loading");
         //    }
         //});
+
         $('#uploadfileid').on('click', function () {
             $("#loadingupload").show();
          
@@ -2981,9 +2925,9 @@
                 console.log(fsize);
                 const filesizeinkb = Math.round((fsize / 1024));
 
-                if (filesizeinkb >= 40000) {
+                if (filesizeinkb >= 41000) {
                     //$("#loading").hide();
-                    ErrorMsg("File is too large,Please upload file less than 40 MB")
+                    ErrorMsg("File is too large,Maximum file size is 40 MB")
                 }
                 else
                 {
