@@ -37,10 +37,8 @@ namespace Templateprj.Controllers
             model.Masters= masters;
             ViewBag.IsEdit = id.HasValue;
          
-
             return View("~/Views/Management/AddTemplate.cshtml", model);
         }
-
 
         [HttpPost]
         public virtual ActionResult Templates(RegisterTemplateCommand command)
@@ -49,7 +47,6 @@ namespace Templateprj.Controllers
             string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\",\"data\":" + data + "}";
             TempData["Message"] = response;
             return Json(responsejson, JsonRequestBehavior.AllowGet);
-
         } 
         
         [HttpPut]
@@ -63,7 +60,7 @@ namespace Templateprj.Controllers
         }
 
         [HttpDelete]
-        public virtual ActionResult Templates(string id)
+        public virtual ActionResult Templates(int id)
         {
             string status = _templateManagemntRepository.DeleteTemplate(id, out string response);
 
@@ -83,8 +80,7 @@ namespace Templateprj.Controllers
         [AuthorizeUser]
         public virtual ActionResult GetTemplates(TemplateModel model)
         {
-            //string json = _templateManagemntRepository.GetTemplates(model);
-            string json = _templateManagemntRepository.GetTemplateFilters(model);
+            var json = _templateManagemntRepository.GetTemplates(model);
             return Content(json, "application/json");
         }
 

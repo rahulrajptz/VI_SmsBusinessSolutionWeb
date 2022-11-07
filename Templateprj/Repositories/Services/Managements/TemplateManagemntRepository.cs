@@ -1,16 +1,14 @@
 ﻿using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using System.Web;
 using Templateprj.Helpers;
 using Templateprj.Models;
 using Templateprj.Models.Managements;
+using Templateprj.Models.Managements.GetTemplateModels;
 using Templateprj.Repositories.Interfaces;
 
 namespace Templateprj.Repositories.Services
@@ -87,39 +85,6 @@ namespace Templateprj.Repositories.Services
             return template;
         }
 
-        public string GetTemplates(TemplateModel model)
-        {
-            try
-            {
-                JsonSerializerSettings jsSettings = new JsonSerializerSettings();
-                jsSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                string filter = JsonConvert.SerializeObject(model, Formatting.None, jsSettings);
-                using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Get_Account_Template_List"))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
-                    cmd.Parameters.Add("@n_Account_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
-                    cmd.Parameters.Add("@v_Data_Out", MySqlDbType.Text).Direction = ParameterDirection.Output;
-
-                    DataTable dt = new DataTable();
-                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
-                    {
-                        con.Open();
-                        cmd.Connection = con;
-                        cmd.ExecuteNonQuery();
-                    }
-                    return cmd.Parameters["@v_Data_Out"].Value.ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-           
-                LogWriter.Write("Repositories.Services.GetAccount :: Exception :: " + ex.Message);
-            }
-
-            return string.Empty;
-        }
-        
         public RegisterTemplateCommand GetTemplateById(int id)
         {
             try
@@ -223,41 +188,36 @@ namespace Templateprj.Repositories.Services
             }
         }
 
-        public string DeleteTemplate(string id, out string response)
+        public string DeleteTemplate(int id, out string response)
         {
             response = "";
-            return response;
+            try
+            {
+                using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Delete_Template"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
+                    cmd.Parameters.Add("@n_Account_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
+                    cmd.Parameters.Add("@n_Template_Id_In", MySqlDbType.Int32).Value = id;
+                    cmd.Parameters.Add("@n_Status_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@v_Message_Out", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
-            //try
-            //{
-            //    using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Update_Account_Details"))
-            //    {
-            //        cmd.CommandType = CommandType.StoredProcedure;
-            //        cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
-            //        cmd.Parameters.Add("@v_Data_In", MySqlDbType.Text).Value = JsonConvert.SerializeObject(model, new JsonSerializerSettings
-            //        {
-            //            ContractResolver = new CamelCasePropertyNamesContractResolver()
-            //        });
-            //        cmd.Parameters.Add("@n_Status_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
-            //        cmd.Parameters.Add("@v_Message_Out", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
-
-            //        DataTable dt = new DataTable();
-            //        using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
-            //        {
-            //            con.Open();
-            //            cmd.Connection = con;
-            //            cmd.ExecuteNonQuery();
-            //        }
-            //        string status = cmd.Parameters["@n_Status_Out"].Value.ToString();
-            //        response = cmd.Parameters["@v_Message_Out"].Value.ToString();
-            //        return status;
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    LogWriter.Write("Repositories.Services.SaveAccount :: Exception :: " + ex.Message);
-            //    return "";
-            //}
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        cmd.ExecuteNonQuery();
+                    }
+                    string status = cmd.Parameters["@n_Status_Out"].Value.ToString();
+                    response = cmd.Parameters["@v_Message_Out"].Value.ToString();
+                    return status;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("Repositories.Services.DeleteTemplate :: Exception :: " + ex.Message);
+                return "";
+            }
         }
 
         private DataTable GetDatatables(DataTable dt)
@@ -303,7 +263,7 @@ namespace Templateprj.Repositories.Services
             return keyValues;
         }
 
-        public string GetTemplateFilters(TemplateModel model)
+        public string GetTemplates(TemplateModel model)
         {
             try
             {
@@ -331,7 +291,10 @@ namespace Templateprj.Repositories.Services
                         cmd.Connection = con;
                         cmd.ExecuteNonQuery();
                     }
-                    return cmd.Parameters["@v_Data_Out"].Value.ToString();
+
+                    return JsonConvert.SerializeObject(JsonConvert.DeserializeObject<TemplateResponse>(cmd.Parameters["@v_Data_Out"].Value.ToString()));
+                    //data = JsonConvert.SerializeObject(temData);
+                    //return cmd.Parameters["@v_Data_Out"].Value.ToString();
                 }
             }
             catch (Exception ex)
@@ -340,7 +303,7 @@ namespace Templateprj.Repositories.Services
                 LogWriter.Write("Repositories.Services.GetAccount :: Exception :: " + ex.Message);
             }
 
-            return string.Empty;
+            return null;
         }
 
 

@@ -1,4 +1,4 @@
-﻿@model Templateprj.Models.Managements.RegisterTemplateCommand
+﻿@model Templateprj.Models.Managements.AddSenderModel
 @{
     System.Data.DataTable project = ViewBag.inboundData;
 
@@ -13,34 +13,34 @@
             @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "templateform" }))
             {
                 <div class="container" style="margin-left:10px">
-                    <div class="row">
-                        <div class="wizard-navigation">
-                            <div class="col-xs-12 navstyle">
-                                <ul class="nav">
-                                    <li class="nav-item" style="width: 100px;height:35px">
-                                        <a style="font-size:9.2846px" class="nav-link" href="@Url.Action("Account", "Management")">
-                                            <btn_searchi class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></btn_searchi>
-                                            ACCOUUNT
-                                        </a>
-                                    </li>
-                                    <li class="nav-item " style="width: 111px;height:35px">
-                                        <a style="font-size:9.2846px" class="nav-link active" href="@Url.Action("Templates", "Template")">
-                                            <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
-                                            TEMPLATES
-                                        </a>
-                                    </li>
-                                    <li class="nav-item arrow" style="width: 131px;height:35px">
-                                        <a style="font-size:9.2846px" class="nav-link" href="@Url.Action("SenderIds", "Management")">
-                                            <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
-                                            SENDER ID
-                                        </a>
-                                    </li>
+            <div class="row">
+                <div class="wizard-navigation">
+                    <div class="col-xs-12 navstyle">
+                        <ul class="nav">
+                            <li class="nav-item" style="width: 100px;height:35px">
+                                <a style="font-size:9.2846px" class="nav-link" href="@Url.Action("Account", "Management")">
+                                    <btn_searchi class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></btn_searchi>
+                                    ACCOUUNT
+                                </a>
+                            </li>
+                            <li class="nav-item " style="width: 111px;height:35px">
+                                <a style="font-size:9.2846px" class="nav-link" href="@Url.Action("Templates", "Template")">
+                                    <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                    TEMPLATES
+                                </a>
+                            </li>
+                            <li class="nav-item arrow" style="width: 131px;height:35px">
+                                <a style="font-size:9.2846px" class="nav-link active" href="@Url.Action("SenderIds", "SenderId")">
+                                    <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                    SENDER ID
+                                </a>
+                            </li>
 
-                                </ul>
-                            </div>
-                        </div>
+                        </ul>
                     </div>
                 </div>
+            </div>
+        </div>
 
                 <div class="tab-content" style="margin-left:15px;margin-top:10px;">
                 <div class="tab-pane show active navclr">
@@ -51,7 +51,7 @@
                                 <p>
                                     <a class="btn btn-block text-white dropdown-toggle" style="text-align:left;background-color:#5f004b;font-size:9.2846px"
                                        data-toggle="collapse" href="#addUpload" role="button" aria-expanded=@(ViewBag.IsEdit ? "true" : "false")>
-                                        ADD TEMPLATE
+                                        ADD SENDER ID
                                     </a>
                                 </p>
                             }
@@ -59,10 +59,17 @@
                                     <div class="col">
                                         <div class="row">
                                             <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Template Id")
+                                                @Html.Label("Header Id")
                                                 <div class="form-group">
-                                                    @Html.TextBoxFor(m => m.TemplateId, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
-                                                    @Html.HiddenFor(m => m.Id)
+                                                    @Html.TextBoxFor(m => m.HeaderId, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+                                                    @Html.HiddenFor(m => m.SmId)
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-6 col-6">
+                                                @Html.Label("Sender Id")
+                                                <div class="form-group">
+                                                    @Html.TextBoxFor(m => m.SenderId, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
                                                 </div>
                                             </div>
 
@@ -73,151 +80,64 @@
 
                                                 </div>
                                             </div>
+
                                             <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Template Name")
+                                                @Html.Label("RegisteredTsp")
                                                 <div class="form-group">
-                                                    @Html.TextBoxFor(m => m.TemplateName, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+                                                    @Html.TextBoxFor(m => m.TeleMarketer, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
                                                 </div>
                                             </div>
-                                            <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Type")
-                                                <div class="form-group">
 
-                                                    @Html.DropDownListFor(m => m.Type, Model.Masters.TemplateTypes?.Where(a => a.Value != "0"), new { @id = "Type", @class = "form-control form-select", @disabled = @ViewBag.IsEdit ? "disabled" : "" })
-
-                                                </div>
-                                            </div>
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Header")
-                                                <div class="form-group">
-                                                    @Html.DropDownListFor(a => a.Header, Model.Masters.Headers, new { @class = "form-control cl-black", id = "Header", autocomplete = "off", @disabled = @ViewBag.IsEdit ? "disabled" : "" })
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Category")
-                                                <div class="form-group">
-                                                    @Html.TextBoxFor(m => m.Category, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Registered Dlt")
-                                                <div class="form-group">
-                                                    @Html.TextBoxFor(m => m.RegisteredDlt, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
-
-                                                </div>
-                                            </div>
                                             <div class="col-lg-3 col-md-6 col-6">
                                                 @Html.Label("Requested On")
                                                 <div class="form-group">
-                                                    @Html.TextBoxFor(m => m.RequestedOn, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+                                                    @Html.TextBoxFor(m => m.RequestedDate, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
                                                 </div>
                                             </div>
-
-                                        </div>
-
-                                        <div class="row">
 
                                             <div class="col-lg-3 col-md-6 col-6">
                                                 @Html.Label("Status Date")
                                                 <div class="form-group">
                                                     @Html.TextBoxFor(m => m.StatusDate, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
-
                                                 </div>
                                             </div>
-                                            <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Created By")
-                                                <div class="form-group">
-                                                    @Html.TextBoxFor(m => m.CreatedBy, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
+                                            <div class="col-lg-3 col-md-6 col-6">
+                                                @Html.Label("Status")
+                                                <div class="form-group">
+                                                    @Html.TextBoxFor(m => m.Status, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-6 col-6">
                                                 @Html.Label("BlackListed By")
                                                 <div class="form-group">
-                                                    @Html.TextBoxFor(m => m.BlackListedBy, new { @class = "form-control w-100" })
+                                                    @Html.TextBoxFor(m => m.BlackListedBy, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
                                                 </div>
                                             </div>
-                                            <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Approval Status")
-                                                <div class="form-group">
 
-                                                    @Html.DropDownListFor(m => m.Header, Model.Masters.ApprovalStatus?.Where(a => a.Value != "0"), new { @id = "ApprovalStatus", @class = "form-control form-select w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
-
-                                                </div>
-                                            </div>
                                         </div>
+
+
                                         <div class="row">
                                             <div class="col-12">
                                                 @Html.Label("Template Message")
                                                 <div class="form-group">
-                                                    @Html.TextAreaFor(m => m.TemplateMessage, new { @class = "keyboardInput w-100", @rows = "4", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+                                                    @Html.TextAreaFor(m => m.Explanation, new { @class = "w-100", @rows = "4", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
                                                 </div>
                                             </div>
 
                                         </div>
-                                        <div class="row">
 
-                                            <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Status")
-                                                <div class="form-group">
-                                                    @Html.DropDownListFor(m => m.Status, Model.Masters.Status?.Where(a => a.Value != "0"), new { @id = "Status", @class = "form-control cl-black" })
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Consent Type")
-                                                <div class="form-group">
-                                                    @Html.DropDownListFor(m => m.ConsentType, Model.Masters.ConsentType?.Where(a => a.Value != "0"), new { @id = "ConsentType", @class = "form-control cl-black", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
-
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Delivery Status")
-                                                <div class="form-group">
-                                                    @Html.DropDownListFor(m => m.DeliveryStatus, Model.Masters.DeliveryStatus, new { @class = "form-control cl-black", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
-
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Content Type")
-                                                <div class="form-group">
-                                                    @Html.DropDownListFor(m => m.ContentType, Model.Masters.ContentTypes?.Where(a => a.Value != "0"), new { @id = "ContentType", @onchange = "onContentTypeChange(this.value)", @class = "form-control cl-black", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
-
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-6 col-6" id="divVariableCount" style="display:none">
-                                                @Html.Label("Variable Count")
-                                                <div class="form-group">
-                                                    @Html.TextBoxFor(m => m.VariableCount, new { @class = "form-control w-100", @type = "number", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Validity Period")
-                                                <div class="form-group">
-
-                                                    @Html.TextBoxFor(m => m.ValidityPeriod, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 col-md-12 col-12">
-                                                @Html.Label("Reason")
-                                                <div class="form-group">
-                                                    @Html.TextAreaFor(m => m.Reason, new { @class = "form-control w-100", @rows = "3", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
-
-                                                </div>
-                                            </div>
-
-                                        </div>
                                         @if (!ViewBag.IsEdit)
                                         {
                                             <div class="row">
                                                 <div class="col-12" style="text-align:right">
-                                                    <button class="btn-success mt-1" id="addNewTemplate" type="button">Add Template</button>
+                                                    <button class="btn-success mt-1" id="addSender" type="button">Add Sender Id</button>
                                                 </div>
                                             </div>
                                         }
@@ -225,7 +145,7 @@
                                         {
                                             <div class="row">
                                                 <div class="col-12" style="text-align:right">
-                                                    <button class="btn-success mt-1" id="updateNewTemplate" type="button">Update</button>
+                                                    <button class="btn-success mt-1" id="updateSener" type="button">Update</button>
                                                 </div>
                                             </div>
                                         }
@@ -241,7 +161,7 @@
                                         <p>
                                             <a class="btn btn-block text-white dropdown-toggle" style="text-align:left;background-color:#5f004b;font-size:9.2846px"
                                                data-toggle="collapse" href="#collapseupload" role="button" aria-expanded="false">
-                                                UPLOAD TEMPLATE
+                                                UPLOAD SENDER IDS
                                             </a>
                                         </p>
                                         <div class="collapse ml-5" id="collapseupload">
@@ -249,14 +169,12 @@
                                             <div id="fileUploadm2m">
                                                 <div class="row">
                                                     <div class="col" style="text-align:right;">
-
-                                                        <a id="samplefiledownlod" style="color:#5f004b;font-size:13px" href="~/Uploads/TemplateSampleFile.xlsx"><i class="now-ui-icons files_single-copy-04"></i>Sample Template</a>
+                                                        <a id="samplefiledownlod" style="color:#5f004b;font-size:13px" href="~/Uploads/TemplateSampleFile.xlsx"><i class="now-ui-icons files_single-copy-04"></i>Sample File</a>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-4" style="text-align:left;">
-                                                        <span>@Html.Label("Upload Template") </span>
-
+                                                        <span>@Html.Label("Upload Sender Ids") </span>
                                                         <input style="width:234px;font-size:13px;color:#5f004b;" id="fileToUpload" type="file" name="file" required="required">
 
                                                     </div>
@@ -324,11 +242,11 @@
                         $('#divVariableCount').show();
                     }
 
-                    $("#addNewTemplate").click(function (e) {
+                    $("#addSender").click(function (e) {
                         //Serialize the form datas.
                         var valdata = $("#templateform").serialize();
                         $.ajax({
-                            url: "/Template/Templates",
+                            url: "/SenderId/SenderIds",
                             type: "POST",
                             dataType: 'json',
                             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -715,7 +633,7 @@
 
             @*Update Temaplte*@
             <script>
-        $(document).on('click', '#updateNewTemplate', function (e) {
+        $(document).on('click', '#updateSender', function (e) {
 
                 var templateModel = {};
                 var isValid = true;
