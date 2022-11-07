@@ -2809,7 +2809,8 @@
                    rpt_datatable = $("#tbl_templateDetails").DataTable({
                        responsive: true,
                         deferRender: true,
-                        "destroy": true,                      
+                       "destroy": true,  
+                       searching: false,
                         data: resp.tdata,
                        columns: resp.thead,
                        autoWidth: true,
