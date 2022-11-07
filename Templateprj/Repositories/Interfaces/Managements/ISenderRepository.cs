@@ -1,11 +1,15 @@
-﻿using Templateprj.Models.InstantSms;
+﻿using System.Collections.Generic;
 using Templateprj.Models.Managements;
 
 namespace Templateprj.Repositories.Interfaces
 {
     public interface ISenderRepository
     {
-        ManagementModel GetAccount();
-        string SaveAccount(ManagementModel model, out string response);
+        string GetSenderIds();
+
+        AddSenderModel GetSenderIdById(int id);
+
+        string SaveSenderId(List<AddSenderModel> commands, out string response, out string data);
+        string DeleteSenderId(int id, out string response);
     }
 }

@@ -320,6 +320,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InstantSmsController.cs" />
     <Compile Include="Controllers\Managements\ManagementController.cs" />
+    <Compile Include="Controllers\Managements\SenderIdController.cs" />
     <Compile Include="Controllers\Managements\TemplateController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
@@ -370,6 +371,7 @@
     <Compile Include="Models\Managements\GetTemplateModels\TemplateResponse.cs" />
     <Compile Include="Models\Managements\GetTemplateModels\TemplateVM.cs" />
     <Compile Include="Models\Managements\ManagementModel.cs" />
+    <Compile Include="Models\Managements\SenderIds\AddSenderModel.cs" />
     <Compile Include="Models\Managements\UpdateTemplateCommand.cs" />
     <Compile Include="Models\Managements\RegisterTemplateCommand.cs" />
     <Compile Include="Models\Managements\TemplateAutoFilItemModel.cs" />
@@ -387,7 +389,11 @@
     <Compile Include="Repositories\Interfaces\Managements\ITemplateManagemntRepository.cs" />
     <Compile Include="Repositories\Services\InstantSmsRepository.cs" />
     <Compile Include="Repositories\Services\Managements\AccountManagemntRepository.cs" />
+    <Compile Include="Repositories\Services\Managements\SenderRepository.cs" />
     <Compile Include="Repositories\Services\Managements\TemplateManagemntRepository.cs" />
+    <Compile Include="SenderIdController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Services\ISmsService.cs" />
     <Compile Include="Services\SmsService.cs" />
     <Compile Include="SharedController.generated.cs">
@@ -1167,6 +1173,7 @@
     <Content Include="Views\Management\Templates.cshtml" />
     <Content Include="Views\Management\AddTemplate.cshtml" />
     <Content Include="Uploads\TemplateSampleFile.xlsx" />
+    <Content Include="Views\Management\AddSenderId.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

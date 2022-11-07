@@ -1,0 +1,679 @@
+﻿@model Templateprj.Models.Managements.AddSenderModel
+@{
+    System.Data.DataTable project = ViewBag.inboundData;
+
+    ViewBag.Title = "Management";
+}
+
+<link href="~/assets/css/common-style.css" rel="stylesheet" />
+
+<div class="row" style="margin-top:50px">
+    <div class="col">
+
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "templateform" }))
+            {
+                <div class="container" style="margin-left:10px">
+            <div class="row">
+                <div class="wizard-navigation">
+                    <div class="col-xs-12 navstyle">
+                        <ul class="nav">
+                            <li class="nav-item" style="width: 100px;height:35px">
+                                <a style="font-size:9.2846px" class="nav-link" href="@Url.Action("Account", "Management")">
+                                    <btn_searchi class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></btn_searchi>
+                                    ACCOUUNT
+                                </a>
+                            </li>
+                            <li class="nav-item " style="width: 111px;height:35px">
+                                <a style="font-size:9.2846px" class="nav-link" href="@Url.Action("Templates", "Template")">
+                                    <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                    TEMPLATES
+                                </a>
+                            </li>
+                            <li class="nav-item arrow" style="width: 131px;height:35px">
+                                <a style="font-size:9.2846px" class="nav-link active" href="@Url.Action("SenderIds", "SenderId")">
+                                    <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                    SENDER ID
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                <div class="tab-content" style="margin-left:15px;margin-top:10px;">
+                <div class="tab-pane show active navclr">
+                    <div class="row" id="divAdd">
+                        <div class="col-md-12">
+                            @if (!ViewBag.IsEdit)
+                            {
+                                <p>
+                                    <a class="btn btn-block text-white dropdown-toggle" style="text-align:left;background-color:#5f004b;font-size:9.2846px"
+                                       data-toggle="collapse" href="#addUpload" role="button" aria-expanded=@(ViewBag.IsEdit ? "true" : "false")>
+                                        ADD SENDER ID
+                                    </a>
+                                </p>
+                            }
+                                <div class="collapse" id="addUpload">
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-6 col-6">
+                                                @Html.Label("Header Id")
+                                                <div class="form-group">
+                                                    @Html.TextBoxFor(m => m.HeaderId, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+                                                    @Html.HiddenFor(m => m.SmId)
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-6 col-6">
+                                                @Html.Label("Sender Id")
+                                                <div class="form-group">
+                                                    @Html.TextBoxFor(m => m.SenderId, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-6 col-6">
+                                                @Html.Label("Tele Marketer")
+                                                <div class="form-group">
+                                                    @Html.TextBoxFor(m => m.TeleMarketer, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-6 col-6">
+                                                @Html.Label("RegisteredTsp")
+                                                <div class="form-group">
+                                                    @Html.TextBoxFor(m => m.TeleMarketer, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-6 col-6">
+                                                @Html.Label("Requested On")
+                                                <div class="form-group">
+                                                    @Html.TextBoxFor(m => m.RequestedDate, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-6 col-6">
+                                                @Html.Label("Status Date")
+                                                <div class="form-group">
+                                                    @Html.TextBoxFor(m => m.StatusDate, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-6 col-6">
+                                                @Html.Label("Status")
+                                                <div class="form-group">
+                                                    @Html.TextBoxFor(m => m.Status, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-6 col-6">
+                                                @Html.Label("BlackListed By")
+                                                <div class="form-group">
+                                                    @Html.TextBoxFor(m => m.BlackListedBy, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-12">
+                                                @Html.Label("Template Message")
+                                                <div class="form-group">
+                                                    @Html.TextAreaFor(m => m.Explanation, new { @class = "w-100", @rows = "4", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        @if (!ViewBag.IsEdit)
+                                        {
+                                            <div class="row">
+                                                <div class="col-12" style="text-align:right">
+                                                    <button class="btn-success mt-1" id="addSender" type="button">Add Sender Id</button>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="row">
+                                                <div class="col-12" style="text-align:right">
+                                                    <button class="btn-success mt-1" id="updateSener" type="button">Update</button>
+                                                </div>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                        @if (!ViewBag.IsEdit)
+                        {
+                            <div class="col-md-12">
+                                <div class="row" id="divUpload">
+                                    <div class="col-md-12">
+                                        <p>
+                                            <a class="btn btn-block text-white dropdown-toggle" style="text-align:left;background-color:#5f004b;font-size:9.2846px"
+                                               data-toggle="collapse" href="#collapseupload" role="button" aria-expanded="false">
+                                                UPLOAD SENDER IDS
+                                            </a>
+                                        </p>
+                                        <div class="collapse ml-5" id="collapseupload">
+
+                                            <div id="fileUploadm2m">
+                                                <div class="row">
+                                                    <div class="col" style="text-align:right;">
+                                                        <a id="samplefiledownlod" style="color:#5f004b;font-size:13px" href="~/Uploads/TemplateSampleFile.xlsx"><i class="now-ui-icons files_single-copy-04"></i>Sample File</a>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-4" style="text-align:left;">
+                                                        <span>@Html.Label("Upload Sender Ids") </span>
+                                                        <input style="width:234px;font-size:13px;color:#5f004b;" id="fileToUpload" type="file" name="file" required="required">
+
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <button class="btn-success" id="uploadfileid" type="button">Upload</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="row" id="divSummary" style="display:none">
+                        <div class="col">
+                            <span class="btn btn-primary">
+                                Total <span class="badge badge-light" id="spnTotal">0</span>
+                            </span>
+                            <span class="btn btn-danger">
+                                Duplicate <span class="badge badge-light" id="spnDuplicate">0</span>
+                            </span>
+                            <table class="table" id="alertTable">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">TemplateId</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            }
+
+            </div>
+        </div>
+        @section scripts {
+
+            <link href="~/Scripts/virtualkeyboard/keyboard.css" rel="stylesheet" />
+            <script type="text/javascript" src="~/Scripts/virtualkeyboard/keyboard.js" charset="UTF-8"></script>
+            <script type="text/javascript" src="http://cdn.rawgit.com/bassjobsen/Bootstrap-3-Typeahead/master/bootstrap3-typeahead.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+            <script src="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"></script>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+            <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+            <script>
+                $(document).ready(function () {
+
+                    if ($("ContentType").val() == 1) {
+                        $('#divVariableCount').hide();
+                    }
+                    else {
+                        $('#divVariableCount').show();
+                    }
+
+                    $("#addSender").click(function (e) {
+                        //Serialize the form datas.
+                        var valdata = $("#templateform").serialize();
+                        $.ajax({
+                            url: "/SenderId/SenderIds",
+                            type: "POST",
+                            dataType: 'json',
+                            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                            data: valdata
+                            , success: function (e) {
+                                jsondata = JSON.parse(e);
+                                if (jsondata.status == "1") {
+                                    $('#divSummary').hide();
+                                    $('#divAdd').show();
+                                    window.location.href = '/Template/Templates';
+                                }
+                                else {
+                                    $('#divSummary').show();
+                                    $('#divAdd').hide();
+                                    $('#addUpload').hide();
+                                    ErrorMsg("Failed to save account details.")
+                                    $('#spnTotal').text(jsondata.data.Total);
+                                    $('#spnDuplicate').text(jsondata.data.Duplicate);
+                                    $.each(jsondata.data.Data, function (index, val) {
+                                        //console.log(index, val);
+                                        addRow(index + 1, val.TemplateId);
+                                    });
+                                }
+                                console.log(jsondata);
+                            }
+                        });
+                    });
+                });
+            </script>
+
+            <script>
+                $("#RequestedOn").flatpickr({
+
+                    dateFormat: "d/m/Y",
+
+                });
+
+                $("#StatusDate").flatpickr({
+
+                    dateFormat: "d/m/Y",
+
+                });
+
+                $(document).on('click', '#btnSearch', function (e) {
+                    loadReportreport();
+                });
+            </script>
+
+            @*List Templates*@
+            <script>
+        var columnHeaders = [];
+        function loadReportreport() {
+
+
+                var coulmnLimit = 1;
+            $("#loading").show();
+
+
+                $("#divNoData").hide();
+                $.post("@Url.Action(MVC.Template.GetTemplates())", $("form").serialize(), function (resp) {
+                    $("#loading").hide();
+                    $(".spinner-grow").hide();
+                    if (jQuery.isEmptyObject(resp.Data)) {
+                    $("#divNoData span").text(" No data available");
+                    $("#divNoData").show();
+                    $("#divTablereport").hide();
+                }
+                    else {
+                        columnHeaders = resp.Header;
+                        columnHeaders= sortResults("Id",true);
+                    coulmnLimit = resp.Count;
+                    var headers = [{
+                        className: 'dt-control',
+                        orderable: false,
+                        data: null,
+                        defaultContent: '',
+                    }];
+                    var i = 0;
+                        $.each(columnHeaders, function (i, item) {
+                        i = i + 1;
+                        var title = item.Title;
+                        var data = item.Data;
+                        /*map[name] = { data: id, title: name };*/
+                        headers.push({ "data": data, "title": title, "name": title });
+                        if (i > resp.Count) {
+
+                            headers.push({
+                                "title": "Manage",
+                                "data": "TemplateId",
+                                "width": "50px !mportant",
+
+                                "render": function (data1, type, row) {
+                                    return `<p>
+
+                                                <a class="delete" title="Add" data-toggle="tooltip" onClick="deleteTemplate(`+ row.ID + `)"><i class='fas fa-trash'></i></a>
+
+                                                <a class="edit" title="Add" data-toggle="tooltip" onClick="editTemplate(`+ row.ID + `)"></i></a>
+
+                                         </p>`;
+                                }
+                            });
+                            return false;
+                        }
+                    });
+
+                    {
+                        $("#tbl_rptreport").show();
+                        $("#divTablereport").show();
+
+                        rpt_datatable = $("#tbl_rptreport").DataTable({
+                            responsive: true,
+                            deferRender: true,
+                            "destroy": true,
+                            bFilter: false,
+                            bInfo: false,
+                            "data": resp.Data,
+                            "columns":
+                                headers,
+                            "columnDefs": [
+                                { "width": "30px !important", "targets": 0 }
+                            ],
+                            fnInitComplete: function (o) {
+                                $("#loading").hide();
+                                $(".spinner-grow").hide();
+                            },
+                        });
+                    }
+                }
+
+                }).fail(function (xhr, status, error) {
+                    $("#loading").hide();
+                    $(".spinner-grow").hide();
+                    $("input[type=button]").removeAttr("disabled");
+                    if (xhr.status == 401) {
+                        alert("Click to continue", "Session Timedout", function () {
+                            closing = false;
+                            window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                        })
+                    }
+                    else if (xhr.status == 507) {
+                        $("#divNoData span").text(" Result is too large.");
+                        $("#divNoData").show();
+                        $("input[type=button]").removeAttr("disabled");
+                    } else {
+                        alert("Unable to fetch data from server", "Failed");
+
+                    }
+                    });
+
+                $(function () {
+                    $("#tbl_rptreport").click(function (event) {
+
+                        event.stopPropagation();
+                        var $target = $(event.target);
+
+                        var tr = $target.closest('tr');
+                        var row = rpt_datatable.row(tr);
+
+                        if (row.child.isShown()) {
+                            console.log('hide')
+                            // This row is already open - close it
+                            row.child.hide();
+                            tr.removeClass('shown');
+                        } else {
+                            console.log('shown')
+                            // Open this row
+                            row.child(format(row.data(), columnHeaders, coulmnLimit)).show();
+                            tr.addClass('shown');
+                        }
+                    });
+        });
+
+        }
+
+        /* Formatting function d.TemplateId for row details - modify as you need */
+        function format(d,h,c) {
+            // `d` is the original data object for the row
+            var expandedRpw = '<div class="row expandcontainer g-2 d-flex justify-content-center gx-5" style="padding:4px;margin-left:-12px !important;background:#ffffff">';
+            var i = 0;
+            for (var key in d) {
+                i = i + 1;
+                if (i > c) {
+                    expandedRpw = expandedRpw + '<div class="col-3 border font-weight-bold" >' + h.find((o) => { return o["Data"] === key }).Title + '</div>' + '<div class="col-3 border">'
+                        +
+                    d[key]
+                        + '</div>';
+                }
+            }
+            expandedRpw = expandedRpw + '</div>';
+            return (
+                expandedRpw
+            );
+        }
+
+        function sortResults(prop, asc) {
+            columnHeaders.sort(function (a, b) {
+                if (asc) {
+                    return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
+                } else {
+                    return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
+                }
+            });
+            return columnHeaders;
+        }
+
+            </script>
+
+            @*Load autofill textboxes and reload report*@
+            <script type="text/javascript">
+        function onSubmit(form) {
+            var data = JSON.stringify($(form).serializeArray()); //  <-----------
+
+            console.log(data);
+            return false; //don't submit
+        }
+
+        $(document).ready(function ()
+        {
+            if ('@ViewBag.IsEdit' === 'False') {
+                $("input").removeAttr('disabled', 'disabled');
+                $("select").removeAttr('disabled', 'disabled');
+                $("textarea").removeAttr('disabled', 'disabled');
+            } else {
+                $("#addUpload").collapse('show');
+            }
+
+            var items = [];
+            var temaplteItems = [];
+            var headerItems = [];
+                $.ajax({
+                                url: "@Url.Action("GetTemplateNames", "Template")",
+                                type: "GET",
+                                contentType: "application/json; charset=utf-8",
+                                success: function (data) {
+
+                                    map = {};
+                                    $.each(data.TemaplteNames, function (i, item) {
+                                        var id = item.Id;
+                                        var name = item.Value;
+                                        map[name] = { id: id, name: name };
+                                        items.push(name);
+                                    });
+
+                                    map = {};
+                                    $.each(data.TemplateIds, function (i, item) {
+                                        var id = item.Id;
+                                        var name = item.Value;
+                                        map[name] = { id: id, name: name };
+                                        temaplteItems.push(name);
+                                    });
+
+
+                                    map = {};
+                                    $.each(data.Headers, function (i, item) {
+                                        var id = item.Id;
+                                        var name = item.Value;
+                                        map[name] = { id: id, name: name };
+                                        headerItems.push(name);
+                                    });
+
+                                },
+                                error: function (response) {
+                                    alert(response.responseText);
+                                },
+                                failure: function (response) {
+                                    alert(response.responseText);
+                                }
+                            });
+
+            console.log(items);
+            $('#txtName').typeahead({
+                source: function (request, response) {
+                    response(items);
+                },
+                matcher: function (item) {
+                    if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
+                        return true;
+                    }
+                },
+                updater: function (item) {
+                    return item;
+                }
+            });
+
+            $('#TemplateId').typeahead({
+                source: function (request, response) {
+                    response(temaplteItems);
+                },
+                matcher: function (item) {
+                    if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
+                        return true;
+                    }
+                },
+                updater: function (item) {
+                    return item;
+                }
+            });
+
+            $('#HeaderSenderId').typeahead({
+                source: function (request, response) {
+                    response(headerItems);
+                },
+                matcher: function (item) {
+                    if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
+                        return true;
+                    }
+                },
+                updater: function (item) {
+                    return item;
+                }
+            });
+       });
+
+
+            </script>
+
+            <script>
+                function onContentTypeChange(val) {
+                    if (val == 1) {
+                        $('#divVariableCount').hide();
+                    }
+                    else {
+                        $('#divVariableCount').show();
+                    }
+                }
+            </script>
+
+            @*Upload Tempalte File*@
+            <script>
+
+             $('#uploadfileid').on('click', function () {
+
+                 if ($("#templateform").valid()) {
+
+                var fileUpload = $("#fileToUpload").get(0);
+
+                var files = fileUpload.files;
+
+                var fileData = new FormData();
+                const fsize = files[0].size;
+                console.log(fsize);
+                const filesizeinkb = Math.round((fsize / 1024));
+
+                if (filesizeinkb >= 100000) {
+                    ErrorMsg("File is too large,Please upload file less than 100 MB")
+                }
+                else {
+                    fileData.append(files[0].name, files[0]);
+                    fileData.append("CampaignId", $("#uploadCampaignName").val());
+                    fileData.append("starttype", $("#uploadCampaignstarttype").val());
+                    $.ajax({
+                        url: '@Url.Action(MVC.Template.UploadTemplate())',
+                        type: 'post',
+                        datatype: 'json',
+                        contentType: false,
+                        processData: false,
+                        async: false,
+                        data: fileData,
+                        success: function (response) {
+                            var obj = JSON.parse(response);
+                            console.log(obj);
+                            if (obj.status == "1") {
+                                SuccessMsg(obj.response)
+                            }
+                            else {
+                                ErrorMsg(obj.response);
+                            }
+                        }
+                    });
+                }
+
+
+
+
+            }
+            else {
+                ErrorMsg("Please fill in all fields.")
+            }
+
+
+        });
+
+            </script>
+
+            @*Update Temaplte*@
+            <script>
+        $(document).on('click', '#updateSender', function (e) {
+
+                var templateModel = {};
+                var isValid = true;
+                templateModel.id = $("#Id").val();
+                templateModel.blackListedBy = $("#BlackListedBy").val();
+                templateModel.status = $("#Status").val();
+
+                if (isValid) {
+                    $.ajax({
+                        url: "@Url.Action("Templates", "Template")",
+                        type: 'PUT',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        data: JSON.stringify(templateModel),
+                        success: function (e) {
+                            jsondata = JSON.parse(e);
+                            if (jsondata.status == "1") {
+                                SuccessMsg("Successfully update template details");
+                            }
+                            else {
+                                ErrorMsg("Failed to upate template details.")
+                            }
+                            console.log(jsondata);
+                        }
+                    });
+                }
+                else {
+                    ErrorMsg("Please confirm the entries, there are some alerts exist.")
+                }
+        });
+            </script>
+
+            <script>
+                function addRow(rid,tid) {
+                    var table = document.getElementById("alertTable"); //get the table
+                    var rowcount = table.rows.length; //get no. of rows in the table      
+                    //append the controls in the row      
+                    var tblRow = '<tr><th scope = "row"> ' + rid + '</th><td>' + tid+'</td></tr >';
+                    $("#alertTable").append(tblRow);
+                }
+
+            </script>
+        }
