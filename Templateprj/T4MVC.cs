@@ -766,6 +766,8 @@ namespace Links
             public const string UrlPath = "~/Content/Images";
             public static string Url() { return T4MVCHelpers.ProcessVirtualPath(UrlPath); }
             public static string Url(string fileName) { return T4MVCHelpers.ProcessVirtualPath(UrlPath + "/" + fileName); }
+            public static readonly string bx_loader_gif = Url("bx_loader.gif");
+            public static readonly string loading_gif = Url("loading.gif");
             public static readonly string Login_Page_image_removebg_preview_png = Url("Login-Page-image-removebg-preview.png");
             public static readonly string Login_Page_image_png = Url("Login-Page-image.png");
             public static readonly string Logo_png = Url("Logo.png");

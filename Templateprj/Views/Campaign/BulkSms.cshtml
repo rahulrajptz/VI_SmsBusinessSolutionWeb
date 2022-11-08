@@ -26,6 +26,10 @@
         z-index: 2;
     }
 
+    textarea {
+        resize: none;
+    }
+
     .alert-danger {
         color: white;
     }
@@ -222,7 +226,7 @@
                                 </a>
                             </li>
                             <li class="nav-item"  style="width: 118px;height:35px">
-                                    <a style="font-size:9.2846px" id="campaignlistnavitem" class="nav-link" href="#campaignlistnav" data-toggle="tab" role="tab" aria-controls="account" aria-selected="false">
+                                    <a style="font-size:9.2846px" id="campaignlistnavitem" class="nav-link" href="#campaignlistnav" onclick="return resetfunction()" data-toggle="tab" role="tab" aria-controls="account" aria-selected="false">
                                         <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
                                         CAMPAIGN LIST
                                     </a>
@@ -234,13 +238,13 @@
                                 </a>
                             </li>
                             <li class="nav-item arrow" style="width: 131px;height:35px">
-                                <a style="font-size:9.2846px" id="campaignstatusnavitem" class="nav-link" href="#campaignstatusnav" data-toggle="tab" role="tab" aria-controls="address" aria-selected="false">
+                                <a style="font-size:9.2846px" id="campaignstatusnavitem" class="nav-link" href="#campaignstatusnav" onclick="return resetfunction()" data-toggle="tab" role="tab" aria-controls="address" aria-selected="false">
                                     <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
                                     CAMPAIGN STATUS
                                 </a>
                             </li>
                             <li class="nav-item" style="width:133px;height:35px">
-                                <a style="font-size:9.2846px" id="campaignreportsnavitem" class="nav-link" href="#campaignreportsnav" data-toggle="tab" role="tab" aria-controls="about" aria-selected="false">
+                                <a style="font-size:9.2846px" id="campaignreportsnavitem" class="nav-link" href="#campaignreportsnav" onclick="return resetfunction()" data-toggle="tab" role="tab" aria-controls="about" aria-selected="false">
                                     <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
                                     CAMPAIGN REPORTS
                                 </a>
@@ -458,12 +462,6 @@
                         </p>
                         <div class="collapse  ml-5" id="collapseTestSms" style="width: 88%;">
 
-                            @*<div class="col-md-12" id="generated2">
-
-                                            @Html.TextBoxFor(m => m.SMSvariable[0].variableName, new { @class = " form-control", required = "required" })
-                                            @Html.TextBoxFor(m => m.SMSvariable[0].renameVariable, new { @class = " form-control", required = "required"})
-
-                        </div>*@
                             <div class="row col-md-9 ml-3" id="SMSTestingCompleteDiv">
                                 <div class="col-md-6">
 
@@ -531,19 +529,19 @@
 
                                         </div>
                                         <div class="row">
-                                            <div id="message0" class="col-md-6">
-                                                @Html.TextAreaFor(m => m.SMSTest[0].message, new { @class = "form-control", @style = "height: auto !important;background:white;width:207px;margin-left:146px;", @readonly = "@readonly", @rows = "5" })
+                                            <div class="col-md-6">
+                                                @*@Html.TextAreaFor(m => m.SMSTest[0].message, new { @class = "form-control", @style = "height: auto !important;background:white;width:207px;margin-left:146px;", @readonly = "@readonly", @rows = "5" })*@
+                                                @Html.TextAreaFor(m => m.SMSTest[0].message, new { @class = "form-control", @readonly = "@readonly", @style = "height: auto !important;background:white;width:211px;margin-left:145px;aria - invalid = false", @rows = "5" })
 
+                                            </div></div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    @Html.TextAreaFor(m => m.SMSTest[1].message, new { @class = "form-control", @readonly = "@readonly", @style = "height: auto !important;background:white;width:211px;margin-left:45px", @rows = "5" })
+
+                                                </div>
                                             </div>
 
-
-                                            <div id="message1" class="col-md-6">
-                                                @Html.TextAreaFor(m => m.SMSTest[1].message, new { @class = "form-control", @readonly = "@readonly", @style = "height: auto !important;background:white;width:211px;margin-left:45px", @rows = "5" })
-
-                                            </div>
                                         </div>
-
-                                    </div>
                                 </div>
 
                                 <div class="row col-md-12">
@@ -1065,28 +1063,22 @@
             <div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
 
-                <div class="modal-dialog" style="width:400px;height:200px;">
+                <div class="modal-dialog" style="width:400px;height:235px;">
 
                     <div class="modal-content" style="width:400px;height:200px;text-align:center;">
-
+                        <div class="modal-header">
+                            @Html.Label("Campaign Validity Extension", new { style = "font-weight:bold; font-size:18px;" })
+                            <button type="button" id="closebtnupload" data-dismiss="modal">X</button>
+                        </div>
                         <table style="height:200px; width:390px;  ">
                             <tr>
-                                <td>  @Html.Label("Campaign Validity Extension") @Html.HiddenFor(m => m.updatedId, new { Value = "-1" }) @Html.HiddenFor(m => m.updatedFromDate, new { Value = "-1" })</td>
-                                <td style="text-align:right;">
-
-                                    <button type="button" id="closebtnupload" data-dismiss="modal">X</button>
-
-                                </td>
+                                <td> @Html.HiddenFor(m => m.updatedId, new { Value = "-1" }) @Html.HiddenFor(m => m.updatedFromDate, new { Value = "-1" })</td>
+                                
                             </tr>
-                            @*<tr style="margin-top:10px;">
-                            <td colspan="2" style="text-align:left; font-weight:500;">
-
-
-                            </td>
-                        </tr>*@
+                           
                             <tr>
                                 <td style="width:120px; ">
-                                    @Html.Label("To Date*")
+                                    @Html.Label("To Date")<span style="color:red;">*</span>
                                 </td>
                                 <td style="width:180px;text-align:left;">
                                     @Html.TextBoxFor(m => m.updatedToDate, new { @class = " form-control mask-date", style = "background:white;width:150px;", placeholder = "-To updated Date-", @readonly = "@readonly" })
@@ -1095,7 +1087,7 @@
                             </tr>
                             <tr>
                                 <td style="width:120px;">
-                                    @Html.Label("To Time*")
+                                    @Html.Label("To Time")<span style="color:red;">*</span>
                                 </td>
                                 <td style="width:180px; text-align:left;">
 
@@ -1106,12 +1098,12 @@
                             </tr>
                             <tr>
                                 <td colspan="2" style="text-align:center;">
-                                    <input type="button" value="update" style="background-color:#28A745; color:white;width:70px; margin-left:50px; margin-top:30px;" onclick="submitUpdateTime()" />
+                                    <input type="button" value="update" style="background-color:#28A745; color:white;width:70px; margin-left:50px; margin-top:5px;" onclick="submitUpdateTime()" />
                                 </td>
                             </tr>
 
                         </table>
-                      
+
 
                     </div>
 
@@ -1244,6 +1236,7 @@
                             $('#campaignsubmit').hide();
                             $('#savecampaignM2M').hide();
                             $('#testsmsdiv').show();
+                            //$("#SMSTestingCompleteDiv").addClass("show  active");
                             $("#SMSTestingCompleteDiv").show()
                             var templateTypeId = document.getElementById("templateTypeName").innerHTML;
 
@@ -2146,7 +2139,9 @@
                             "mRender": function (data, type, full) {
                               
                                    //return '<i class="btn btn-link"onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
-                                return "<a class='btn btn-default btn sm' onclick=downloadBase('" + full[0] + "');><i class='fa fa-download'></i></a><input id=File_" + full[0] + "  type=hidden value='" + full[11] + "' />";
+                                if (full[11].length > 3)
+                                    return "<a class='btn btn-default btn sm' onclick=downloadBase('" + full[0] + "');><i class='fa fa-download'></i></a><input id=File_" + full[0] + "  type=hidden value='" + full[11] + "' />";
+
                                 }
                             },  
                             {
@@ -2154,9 +2149,12 @@
                                 "className": "text-left",
 
                                 "mRender": function (data, type, full) {
-
-                                    return '<i class="btn btn-link"onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
-                                   
+                                    if (full[12] == "1") {
+                                        return '<i class="btn btn-link"onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
+                                    }
+                                    else {
+                                        return "";
+                                    }
                                 }
                             },   
                             {
@@ -2240,6 +2238,7 @@
                               data: resp.tdata,
                               columns: resp.thead,
                               autoWidth: false,
+                              searching: false,
                               'columnDefs': [],
                               order: [],
                               fnInitComplete: function (o) {
@@ -2738,6 +2737,12 @@
             $("#smstemplatediv").hide();
             $('#CampaignCreationButtondiv').hide();
             $("#campaignId").val(null);
+            $("#tbl_rpt").hide();
+            $("#tbl_rptstatus").hide();
+            $('#tbl_rptstatus').parents('div.dataTables_wrapper').first().hide();
+            $("#tbl_rptreport").hide();
+            $('#tbl_rptreport').parents('div.dataTables_wrapper').first().hide();
+            $("#divTable").hide();
            
             $("input[id=btnShow]").removeAttr("disabled");
             //$("#onnet").val("");
@@ -2961,6 +2966,7 @@
                                 console.log(obj);
                            
                                 if (obj.status == "1") {
+                                    alert(obj.response);
                                     SuccessMsg(obj.response);
                                     resetfunctionUpload();
                                     //$("#loading").hide();
@@ -2969,6 +2975,7 @@
                                 }
                                 else
                                 {
+                                    alert(obj.response);
                                     ErrorMsg(obj.response);
                                   //  $('.modal1').css('display', 'none');
                                     hideLoadingSpinner();

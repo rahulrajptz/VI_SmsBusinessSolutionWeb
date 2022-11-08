@@ -95,7 +95,7 @@ namespace Templateprj.Controllers
             return View();
         }
         [HttpGet]
-      //  [AuthorizeUser]
+        [AuthorizeUser]
         public virtual ActionResult FirstTimeLogin()
         {
             var model = new FirstTimeLoginModel();
@@ -186,6 +186,7 @@ namespace Templateprj.Controllers
         }
         [HttpGet]
         [AllowAnonymous]
+       // [AuthorizeUser]
         public virtual ActionResult ForgotPassword()
         {
             var model = new AuthenticateUserModel();
@@ -235,7 +236,7 @@ namespace Templateprj.Controllers
             return View("AuthenticateUser", model);
         }
         [HttpGet]
-        //[AuthorizeUser]
+        [AuthorizeUser]
         public virtual ActionResult ChangePassword() => View();
         [HttpPost]
         [AuthorizeUser]
