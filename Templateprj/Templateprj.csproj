@@ -1183,6 +1183,7 @@
     <Content Include="Views\Management\AddTemplate.cshtml" />
     <Content Include="Uploads\TemplateSampleFile.xlsx" />
     <Content Include="Views\Management\AddSenderId.cshtml" />
+    <Content Include="Uploads\SenderIdSampleFile.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

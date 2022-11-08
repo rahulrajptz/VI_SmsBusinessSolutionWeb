@@ -15,7 +15,7 @@ namespace Templateprj.Repositories.Services
 {
     public class TemplateManagemntRepository : ITemplateManagemntRepository
     {
-        public TemplateModel GetTemplateFilters()
+        public TemplateModel GetTemplateFilters(bool excludeAll = false)
         {
             TemplateModel model = new TemplateModel();
 
@@ -35,11 +35,11 @@ namespace Templateprj.Repositories.Services
                         var dataset = new DataSet();
                         dataAdapter.Fill(dataset);
 
-                        model.TemplateTypes = GetDatatables(dataset.Tables[0]).ToSelectList();
-                        model.Status = GetDatatables(dataset.Tables[1]).ToSelectList();
-                        model.ContentTypes = GetDatatables(dataset.Tables[2]).ToSelectList();
-                        model.ApprovalStatus = GetDatatables(dataset.Tables[3]).ToSelectList();
-                        model.ConsentType = GetDatatables(dataset.Tables[4]).ToSelectList();
+                        model.TemplateTypes = GetDatatables(dataset.Tables[0], excludeAll).ToSelectList();
+                        model.Status = GetDatatables(dataset.Tables[1], excludeAll).ToSelectList();
+                        model.ContentTypes = GetDatatables(dataset.Tables[2], excludeAll).ToSelectList();
+                        model.ApprovalStatus = GetDatatables(dataset.Tables[3], excludeAll).ToSelectList();
+                        model.ConsentType = GetDatatables(dataset.Tables[4], excludeAll).ToSelectList();
                         model.Headers = dataset.Tables[5].ToSelectList();
                     }
 
@@ -220,16 +220,19 @@ namespace Templateprj.Repositories.Services
             }
         }
 
-        private DataTable GetDatatables(DataTable dt)
+        private DataTable GetDatatables(DataTable dt, bool excludeAll = false)
         {
             if (dt == null)
             {
                 dt = new DataTable();
             }
-            DataRow newRow = dt.NewRow();
-            newRow[0] = 0;
-            newRow[1] = "All";
-            dt.Rows.InsertAt(newRow, 0);
+            if (!excludeAll)
+            {
+                DataRow newRow = dt.NewRow();
+                newRow[0] = 0;
+                newRow[1] = "All";
+                dt.Rows.InsertAt(newRow, 0);
+            }
             return dt;
         }
 

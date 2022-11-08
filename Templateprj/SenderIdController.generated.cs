@@ -81,6 +81,7 @@ namespace Templateprj.Controllers
             public readonly string SenderIds = "SenderIds";
             public readonly string GetSenders = "GetSenders";
             public readonly string AddSenderId = "AddSenderId";
+            public readonly string UploadSenderIds = "UploadSenderIds";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -89,6 +90,7 @@ namespace Templateprj.Controllers
             public const string SenderIds = "SenderIds";
             public const string GetSenders = "GetSenders";
             public const string AddSenderId = "AddSenderId";
+            public const string UploadSenderIds = "UploadSenderIds";
         }
 
 
@@ -183,6 +185,17 @@ namespace Templateprj.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.SenderIds);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
             SenderIdsOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void UploadSenderIdsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult UploadSenderIds()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.UploadSenderIds);
+            UploadSenderIdsOverride(callInfo);
             return callInfo;
         }
 
