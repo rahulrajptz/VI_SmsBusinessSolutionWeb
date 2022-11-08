@@ -10,7 +10,7 @@
 <div class="row" style="margin-top:50px">
     <div class="col">
 
-            @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "templateform" }))
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "senderform" }))
             {
                 <div class="container" style="margin-left:10px">
             <div class="row">
@@ -109,7 +109,7 @@
                                             <div class="col-lg-3 col-md-6 col-6">
                                                 @Html.Label("Status")
                                                 <div class="form-group">
-                                                    @Html.TextBoxFor(m => m.Status, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+                                                    @Html.DropDownListFor(m => m.Status, Model.ApprovalStatus, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-6 col-6">
@@ -169,7 +169,7 @@
                                             <div id="fileUploadm2m">
                                                 <div class="row">
                                                     <div class="col" style="text-align:right;">
-                                                        <a id="samplefiledownlod" style="color:#5f004b;font-size:13px" href="~/Uploads/TemplateSampleFile.xlsx"><i class="now-ui-icons files_single-copy-04"></i>Sample File</a>
+                                                        <a id="samplefiledownlod" style="color:#5f004b;font-size:13px" href="~/Uploads/SenderIdSampleFile.xlsx"><i class="now-ui-icons files_single-copy-04"></i>Sample File</a>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -244,7 +244,7 @@
 
                     $("#addSender").click(function (e) {
                         //Serialize the form datas.
-                        var valdata = $("#templateform").serialize();
+                        var valdata = $("#senderform").serialize();
                         $.ajax({
                             url: "/SenderId/SenderIds",
                             type: "POST",
@@ -256,21 +256,19 @@
                                 if (jsondata.status == "1") {
                                     $('#divSummary').hide();
                                     $('#divAdd').show();
-                                    window.location.href = '/Template/Templates';
+                                    window.location.href = '/SenderId/SenderIds';
                                 }
                                 else {
                                     $('#divSummary').show();
                                     $('#divAdd').hide();
                                     $('#addUpload').hide();
-                                    ErrorMsg("Failed to save account details.")
+                                    ErrorMsg("Failed to save details.")
                                     $('#spnTotal').text(jsondata.data.Total);
                                     $('#spnDuplicate').text(jsondata.data.Duplicate);
                                     $.each(jsondata.data.Data, function (index, val) {
-                                        //console.log(index, val);
-                                        addRow(index + 1, val.TemplateId);
+                                        addRow(index + 1, val.PId);
                                     });
                                 }
-                                console.log(jsondata);
                             }
                         });
                     });
@@ -278,308 +276,37 @@
             </script>
 
             <script>
-                $("#RequestedOn").flatpickr({
-
+                $("#RequestedDate").flatpickr({
                     dateFormat: "d/m/Y",
-
                 });
 
                 $("#StatusDate").flatpickr({
-
                     dateFormat: "d/m/Y",
-
                 });
+          </script>
 
-                $(document).on('click', '#btnSearch', function (e) {
-                    loadReportreport();
-                });
-            </script>
-
-            @*List Templates*@
-            <script>
-        var columnHeaders = [];
-        function loadReportreport() {
-
-
-                var coulmnLimit = 1;
-            $("#loading").show();
-
-
-                $("#divNoData").hide();
-                $.post("@Url.Action(MVC.Template.GetTemplates())", $("form").serialize(), function (resp) {
-                    $("#loading").hide();
-                    $(".spinner-grow").hide();
-                    if (jQuery.isEmptyObject(resp.Data)) {
-                    $("#divNoData span").text(" No data available");
-                    $("#divNoData").show();
-                    $("#divTablereport").hide();
-                }
-                    else {
-                        columnHeaders = resp.Header;
-                        columnHeaders= sortResults("Id",true);
-                    coulmnLimit = resp.Count;
-                    var headers = [{
-                        className: 'dt-control',
-                        orderable: false,
-                        data: null,
-                        defaultContent: '',
-                    }];
-                    var i = 0;
-                        $.each(columnHeaders, function (i, item) {
-                        i = i + 1;
-                        var title = item.Title;
-                        var data = item.Data;
-                        /*map[name] = { data: id, title: name };*/
-                        headers.push({ "data": data, "title": title, "name": title });
-                        if (i > resp.Count) {
-
-                            headers.push({
-                                "title": "Manage",
-                                "data": "TemplateId",
-                                "width": "50px !mportant",
-
-                                "render": function (data1, type, row) {
-                                    return `<p>
-
-                                                <a class="delete" title="Add" data-toggle="tooltip" onClick="deleteTemplate(`+ row.ID + `)"><i class='fas fa-trash'></i></a>
-
-                                                <a class="edit" title="Add" data-toggle="tooltip" onClick="editTemplate(`+ row.ID + `)"></i></a>
-
-                                         </p>`;
-                                }
-                            });
-                            return false;
-                        }
-                    });
-
-                    {
-                        $("#tbl_rptreport").show();
-                        $("#divTablereport").show();
-
-                        rpt_datatable = $("#tbl_rptreport").DataTable({
-                            responsive: true,
-                            deferRender: true,
-                            "destroy": true,
-                            bFilter: false,
-                            bInfo: false,
-                            "data": resp.Data,
-                            "columns":
-                                headers,
-                            "columnDefs": [
-                                { "width": "30px !important", "targets": 0 }
-                            ],
-                            fnInitComplete: function (o) {
-                                $("#loading").hide();
-                                $(".spinner-grow").hide();
-                            },
-                        });
-                    }
-                }
-
-                }).fail(function (xhr, status, error) {
-                    $("#loading").hide();
-                    $(".spinner-grow").hide();
-                    $("input[type=button]").removeAttr("disabled");
-                    if (xhr.status == 401) {
-                        alert("Click to continue", "Session Timedout", function () {
-                            closing = false;
-                            window.location = JSON.parse(xhr.responseText).LogOnUrl;
-                        })
-                    }
-                    else if (xhr.status == 507) {
-                        $("#divNoData span").text(" Result is too large.");
-                        $("#divNoData").show();
-                        $("input[type=button]").removeAttr("disabled");
-                    } else {
-                        alert("Unable to fetch data from server", "Failed");
-
-                    }
-                    });
-
-                $(function () {
-                    $("#tbl_rptreport").click(function (event) {
-
-                        event.stopPropagation();
-                        var $target = $(event.target);
-
-                        var tr = $target.closest('tr');
-                        var row = rpt_datatable.row(tr);
-
-                        if (row.child.isShown()) {
-                            console.log('hide')
-                            // This row is already open - close it
-                            row.child.hide();
-                            tr.removeClass('shown');
-                        } else {
-                            console.log('shown')
-                            // Open this row
-                            row.child(format(row.data(), columnHeaders, coulmnLimit)).show();
-                            tr.addClass('shown');
-                        }
-                    });
-        });
-
-        }
-
-        /* Formatting function d.TemplateId for row details - modify as you need */
-        function format(d,h,c) {
-            // `d` is the original data object for the row
-            var expandedRpw = '<div class="row expandcontainer g-2 d-flex justify-content-center gx-5" style="padding:4px;margin-left:-12px !important;background:#ffffff">';
-            var i = 0;
-            for (var key in d) {
-                i = i + 1;
-                if (i > c) {
-                    expandedRpw = expandedRpw + '<div class="col-3 border font-weight-bold" >' + h.find((o) => { return o["Data"] === key }).Title + '</div>' + '<div class="col-3 border">'
-                        +
-                    d[key]
-                        + '</div>';
-                }
-            }
-            expandedRpw = expandedRpw + '</div>';
-            return (
-                expandedRpw
-            );
-        }
-
-        function sortResults(prop, asc) {
-            columnHeaders.sort(function (a, b) {
-                if (asc) {
-                    return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
-                } else {
-                    return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
-                }
-            });
-            return columnHeaders;
-        }
-
-            </script>
-
-            @*Load autofill textboxes and reload report*@
+            @*Docuemtn ready*@
             <script type="text/javascript">
-        function onSubmit(form) {
-            var data = JSON.stringify($(form).serializeArray()); //  <-----------
-
-            console.log(data);
-            return false; //don't submit
-        }
-
-        $(document).ready(function ()
-        {
-            if ('@ViewBag.IsEdit' === 'False') {
-                $("input").removeAttr('disabled', 'disabled');
-                $("select").removeAttr('disabled', 'disabled');
-                $("textarea").removeAttr('disabled', 'disabled');
-            } else {
-                $("#addUpload").collapse('show');
-            }
-
-            var items = [];
-            var temaplteItems = [];
-            var headerItems = [];
-                $.ajax({
-                                url: "@Url.Action("GetTemplateNames", "Template")",
-                                type: "GET",
-                                contentType: "application/json; charset=utf-8",
-                                success: function (data) {
-
-                                    map = {};
-                                    $.each(data.TemaplteNames, function (i, item) {
-                                        var id = item.Id;
-                                        var name = item.Value;
-                                        map[name] = { id: id, name: name };
-                                        items.push(name);
-                                    });
-
-                                    map = {};
-                                    $.each(data.TemplateIds, function (i, item) {
-                                        var id = item.Id;
-                                        var name = item.Value;
-                                        map[name] = { id: id, name: name };
-                                        temaplteItems.push(name);
-                                    });
-
-
-                                    map = {};
-                                    $.each(data.Headers, function (i, item) {
-                                        var id = item.Id;
-                                        var name = item.Value;
-                                        map[name] = { id: id, name: name };
-                                        headerItems.push(name);
-                                    });
-
-                                },
-                                error: function (response) {
-                                    alert(response.responseText);
-                                },
-                                failure: function (response) {
-                                    alert(response.responseText);
-                                }
-                            });
-
-            console.log(items);
-            $('#txtName').typeahead({
-                source: function (request, response) {
-                    response(items);
-                },
-                matcher: function (item) {
-                    if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
-                        return true;
+       
+                $(document).ready(function ()
+                {
+                    if ('@ViewBag.IsEdit' === 'False') {
+                        $("input").removeAttr('disabled', 'disabled');
+                        $("select").removeAttr('disabled', 'disabled');
+                        $("textarea").removeAttr('disabled', 'disabled');
+                    } else {
+                        $("#addUpload").collapse('show');
                     }
-                },
-                updater: function (item) {
-                    return item;
-                }
-            });
 
-            $('#TemplateId').typeahead({
-                source: function (request, response) {
-                    response(temaplteItems);
-                },
-                matcher: function (item) {
-                    if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
-                        return true;
-                    }
-                },
-                updater: function (item) {
-                    return item;
-                }
-            });
-
-            $('#HeaderSenderId').typeahead({
-                source: function (request, response) {
-                    response(headerItems);
-                },
-                matcher: function (item) {
-                    if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
-                        return true;
-                    }
-                },
-                updater: function (item) {
-                    return item;
-                }
-            });
-       });
-
-
+               });
             </script>
 
-            <script>
-                function onContentTypeChange(val) {
-                    if (val == 1) {
-                        $('#divVariableCount').hide();
-                    }
-                    else {
-                        $('#divVariableCount').show();
-                    }
-                }
-            </script>
-
-            @*Upload Tempalte File*@
+            @*Upload Sender File*@
             <script>
 
              $('#uploadfileid').on('click', function () {
 
-                 if ($("#templateform").valid()) {
+                 if ($("#senderform").valid()) {
 
                 var fileUpload = $("#fileToUpload").get(0);
 
@@ -598,21 +325,30 @@
                     fileData.append("CampaignId", $("#uploadCampaignName").val());
                     fileData.append("starttype", $("#uploadCampaignstarttype").val());
                     $.ajax({
-                        url: '@Url.Action(MVC.Template.UploadTemplate())',
+                        url: '@Url.Action(MVC.SenderId.UploadSenderIds())',
                         type: 'post',
                         datatype: 'json',
                         contentType: false,
                         processData: false,
                         async: false,
                         data: fileData,
-                        success: function (response) {
-                            var obj = JSON.parse(response);
-                            console.log(obj);
-                            if (obj.status == "1") {
-                                SuccessMsg(obj.response)
+                        success: function (e) {
+                            jsondata = JSON.parse(e);
+                            if (jsondata.status == "1") {
+                                $('#divSummary').hide();
+                                $('#divAdd').show();
+                                window.location.href = '/SenderId/SenderIds';
                             }
                             else {
-                                ErrorMsg(obj.response);
+                                $('#divSummary').show();
+                                $('#divAdd').hide();
+                                $('#addUpload').hide();
+                                ErrorMsg("Failed to save details.")
+                                $('#spnTotal').text(jsondata.data.Total);
+                                $('#spnDuplicate').text(jsondata.data.Duplicate);
+                                $.each(jsondata.data.Data, function (index, val) {
+                                    addRow(index + 1, val.PId);
+                                });
                             }
                         }
                     });

@@ -1,4 +1,7 @@
-﻿namespace Templateprj.Models.Managements
+﻿using Newtonsoft.Json;
+using System.Web.Mvc;
+
+namespace Templateprj.Models.Managements
 {
     public class AddSenderModel
     {
@@ -10,9 +13,11 @@
         public string RegisteredTsp { get; set; }
         public string RequestedDate { get; set; }
         public string StatusDate { get; set; }
-        public string Status { get; set; }
+        public int Status { get; set; }
         public string CreatedBy { get; set; }
         public string BlackListedBy { get; set; }
 
+        [JsonIgnore]
+        public SelectList ApprovalStatus { get; set; }
     }
 }

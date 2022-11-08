@@ -56,6 +56,12 @@ namespace Templateprj.Controllers
             return RedirectToActionPermanent(taskResult.Result);
         }
 
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult AddSenderId()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.AddSenderId);
+        }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public SenderIdController Actions { get { return MVC.SenderId; } }
@@ -74,6 +80,8 @@ namespace Templateprj.Controllers
         {
             public readonly string SenderIds = "SenderIds";
             public readonly string GetSenders = "GetSenders";
+            public readonly string AddSenderId = "AddSenderId";
+            public readonly string UploadSenderIds = "UploadSenderIds";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -81,9 +89,28 @@ namespace Templateprj.Controllers
         {
             public const string SenderIds = "SenderIds";
             public const string GetSenders = "GetSenders";
+            public const string AddSenderId = "AddSenderId";
+            public const string UploadSenderIds = "UploadSenderIds";
         }
 
 
+        static readonly ActionParamsClass_AddSenderId s_params_AddSenderId = new ActionParamsClass_AddSenderId();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_AddSenderId AddSenderIdParams { get { return s_params_AddSenderId; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_AddSenderId
+        {
+            public readonly string id = "id";
+        }
+        static readonly ActionParamsClass_SenderIds s_params_SenderIds = new ActionParamsClass_SenderIds();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_SenderIds SenderIdsParams { get { return s_params_SenderIds; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_SenderIds
+        {
+            public readonly string command = "command";
+            public readonly string id = "id";
+        }
         static readonly ViewsClass s_views = new ViewsClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ViewsClass Views { get { return s_views; } }
@@ -122,6 +149,53 @@ namespace Templateprj.Controllers
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetSenders);
             GetSendersOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void AddSenderIdOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int? id);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult AddSenderId(int? id)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.AddSenderId);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            AddSenderIdOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void SenderIdsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Templateprj.Models.Managements.AddSenderModel command);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult SenderIds(Templateprj.Models.Managements.AddSenderModel command)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.SenderIds);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "command", command);
+            SenderIdsOverride(callInfo, command);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void SenderIdsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int id);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult SenderIds(int id)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.SenderIds);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            SenderIdsOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void UploadSenderIdsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult UploadSenderIds()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.UploadSenderIds);
+            UploadSenderIdsOverride(callInfo);
             return callInfo;
         }
 

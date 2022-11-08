@@ -31,10 +31,8 @@ namespace Templateprj.Models.Managements.GetTemplateModels
             {
                 if (this.UnicodeStatus.HasValue && this.UnicodeStatus == 8)
                 {
-                    //  string correctString = "";
                     if (_templateMessage.Trim() != "")
                     {
-                        //  correctString = str.Replace("[PARAMETER]", "005B0050004100520041004D0045005400450052005D");
                         _templateMessage = "\\u" + Regex.Replace(_templateMessage, ".{4}", "$0\\u");
                         _templateMessage = Regex.Unescape(_templateMessage.Substring(0, _templateMessage.Length - 2));
                     }
@@ -51,7 +49,6 @@ namespace Templateprj.Models.Managements.GetTemplateModels
             }
         }
 
-        [JsonIgnore]
         public int? UnicodeStatus { get; set; }
     }
 }
