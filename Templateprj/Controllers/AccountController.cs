@@ -8,6 +8,7 @@ using CaptchaMvc.HtmlHelpers;
 
 namespace Templateprj.Controllers
 {
+    //[OutputCache(Duration = 300, VaryByParam = "none")]
     public partial class AccountController : Controller
     {
         private readonly AccountDbPrcs _prc = new AccountDbPrcs();

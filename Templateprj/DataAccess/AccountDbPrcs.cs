@@ -262,7 +262,7 @@ namespace Templateprj.DataAccess
                         List<SelectListItem> customList = new List<SelectListItem>();
                         customList.Add(new SelectListItem { Text = "-Security Question-" });
 
-                        return dtsecQs.ToSelectList(selectedQnId, customList);
+                        return dtsecQs.ToSelectList(/*selectedQnId,*/ customList);
                     }
                 }
             }

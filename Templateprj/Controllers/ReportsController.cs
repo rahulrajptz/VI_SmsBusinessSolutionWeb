@@ -16,6 +16,7 @@ using System.Web;
 
 namespace Templateprj.Controllers
 {
+    //[OutputCache(Duration = 300, VaryByParam = "none")]
     public partial class ReportsController : Controller
     {
         ReportsDb _prc = new ReportsDb();

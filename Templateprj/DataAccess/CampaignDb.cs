@@ -12,6 +12,9 @@ using System.Linq;
 using Newtonsoft.Json;
 using Templateprj.Models.InstantSms;
 using System.Text.RegularExpressions;
+using System.Web.UI.WebControls;
+using OfficeOpenXml;
+using System.IO;
 
 namespace Templateprj.DataAccess
 {
@@ -855,7 +858,43 @@ namespace Templateprj.DataAccess
                 return "";
             }
         }
+        protected void Export_Click(DataTable dt)
+        {
+            //DataTable dt = GParam.GetreferentielContacts();
+            //HttpContext context = HttpContext.Current;
+            //context.Response.Clear();
+            //context.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            //context.Response.AddHeader("content-disposition", "attachment;filename=" + HttpUtility.UrlEncode("Logs.xlsx", System.Text.Encoding.UTF8));
+            //using (ExcelPackage pck = new ExcelPackage())
+            //{
+            //    ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Logs");
+            //    ws.Cells["A1"].LoadFromDataTable(dt, true);
+            //    var ms = new System.IO.MemoryStream();
+            //    pck.SaveAs(ms);
+            //    ms.WriteTo(context.Response.OutputStream);
+            //}
+            //context.Response.End();
+            using (ExcelPackage pck = new ExcelPackage())
+            {
 
+                ExcelWorksheet workSheet = pck.Workbook.Worksheets.Add("report1");
+                workSheet.Cells["A1"].LoadFromDataTable(dt, true);
+
+
+                pck.SaveAs(new FileInfo("e:\\fileeexport.xlsx"));
+                FileInfo file = new FileInfo("e:\\fileeexport.xlsx");
+                HttpContext context = HttpContext.Current;
+                context.Response.Clear();
+                context.Response.ClearHeaders();
+                context.Response.ClearContent();
+                context.Response.AddHeader("Content-Disposition", "attachment; filename=File.csv");
+                context.Response.AddHeader("Content-Length", file.Length.ToString());
+                context.Response.ContentType = "text/plain";
+                context.Response.Flush();
+                context.Response.TransmitFile(file.FullName);
+                context.Response.End();
+            }
+        }
         public DataTable getCampaignwiseDetailReport(string id)
         {
             //`Web_Get_Variable_details`(IN Ln_Campaign_Id int, OUT V_Out text)
@@ -876,6 +915,38 @@ namespace Templateprj.DataAccess
                         MySqlDataAdapter da = new MySqlDataAdapter("", con);
                         da.SelectCommand = cmd;
                         da.Fill(dt);
+                        string data = "";
+
+                        dt.Columns.Add("val", typeof(System.String));
+                        int colCount = dt.Columns.Count;
+
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            string unicodeStatus = row["UNICODE STATUS"].ToString();
+                            string message = row["MESSAGE"].ToString();
+                            if (unicodeStatus == "8")
+                            {
+                                string str = message.ToString();
+                                //  string correctString = "";
+                                if (message.Trim() != "")
+                                {
+                                    //  correctString = str.Replace("[PARAMETER]", "005B0050004100520041004D0045005400450052005D");
+                                    string tempMessage = "\\u" + Regex.Replace(message, ".{4}", "$0\\u");
+                                    data = Regex.Unescape(tempMessage.Substring(0, tempMessage.Length - 2));
+                                }
+                                row["MESSAGE"] = data.ToString();
+                            }
+                            else
+                            {
+                                data = message.Replace("\r\n", "");
+                                row["MESSAGE"] = data;
+                            }
+                            row["val"] = row[colCount - 5].ToString() + "," + row[colCount - 4].ToString() + "," + row[colCount - 3].ToString() + "," + row[colCount - 2].ToString();
+                        }
+                        dt.Columns.Remove("UNICODE STATUS");
+                        dt.Columns.Remove("val");
+                        //Export_Click(dt);
+                        //return GetJsonString(dt);
                     }
                 }
             }
@@ -1056,6 +1127,11 @@ namespace Templateprj.DataAccess
                         var dataTable = new DataTable();
                         MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
                         dataAdapter.Fill(dt);
+                        for(int rowIndex=0;rowIndex< dt.Rows.Count; rowIndex++)
+                        {
+                            if (!System.IO.File.Exists(dt.Rows[rowIndex][11].ToString()))
+                                dt.Rows[rowIndex][11] = "";
+                        }
                         return GetJsonString(dt);
                     }
                     //string response = cmd.Parameters["@v_Message"].Value.ToString();
@@ -1093,10 +1169,40 @@ namespace Templateprj.DataAccess
                         MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
                         //var dt = new DataTable();
                         dataAdapter.Fill(dt);
-                        if (dt.Rows.Count > 0)
-                            return GetJsonString(dt);
-                        else
-                            return "";
+                        string data = "";
+
+                        dt.Columns.Add("val", typeof(System.String));
+                        int colCount = dt.Columns.Count;
+
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            string unicodeStatus = row["Unicode"].ToString();
+                            string message = row["MESSAGE"].ToString();
+                            if (unicodeStatus == "8")
+                            {
+                                string str = message.ToString();
+                                //  string correctString = "";
+                                if (message.Trim() != "")
+                                {
+                                    //  correctString = str.Replace("[PARAMETER]", "005B0050004100520041004D0045005400450052005D");
+                                    string tempMessage = "\\u" + Regex.Replace(message, ".{4}", "$0\\u");
+                                    data = Regex.Unescape(tempMessage.Substring(0, tempMessage.Length - 2));
+                                }
+                                row["MESSAGE"] = data.ToString();
+                            }
+                            else
+                            {
+                                data = message.Replace("\r\n", "");
+                                row["MESSAGE"] = data;
+                            }
+                            row["val"] = row[colCount - 5].ToString() + "," + row[colCount - 4].ToString() + "," + row[colCount - 3].ToString() + "," + row[colCount - 2].ToString();
+                        }
+                        dt.Columns.Remove("Unicode");
+                        return GetJsonString(dt);
+                        //if (dt.Rows.Count > 0)
+                        //    return GetJsonString(dt);
+                        //else
+                        //    return "";
                     }
                 }
 

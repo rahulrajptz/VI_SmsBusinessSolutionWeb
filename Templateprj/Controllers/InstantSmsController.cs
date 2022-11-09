@@ -14,7 +14,7 @@ using Templateprj.Repositories.Interfaces;
 
 namespace Templateprj.Controllers
 {
-    
+    //[OutputCache(Duration = 300, VaryByParam = "none")]
     [RoutePrefix("Campaign")]
     public partial class InstantSmsController : Controller
     {

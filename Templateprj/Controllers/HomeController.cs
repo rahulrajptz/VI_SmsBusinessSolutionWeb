@@ -11,6 +11,7 @@ using Templateprj.Models;
 
 namespace Templateprj.Controllers
 {
+    //[OutputCache(Duration = 300, VaryByParam = "none")]
     public partial class HomeController : Controller
     {
         CampaignDb _prc = new CampaignDb();

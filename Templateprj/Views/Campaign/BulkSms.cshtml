@@ -344,7 +344,7 @@
                                     </div>
                                     <div id="smstemplatediv">
                                         <div class="row">
-                                            @Html.Label("Sender", new { style = "margin-left:15px;" })
+                                            @Html.Label("Sender:", new { style = "margin-left:15px;" })
 
                                             @Html.TextAreaFor(m => m.senderId, new { @class = " form-control", required = "required", @style = "display:none;width:80px; height: auto !important;background:white;", @readonly = "readonly", @rows = "1" })
                                             <div class="col-md" style="">
@@ -687,10 +687,10 @@
                                         <div class="form-group col-md-3">
                                             <span id="bindcampaignname"></span>
                                         </div>
-                                        <div class="col-md-2" style="margin-left:80px;">
+                                        <div class="col-md-2" style="margin-left:65px;">
                                             @Html.Label("Type:")
                                         </div>
-                                        <div class="form-group" style="margin-left: -25px;">
+                                        <div class="form-group" style="margin-left: -30px;">
                                             <span id="bindcampaigntype" style="margin-left:-1px;"></span>
                                         </div>
                                     </div>
@@ -702,10 +702,10 @@
                                         <div class="col-md-2" style="margin-left:-51px">
                                             <span id="bindfromdate"></span>
                                         </div>
-                                        <div class="col-md-2" style="margin-left:14px">
+                                        <div class="col-md-2" style="margin-left:80px">
                                             @Html.Label("To Date:")
                                         </div>
-                                        <div class="col-md-2" style="margin-left: -25px;">
+                                        <div class="col-md-2" style="margin-left: -30px;">
                                             <span id="bindtodate"></span>
                                         </div>
                                     </div>
@@ -713,13 +713,13 @@
                                         <div class="col-md-3">
                                             @Html.Label("From Time:")
                                         </div>
-                                        <div class="col-md-3" style="margin-left:-50px">
+                                        <div class="col-md-3" style="margin-left:-51px">
                                             <span id="bindfromtime"></span>
                                         </div>
-                                        <div class="col-md-3" style="margin-left:-23px">
+                                        <div class="col-md-3" style="margin-left:44px">
                                             @Html.Label("To Time:")
                                         </div>
-                                        <div class="col-md-3" style="margin-left: -62px;">
+                                        <div class="col-md-3" style="margin-left:-65px;">
                                             <span id="bindtotime"></span>
                                         </div>
                                     </div>
@@ -742,7 +742,7 @@
                                             @Html.Label("Template ID:")
                                         </div>
                                         <div class="col-md-9" style="margin-left:-50px; ">
-                                            <span id="bindtemplateid" class="text"></span>
+                                            <span id="bindtemplateid" class="text"></span>@Html.HiddenFor(m => m.templatevariablecnt, new { Value = "-1" })
                                         </div>
                                     </div>
 
@@ -1006,7 +1006,7 @@
                     <div class="modal-content" style="width:850px;">
                         <div class="modal-header">
                             @Html.Label("SMS TEMPLATE", new { style = "font-weight:bold; font-size:18px;" })
-
+                            <button type="button" id="closebtn" class="btn btn-default" data-dismiss="modal">X</button>
                         </div>
 
                         <div id="modal-content" class="row ml-3 mt-4 text-break" style="height:550px;  width:820px;">
@@ -1047,9 +1047,9 @@
                                 <table id="tbl_templateDetails" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
                             </div>
                         </div>
-                        <div class="modal-footer">
+                        @*<div class="modal-footer">
                             <button type="button" id="closebtn" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
+                        </div>*@
                     </div>
                 </div>
             </div>
@@ -1235,8 +1235,8 @@
                             $("input[id=btnShow]").attr("disabled", "disabled");
                             $('#campaignsubmit').hide();
                             $('#savecampaignM2M').hide();
+                            $("#collapseTestSms").addClass("show");
                             $('#testsmsdiv').show();
-                            //$("#SMSTestingCompleteDiv").addClass("show  active");
                             $("#SMSTestingCompleteDiv").show()
                             var templateTypeId = document.getElementById("templateTypeName").innerHTML;
 
@@ -1259,13 +1259,13 @@
                                 }
                                 for (i = 0; i < jsondata.SMSvariable.length; i++) {
                                     var div1 = document.createElement('div');
-                                    div1.innerHTML = '<input class="form-control" id="SMSTest_0__variableData_' + i + '__variableContent" name="SMSTest[0].variableData[' + i + '].variableContent" required="required" MaxLength="30"  type="text" value=""><input type="hidden" id="SMSTest_0__variableData_' + i + 'variableLabel" name="SMSTest[0].variableData[' + i + '].variableLabel" required="required" MaxLength="30"  type="text" value="' + jsondata.SMSvariable[i].renameVariable + '">';
+                                    div1.innerHTML = '<input class="form-control" id="SMSTest_0__variableData_' + i + '__variableContent" name="SMSTest[0].variableData[' + i + '].variableContent"  MaxLength="30"  type="text" value=""><input type="hidden" id="SMSTest_0__variableData_' + i + 'variableLabel" name="SMSTest[0].variableData[' + i + '].variableLabel"  MaxLength="30"  type="text" value="' + jsondata.SMSvariable[i].renameVariable + '">';
                                     document.getElementById("messageto1stnumber").appendChild(div1);
                                 }
 
                                 for (i = 0; i < jsondata.SMSvariable.length; i++) {
                                     var div2 = document.createElement('div');
-                                    div2.innerHTML = '<input class=" form-control" id="SMSTest_1__variableData_' + i + '__variableContent" name="SMSTest[1].variableData[' + i + '].variableContent" required="required" MaxLength="30"  type="text" value=""><input type="hidden" id="SMSTest_1__variableData_' + i + 'variableLabel" name="SMSTest[1].variableData[' + i + '].variableLabel" required="required" MaxLength="30"  type="text" value="' + jsondata.SMSvariable[i].renameVariable + '">';
+                                    div2.innerHTML = '<input class=" form-control" id="SMSTest_1__variableData_' + i + '__variableContent" name="SMSTest[1].variableData[' + i + '].variableContent"  MaxLength="30"  type="text" value=""><input type="hidden" id="SMSTest_1__variableData_' + i + 'variableLabel" name="SMSTest[1].variableData[' + i + '].variableLabel"  MaxLength="30"  type="text" value="' + jsondata.SMSvariable[i].renameVariable + '">';
                                     document.getElementById("messageto2ndnumber").appendChild(div2);
 
 
@@ -1995,7 +1995,7 @@
             for (i = 0, j = 1; i < variablecnt; i++ , j++) {
 
                 var div = document.createElement('row');
-                div.innerHTML = '<div class="row" style="margin-top:10px;" ><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName" required="required"  readonly="readonly" MaxLength="12"  style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable" required="required" MaxLength="12"  type="text" value=""></div></div>';
+                div.innerHTML = '<div class="row" style="margin-top:10px;" ><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName"   readonly="readonly" MaxLength="12"  style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable"  MaxLength="12"  type="text" value=""></div></div>';
 
                 document.getElementById("generated").appendChild(div);
             }
@@ -2039,8 +2039,8 @@
         });
 
         $('#btn_show').click(function () {
-
-            if ($("#Idform").valid()) {
+           
+            if ($("#Idform").valid()) {           
                 reinitializeDataTable(tbl_rpt);
                 loadReport();
 
@@ -2239,7 +2239,13 @@
                               columns: resp.thead,
                               autoWidth: false,
                               searching: false,
-                              'columnDefs': [],
+                              'columnDefs': [
+                                 {
+                                      "targets": 7,
+                                      "visible": false,
+                                      "searchable": false
+                                  },
+                              ],
                               order: [],
                               fnInitComplete: function (o) {
                                   $("#loading").hide();
@@ -2266,24 +2272,29 @@
                  data: { filename: filePath },
                  success: function (response) {
                      //Convert Base64 string to Byte Array.
-                     var bytes = Base64ToBytes(response);
-                     //Convert Byte Array to BLOB.
-                     var blob = new Blob([bytes], { type: "application/octetstream" });
+                    // alert(response);
+                     if (response != null && response.length >5) {
+                         var bytes = Base64ToBytes(response);
+                         //Convert Byte Array to BLOB.
+                         var blob = new Blob([bytes], { type: "application/octetstream" });
 
-                     //Check the Browser type and download the File.
-                     var isIE = false || !!document.documentMode;
-                     if (isIE) {
-                         window.navigator.msSaveBlob(blob, fileName);
-                     } else {
-                         var url = window.URL || window.webkitURL;
-                         link = url.createObjectURL(blob);
-                         var a = $("<a />");
-                         a.attr("download", filename);
-                         a.attr("href", link);
-                         $("body").append(a);
-                         a[0].click();
-                         $("body").remove(a);
+                         //Check the Browser type and download the File.
+                         var isIE = false || !!document.documentMode;
+                         if (isIE) {
+                             window.navigator.msSaveBlob(blob, fileName);
+                         } else {
+                             var url = window.URL || window.webkitURL;
+                             link = url.createObjectURL(blob);
+                             var a = $("<a />");
+                             a.attr("download", filename);
+                             a.attr("href", link);
+                             $("body").append(a);
+                             a[0].click();
+                             $("body").remove(a);
+                         }
                      }
+                     else
+                         ErrorMsg("File not exists");
                  }
             });
         }
@@ -2341,14 +2352,14 @@
                                   
                                     if (full[14] == "1") {
                                       //  return '<button onclick="changestatus(this,1)" id='+full[0]+' class="fa fa-play" style="color:green;font-size:10px;"></button>';
-                                        return '<i onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" style="color:green;font-size:10px;"></i>';
+                                        return '<i onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" title="Start" style="color:green;font-size:10px;" ></i>';
                                     }
                                     else if ( full[14] == "2") {
-                                        return '<i onclick="changestatus(this,2)" id=' + full[0] + ' class="fa fa-pause" style="color:black;font-size:10px;"></i>&nbsp; &nbsp;<i onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" style="color:red;font-size:10px;"></i>';
+                                        return '<i onclick="changestatus(this,2)" id=' + full[0] + ' class="fa fa-pause" title="Pause" style="color:black;font-size:10px;"></i>&nbsp; &nbsp;<i onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" title="Stop" style="color:red;font-size:10px;"></i>';
                                         //return '<i onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" style="color:green;font-size:10px;"></i>';
                                     }
                                     else if (full[14] == "3") {
-                                        return '<i onclick="changestatus(this,3)" id=' + full[0] + ' class="fa fa-undo" style="color:#cc7a00;font-size:10px;"></i>&nbsp; &nbsp;<i onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" style="color:red;font-size:10px;"></i>';
+                                        return '<i onclick="changestatus(this,3)" id=' + full[0] + ' class="fa fa-undo" title="Resume" style="color:#cc7a00;font-size:10px;"></i>&nbsp; &nbsp;<i onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" title="Stop" style="color:red;font-size:10px;"></i>';
 
                                     }
                                    
@@ -2534,11 +2545,31 @@
                 type: "get",
                 url: '@Url.Action("DownloadCampaignDetailReport", "Campaign")',
                    data: { id: id },
-                success: function (response) {
-                    console.log(response, "response");
-                    if (response != null && response != "") {
-                        download(response, "Report.xls");
-                    }
+                   success: function (response) {
+                       //Convert Base64 string to Byte Array.
+                       var bytes = Base64ToBytes(response);
+                      
+                       //Convert Byte Array to BLOB.
+                       var blob = new Blob([bytes], { type: "application/octetstream" });
+
+                       //Check the Browser type and download the File.
+                       var isIE = false || !!document.documentMode;
+                       if (isIE) {
+                           window.navigator.msSaveBlob(blob, "Report.xlsx");
+                       } else {
+                           var url = window.URL || window.webkitURL;
+                           link = url.createObjectURL(blob);
+                           var a = $("<a />");
+                           a.attr("download", "Report.xlsx");
+                           a.attr("href", link);
+                           $("body").append(a);
+                           a[0].click();
+                           $("body").remove(a);
+                       }
+                    //console.log(response, "response");
+                    //if (response != null && response != "") {
+                    //    download(response, "Report.xlsx");
+                    //}
                 }
             });
         }
@@ -2692,6 +2723,7 @@
                    //console.log(minames);
                      var obj = JSON.parse(minames);
                     //console.log(obj);  
+                    $('#templatevariablecnt').val(obj.VariableCount);
                     document.getElementById("bindcampaignname").innerHTML = obj.campaignName;
                     document.getElementById("bindcampaigntype").innerHTML = obj.campaignType;
                     document.getElementById("bindfromdate").innerHTML = obj.fromDate;
@@ -2907,16 +2939,7 @@
                 }
             });
         }
-
-        //$(document).on({
-        //    ajaxStart: function () {
-        //        $("body").addClass("#loading");
-        //    },
-        //    ajaxStop: function () {
-        //        $("body").removeClass("#loading");
-        //    }
-        //});
-
+        
         $('#uploadfileid').on('click', function () {
             $("#loadingupload").show();
          
@@ -2947,37 +2970,29 @@
                     fileData.append("Totime", document.getElementById("bindtotime").innerHTML);
                     fileData.append("FromDate", document.getElementById("bindfromdate").innerHTML);
                     fileData.append("Fromtime", document.getElementById("bindfromtime").innerHTML);
+                    fileData.append("Variablcnt", $("#templatevariablecnt").val());
                     showLoadingSpinner();
                     $.ajax({
-                            url: '@Url.Action(MVC.Campaign.CampaignBase())',
+                            url: "@Url.Action(MVC.Campaign.CampaignBase())",
                             type: 'post',
                             datatype: 'json',
                             contentType: false,
                             processData: false,
                             async: true,
-                        data: fileData,
-                        //beforeSend: function (xhr) {
-                        //    $(".modal1").show();
-                        //},
-                            
+                            data: fileData,
                             success: function (response)
                             {
                                 var obj = JSON.parse(response);
                                 console.log(obj);
                            
                                 if (obj.status == "1") {
-                                    alert(obj.response);
                                     SuccessMsg(obj.response);
                                     resetfunctionUpload();
-                                    //$("#loading").hide();
-                                  //  $('.modal1').css('display', 'none');
                                     hideLoadingSpinner();
                                 }
                                 else
                                 {
-                                    alert(obj.response);
                                     ErrorMsg(obj.response);
-                                  //  $('.modal1').css('display', 'none');
                                     hideLoadingSpinner();
                                 }
                                 
@@ -2998,13 +3013,6 @@
            
 
         });
-        //var $loading = $('#loadingupload').hide();
-        //$(document)
-        //    .ajaxStart(function () {
-        //        $loading.show();
-        //    })
-        //    .ajaxStop(function () {
-        //        $loading.hide();
-        //    });
+       
     </script>
 }

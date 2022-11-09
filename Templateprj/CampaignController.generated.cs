@@ -73,6 +73,12 @@ namespace Templateprj.Controllers
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ContentResult DownloadCampaignDetailReport()
+        {
+            return new T4MVC_System_Web_Mvc_ContentResult(Area, Name, ActionNames.DownloadCampaignDetailReport);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public virtual System.Web.Mvc.ContentResult DownloadFile()
         {
             return new T4MVC_System_Web_Mvc_ContentResult(Area, Name, ActionNames.DownloadFile);
@@ -179,6 +185,7 @@ namespace Templateprj.Controllers
         {
             public readonly string CampaignBase = "CampaignBase";
             public readonly string Campaignupdate = "Campaignupdate";
+            public readonly string DownloadCampaignDetailReport = "DownloadCampaignDetailReport";
             public readonly string DownloadFile = "DownloadFile";
             public readonly string GetTemplateIdfromSenderId = "GetTemplateIdfromSenderId";
             public readonly string GetSenderIdFromSmsType = "GetSenderIdFromSmsType";
@@ -204,6 +211,7 @@ namespace Templateprj.Controllers
         {
             public const string CampaignBase = "CampaignBase";
             public const string Campaignupdate = "Campaignupdate";
+            public const string DownloadCampaignDetailReport = "DownloadCampaignDetailReport";
             public const string DownloadFile = "DownloadFile";
             public const string GetTemplateIdfromSenderId = "GetTemplateIdfromSenderId";
             public const string GetSenderIdFromSmsType = "GetSenderIdFromSmsType";
@@ -240,6 +248,14 @@ namespace Templateprj.Controllers
         public class ActionParamsClass_Campaignupdate
         {
             public readonly string model = "model";
+        }
+        static readonly ActionParamsClass_DownloadCampaignDetailReport s_params_DownloadCampaignDetailReport = new ActionParamsClass_DownloadCampaignDetailReport();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_DownloadCampaignDetailReport DownloadCampaignDetailReportParams { get { return s_params_DownloadCampaignDetailReport; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_DownloadCampaignDetailReport
+        {
+            public readonly string id = "id";
         }
         static readonly ActionParamsClass_DownloadFile s_params_DownloadFile = new ActionParamsClass_DownloadFile();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -435,6 +451,18 @@ namespace Templateprj.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Campaignupdate);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
             CampaignupdateOverride(callInfo, model);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void DownloadCampaignDetailReportOverride(T4MVC_System_Web_Mvc_ContentResult callInfo, string id);
+
+        [NonAction]
+        public override System.Web.Mvc.ContentResult DownloadCampaignDetailReport(string id)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ContentResult(Area, Name, ActionNames.DownloadCampaignDetailReport);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            DownloadCampaignDetailReportOverride(callInfo, id);
             return callInfo;
         }
 

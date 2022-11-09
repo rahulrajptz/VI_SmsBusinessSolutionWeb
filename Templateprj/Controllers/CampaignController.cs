@@ -18,6 +18,7 @@ using Templateprj.Models;
 
 namespace Templateprj.Controllers
 {
+    //[OutputCache(Duration = 300, VaryByParam = "none")]
     public partial class CampaignController : Controller
     {
         CampaignDb _prc = new CampaignDb();
@@ -31,7 +32,6 @@ namespace Templateprj.Controllers
         public virtual ActionResult CampaignBase(SMSCampaignModel model)
         {
             string json = "";
-
             string CampaignId = Request["CampaignId"].ToString();
             string uploadCampaignstarttype = Request["uploadCampaignstarttype"].ToString();
             string scheduleDate = Request["scheduleDate"].ToString();
@@ -40,19 +40,18 @@ namespace Templateprj.Controllers
             string Totime = Request["Totime"].ToString();
             string FromDate = Request["FromDate"].ToString();
             string Fromtime = Request["Fromtime"].ToString();
+            int variablecnt = Convert.ToInt32(Request["Variablcnt"].ToString());
 
-           
-            if (scheduleDate != ""){
+            if (scheduleDate != "")
+            {
                 int dateStatus = checkEndTimeValidity(ToDate + " " + Totime, scheduleDate, false);
-                int dateStatusStart= checkEndTimeValidity(scheduleDate, FromDate + " " + Fromtime,  false);
-                if (dateStatus != 1 || dateStatusStart!=1)
+                int dateStatusStart = checkEndTimeValidity(scheduleDate, FromDate + " " + Fromtime, false);
+                if (dateStatus != 1 || dateStatusStart != 1)
                 {
-                    json = "{\"status\":\"9\",\"response\":\"The scheduled time must be between From-time and To-time \"}";
+                    json = "{\"status\":\"9\",\"response\":\"The scheduled time must be between time and time \"}";
                     return Json(json, JsonRequestBehavior.AllowGet);
                 }
                 CultureInfo enUS = new CultureInfo("en-US");
-                // DateTime endDate, startDate, compDate;
-                //   endDate = DateTime.ParseExact(endTime, "dd/M/yyyy h:mm tt", CultureInfo.InvariantCulture);
                 string currentTime = DateTime.Now.ToString("dd/MM/yyyy h:m tt");
                 dateStatus = checkEndTimeValidity(scheduleDate, currentTime, false);
                 if (dateStatus != 1)
@@ -68,12 +67,10 @@ namespace Templateprj.Controllers
                 ExcelExtension _xls = new ExcelExtension();
                 if (!Directory.Exists(GlobalValues.BULKPath))
                     Directory.CreateDirectory(GlobalValues.BULKPath);
-
                 string pathtoMove = GlobalValues.BULKPath + (System.DateTime.Now.ToShortDateString()).Replace("/", "") + "\\";
-               // string path = Server.MapPath("~\\FileUpload\\");//+ DateTime.Now.ToString("MMddyyyyHHmmss") + "_" + CampaignId;
                 if (!Directory.Exists(pathtoMove))
                     Directory.CreateDirectory(pathtoMove);
-               
+
                 var file = Request.Files[0];
                 var fileName = Path.GetFileName(file.FileName);
                 int cnt = file.FileName.Count(f => f == '.');
@@ -89,39 +86,50 @@ namespace Templateprj.Controllers
                             pos = 1;
                             file.SaveAs(pathtoMove);
                             pos = 2;
-                            //  string message = "";
-                            bulkFileuploadModel uploadStatus = bulkUpload(pathtoMove, CampaignId,xtn);
+                            bulkFileuploadModel uploadStatus = bulkUpload(pathtoMove, CampaignId, xtn, variablecnt);
                             pos = 3;
 
                             if (uploadStatus.status == 1)
                             {
-                            //    System.IO.File.Copy(path, pathtoMove + actualFilename, true);
-
-                                string status = _prc.insertfilepath(pathtoMove , model, Convert.ToInt32(uploadStatus.newCampaignId),uploadStatus.status,uploadStatus.message,uploadStatus.packetcnt,uploadStatus.baseCount);
+                                string status = _prc.insertfilepath(pathtoMove, model, Convert.ToInt32(uploadStatus.newCampaignId), uploadStatus.status, uploadStatus.message, uploadStatus.packetcnt, uploadStatus.baseCount);
                                 if (status == "1")
                                 {
                                     json = "{\"status\":\"1\",\"response\":\"File Successfully Uploaded\" }";
                                 }
                                 else
                                 {
+                                    uploadStatus.message = "Uploading failed";
                                     json = "{\"status\":\"0\",\"response\":\"" + uploadStatus.message + "\" }";
                                     try
                                     {
                                         System.IO.File.Delete(pathtoMove);
                                     }
-                                    catch (Exception ex)
+                                    catch (Exception)
                                     {
                                     }
                                 }
                             }
                             else if (uploadStatus.status == -1)
                             {
-                                json = "{\"status\":\"-1\",\"response\":\""+ uploadStatus.message + "\" }";
+                                json = "{\"status\":\"-1\",\"response\":\"" + uploadStatus.message + "\" }";
                                 try
                                 {
                                     System.IO.File.Delete(pathtoMove);
                                 }
-                                catch (Exception ex)
+                                catch (Exception)
+                                {
+                                }
+                            }
+                            else if (uploadStatus.status == 0)
+                            {
+                                json = "{\"status\":\"-1\",\"response\":\"" + uploadStatus.message + "\" }";
+                                string status = _prc.insertfilepath(pathtoMove, model, Convert.ToInt32(uploadStatus.newCampaignId), 0, "", uploadStatus.packetcnt, uploadStatus.baseCount);
+
+                                try
+                                {
+                                    System.IO.File.Delete(pathtoMove);
+                                }
+                                catch (Exception)
                                 {
                                 }
                             }
@@ -132,17 +140,15 @@ namespace Templateprj.Controllers
                                 {
                                     System.IO.File.Delete(pathtoMove);
                                 }
-                                catch (Exception ex)
+                                catch (Exception)
                                 {
                                 }
                             }
                         }
                         else
                         {
-                            json = "{\"status\":\"0\",\"response\":\"Please upload file in  .XLSX/.CSV/.XLS format \" }";
-
+                            json = "{\"status\":\"0\",\"response\":\"Please upload file in .XLSX/.CSV/.XLS format \" }";
                         }
-                      
                     }
                     catch (Exception e)
                     {
@@ -152,7 +158,7 @@ namespace Templateprj.Controllers
                             {
                                 System.IO.File.Delete(pathtoMove);
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
                             }
                         }
@@ -163,30 +169,18 @@ namespace Templateprj.Controllers
                 }
                 else
                 {
-                    //TempData["UploadBase"] = "2";
-
-                    //TempData["UploadBaseMessage"] = "Input file contain more than one extention , Please Chcek and upload !";
                     json = "{\"status\":\"0\",\"response\":\"Input file contain more than one extention , Please Chcek and upload !\" }";
-
-                    // ViewBag.ErrorMsg = "Input file contain more than one extention , Please Chcek and upload !";
                 }
-
-
             }
             else
             {
-
-                //TempData["UploadBase"] = "2";
-
-                //TempData["UploadBaseMessage"] = "Input file not found !";
                 ViewBag.ErrorMsg = "Input file not found !";
                 json = "{\"status\":\"0\",\"response\":\"Input file not found!\" }";
 
             }
-            //return RedirectToAction("CampaignView", "Campaign", new { area = "" });
-
             return Json(json, JsonRequestBehavior.AllowGet);
         }
+
 
         [HttpPost]
         [NoCompress]
@@ -249,71 +243,56 @@ namespace Templateprj.Controllers
             }
         }
 
-
-
-        public bulkFileuploadModel bulkUpload(string filename, string CampaignId,string fileExtension)
+        public bulkFileuploadModel bulkUpload(string filename, string CampaignId, string fileExtension, int variableCount)
         {
             DataTable dt = new DataTable();
+            DataTable dtRejected = new DataTable();
             bulkFileuploadModel uploadStatus = new bulkFileuploadModel();
             bulkFileuploadModel bulkInsert = new bulkFileuploadModel();
             bulkInsert.newCampaignId = CampaignId;
             bulkInsert.message = "Error";
             bulkInsert.status = 0;
             string message = "";
-            //string conString = "Provider=Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties='Excel 8.0;HDR=YES'";
-            //string conString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filename + ";Excel 12.0 Xml;HDR=YES";
-
-            // dt= ExcelToDataTable(filename);
-            //if (fileExtension == ".XLSX")
-            //    dt = ExcelToDataTable(filename);
-            //else if (fileExtension == ".CSV")
-            //    dt = GetDataTableFromExcel(filename, true);
-
             dt = ConverttoDataTable(filename, fileExtension);
-            int pos = 0, status = 0, packetcnt=0,  baseCount = 0; ;
+            int pos = 0, status = 0, packetcnt = 0, baseCount = 0;
             try
             {
-                //using (OleDbConnection connExcel = new OleDbConnection(conString))
-                //{
-                //    using (OleDbCommand cmdExcel = new OleDbCommand())
-                //    {
-                //        using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
-                //        {
-                //            cmdExcel.Connection = connExcel;
-                //            //Get the name of First Sheet.
-                //            connExcel.Open();
-                //            DataTable dtExcelSchema;
-                //            dtExcelSchema = connExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                //            string sheetName = dtExcelSchema.Rows[0]["TABLE_NAME"].ToString();
-                //            connExcel.Close();
-                //            //Read Data from First Sheet.
-                //            connExcel.Open();
-                //            cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                //            odaExcel.SelectCommand = cmdExcel;
-                //            odaExcel.Fill(dt);
-                //            connExcel.Close();
-                //        }
-                //    }
-                //}
                 string columnname = "";
                 if (dt != null && dt.Rows.Count > 0)
                 {
+                    if (dt.Columns.Count - 1 != variableCount)
+                    {
+                        bulkInsert.status = -9;
+                        message = "File content is not match with template";
+                        return uploadStatus;
+                    }
+                    else if (dt.Columns[0].ColumnName != "msisdn")
+                    {
+                        bulkInsert.status = -9;
+                        message = "File content is not match with template";
+                        return uploadStatus;
+                    }
                     for (int index = 1; index < dt.Columns.Count; index++)
                     {
+                        columnname = "col" + index.ToString();
                         try
                         {
-                            dt.Columns[index].ColumnName = "col" + index.ToString();
+                            dt.Columns[index].ColumnName = columnname;
                         }
                         catch (Exception ex)
-                        {
-                                
-                        }
+                        { }
                     }
-                       for (int index = 1; index < dt.Columns.Count; index++)
+
+                    for (int index = 1; index < dt.Columns.Count; index++)
                     {
                         columnname = "VAR" + index.ToString();
-                        if (dt.Columns[index].ColumnName != columnname)
+                        try
+                        {
                             dt.Columns[index].ColumnName = columnname;
+
+                        }
+                        catch (Exception ex)
+                        { }
                     }
                     dt.AcceptChanges();
                     dt.Columns.Add("ROWID");
@@ -331,6 +310,7 @@ namespace Templateprj.Controllers
                         pos = 3;
                         for (int index = rowIndex; index < rowIndex + rowtoCopy; index++)
                         {
+
                             pos = 4;
                             dtPartial.ImportRow(dt.Rows[index]);
                             pos = 5;
@@ -347,32 +327,29 @@ namespace Templateprj.Controllers
                         status = bulkInsert.status;
                         if (bulkInsert.status != 1)
                         {
-                            message = "DB error=" + bulkInsert.status.ToString();                           
+                            message = "Some Error happens";
                             break;
                         }
                         else
                             message = "success";
                         pos = 9;
                     }
-                   
                 }
                 else
                 {
                     message = "No data in file";
-                    status = -2;
+                    bulkInsert.status = -2;
                 }
                 message = message.Trim();
-
-                // return status;
             }
             catch (Exception ex)
             {
-                message = ex.Message + pos.ToString();
-                //return -1;
+                message = ex.Message;
+                bulkInsert.status = -1;
             }
             finally
             {
-                uploadStatus.status =bulkInsert.status;
+                uploadStatus.status = bulkInsert.status;
                 uploadStatus.message = message;
                 uploadStatus.newCampaignId = bulkInsert.newCampaignId;
                 uploadStatus.packetcnt = packetcnt;
@@ -380,7 +357,7 @@ namespace Templateprj.Controllers
             }
             return uploadStatus;
         }
-
+        
         [NoCompress]
         public void DownloadsampleFile(string id)
         {
@@ -394,27 +371,6 @@ namespace Templateprj.Controllers
             if (dt != null)
             {
 
-                //using (XLWorkbook wb = new XLWorkbook())
-                //{
-                //    wb.Worksheets.Add(dt);
-
-                //    wb.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                //    wb.Style.Font.Bold = true;
-
-                //    Response.Clear();
-                //    Response.Buffer = true;
-                //    Response.Charset = "";
-                //    Response.ContentType = "Application/excel";
-                //    Response.AddHeader("content-disposition", "attachment;filename= SampleFile.xlsx");
-
-                //    using (MemoryStream MyMemoryStream = new MemoryStream())
-                //    {
-                //        wb.SaveAs(MyMemoryStream);
-                //        MyMemoryStream.WriteTo(Response.OutputStream);
-                //        Response.Flush();
-                //        Response.End();
-                //    }
-                //}
                 RKLib.ExportData.Export objExport = new RKLib.ExportData.Export();
                 objExport.ExportDetails(dt, RKLib.ExportData.Export.ExportFormat.CSV, "");
             }
@@ -422,15 +378,30 @@ namespace Templateprj.Controllers
         }
 
         [NoCompress]
-        public void DownloadCampaignDetailReport(string id)
+        public virtual ContentResult DownloadCampaignDetailReport(string id)
         {
             DataTable dt = _prc.getCampaignwiseDetailReport(id);
-            if (dt != null && dt.Rows.Count>0)
+            if (!Directory.Exists(GlobalValues.BULKPath))
+              Directory.CreateDirectory(GlobalValues.BULKPath);
+              string fileName = GlobalValues.BULKPath + "fileexport_"+ DateTime.Now.ToString("MMddyyyyHHmmss") + ".xlsx";
+            using (ExcelPackage pck = new ExcelPackage())
             {
-                dt.TableName = "Report";
-                RKLib.ExportData.Export objExport = new RKLib.ExportData.Export();
-                objExport.ExportDetails(dt, RKLib.ExportData.Export.ExportFormat.Excel, "");
+
+                ExcelWorksheet workSheet = pck.Workbook.Worksheets.Add("report1");
+                workSheet.Cells["A1"].LoadFromDataTable(dt, true);
+                pck.SaveAs(new FileInfo(fileName));
             }
+            byte[] bytes = System.IO.File.ReadAllBytes(fileName);
+
+            //Convert File to Base64 string and send to Client.
+            string base64 = Convert.ToBase64String(bytes, 0, bytes.Length);
+            try
+            {
+                System.IO.File.Delete(fileName);
+            }
+            catch { }
+
+            return Content(base64);
 
         }
 
@@ -440,14 +411,18 @@ namespace Templateprj.Controllers
         {
             //Set the File Folder Path.
             string path = fileName;
-
             //Read the File as Byte Array.
-            byte[] bytes = System.IO.File.ReadAllBytes(path);
+            if (System.IO.File.Exists(path))
+            {
+                byte[] bytes = System.IO.File.ReadAllBytes(path);
 
-            //Convert File to Base64 string and send to Client.
-            string base64 = Convert.ToBase64String(bytes, 0, bytes.Length);
+                //Convert File to Base64 string and send to Client.
+                string base64 = Convert.ToBase64String(bytes, 0, bytes.Length);
 
-            return Content(base64);
+                return Content(base64);
+            }
+            else
+                return null;
         }
         #region Create Json
         public static string CreateJson(Object ob)
@@ -740,6 +715,14 @@ namespace Templateprj.Controllers
             if (checkStatus != 1)
                 return Json("{\"status\":\"" + checkStatus + "\",\"response\":\"error\"}", JsonRequestBehavior.AllowGet);
             string responsejson = "";
+            model.SMSTest[0].DBMessage = model.SMSTest[0].message;
+            model.SMSTest[1].DBMessage = model.SMSTest[1].message;
+            if (model.unicodeStatus == "8")
+           {
+
+               model.SMSTest[0].DBMessage = GetSingleUnicodeHex(model.SMSTest[0].message);
+               model.SMSTest[1].DBMessage = GetSingleUnicodeHex(model.SMSTest[1].message);
+            }
             string jsondata = CreateJson(model);
             string jsontodb = "[" + jsondata + "]";
             string status = _prc.testsms(jsontodb, out string response, out string campaignid, out string smspushed);
@@ -965,9 +948,7 @@ namespace Templateprj.Controllers
 
         public virtual ActionResult CampaignLisTestReportNew(string id)
         {
-
-
-            //int status = 1;
+             //int status = 1;
             string json =  _prc.getcampaigntestreportlistNew(id);
             //json = "{\"thead\": [{\"title\": \"Campaign ID\"}, {\"title\": \"Campaign Name\"}, {\"title\": \"Campaign Type\"}, {\"title\": \"Created Date\"}, {\"title\": \"Start Date & Time\"}, {\"title\": \"From Date\"}, {\"title\": \"To Date\"}, {\"title\": \"From Time\"}, {\"title\": \"To Time\"}, {\"title\": \"Status\"}, {\"title\": \"Upload Base\"}, {\"title\": \"Test  Report\"}],\"tdata\": [[\"7288806665\", \"AP\", \"IMI MOBILES\", \"404071719557642\", \"test\", \"Get\", \"Active\", \"2017-11-15 14:27:24\",\"Normal\", \"Yes\", \"0\", \"CDR Configured\"],[\"9505270111\", \"AP\", \"IMI MOBILES\", \"404071713625143\", \"asd\", \"Get\", \"Active\",\"2018-01-12 14:06:40\", \"Normal\", \"Yes\", \"1\", \"CDR Configured\"]]}";
             if (json != "")

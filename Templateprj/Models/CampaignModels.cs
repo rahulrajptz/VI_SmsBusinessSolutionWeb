@@ -292,7 +292,8 @@ namespace Templateprj.Models
         public string uploadCampaignName { get; set; }
         [JsonIgnore]
         public SelectList uploadCampaignNameList { get; set; }
-
+        [JsonIgnore]
+        public int templatevariablecnt { get; set; }
         [JsonIgnore]
         public string uploadCampaignstarttype { get; set; }
         [JsonIgnore]
@@ -301,6 +302,7 @@ namespace Templateprj.Models
         public string scheduleDate { get; set; }
         [Display(Name = "Priority")]
         public string uploadpriority { get; set; }
+
         //[JsonIgnore]
         public SelectList uploadpriorityList { get; set; }
 
