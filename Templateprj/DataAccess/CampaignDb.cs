@@ -1793,7 +1793,7 @@ namespace Templateprj.DataAccess
 
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@n_MSISDN_in", MySqlDbType.Int64).Value = model.MSISDN;
-                    cmd.Parameters.Add("@v_template_id_in", MySqlDbType.VarChar).Value = model.template;
+                    cmd.Parameters.Add("@v_template_id_in", MySqlDbType.VarChar).Value = model.Template;
                     cmd.Parameters.Add("@v_DateRange_In", MySqlDbType.VarChar).Value = model.dateFrom;
                     //cmd.Parameters.Add("@v_todate", MySqlDbType.VarChar).Value = model.dateTo;
                     cmd.Parameters.Add("@n_status", MySqlDbType.Int32).Value = model.reportStatus;

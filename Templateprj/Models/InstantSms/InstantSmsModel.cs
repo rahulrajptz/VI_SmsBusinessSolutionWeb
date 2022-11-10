@@ -25,10 +25,18 @@ namespace Templateprj.Models.InstantSms
         //public string dateTo { get; set; }
         public string MSISDN { get; set; }
         [Required]
-        public string template { get; set; }
+        public string Template { get; set; }
         public SelectList TemplateList { get; set; }
         [Required]
         public int reportStatus { get; set; }
         public SelectList StatusList { get; set; }
+        public string pouptemplateName { get; set; }
+        public SelectList pouptemplateNameList { get; set; }
+        public int pouptemplateType { get; set; }
+        public int poupContentType { get; set; }
+        public SelectList pouptemplateTypeList { get; set; }
+        public string ContentType { get; set; }
+        public SelectList poupContentTypeList { get; set; }
+        public string unicodeStatus { get; set; }
     }
 }

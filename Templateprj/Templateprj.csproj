@@ -1178,7 +1178,6 @@
     <Content Include="Views\InstantSms\Index.cshtml" />
     <Content Include="Views\InstantSms\InstantSms.cshtml" />
     <Content Include="Views\InstantSms\InstantSmsReciver.cshtml" />
-    <Content Include="Views\InstantSms\InstantSms_Copy.cshtml" />
     <Content Include="Views\Reports\DetailedReport.cshtml" />
     <Content Include="Views\Management\Account.cshtml" />
     <Content Include="Views\Shared\_html5shiv.cshtml" />

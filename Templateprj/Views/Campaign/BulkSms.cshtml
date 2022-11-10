@@ -657,7 +657,7 @@
                     <div class="row col-md-6 ml-4 mt-3">
 
                         <div class="col-md-4">
-                            @Html.Label("Campaign Name*")
+                            @Html.Label("Campaign Name")<span style="color:red;">*</span>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
@@ -784,7 +784,7 @@
                     <div class="collapse  ml-5" id="collapseupload" style="width: 88%;">
                         <div class="row">
                             <div class="col-md-4" id="starttypeDiv">
-                                @Html.Label("Campaign Start Type*")
+                                @Html.Label("Campaign Start Type")<span style="color:red;">*</span>
                             </div>
                             <div class="col-md-4" id="starttypelistDiv">
                                 <div class="form-group" style="margin-left:-139px">
@@ -806,7 +806,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4" id="prioritynameDiv" style="display:none;">
-                                @Html.Label("Priority*")
+                                @Html.Label("Priority")<span style="color:red;">*</span>
                             </div>
                             <div class="col-md-4" id="priorityDiv">
                                 <div class="form-group" style="margin-left:-139px;display:none;">
@@ -826,10 +826,10 @@
 
                                     </div>
                                     <div class="mr-3 col-4">
-                                        <button id="samplefiledownlod" style="color:#5f004b;font-size:13px;margin-top:10px;"> <i class="now-ui-icons files_single-copy-04"></i>Sample Template</button>
+                                        <i id="samplefiledownlod" style="color:#5f004b;font-size:13px;margin-top:10px;" class="now-ui-icons files_single-copy-04 btn btn-link">Sample Template</i>
                                     </div>
 
-                                    @*<button type="button" id="uploadfileid" class="btn btn-primary">Upload</button>*@
+                                 
 
                                     <div class="col-md-4" id="">
                                         <button class="btn-success" style=" margin-top:10px;" id="uploadfileid" type="button">Upload</button>
@@ -1137,15 +1137,8 @@
             $('#messageScriptdiv').hide();
             $('#savecampaignM2M').hide();
             $('#campaignsubmit').hide();
-            
             $("#Uploadingdiv").hide();
             $("#smstemplatediv").hide();
-            //$("#campaignId").val(null);
-            //$('#samplefiledownlod').attr('formnovalidate', '');
-            //$('#SMSTest_1__mobileNumber').attr('formnovalidate', '');
-
-
-
         });
 
         
@@ -1165,7 +1158,6 @@
         $('#campaignsubmit').on('click', function () {
 
             var a = $("#Idform").val();
-            console.log(a);
             var jsondata;
 
             if ($("#Idform").valid()) {               
@@ -1182,15 +1174,6 @@
                 document.getElementById('smscountmessage1').innerHTML = "";
                 document.getElementById('smscountmessage2').innerHTML = "";
 
-               
-
-                //if ($("#smsType").val() == "1") {
-                //    $("#variablesnameid").hide();
-                //}
-                //else if ($("#smsType").val() == "2") {
-                //    $("#variablesnameid").show();
-
-                //}
                 var templateTypeId = document.getElementById("templateTypeName").innerHTML;
 
                 if (templateTypeId == "STATIC") {
@@ -1209,7 +1192,6 @@
                     success: function (e) {
 
                         jsondata = JSON.parse(e);
-                        //console.lo
                         if (jsondata.status != null && jsondata.status == 7) {
                             ErrorMsg("The To time should be 4 hours more than the current time ");
                             $('#savecampaignM2M').hide();
@@ -1273,19 +1255,11 @@
                             }
                         }
 
-
-
                         document.getElementById('SMSTest_0__message').innerHTML = jsondata.smsContent;
                         document.getElementById('SMSTest_1__message').innerHTML = jsondata.smsContent;
 
-
-
-                        //console.log(jsondata.SMSvariable.length);
-
                     }
                 });
-
-                //functionafterajax(jsondata);
 
             }
             else {
@@ -1295,7 +1269,6 @@
 
         });
         function resetfunctionUpload() {
-         //    console.log("resetupload");
             document.getElementById("Idform").reset();
             $("#campaignId").val(null);
             $("#uploadCampaignName").val(null);
@@ -1316,20 +1289,14 @@
             $("#loadingupload").show();
         }
 
-       
-       
         $('#createsms').on('click', function () {
 
             var a = $("#Idform").val();
-            console.log(a);
             var jsondata;
            
             if ($("#Idform").valid()) {
                 var data2 = $("#Idform").serialize();
-               // $('#messageScriptdiv').show();
-            //    $('#sendsmsdiv').show();
                 var templateTypeId = document.getElementById("templateTypeName").innerHTML;
-                //alert(templateTypeId);
                 if (templateTypeId == "STATIC") {                    
                     $.ajax({
                         url: "@Url.Action(MVC.Campaign.createsms())",
@@ -1340,19 +1307,21 @@
                             jsondata = JSON.parse(e);
                             console.log(jsondata);
                             // [{ "SmsId": "1", "Sms_Leg": 136, "Sms_Parts": 1 }, { "SmsId": "2", "Sms_Leg": 136, "Sms_Parts": 1 }]
-                            //alert(jsondata.status);
+                           
                             if (jsondata.status == 1)
                             {
                              //   if (jsondata.response[0].templateType == "1" && jsondata.response[1].templateType == "1") {
-                                  if (jsondata.response[0].SmsId == "1") {
+                                if (jsondata.response[0].SmsId == "1")
+                                {
                                     document.getElementById("SMSTest_0__message").innerHTML = jsondata.response[0].message;
                                     document.getElementById("smscountmessage1").innerHTML = '' + jsondata.response[0].Sms_Leg + '/' + jsondata.response[0].Sms_Parts + '';
 
                                 }
-                                if (jsondata.response[1].SmsId == "2") {
+                                if (jsondata.response[1].SmsId == "2")
+                                {
 
                                   document.getElementById("SMSTest_1__message").innerHTML = jsondata.response[1].message;
-                                    document.getElementById("smscountmessage2").innerHTML = '' + jsondata.response[1].Sms_Leg + '/' + jsondata.response[1].Sms_Parts + '';
+                                  document.getElementById("smscountmessage2").innerHTML = '' + jsondata.response[1].Sms_Leg + '/' + jsondata.response[1].Sms_Parts + '';
 
                                 }
 
@@ -1372,27 +1341,29 @@
                                 //}
                                 $('#campaignName').attr('readonly', 'true');
 
-                            $('#messageScriptdiv').show();
-                            $('#sendsmsdiv').show();
-                        }
+                                $('#messageScriptdiv').show();
+                                $('#sendsmsdiv').show();
+                            }
                             else if(jsondata.status == 9)
-                    {
-                        $('#sendsmsdiv').hide();
-                        $('#messageScriptdiv').hide();
+                            {
+                                $('#sendsmsdiv').hide();
+                                $('#messageScriptdiv').hide();
 
-                        ErrorMsg("campaign already exist");
+                                ErrorMsg("campaign already exist");
 
-                    }
-                            else if (jsondata.status == 7) {
-                        $('#sendsmsdiv').hide();
-                        $('#messageScriptdiv').hide();
-                        ErrorMsg("The To Time should be 4 hours more than the current time ");
-                    }
-                    else if (jsondata.status == 5) {
-                        $('#sendsmsdiv').hide();
-                        $('#messageScriptdiv').hide();
-                        ErrorMsg("The To Time should be greater than From Time ");
-                    }    
+                            }
+                            else if(jsondata.status == 7)
+                            {
+                                $('#sendsmsdiv').hide();
+                                $('#messageScriptdiv').hide();
+                                ErrorMsg("The To Time should be 4 hours more than the current time ");
+                            }
+                            else if(jsondata.status == 5)
+                            {
+                                $('#sendsmsdiv').hide();
+                                $('#messageScriptdiv').hide();
+                                ErrorMsg("The To Time should be greater than From Time ");
+                            }    
                             //console.log(jsondata.SMSvariable.length);
                            
 
@@ -2694,9 +2665,9 @@
                 }
             });
         }
-        $('#samplefiledownlod').on('click', function () {
+       $('#samplefiledownlod').on('click', function () {
+            //alert($("#uploadCampaignName").val());
             var id = $("#uploadCampaignName").val();
-
             $.ajax({
                 type: "get",
                 url: '@Url.Action("DownloadsampleFile", "Campaign")',
@@ -2704,7 +2675,7 @@
                 success: function (response) {
                     console.log(response, "response");
                     if (response != null && response != "") {
-                        download(response, "Upload.csv");
+                       download(response, "Upload.csv");
                     }
                 }
             });

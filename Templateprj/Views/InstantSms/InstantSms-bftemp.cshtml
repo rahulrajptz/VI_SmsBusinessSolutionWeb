@@ -145,10 +145,6 @@
         color: #5f004b;
         font-size: 12px;
     }
-
-    textarea {
-        resize: none;
-    }
 </style>
 
 
@@ -195,78 +191,41 @@
                         <div class="collapse  ml-5" id="collapseInstantsms">
 
                             <div class="container">
-                                @*<div class="row justify-content-center">*@
-                                    @*<div class="col-md-4">
-                                    <div class="row">
-                                        <div class="col-md-4 col-4" style="text-align:right">
-                                            @Html.Label("SMS Type*")
-
-                                        </div>
-                                        <div class="form-group col-md-8 col-8">
-                                            @Html.DropDownListFor(m => m.SmsTypeId, Model.SmsTypes, new { @class = "form-control cl-black", @style = "width:117px", @required = "required" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="row">
-                                        <div class="col-md-4 col-4" style="text-align:right">
-                                            @Html.Label("Sender Id")
-
-                                        </div>
-                                        <div class="form-group col-md-8 col-8">
-                                            @Html.DropDownListFor(m => m.SenderId, Model.Senders, new { @class = "form-control cl-black", @style = "width:117px", @required = "required" })
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="row">
-                                        <div class="col-md-4 col-4" style="text-align:right">
-                                            @Html.Label("Template ID*")
-                                        </div>
-                                        <div class="form-group col-md-8 col-8">
-                                            @Html.DropDownListFor(m => m.TemplateId, Model.Templates, new { @class = "form-control cl-black", @style = "width:117px", @required = "required" })
-                                        </div>
-                                    </div>
-                                </div>*@
-                                    <div class="row">
-                                        <div class="row" style="margin-top:5px;margin-bottom:10px;">
-                                            <div class="col-md" id="templateiddiv">
-                                                @Html.Label("Template", new { style = "margin-left:15px;" })<span style="color:red;">*</span>
-                                                <input id="btnShow" value="Select Template" style="color:white; background-color:#5f004b;border:none;border-radius:10px;" type="button" />
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-
-                                @*</div>*@
-                                <div class="col-md-8" >
-                                    <div id="smstemplatediv" style="display:none;">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-4">
                                         <div class="row">
-                                            @Html.Label("Sender:", new { style = "margin-left:15px;" })
+                                            <div class="col-md-4 col-4" style="text-align:right">
+                                                @Html.Label("SMS Type*")
 
-                                            @Html.TextAreaFor(m => m.SenderId, new { @class = " form-control", required = "required", @style = "display:none;width:80px; height: auto !important;background:white;", @readonly = "readonly", @rows = "1" })
-                                            <div class="col-md" style="">
-                                                <span id="bindsenderName"></span>
                                             </div>
-
-                                            @Html.Label("Content Type:", new { style = "margin-left:15px;" })
-                                            @Html.HiddenFor(m => m.unicodeStatus, new { Value = "-1" })
-                                            <div class="col-md" style="">
-                                                @*<span id="bindtemplatetype"></span>*@
-                                                @Html.TextAreaFor(m => m.ContentType, new { @class = "form-control nonedit", required = "required", @style = "width:80px;border: none;outline: none;color:black;height: auto !important; ", @readonly = "readonly", @rows = "1" })
-                                            </div>
-                                        @*</div>
-
-                                        <div class="row">*@
-                                            @Html.Label("Template Name:", new { style = "margin-left:15px;" })
-                                            <div class="col-md" style="">
-                                                @*<span id="bindtemplatetype"></span>*@
-                                                <span id="bindtemplatename"></span>
+                                            <div class="form-group col-md-8 col-8">
+                                                @Html.DropDownListFor(m => m.SmsTypeId, Model.SmsTypes, new { @class = "form-control cl-black", @style = "width:117px", @required = "required" })
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-4 col-4" style="text-align:right">
+                                                @Html.Label("Sender Id")
+
+                                            </div>
+                                            <div class="form-group col-md-8 col-8">
+                                                @Html.DropDownListFor(m => m.SenderId, Model.Senders, new { @class = "form-control cl-black", @style = "width:117px", @required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-4 col-4" style="text-align:right">
+                                                @Html.Label("Template ID*")
+                                            </div>
+                                            <div class="form-group col-md-8 col-8">
+                                                @Html.DropDownListFor(m => m.TemplateId, Model.Templates, new { @class = "form-control cl-black", @style = "width:117px", @required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <div id="StaticSmsDiv" class="row" style="margin-left:4px;margin-top:4px;width:100% !important;display:none;">
 
@@ -315,7 +274,7 @@
                                 <div class="row" id="collapseTestSms" style="margin-left:4px;width:100% !important;">
 
                                     <div class="row" id="div_inpunumber" style="margin-left:4px;width:100% !important;">
-                                        <div class="col-12">   @Html.Label("Mobile Numbers")<span style="color:red;">*</span> </div>
+                                        <div class="col-12">   @Html.Label("Mobile Numbers*") </div>
                                         <div class="col-12">
                                             <textarea class="form-control" style="width:100% !important;min-height:75px;" id="msisdnNumbers" rows="3"></textarea>
                                         </div>
@@ -382,7 +341,7 @@
                     <div class="row mt-3">
                         <div class="col-sm-2">
                             <div class="form-group">
-                                @Html.Label("Date Range")<span style="color:red;">*</span>
+                                @Html.Label("Date Range*")
                                 @Html.TextBoxFor(m => m.dateFrom, new { @class = "form-control", style = "background:white", placeholder = "-From & To Dates-", @readonly = "@readonly" })
                                 @*@Html.TextBoxFor(m => m.dateTo, new { @class = "form-control", style = "background:white", required = "required", placeholder = "-To Date-", @readonly = "@readonly" })*@
                             </div>
@@ -396,7 +355,7 @@
                         <div class="col-sm-2">
                             <div class="form-group">
                                 @Html.Label("TEMPLATE ID")
-                                @Html.DropDownListFor(m => m.Template, Model.TemplateList, new { @class = "form-control cl-black" })
+                                @Html.DropDownListFor(m => m.template, Model.TemplateList, new { @class = "form-control cl-black" })
                             </div>
                         </div>
                         <div class="col-sm-2">
@@ -417,95 +376,35 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="card ">
+                    <div class="col-md-12">
+                        <div class="card ">
 
 
-                                <div class="card-body col-sm-12" style="width:1100px">
-                                    <div class="col-sm-12" id="divTablereport" style="overflow-x:auto !important;">
-                                        <table id="tbl_report" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
-                                    </div>
-                                    <div class="alert alert-info" id="divNoData" style="display:none;">
-                                        <span>No data found for the search</span>
-                                    </div>
-                                    @*<div class="row">
+                            <div class="card-body col-sm-12" style="width:1100px">
+                                <div class="col-sm-12" id="divTablereport" style="overflow-x:auto !important;">
+                                    <table id="tbl_report" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
+                                </div>
+                                <div class="alert alert-info" id="divNoData" style="display:none;">
+                                    <span>No data found for the search</span>
+                                </div>
+                                @*<div class="row">
                                         <div id="loading" class="col-sm-12" style="display:none;text-align:center;" st><img src="~/Content/Images/loading.gif" style="width:100px;height:50px;" /></div>
                                     </div>*@
-                                </div>
-
                             </div>
+
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal fade" id="templateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
-                <div class="modal-dialog" style="width:850px;">
-                    @*<div style="height:40px; margin-left:100px;  margin-top:10px;">*@
-
-                    @*</div>*@
-
-                    <div class="modal-content" style="width:850px;">
-                        <div class="modal-header">
-                            @Html.Label("SMS TEMPLATE", new { style = "font-weight:bold; font-size:18px;" })
-
-                        </div>
-
-                        <div id="modal-content" class="row ml-3 mt-4 text-break" style="height:550px;  width:820px;">
-
-                            <div class="row ml-3 mt-4" style="border:solid;border-color:#5f004b; width:600px; height:70px;  ">
-                                <div class="col-md-3">
-                                    @Html.Label("Template Name")
-                                    <div class="form-group">
-                                        @Html.DropDownListFor(m => m.pouptemplateName, Model.pouptemplateNameList, new { @class = "form-control cl-black", @required = "required" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    @Html.Label("Template Type")
-                                    <div class="form-group">
-                                        @Html.DropDownListFor(m => m.pouptemplateType, Model.pouptemplateTypeList, new { @class = "form-control cl-black", @required = "required" })
-                                    </div>
-                                </div>
-                                @*<div class="col-md-3">
-                                    @Html.Label("Template Status")
-                                    <div class="form-group">
-                                        @Html.DropDownListFor(m => m.pouptemplateStatus, Model.pouptemplateStatusList, new { @class = "form-control cl-black", @required = "required" })
-                                    </div>
-                                </div>*@
-                                <div class="col-md-3">
-                                    @Html.Label("Content Type")
-                                    <div class="form-group">
-                                        @Html.DropDownListFor(m => m.poupContentType, Model.poupContentTypeList, new { @class = "form-control cl-black", @required = "required" })
-                                    </div>
-                                </div>
-                            </div>
-                            @*<div class="col-md-3">
-                                @Html.Label("Campaign Type")
-                                <div class="form-group">
-                                    @Html.DropDownListFor(m => m.listCampaignType, Model.listCampaignTypeList, new { @class = "form-control cl-black", @required = "required" })
-
-                                </div>
-                            </div>*@
-                            <div class="col-md-2">
-                                <br />
-                                @*<button type="button" id="btn_search" style="height:35px;background-color:#212121;color:white;width:100px;" class="btn btn-block">Search</button>*@
-                                <input type="button" id="serchInstant" value="search" style="background-color:#28A745; color:white;width:70px; margin-left:5px; margin-top:30px;" />
-                            </div>
-                            <div class="modal-body" id="modalTable" style="overflow-y: auto; overflow-x: auto; width:800px;height:400px;">
-                                <table id="tbl_templateDetails" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" id="closebtn" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
                 </div>
             </div>
-        }
+
+         }
 
     </div>
 
 </div>
+
+
 
 
 
@@ -532,16 +431,7 @@
                 console.log($("#numberOfRaw").val());
 
             });
-            document.getElementById('msisdnNumbers').addEventListener('keydown', function (ev) {
-                var allow = 0;               
-                if (ev.key == "0" || ev.key == "1" || ev.key == "2" || ev.key == "3" || ev.key == "4" || ev.key == "5" || ev.key == "6" ||
-                    ev.key == "7" || ev.key == "8" || ev.key == "9" || ev.key == "," || ev.key == "+" || ev.key == "Backspace" || ev.key == "Delete")
-                    allow = 1;
-                  
-              
-                if(allow==0)
-                    ev.preventDefault();                
-            });
+
             $(document).on('click', '#sendsms', function (e) {
 
                 var instantSmsModel = {};
@@ -615,44 +505,14 @@
             getTemplatesBySenderAndSMSType($('#SmsTypeId').val(),$('#SenderId').val());
 
 
-            });
-            $(function () {
-                $("#serchInstant").click(function () {
-                    loadtemplateSearchReportInstant();
-                });
-            });
+});
 
         $('#SenderId').on('change', function () {
 
             getTemplatesBySenderAndSMSType($('#SmsTypeId').val(),$('#SenderId').val());
 
         });
-            $(function () {
-                $("#btnShow").click(function () {
 
-                    var rpt_datatable = $("#tbl_templateDetails").DataTable({
-                        responsive: false,
-                        deferRender: false,
-                        searching: false,
-                        paging: false,
-                        info: false,
-
-                        "destroy": true,
-                        data: null,
-                        columns: null,
-                        autoWidth: false,
-                        order: []
-
-                    });
-                    document.getElementById("tbl_templateDetails").innerHTML = "";
-
-                    $("select#pouptemplateName").val('0');
-                    $("select#pouptemplateType").val('0');
-                    $("select#pouptemplateStatus").val('0');
-                    $("select#poupContentType").val('0');
-                    $("#templateModal").modal('show');
-                });
-            });
         function getSendersBySmsType(smstype)
         {
             $.ajax({
@@ -740,20 +600,61 @@
                    document.getElementById("generated").appendChild(div);
                }
             }
-       });       
+       });
 
-    });    
+        function removeAllChildNodes(parent) {
+            while (parent.firstChild) {
+                parent.removeChild(parent.firstChild);
+            }
+        }
+
+
+        $('#SmsTypeId').on('change', function () {
+
+
+            if ($('#SmsTypeId').val() == "1") {
+
+                $('#dynamicSmsDiv').hide();
+                $('#templateiddiv').show();
+                $('#templateidnamediv').show();
+                $('#savecampaignM2M').hide();
+                $('#campaignsubmit').show();
+                $('#sendbutton').hide();
+                $('#StaticSmsDiv').hide();
+            }
+            else if ($('#SmsTypeId').val() == "2") {
+                $('#templateiddiv').show();
+                $('#templateidnamediv').show();
+                $('#savecampaignM2M').hide();
+                $('#campaignsubmit').show();
+                $('#sendbutton').hide();
+                $('#StaticSmsDiv').hide();
+                $('#dynamicSmsDiv').hide();
+
+            }
+        });
+
+        $('#TemplateId').on('change', function () {
+            $('#sendbutton').show();
+            $('#StaticSmsDiv').show();
+            if ($('#SmsTypeId').val()==2) {
+                $('#dynamicSmsDiv').show();
+            }
+        });
+
+    });
+
+    
 
         $(document).ready(function () {
 
             $('#send').on('click', function () {
 
-                //if ($('#SmsTypeId').val() <= 0 || $('#SenderId').val() <= 0 || $('#SmsContent').val().length <= 0) {
+                if ($('#SmsTypeId').val() <= 0 || $('#SenderId').val() <= 0 || $('#SmsContent').val().length <= 0) {
 
-                //    ErrorMsg("Please fill all fields");
-                //}
-                 if ($("#Idform").valid()) {
-                    $("input[id=btnShow]").attr("disabled", "disabled");
+                    ErrorMsg("Please fill all fields");
+                }
+                else if ($("#Idform").valid()) {
                     var arrVariables = getVariables();
                         $('#div_inpunumber').show();
                         $('#testsmsdiv').show();
@@ -818,7 +719,7 @@
 
                 var numbers = $('#msisdnNumbers').val().split(",");
 
-                if (($('#ContentType').val() == "STATIC" && numbers.length - 1 < 10) || ($('#ContentType').val() == "DYNAMIC" && numbers.length - 1 < 20)) {
+             if (($('#SmsTypeId').val() == 1 && numbers.length - 1 < 10) || ($('#SmsTypeId').val() == 2 && numbers.length - 1 < 20)) {
 
                     if (isValidNumber(numbers)) {
                         getSMSCountByTemplate($('#SmsContent').val()).then(function (data) {
@@ -841,63 +742,6 @@
                 }
             });
 
-            $('body').on('click', '[id*=btnEdit]', function () {
-                var data;
-                if ($(window).width() > 320) {
-                    data = $(this).parents('tr').find('td');
-                } else {
-                    data = $(this).parents('tr').prev().eq(0).find('td');
-                }
-                //  $(event).closest('tr').children('td:eq(0)').text();
-                var id = data.eq(0).html();
-                var fname = data.eq(1).html();
-                var camid = $(this).parents('tr').find('.wrapperDivHidden').val();
-                var parts = document.getElementById("part_" + camid).value;
-                var array = parts.split(",");
-                var partscount = array[0];
-                var variablecnt = array[1];
-                var unicodestatus = array[3];
-                var sendrId = array[2];
-                //  = $(event).closest('tr').children('td:eq(0)').text();             
-
-                $('#dynamicSmsDiv').hide();               
-                $('#StaticSmsDiv').hide();
-                
-             
-                if (data.eq(2).text() == "STATIC") {
-                    $('#smstemplatediv').show();
-                    $('#templateiddiv').show();                    
-                    $('#sendbutton').show();
-                    $('#StaticSmsDiv').show();                    
-                }
-                else if (data.eq(2).text() == "DYNAMIC") {
-                    $('#smstemplatediv').show();
-                    $('#templateiddiv').show(); 
-                    $('#sendbutton').show();
-                    $('#StaticSmsDiv').show();
-                    $('#dynamicSmsDiv').show();
-                }
-                document.getElementById("bindsenderName").innerHTML = data.eq(0).text();
-
-                document.getElementById("ContentType").innerHTML = data.eq(2).text();
-                document.getElementById("smscount").innerHTML = data.eq(5).text() + '/' + partscount;//$(event).closest('tr').children('td:eq(7)').text() + '';
-                document.getElementById("bindtemplatename").innerHTML = data.eq(1).text();;
-                document.getElementById("SmsContent").innerHTML = data.eq(3).text();
-                document.getElementById("SenderId").innerHTML = sendrId;
-                document.getElementById("unicodeStatus").value = unicodestatus;           
-
-                const container = document.querySelector('#generated');            
-               removeAllChildNodes(container);                
-            for (i = 0, j = 1; i < variablecnt; i++ , j++) {
-
-                var div = document.createElement('row');
-                div.innerHTML = '<div class="row" style="margin-top:10px;" ><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName"   readonly="readonly" MaxLength="12"  style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable"  MaxLength="12"  type="text" value=""></div></div>';
-                document.getElementById("generated").appendChild(div);
-            }           
-                $('#closebtn').click();
-            });
-
-
             $(document).on('click', '#btn_remove', function (e) {
                 e.preventDefault();
 
@@ -910,134 +754,6 @@
 
             });
         });
-        function removeAllChildNodes(parent) {       
-            while (parent.firstChild) {
-                parent.removeChild(parent.firstChild);
-            }
-        }
-         function loadtemplateSearchReportInstant() {
-            $("#loading").show();           
-            var templateName = $("#pouptemplateName").val();
-            var templateType = $("#pouptemplateType").val();
-           // var templateStatus = $("#pouptemplateStatus").val();
-            var ContentType = $("#poupContentType").val();      
-
-              $.ajax({
-               url: "@Url.Action(MVC.Campaign.getcampaignSearchReport())",            
-                type: 'GET',
-                  data: {
-                      templateName:templateName,
-                      templateType:templateType,
-                      //templateStatus:templateStatus,
-                      ContentType:ContentType
-                  },
-                  success: function (resp) {
-                     
-            
-                   rpt_datatable = $("#tbl_templateDetails").DataTable({
-                       responsive: true,
-                        deferRender: true,
-                        "destroy": true,                      
-                        data: resp.tdata,
-                       columns: resp.thead,
-                       autoWidth: true,
-                       
-                      
-                        'columnDefs': [
-                            {
-                                "targets": [0,4,8,9,10,11],
-                                "className": "text-left",
-                                 "visible": false,
-                                "searchable": false,
-                               
-                            },
-                            {
-                               // { width: 200, targets: 0 },
-                                "targets": 1,
-                                "width": "50px",
-                                "className": "text-left", 
-                                "mRender": function (data, type, full) {
-                                    return '<i class="btn btn-link" id=btnEdit  style="color:blue;font-size:10px;">' + full[1] + '</i>'
-
-                                }         
-                            },
-                            {
-                                // { width: 200, targets: 0 },
-                                "targets": 2,
-                                "width": "50px",
-                                "className": "text-left",
-                                "mRender": function (data, type, full) {
-                                    return '<span style="text=align:center;"id="">' + full[2] + '</span><input class="wrapperDivHidden" id="tempid" type="hidden" value="' + full[0] + '" />'
-                                   // return '<i class="btn btn-link" class="templateId" data-id=' + full[0]+'  style="color:blue;font-size:10px;">' + full[2] + '</i>'
-
-                                }
-                            },
-                            {                                
-                                "targets": 5, // SMS Part count                               
-                                //"word-break": "break-all",
-                                "mRender": function (data, type, full) {
-                                    return '<div  style=" display:table-cell;vertical-align:middle; overflow-x:auto !important;overflow-y:auto !important;">' + full[5] + '</div>';
-                                }
-                                
-                            },
-                            {
-                                "targets": 7, // char count
-                                "className": "hide-column",
-                                //"sClass": "invisible",
-                              
-
-                                    "mRender": function (data, type, full) {
-                                        return '<span style="text=align:center;"id="">' + full[7] + '</span><input id="part_' + full[0] + '" type="hidden" value="' + full[11] + '" />';
-                                    }
-                                    //return ' <table style"height:1px;width:1px;"><tr><td><input id="part_' + full[0] + '" type="hidden" value="' + full[8] + '" />< input id = "variablecnt_' + full[0] + '" type = "hidden" value = "' + full[9] + '" /> < input id = "senderId_' + full[0] + '" type = "hidden" value = "' + full[10] + '" /> < input id = "unicode_' + full[0] + '" type = "hidden" value = "' + full[11] + '" /> </td>/tr></table>';
-                                
-                            }                            //{
-                            //    "targets": 9,// Variable count
-                            //    "className": "hide-column",
-                            //    "sClass": "invisible"
-                            //},
-
-                            //{
-                            //    "targets": 10,// Sender_id value 
-                            //    "className": "hide-column",
-                            //    "sClass": "invisible"     
-                            //}     
-                            //,
-
-                            //{
-                            //    "targets": 11// Sender_id value                                
-                            //    //"className": "hide-column",
-                            //    //"sClass": "invisible"     
-                            //}     
-                       ],
-                                           
-                       order: [],
-                        fnInitComplete: function (o) {
-                            $("#loading").hide();
-                            $("input[type=button]").removeAttr("disabled");
-                        },
-                    });
-                }
-              
-            }).fail(function (xhr, status, error) {
-                $("#loading").hide();
-                $("input[type=button]").removeAttr("disabled");
-                if (xhr.status == 401) {
-                    alert("Click to continue", "Session Timedout", function () {
-                        closing = false;
-                        window.location = JSON.parse(xhr.responseText).LogOnUrl;
-                    })
-                }
-                else if (xhr.status == 507) {
-                    $("#divNoData span").text(" Result is too large.");
-                    $("#divNoData").show();
-                    $("input[type=button]").removeAttr("disabled");
-                } else {
-                    alert("Unable to fetch data from server", "Failed");
-
-                }
-            });
-        }
 
         function constructNewRows(dvr,rawNumber) {
 
@@ -1066,28 +782,14 @@
                     + '<button style="color: green !important;background: seashell;" data-toggle="collapse" data-target="#demo' + rawNumber + '" class="btn_hide"><i class="fa fa-save text-black-50" style = "color: green!important;"></i></button>'
                     + '</div>';
 
-                //for (j = 0; j < dvr.length; j++) {
-                //    str = str
-                //        + '<div class="col-4" style="text-align:left;margin-bottom:4px;">'
-                //        + '<span> ' + dvr[j] + ': </span><input id="VAR' + (j + 1) + '" type="text" style="height:22px;max-width:150px;">'
-                //        + '</div>';
+                for (j = 0; j < dvr.length; j++) {
+                    str = str
+                        + '<div class="col-4" style="text-align:left;margin-bottom:4px;">'
+                        + '<span> ' + dvr[j] + ': </span><input id="VAR' + (j + 1) + '" type="text" style="height:22px;max-width:150px;">'
+                        + '</div>';
 
-                //}
-            var cnt = 0;
-            str = str + "<table><tr>"
-            for (j = 0; j < dvr.length; j++) {
-                str = str
-                    + '<td style="text-align:left;margin-bottom:4px;">'
-                    + '<span > ' + dvr[j] + ': </span></td><td><input id="VAR' + (j + 1) + '" type="text" style="height:22px;max-width:155px;">'
-                    + '</td>';
-                cnt++;
-                if (cnt == 3) {
-                    str = str + "</tr><tr>"
-                    cnt = 0;
                 }
 
-            }
-            str = str + "</tr></table>"
             str = str + '</div>'
 
                 + '</div>'
@@ -1110,7 +812,7 @@
                 str = '<tr class="cell-1">'
                     + '<td><span id="spn_mob">' + numbers[i] + '</span></td>'
                     + ' <td>';
-                if ($('#ContentType').val() == "DYNAMIC") {
+                if ($('#SmsTypeId').val() == 2) {
                     str = str + '<i id="icon_alert" class="fa fa-exclamation-circle" style="margin-right:8px;color:red !important"></i>';
                 }
                 str = str     + '<span id="spn_message">' + ReplaceSMSContentWithParameter($('#SmsContent').val(), dvr) + '</span></td>'
@@ -1136,34 +838,19 @@
                      + '</div>';
 
 
-                //for (j = 0; j < dvr.length; j++) {
-                //    str = str
-                //        +'<div class="col-4" style="text-align:left;margin-bottom:4px;">'
-                //        + '<span> ' + dvr[j] + ': </span><input id="VAR' + (j + 1) + '" type="text" style="height:22px;max-width:150px;">'
-                //        + '</div>';
-
-                //}
-                var cnt = 0;
-                str = str + "<table><tr>"
                 for (j = 0; j < dvr.length; j++) {
                     str = str
-                        + '<td style="text-align:left;margin-bottom:4px;">'
-                        + '<span > ' + dvr[j] + ': </span></td><td><input id="VAR' + (j + 1) + '" type="text" style="height:22px;max-width:155px;">'
-                        + '</td>';
-                    cnt++;
-                    if (cnt == 3) {
-                        str = str + "</tr><tr>"
-                        cnt = 0;
-                    }
+                        +'<div class="col-4" style="text-align:left;margin-bottom:4px;">'
+                        + '<span> ' + dvr[j] + ': </span><input id="VAR' + (j + 1) + '" type="text" style="height:22px;max-width:150px;">'
+                        + '</div>';
 
                 }
-                str = str + "</tr></table>"
+
                 str = str + '</div>'
                     + '</div>'
                     + '</div>'
                     + '</td>'
                     + '</tr>'
-                alert(str);
                 $("#tblEntAttributes tbody").append(str);
             }
             return true;

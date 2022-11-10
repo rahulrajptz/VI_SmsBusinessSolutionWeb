@@ -279,7 +279,7 @@ namespace Templateprj.Controllers
                         {
                             dt.Columns[index].ColumnName = columnname;
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         { }
                     }
 
@@ -291,7 +291,7 @@ namespace Templateprj.Controllers
                             dt.Columns[index].ColumnName = columnname;
 
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         { }
                     }
                     dt.AcceptChanges();
@@ -363,14 +363,9 @@ namespace Templateprj.Controllers
         {
 
             DataTable dt = _prc.getsamplefilesms(id);
-
-
-            dt.TableName = "Upload";
-
-
             if (dt != null)
             {
-
+                dt.TableName = "Upload";
                 RKLib.ExportData.Export objExport = new RKLib.ExportData.Export();
                 objExport.ExportDetails(dt, RKLib.ExportData.Export.ExportFormat.CSV, "");
             }
@@ -504,6 +499,7 @@ namespace Templateprj.Controllers
 
         }
 
+        //Active campaign Names
         public virtual ActionResult getcampaignnamesList()
         {
 

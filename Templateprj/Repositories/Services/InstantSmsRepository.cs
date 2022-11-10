@@ -27,12 +27,17 @@ namespace Templateprj.Repositories.Services
             DataTable dtSmstype = _prc.getsmstypelist();
             DataTable dtstatuslist = _prc.getstatuslist();
             DataTable dttemplateList = _prc.getTemplateId();
+            DataSet dspopupData = _prc.getTemplateSearchDetails();
 
+            
             return new InstantSmsModel()
             {
                 SmsTypes = dtSmstype.ToSelectList(listItems, "VALUE", "TEXT"),
                 StatusList = dtstatuslist.ToSelectList(listItemsAll, "VALUE", "TEXT"),
                 TemplateList = dttemplateList.ToSelectList(listItemsAll, "VALUE", "TEXT"),
+                pouptemplateNameList = dspopupData.Tables[0].ToSelectList(listItemsAll, "VALUE", "TEXT"),
+                pouptemplateTypeList = dspopupData.Tables[1].ToSelectList(listItemsAll, "VALUE", "TEXT"),
+                poupContentTypeList = dspopupData.Tables[3].ToSelectList(listItemsAll, "VALUE", "TEXT"),
                 Senders = GetSelectListDefault(),
                 Templates = GetSelectListDefault()
             };
