@@ -488,12 +488,12 @@
                         var row = rpt_datatable.row(tr);
 
                         if (row.child.isShown()) {
-                            console.log('hide')
+                          
                             // This row is already open - close it
                             row.child.hide();
                             tr.removeClass('shown');
                         } else {
-                            console.log('shown')
+                           
                             // Open this row
                             row.child(format(row.data(), columnHeaders, coulmnLimit)).show();
                             tr.addClass('shown');
@@ -541,7 +541,6 @@
         function onSubmit(form) {
             var data = JSON.stringify($(form).serializeArray()); //  <-----------
 
-            console.log(data);
             return false; //don't submit
         }
 
@@ -694,7 +693,16 @@
                                 SuccessMsg(obj.response)
                             }
                             else {
-                                ErrorMsg(obj.response);
+                                $('#divSummary').show();
+                                $('#divAdd').hide();
+                                $('#addUpload').hide();
+                                ErrorMsg("Failed to save account details.")
+                                $('#spnTotal').text(jsondata.data.Total);
+                                $('#spnDuplicate').text(jsondata.data.Duplicate);
+                                $.each(jsondata.data.Data, function (index, val) {
+                                    //console.log(index, val);
+                                    addRow(index + 1, val.TemplateId);
+                                });
                             }
                         }
                     });
