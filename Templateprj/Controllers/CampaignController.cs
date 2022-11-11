@@ -48,7 +48,7 @@ namespace Templateprj.Controllers
                 int dateStatusStart = checkEndTimeValidity(scheduleDate, FromDate + " " + Fromtime, false);
                 if (dateStatus != 1 || dateStatusStart != 1)
                 {
-                    json = "{\"status\":\"9\",\"response\":\"The scheduled time must be between time and time \"}";
+                    json = "{\"status\":\"9\",\"response\":\"The scheduled time must be between From time and To time \"}";
                     return Json(json, JsonRequestBehavior.AllowGet);
                 }
                 CultureInfo enUS = new CultureInfo("en-US");
