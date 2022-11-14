@@ -115,11 +115,21 @@ namespace Templateprj.Controllers
 
                                 if (d?.Tables[0]?.Rows != null && d.Tables[0].Rows.Count > 0)
                                 {
-                                    string data = JsonConvert.SerializeObject(d.Tables[0]);
+                                    string data = d.Tables[0].DataTableToJSONWithStringBuilder();
                                     var commands = JsonConvert.DeserializeObject<List<AddSenderModel>>(data);
                                     string status = _senderRepository.SaveSenderId(commands, out string response, out string dataduplicate);
-                                    string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\",\"data\":" + dataduplicate + "}";
-                                    TempData["Message"] = response;
+                                    //string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\",\"data\":" + dataduplicate + "}";
+                                    //TempData["Message"] = response;
+
+                                    if (string.IsNullOrEmpty(dataduplicate) || dataduplicate.Length <= 3)
+                                    {
+                                        json = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\"}";
+                                        TempData["Message"] = response;
+                                    }
+                                    else
+                                    {
+                                        json = "{\"status\":\"" + 2 + "\",\"response\":\"" + response + "\",\"data\":" + dataduplicate + "}";
+                                    }
                                 }
                                 else
                                 {
