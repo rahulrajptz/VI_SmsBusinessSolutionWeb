@@ -308,7 +308,5 @@ namespace Templateprj.Repositories.Services
 
             return null;
         }
-
-
     }
 }

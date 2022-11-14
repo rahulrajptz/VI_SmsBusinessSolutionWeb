@@ -283,6 +283,8 @@
                             <span class="btn btn-danger">
                                 Duplicate <span class="badge badge-light" id="spnDuplicate">0</span>
                             </span>
+                            <a class="btn btn-outline-info" href="AddTemplates" style="float:right">Cancel</a>
+
                             <table class="table" id="alertTable">
                                 <thead class="thead-dark">
                                     <tr>
@@ -290,8 +292,7 @@
                                         <th scope="col">TemplateId</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
                     </div>
@@ -372,168 +373,6 @@
 
                 });
 
-                $(document).on('click', '#btnSearch', function (e) {
-                    loadReportreport();
-                });
-            </script>
-
-            @*List Templates*@
-            <script>
-        var columnHeaders = [];
-        function loadReportreport() {
-
-
-                var coulmnLimit = 1;
-            $("#loading").show();
-
-
-                $("#divNoData").hide();
-                $.post("@Url.Action(MVC.Template.GetTemplates())", $("form").serialize(), function (resp) {
-                    $("#loading").hide();
-                    $(".spinner-grow").hide();
-                    if (jQuery.isEmptyObject(resp.Data)) {
-                    $("#divNoData span").text(" No data available");
-                    $("#divNoData").show();
-                    $("#divTablereport").hide();
-                }
-                    else {
-                        columnHeaders = resp.Header;
-                        columnHeaders= sortResults("Id",true);
-                    coulmnLimit = resp.Count;
-                    var headers = [{
-                        className: 'dt-control',
-                        orderable: false,
-                        data: null,
-                        defaultContent: '',
-                    }];
-                    var i = 0;
-                        $.each(columnHeaders, function (i, item) {
-                        i = i + 1;
-                        var title = item.Title;
-                        var data = item.Data;
-                        /*map[name] = { data: id, title: name };*/
-                        headers.push({ "data": data, "title": title, "name": title });
-                        if (i > resp.Count) {
-
-                            headers.push({
-                                "title": "Manage",
-                                "data": "TemplateId",
-                                "width": "50px !mportant",
-
-                                "render": function (data1, type, row) {
-                                    return `<p>
-
-                                                <a class="delete" title="Add" data-toggle="tooltip" onClick="deleteTemplate(`+ row.ID + `)"><i class='fas fa-trash'></i></a>
-
-                                                <a class="edit" title="Add" data-toggle="tooltip" onClick="editTemplate(`+ row.ID + `)"></i></a>
-
-                                         </p>`;
-                                }
-                            });
-                            return false;
-                        }
-                    });
-
-                    {
-                        $("#tbl_rptreport").show();
-                        $("#divTablereport").show();
-
-                        rpt_datatable = $("#tbl_rptreport").DataTable({
-                            responsive: true,
-                            deferRender: true,
-                            "destroy": true,
-                            bFilter: false,
-                            bInfo: false,
-                            "data": resp.Data,
-                            "columns":
-                                headers,
-                            "columnDefs": [
-                                { "width": "30px !important", "targets": 0 }
-                            ],
-                            fnInitComplete: function (o) {
-                                $("#loading").hide();
-                                $(".spinner-grow").hide();
-                            },
-                        });
-                    }
-                }
-
-                }).fail(function (xhr, status, error) {
-                    $("#loading").hide();
-                    $(".spinner-grow").hide();
-                    $("input[type=button]").removeAttr("disabled");
-                    if (xhr.status == 401) {
-                        alert("Click to continue", "Session Timedout", function () {
-                            closing = false;
-                            window.location = JSON.parse(xhr.responseText).LogOnUrl;
-                        })
-                    }
-                    else if (xhr.status == 507) {
-                        $("#divNoData span").text(" Result is too large.");
-                        $("#divNoData").show();
-                        $("input[type=button]").removeAttr("disabled");
-                    } else {
-                        alert("Unable to fetch data from server", "Failed");
-
-                    }
-                    });
-
-                $(function () {
-                    $("#tbl_rptreport").click(function (event) {
-
-                        event.stopPropagation();
-                        var $target = $(event.target);
-
-                        var tr = $target.closest('tr');
-                        var row = rpt_datatable.row(tr);
-
-                        if (row.child.isShown()) {
-                          
-                            // This row is already open - close it
-                            row.child.hide();
-                            tr.removeClass('shown');
-                        } else {
-                           
-                            // Open this row
-                            row.child(format(row.data(), columnHeaders, coulmnLimit)).show();
-                            tr.addClass('shown');
-                        }
-                    });
-        });
-
-        }
-
-        /* Formatting function d.TemplateId for row details - modify as you need */
-        function format(d,h,c) {
-            // `d` is the original data object for the row
-            var expandedRpw = '<div class="row expandcontainer g-2 d-flex justify-content-center gx-5" style="padding:4px;margin-left:-12px !important;background:#ffffff">';
-            var i = 0;
-            for (var key in d) {
-                i = i + 1;
-                if (i > c) {
-                    expandedRpw = expandedRpw + '<div class="col-3 border font-weight-bold" >' + h.find((o) => { return o["Data"] === key }).Title + '</div>' + '<div class="col-3 border">'
-                        +
-                    d[key]
-                        + '</div>';
-                }
-            }
-            expandedRpw = expandedRpw + '</div>';
-            return (
-                expandedRpw
-            );
-        }
-
-        function sortResults(prop, asc) {
-            columnHeaders.sort(function (a, b) {
-                if (asc) {
-                    return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
-                } else {
-                    return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
-                }
-            });
-            return columnHeaders;
-        }
-
             </script>
 
             @*Load autofill textboxes and reload report*@
@@ -597,7 +436,6 @@
                                 }
                             });
 
-            console.log(items);
             $('#txtName').typeahead({
                 source: function (request, response) {
                     response(items);
@@ -690,19 +528,20 @@
                             var obj = JSON.parse(response);
                             console.log(obj);
                             if (obj.status == "1") {
-                                SuccessMsg(obj.response)
+                                window.location.href = '/Template/Templates';
                             }
-                            else {
+                            else if (obj.status == "2") {
                                 $('#divSummary').show();
                                 $('#divAdd').hide();
                                 $('#addUpload').hide();
-                                ErrorMsg("Failed to save account details.")
-                                $('#spnTotal').text(jsondata.data.Total);
-                                $('#spnDuplicate').text(jsondata.data.Duplicate);
-                                $.each(jsondata.data.Data, function (index, val) {
-                                    //console.log(index, val);
+                                $('#spnTotal').text(obj.data.Total);
+                                $('#spnDuplicate').text(obj.data.Duplicate);
+                                $.each(obj.data.Data, function (index, val) {
                                     addRow(index + 1, val.TemplateId);
                                 });
+                            }
+                            else {
+                                ErrorMsg(obj.response)
                             }
                         }
                     });
@@ -746,7 +585,6 @@
                             else {
                                 ErrorMsg("Failed to upate template details.")
                             }
-                            console.log(jsondata);
                         }
                     });
                 }
