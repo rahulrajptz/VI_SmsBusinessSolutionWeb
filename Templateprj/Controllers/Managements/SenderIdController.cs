@@ -40,9 +40,9 @@ namespace Templateprj.Controllers
         public virtual ActionResult AddSenderId(int? id)
         {
             AddSenderModel model = new AddSenderModel();
-            model.ApprovalStatus = _templateManagemntRepository.GetTemplateFilters(true).ApprovalStatus;
             if (id.HasValue) { model = _senderRepository.GetSenderIdById(id.Value); }
             ViewBag.IsEdit = id.HasValue;
+            model.ApprovalStatus = _templateManagemntRepository.GetTemplateFilters(true).ApprovalStatus;
             return View("~/Views/Management/AddSenderId.cshtml", model);
         }
 
@@ -55,15 +55,15 @@ namespace Templateprj.Controllers
             return Json(responsejson, JsonRequestBehavior.AllowGet);
         }
 
-        //[HttpPut]
-        //public virtual ActionResult Templates(UpdateTemplateCommand command)
-        //{
-        //    string status = _templateManagemntRepository.UpdateTemplate(command, out string response);
+        [HttpPut]
+        public virtual ActionResult SenderIds(UpdateSenderIdCommand command)
+        {
+            string status = _senderRepository.UpdateSenderId(command, out string response);
 
-        //    string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\"}";
+            string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\"}";
 
-        //    return Json(responsejson, JsonRequestBehavior.AllowGet);
-        //}
+            return Json(responsejson, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpDelete]
         public virtual ActionResult SenderIds(int id)

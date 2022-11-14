@@ -381,6 +381,7 @@
     <Compile Include="Models\Managements\GetTemplateModels\TemplateResponse.cs" />
     <Compile Include="Models\Managements\GetTemplateModels\TemplateVM.cs" />
     <Compile Include="Models\Managements\ManagementModel.cs" />
+    <Compile Include="Models\Managements\SenderIds\UpdateSenderIdCommand.cs" />
     <Compile Include="Models\Managements\SenderIds\AddSenderModel.cs" />
     <Compile Include="Models\Managements\UpdateTemplateCommand.cs" />
     <Compile Include="Models\Managements\RegisterTemplateCommand.cs" />
