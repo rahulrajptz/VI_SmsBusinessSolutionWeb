@@ -100,10 +100,10 @@
      $(document).on('click', '#btnSearch', function (e) {
                 loadReportreport();
        });
-     function deleteTemplate(templateId) {
+     function deleteSender(senderId) {
                 $.ajax({
-                    url: "@Url.Action("Templates", "Template")",
-                    data: { id: templateId },
+                    url: "@Url.Action("SenderIds", "SenderId")",
+                    data: { id: senderId },
                     type: 'DELETE',
                     success: function (e) {
                         jsondata = JSON.parse(e);
@@ -158,7 +158,7 @@
                         "render": function (data1, type, row) {
                             return `<p>
                                                 <a class="edit" title="Add" data-toggle="tooltip" href="AddSenderId/`+ row.SmId + `" style="color: #004d00 !important""><i class='fas fa-edit'></i></a>
-                                                <a class="delete" title="Add" data-toggle="tooltip" onClick="deleteTemplate(`+ row.SmId + `)" style="color: #4a0e0e !important""><i class='fas fa-trash'></i></a>
+                                                <a class="delete" title="Add" data-toggle="tooltip" onClick="deleteSender(`+ row.SmId + `)" style="color: #4a0e0e !important""><i class='fas fa-trash'></i></a>
                                          </p>`;
                         }
                     });
