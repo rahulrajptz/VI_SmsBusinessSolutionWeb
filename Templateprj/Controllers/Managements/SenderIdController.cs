@@ -40,9 +40,9 @@ namespace Templateprj.Controllers
         public virtual ActionResult AddSenderId(int? id)
         {
             AddSenderModel model = new AddSenderModel();
-            model.ApprovalStatus = _templateManagemntRepository.GetTemplateFilters(true).ApprovalStatus;
             if (id.HasValue) { model = _senderRepository.GetSenderIdById(id.Value); }
             ViewBag.IsEdit = id.HasValue;
+            model.ApprovalStatus = _templateManagemntRepository.GetTemplateFilters(true).ApprovalStatus;
             return View("~/Views/Management/AddSenderId.cshtml", model);
         }
 
@@ -55,15 +55,15 @@ namespace Templateprj.Controllers
             return Json(responsejson, JsonRequestBehavior.AllowGet);
         }
 
-        //[HttpPut]
-        //public virtual ActionResult Templates(UpdateTemplateCommand command)
-        //{
-        //    string status = _templateManagemntRepository.UpdateTemplate(command, out string response);
+        [HttpPut]
+        public virtual ActionResult SenderIds(UpdateSenderIdCommand command)
+        {
+            string status = _senderRepository.UpdateSenderId(command, out string response);
 
-        //    string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\"}";
+            string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\"}";
 
-        //    return Json(responsejson, JsonRequestBehavior.AllowGet);
-        //}
+            return Json(responsejson, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpDelete]
         public virtual ActionResult SenderIds(int id)
@@ -115,11 +115,21 @@ namespace Templateprj.Controllers
 
                                 if (d?.Tables[0]?.Rows != null && d.Tables[0].Rows.Count > 0)
                                 {
-                                    string data = JsonConvert.SerializeObject(d.Tables[0]);
+                                    string data = d.Tables[0].DataTableToJSONWithStringBuilder();
                                     var commands = JsonConvert.DeserializeObject<List<AddSenderModel>>(data);
                                     string status = _senderRepository.SaveSenderId(commands, out string response, out string dataduplicate);
-                                    string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\",\"data\":" + dataduplicate + "}";
-                                    TempData["Message"] = response;
+                                    //string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\",\"data\":" + dataduplicate + "}";
+                                    //TempData["Message"] = response;
+
+                                    if (string.IsNullOrEmpty(dataduplicate) || dataduplicate.Length <= 3)
+                                    {
+                                        json = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\"}";
+                                        TempData["Message"] = response;
+                                    }
+                                    else
+                                    {
+                                        json = "{\"status\":\"" + 2 + "\",\"response\":\"" + response + "\",\"data\":" + dataduplicate + "}";
+                                    }
                                 }
                                 else
                                 {

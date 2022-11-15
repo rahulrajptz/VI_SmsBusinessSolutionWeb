@@ -11,5 +11,7 @@ namespace Templateprj.Repositories.Interfaces
 
         string SaveSenderId(List<AddSenderModel> commands, out string response, out string data);
         string DeleteSenderId(int id, out string response);
+        string UpdateSenderId(UpdateSenderIdCommand command, out string response);
+
     }
 }

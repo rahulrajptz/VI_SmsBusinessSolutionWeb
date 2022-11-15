@@ -124,11 +124,18 @@ namespace Templateprj.Controllers
 
                                 if (d?.Tables[0]?.Rows != null && d.Tables[0].Rows.Count > 0)
                                 {
-                                    string data = JsonConvert.SerializeObject(d.Tables[0]);
+                                    string data = d.Tables[0].DataTableToJSONWithStringBuilder();
                                     var commands = JsonConvert.DeserializeObject<List<RegisterTemplateCommand>>(data);
                                     string status = _templateManagemntRepository.SaveTemplate(commands, out string response, out string dataduplicate);
-                                    string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\",\"data\":" + dataduplicate + "}";
-                                    TempData["Message"] = response;
+                                    if (string.IsNullOrEmpty(dataduplicate) || dataduplicate.Length<=3)
+                                    {
+                                        json = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\"}";
+                                        TempData["Message"] = response;
+                                    }
+                                    else
+                                    {
+                                        json = "{\"status\":\"" + 2 + "\",\"response\":\"" + response + "\",\"data\":" + dataduplicate + "}";
+                                    }
                                 }
                                 else
                                 {
@@ -144,9 +151,6 @@ namespace Templateprj.Controllers
                                 json = "{\"status\":\"0\",\"response\":\"Please upload file in .XLS or .XLSX format \" }";
                             }
 
-
-
-
                         }
                         catch (Exception e)
                         {
@@ -158,27 +162,17 @@ namespace Templateprj.Controllers
                     }
                     else
                     {
-                        //TempData["UploadBase"] = "2";
-
-                        //TempData["UploadBaseMessage"] = "Input file contain more than one extention , Please Chcek and upload !";
                         json = "{\"status\":\"0\",\"response\":\"Input file contain more than one extention , Please Chcek and upload !\" }";
-
-                        // ViewBag.ErrorMsg = "Input file contain more than one extention , Please Chcek and upload !";
                     }
 
 
                 }
                 else
                 {
-
-                    //TempData["UploadBase"] = "2";
-
-                    //TempData["UploadBaseMessage"] = "Input file not found !";
                     ViewBag.ErrorMsg = "Input file not found !";
                     json = "{\"status\":\"0\",\"response\":\"Input file not found!\" }";
 
                 }
-                //return RedirectToAction("CampaignView", "Campaign", new { area = "" });
 
                 return Json(json, JsonRequestBehavior.AllowGet);
             }
@@ -188,5 +182,8 @@ namespace Templateprj.Controllers
                 return View();
             }
         }
+
     }
+
+
 }
