@@ -530,11 +530,7 @@ namespace Templateprj.Controllers
                 return Content(json, "application/json");
 
             }
-            //else if (status == -2)
-            //{
-            //    Response.StatusCode = 507;
-            //    return Content("Out of Memory", "text/plain");
-            //}
+            
             else
             {
                // Response.StatusCode = 503;
@@ -767,7 +763,7 @@ namespace Templateprj.Controllers
         }
 
         [HttpPost]
-
+       
         public virtual ActionResult SaveCampaign(SMSCampaignModel model)
         {
             string isUnicode = "";
@@ -866,6 +862,7 @@ namespace Templateprj.Controllers
             return View(model);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public virtual ActionResult BulkSms(SMSCampaignModel model)
         {
             //MSCampaignModel model = new SMSCampaignModel();
@@ -1072,7 +1069,7 @@ namespace Templateprj.Controllers
                                 dtCSV.Rows.Add(dr);
                             }
                         }
-                        catch (Exception exec)
+                        catch (Exception)
                         {
 
                         }

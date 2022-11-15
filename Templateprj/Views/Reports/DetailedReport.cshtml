@@ -16,28 +16,32 @@
         font-weight: bold;
         font-size: medium;
     }
+    label {
+        color: #5f004b;
+        font-size: 12px;
+    }
 </style>
-@using (Html.BeginForm("DetailedReport", "Reports"))
+@using(Html.BeginForm("DetailedReport", "Reports"))
 {
     <div class="row" style="margin-top:30px;">
         <div class="col s12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Detailed Report</h4>
+                    <div class="card-title" style="font-size:35px;font-weight:bold;">Detailed Report</div>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col s6 col-md-3">
-                            @Html.LabelFor(m => m.SelectedId)
+                            @Html.Label("Campaign Name", new { style="color:#5f004b;font-size:12px;" })
                             @Html.DropDownListFor(m => m.SelectedId, Model.IdList, new { @class = "form-control", @id = "ddlacnt" })
                         </div>
                         <div class="col s6 col-md-3">
-                            @Html.LabelFor(m => m.fromdate, new { @class = "active" })
-                            @Html.TextBoxFor(m => m.fromdate, new { @class = "border-bottom form-control mask-date" })
+                            @Html.Label("From Date", new { style = "color:#5f004b;font-size:12px;" })
+                            @Html.TextBoxFor(m => m.fromdate, new { @class ="form-control mask-date" })
                         </div>
                         <div class="col s6 col-md-3">
-                            @Html.LabelFor(m => m.todate, new { @class = "active" })
-                            @Html.TextBoxFor(m => m.todate, new { @class = "border-bottom form-control mask-date" })
+                            @Html.Label("To Date", new { style = "color:#5f004b;font-size:12px;" })
+                            @Html.TextBoxFor(m => m.todate, new { @class ="form-control mask-date" })
                         </div>
                         <div class="col s6 col-md-3" @*style="padding-left:500px"*@>
                             <input type="button" id="btn_download" class="btn fa fa-download"  value="Download" style="margin-top:24px;"/>

@@ -374,7 +374,7 @@
 
                                     <div id="StaticSmsDiv">
                                         <div class="row">
-                                            <div class="col-md-12 offset-5"> SMS Count: <span id="smscount"></span> (*W/o variables)</div>
+                                            <div class="col-md-12 offset-5"> SMS Count: <span id="smscount"></span> (<span id="smscount" style="color:red;">*</span>W/o variables)</div>
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-md-12">
@@ -1268,6 +1268,7 @@
             }
 
         });
+
         function resetfunctionUpload() {
             document.getElementById("Idform").reset();
             $("#campaignId").val(null);
@@ -1550,7 +1551,7 @@
         @*$('#SaveCampaign').on('click', function () {
 
             var a = $("#Idform").val();
-            console.log("tseting");
+            //console.log("tseting");
             var jsondata;
 
             if ($("#Idform").valid()) {
@@ -1600,12 +1601,12 @@
         $('#SaveCampaignnew').on('click', function () {
 
             var a = $("#Idform").val();
-            console.log("tseting");
+            alert("tseting");
             var jsondata;
-
+            alert($("#Idform").valid());
             if ($("#Idform").valid()) {
                 var data2 = $("#Idform").serialize();
-
+                alert(data2);
                 $("#SMSTestingCompleteDiv").hide()
                 $('#sendsmsdiv').hide();
                     $.ajax({
@@ -1912,9 +1913,11 @@
 
        
         function getTamplateDetails(event) {
+            
             var currentRow = $(event).closest("tr");
             document.getElementById("templateId").innerHTML = event.id; //$(event).closest('tr').children('td:eq(3)').text();         
             var parts = document.getElementById("part_" + event.id).value;
+            alert(parts);
             var array = parts.split(",");
             var partscount = array[0];
             var variablecnt = array[1];
@@ -2725,6 +2728,7 @@
             $('#updatedId').val(CampaignId);
             $("#UpdateModal").modal('show');
         }  
+
         function resetfunction() {
         
             document.getElementById("Idform").reset();
@@ -2767,6 +2771,7 @@
                 window.URL.revokeObjectURL(url);
             };
         }());
+
         $(function () {
             $("#btnShow").click(function () {
 

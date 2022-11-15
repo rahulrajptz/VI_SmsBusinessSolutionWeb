@@ -142,12 +142,10 @@ namespace Templateprj.Controllers
             {
                 public readonly string Index = "Index";
                 public readonly string InstantSms = "InstantSms";
-                public readonly string InstantSms_Copy = "InstantSms_Copy";
                 public readonly string InstantSmsReciver = "InstantSmsReciver";
             }
             public readonly string Index = "~/Views/InstantSms/Index.cshtml";
             public readonly string InstantSms = "~/Views/InstantSms/InstantSms.cshtml";
-            public readonly string InstantSms_Copy = "~/Views/InstantSms/InstantSms_Copy.cshtml";
             public readonly string InstantSmsReciver = "~/Views/InstantSms/InstantSmsReciver.cshtml";
         }
     }

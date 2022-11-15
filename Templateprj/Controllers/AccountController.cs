@@ -106,7 +106,7 @@ namespace Templateprj.Controllers
         }
         [HttpPost]
         [AuthorizeUser]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public virtual ActionResult FirstTimeLogin(FirstTimeLoginModel model)
         {
             if (ModelState.IsValid)
@@ -187,7 +187,7 @@ namespace Templateprj.Controllers
         }
         [HttpGet]
         [AllowAnonymous]
-       // [AuthorizeUser]
+        [AuthorizeUser]
         public virtual ActionResult ForgotPassword()
         {
             var model = new AuthenticateUserModel();
