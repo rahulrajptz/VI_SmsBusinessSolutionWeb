@@ -12,7 +12,7 @@ using Templateprj.Repositories.Interfaces;
 namespace Templateprj.Controllers
 
 {
-  
+    [AuthorizeUser]
     public partial class SenderIdController : Controller
     {
         private readonly ISenderRepository _senderRepository;
@@ -29,7 +29,7 @@ namespace Templateprj.Controllers
             return View("~/Views/Management/SenderIds.cshtml");
         }
 
-        [AuthorizeUser]
+       
         public virtual ActionResult GetSenders()
         {
             var json = _senderRepository.GetSenderIds();

@@ -239,7 +239,7 @@
                 var valdata = $("#senderform").serialize();
                 if (isValid()) {
                     $.ajax({
-                        url: "/SenderId/SenderIds",
+                        url: '@Url.Action(MVC.SenderId.SenderIds())',
                         type: "POST",
                         dataType: 'json',
                         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -249,7 +249,7 @@
                             if (jsondata.status == "1") {
                                 $('#divSummary').hide();
                                 $('#divAdd').show();
-                                window.location.href = '/SenderId/SenderIds';
+                                window.location.href = '@Url.Action(MVC.SenderId.SenderIds())';
                             }
                             else {
                                 $('#divSummary').show();
@@ -331,7 +331,7 @@
     </script>
 
     @*Upload Sender File*@
-    <script>
+<script>
 
              $('#uploadfileid').on('click', function () {
 
@@ -366,7 +366,7 @@
                             if (jsondata.status == "1") {
                                 $('#divSummary').hide();
                                 $('#divAdd').show();
-                                window.location.href = '/SenderId/SenderIds';
+                                window.location.href = '@Url.Action(MVC.SenderId.SenderIds())';
                             }
                             else {
                                 $('#divSummary').show();
@@ -389,10 +389,10 @@
 
         });
 
-    </script>
+</script>
 
     @*Update Sender*@
-    <script>
+<script>
         $(document).on('click', '#updateSender', function (e) {
                 var templateModel = {};
                 var isValid = true;
@@ -401,7 +401,7 @@
 
                 if (isValid) {
                     $.ajax({
-                        url: "@Url.Action("SenderIds", "SenderId")",
+                        url: '@Url.Action(MVC.SenderId.SenderIds())',
                         type: 'PUT',
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -421,7 +421,7 @@
                     ErrorMsg("Please confirm the entries, there are some alerts exist.")
                 }
         });
-    </script>
+</script>
 
     <script>
         function addRow(rid, tid) {

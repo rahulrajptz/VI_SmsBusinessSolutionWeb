@@ -322,13 +322,13 @@
                     else {
                         $('#divVariableCount').hide();
                     }
-                  
+
                     $("#addNewTemplate").click(function (e) {
                         if (isValid()){
                         //Serialize the form datas.
                         var valdata = $("#templateform").serialize();
                         $.ajax({
-                            url: "/Template/Templates",
+                            url: '@Url.Action(MVC.Template.Templates())',
                             type: "POST",
                             dataType: 'json',
                             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -338,7 +338,7 @@
                                 if (jsondata.status == "1") {
                                     $('#divSummary').hide();
                                     $('#divAdd').show();
-                                    window.location.href = '/Template/Templates';
+                                    window.location.href = '@Url.Action(MVC.Template.Templates())';
                                 }
                                 else {
                                     $('#divSummary').show();
@@ -366,7 +366,7 @@
                     });
                 });
 
-             
+
                 function isValid() {
                     if ($("#TemplateId").val().length > 25) {
                         ErrorMsg("Temaplte Id maximum length exceeded.")
@@ -442,7 +442,7 @@
             </script>
 
             @*Upload Tempalte File*@
-            <script>
+<script>
 
              $('#uploadfileid').on('click', function () {
 
@@ -476,7 +476,7 @@
                             var obj = JSON.parse(response);
                             console.log(obj);
                             if (obj.status == "1") {
-                                window.location.href = '/Template/Templates';
+                                window.location.href = '@Url.Action(MVC.Template.Templates())';
                             }
                             else if (obj.status == "2") {
                                 $('#divSummary').show();
@@ -506,10 +506,10 @@
 
         });
 
-            </script>
+</script>
 
             @*Update Temaplte*@
-            <script>
+<script>
         $(document).on('click', '#updateNewTemplate', function (e) {
 
                 var templateModel = {};
@@ -520,7 +520,7 @@
 
                 if (isValid) {
                     $.ajax({
-                        url: "@Url.Action("Templates", "Template")",
+                        url: '@Url.Action(MVC.Template.Templates())',
                         type: 'PUT',
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -540,7 +540,7 @@
                     ErrorMsg("Please confirm the entries, there are some alerts exist.")
                 }
         });
-            </script>
+</script>
 
             <script>
                 function addRow(rid,tid) {

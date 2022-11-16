@@ -1,12 +1,12 @@
 ﻿using System.Web.Mvc;
 using Templateprj.Filters;
-using Templateprj.Helpers;
 using Templateprj.Models.Managements;
 using Templateprj.Repositories.Interfaces;
 
 namespace Templateprj.Controllers
 
 {
+    [AuthorizeUser]
     public partial class ManagementController : Controller
     {
         private readonly IAccountManagemntRepository _accountManagemntRepository;
