@@ -20,7 +20,7 @@
                                     <li class="nav-item" style="width: 100px;height:35px">
                                         <a style="font-size:9.2846px" class="nav-link" href="@Url.Action("Account", "Management")">
                                             <btn_searchi class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></btn_searchi>
-                                            ACCOUUNT
+                                            ACCOUNT
                                         </a>
                                     </li>
                                     <li class="nav-item " style="width: 111px;height:35px">
@@ -316,7 +316,7 @@
 
             <script>
                 $(document).ready(function () {
-                    if ($("ContentType").val() == 2) {
+                    if ($("#ContentType").val() == 2) {
                         $('#divVariableCount').show();
                     }
                     else {
@@ -357,6 +357,13 @@
                         });
                         }
                     });
+
+                    setInputFilter(document.getElementById("TemplateId"), function (value) {
+                        return /^-?\d*$/.test(value);
+                    });
+                    setInputFilter(document.getElementById("VariableCount"), function (value) {
+                        return /^-?\d*$/.test(value);
+                    });
                 });
 
              
@@ -365,11 +372,32 @@
                         ErrorMsg("Temaplte Id maximum length exceeded.")
                         return false;
                     }
+                    else if ($("#VariableCount").val() <= 0 && $("#ContentType").val() == 2) {
+                        ErrorMsg("variable count should be greater gthan 0.")
+                        return false;
+                    }
                     else {
                         return true;
                     }
                 }
-                
+
+                // Restricts input for the given textbox to the given inputFilter.
+                function setInputFilter(textbox, inputFilter) {
+                    ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+                        textbox.addEventListener(event, function () {
+                            if (inputFilter(this.value)) {
+                                this.oldValue = this.value;
+                                this.oldSelectionStart = this.selectionStart;
+                                this.oldSelectionEnd = this.selectionEnd;
+                            } else if (this.hasOwnProperty("oldValue")) {
+                                this.value = this.oldValue;
+                                this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                            } else {
+                                this.value = "";
+                            }
+                        });
+                    });
+                }
             </script>
 
             <script>

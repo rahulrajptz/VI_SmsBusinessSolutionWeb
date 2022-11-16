@@ -428,6 +428,7 @@
     <Content Include="assets\css\all.css" />
     <Content Include="assets\css\bootstrap.css" />
     <Content Include="assets\css\bootstrap.min.css" />
+    <Content Include="assets\css\common-style.css" />
     <Content Include="assets\css\css.css" />
     <Content Include="assets\css\CustomCssInner.css" />
     <Content Include="assets\css\demo.css" />

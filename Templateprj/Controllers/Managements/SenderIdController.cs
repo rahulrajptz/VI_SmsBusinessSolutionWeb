@@ -42,7 +42,7 @@ namespace Templateprj.Controllers
             AddSenderModel model = new AddSenderModel();
             if (id.HasValue) { model = _senderRepository.GetSenderIdById(id.Value); }
             ViewBag.IsEdit = id.HasValue;
-            model.ApprovalStatus = _templateManagemntRepository.GetTemplateFilters(true).ApprovalStatus;
+            model.ApprovalStatus = _templateManagemntRepository.GetTemplateFilters(true).Status;
             return View("~/Views/Management/AddSenderId.cshtml", model);
         }
 
