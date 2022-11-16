@@ -575,6 +575,9 @@ namespace Templateprj.Controllers
         public virtual ActionResult CreatebulksmsCampaign(SMSCampaignModel model)
         {
             string jsondata = "";
+            //int checkStatus = checkEndTimeValidity(model.fromDate + " " + model.fromTime, System.DateTime.Now.ToString("dd/M/yyyy h:mm tt"), false);
+            //if (checkStatus != 1)
+            //    return Json("{\"status\":\"3\",\"response\":\"error\"}", JsonRequestBehavior.AllowGet);
             int status = checkEndTimeValidity(model.toDate + " " + model.toTime, model.fromDate + " " + model.fromTime,true);
             if (status != 1)
                 jsondata = "{\"status\":\"" + status + "\",\"response\":\"error\"}";
@@ -615,7 +618,10 @@ namespace Templateprj.Controllers
             string status = "";
             string jsondata = "";
             string jsontodb = "";
-          
+
+            //int checkStatus = checkEndTimeValidity(model.fromDate + " " + model.fromTime, System.DateTime.Now.ToString("dd/M/yyyy h:mm tt"),  false);
+            //if (checkStatus != 1)
+            //    return Json("{\"status\":\"3\",\"response\":\"error\"}", JsonRequestBehavior.AllowGet);
             int checkStatus = checkEndTimeValidity(model.toDate + " " + model.toTime, model.fromDate + " " + model.fromTime, true);
             if (checkStatus != 1)
                 return Json("{\"status\":\"" + checkStatus + "\",\"response\":\"error\"}", JsonRequestBehavior.AllowGet);
@@ -703,7 +709,10 @@ namespace Templateprj.Controllers
 
         public virtual ActionResult SendSMS(SMSCampaignModel model)
         {
-            int checkStatus = checkEndTimeValidity(model.toDate + " " + model.toTime, model.fromDate + " " + model.fromTime,true);
+            //int checkStatus = checkEndTimeValidity(model.fromDate + " " + model.fromTime, System.DateTime.Now.ToString("dd/M/yyyy h:mm tt"),  false);
+            //if (checkStatus != 1)
+            //    return Json("{\"status\":\"3\",\"response\":\"error\"}", JsonRequestBehavior.AllowGet);
+             int checkStatus = checkEndTimeValidity(model.toDate + " " + model.toTime, model.fromDate + " " + model.fromTime,true);
             if (checkStatus != 1)
                 return Json("{\"status\":\"" + checkStatus + "\",\"response\":\"error\"}", JsonRequestBehavior.AllowGet);
             string responsejson = "";
@@ -768,8 +777,10 @@ namespace Templateprj.Controllers
         {
             string isUnicode = "";
             string convertedCode = "";
-
             string responsejson = "";
+            //int checkStatus = checkEndTimeValidity(model.fromDate + " " + model.fromTime, System.DateTime.Now.ToString("dd/M/yyyy h:mm tt"),false);
+            //if (checkStatus != 1)
+            //    return Json("{\"status\":\"3\",\"response\":\"error\"}", JsonRequestBehavior.AllowGet);
             int checkStatus = checkEndTimeValidity(model.toDate + " " + model.toTime, model.fromDate + " " + model.fromTime, true);
             if (checkStatus != 1)
                 return Json("{\"status\":\"" + checkStatus + "\",\"response\":\"error\"}", JsonRequestBehavior.AllowGet);
@@ -901,7 +912,7 @@ namespace Templateprj.Controllers
         }
         
         [HttpPost]
-        [AuthorizeUser]
+        //[AuthorizeUser]
 
         public virtual ActionResult getcampaigncreatedlist(SMSCampaignModel model)
         {

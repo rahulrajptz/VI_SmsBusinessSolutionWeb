@@ -525,17 +525,25 @@
                                         </div>
                                         <div class="row">
                                             <div class="form-group mt-3" style="margin-left:147px"> SMS Count: <span id="smscountmessage1"></span></div>
-                                            <div class="form-group mt-3" style="margin-left:134px"> SMS Count: <span id="smscountmessage2"></span></div>
+                                            
+                                            <div class="form-group mt-3" style="margin-left:127px"> SMS Count: <span id="smscountmessage2"></span></div>
 
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 @*@Html.TextAreaFor(m => m.SMSTest[0].message, new { @class = "form-control", @style = "height: auto !important;background:white;width:207px;margin-left:146px;", @readonly = "@readonly", @rows = "5" })*@
                                                 @Html.TextAreaFor(m => m.SMSTest[0].message, new { @class = "form-control", @readonly = "@readonly", @style = "height: auto !important;background:white;width:211px;margin-left:145px;aria - invalid = false", @rows = "5" })
 
-                                            </div></div>
+                                            </div>
+                                            <div class="col-md-4">
+
+                                            </div>
+                                        </div>
+                                      
+                                               
+                                           
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     @Html.TextAreaFor(m => m.SMSTest[1].message, new { @class = "form-control", @readonly = "@readonly", @style = "height: auto !important;background:white;width:211px;margin-left:45px", @rows = "5" })
 
                                                 </div>
@@ -1196,6 +1204,10 @@
                             ErrorMsg("The To time should be 4 hours more than the current time ");
                             $('#savecampaignM2M').hide();
                         }
+                        //else if (jsondata.status != null && jsondata.status == 3) {
+                        //    ErrorMsg("The From Time should be greater than current Time");
+                        //    $('#savecampaignM2M').hide();
+                        //}
                         else if (jsondata.status != null && jsondata.status == 5) {
                             ErrorMsg("The To Time should be greater than From Time");
                             $('#savecampaignM2M').hide();
@@ -1351,19 +1363,27 @@
                                 $('#messageScriptdiv').hide();
 
                                 ErrorMsg("campaign already exist");
-
+                                //resetfunction();
                             }
                             else if(jsondata.status == 7)
                             {
                                 $('#sendsmsdiv').hide();
                                 $('#messageScriptdiv').hide();
-                                ErrorMsg("The To Time should be 4 hours more than the current time ");
+                                ErrorMsg("The To Time should be 4 hours more than the current Time ");
+                                //resetfunction();
                             }
+                            //else if (jsondata.status == 3) {
+                            //    $('#sendsmsdiv').hide();
+                            //    $('#messageScriptdiv').hide();
+                            //    ErrorMsg("The From Time should be greater than the current Time ");
+                            //    //resetfunction();
+                            //}
                             else if(jsondata.status == 5)
                             {
                                 $('#sendsmsdiv').hide();
                                 $('#messageScriptdiv').hide();
                                 ErrorMsg("The To Time should be greater than From Time ");
+                               // resetfunction();
                             }    
                             //console.log(jsondata.SMSvariable.length);
                            
@@ -1371,6 +1391,7 @@
                             else {
                                 $('#sendsmsdiv').hide();
                                 ErrorMsg("Campaign name already exist.")
+                                //resetfunction();
                             }
 
 
@@ -1413,17 +1434,26 @@
                                 $('#sendsmsdiv').hide();
                                 $('#messageScriptdiv').hide();
                                 ErrorMsg("campaign already exist");
+                                //resetfunction();
 
                             }
                             else if (jsondata.status == 7) {
                                 $('#sendsmsdiv').hide();
                                 $('#messageScriptdiv').hide();
-                                ErrorMsg("The To time should be 4 hours more than the current time ");
+                                ErrorMsg("The To time should be 4 hours more than the current Time ");
+                                //resetfunction();
                             }
+                            //else if (jsondata.status == 3) {
+                            //    $('#sendsmsdiv').hide();
+                            //    $('#messageScriptdiv').hide();
+                            //    ErrorMsg("The From Time should be greater than the current Time ");
+                            //    //resetfunction();
+                            //}
                             else if (jsondata.status == 5) {
                                 $('#sendsmsdiv').hide();
                                 $('#messageScriptdiv').hide();
                                 ErrorMsg("The To Time should be greater than From Time ");
+                                //resetfunction();
                             }      
 
                             //console.log(jsondata.SMSvariable.length);
@@ -1470,9 +1500,15 @@
                             jsondata = JSON.parse(e);
                             if (jsondata.status == 7) {
                                 ErrorMsg("The To Time should be 4 hours more than the current time ");
+                                //resetfunction();
                             }
+                            //else if (jsondata.status == 3) {
+                            //    ErrorMsg("The From Time should be greater than current Time ");
+                            //    //resetfunction();
+                            //}
                             else if (jsondata.status == 5) {
                                 ErrorMsg("The To Time should be greater than From Time ");
+                                //resetfunction();
                             }
                             else {
                                 $('#CampaignCreationButtondiv').show();
@@ -1504,8 +1540,11 @@
 
                             jsondata = JSON.parse(e);
                             if (jsondata.status == 7) {
-                                ErrorMsg("The To Time should be 4 hours more than the current time ");
+                                ErrorMsg("The To Time should be 4 hours more than the current Time ");
                             }
+                            //else if (jsondata.status == 3) {
+                            //    ErrorMsg("The From Time should be greater than current Time ");
+                            //}
                             else if (jsondata.status == 5) {
                                 ErrorMsg("The To Time should be greater than From Time ");
                             }
@@ -1601,12 +1640,12 @@
         $('#SaveCampaignnew').on('click', function () {
 
             var a = $("#Idform").val();
-            alert("tseting");
+           
             var jsondata;
-            alert($("#Idform").valid());
+           
             if ($("#Idform").valid()) {
                 var data2 = $("#Idform").serialize();
-                alert(data2);
+               
                 $("#SMSTestingCompleteDiv").hide()
                 $('#sendsmsdiv').hide();
                     $.ajax({
@@ -1616,12 +1655,21 @@
                         success: function (e) {
 
                             jsondata = JSON.parse(e);
-                            console.log(jsondata);
+                            //console.log(jsondata);
 
                             //if (jsondata.status == "1") {
                             //}
-
-                            if (jsondata.status == "1") {
+                            if (jsondata.status == 7) {
+                                ErrorMsg("The To Time should be 4 hours more than the current Time ");
+                            }
+                            //else if (jsondata.status == 3) {
+                            //    ErrorMsg("The From Time should be greater than current Time ");
+                            //}
+                            else if (jsondata.status == 5) {
+                                ErrorMsg("The To Time should be greater than From Time ");
+                            }
+                            else if (jsondata.status == 1){
+                           
                                 $("#testsmsdiv").hide();
                                 //("#campaignName").find("input").val("");
                                 //("#campaignType").find("select").val("");
@@ -1791,6 +1839,7 @@
         $("#fromDate").flatpickr({
             dateFormat: "d/m/Y",
             minDate: "today",
+            
                 //enableTime: true,
                 //noCalendar: true,
                 //dateFormat: "H:i",
@@ -1834,12 +1883,13 @@
             enableTime: true,
             noCalendar: true,
             minuteIncrement:1,
-
+            
             dateFormat: "h:i K",
             time_24hr: false,
-            defaultHour: 00,
-            defaultMinute:00
-
+            //defaultHour: new Date().getHours(),
+            //defaultMinute: new Date().getMinutes(),
+            defaultHour:00,
+            defaultMinute:00,
         });
        
 
@@ -1917,7 +1967,7 @@
             var currentRow = $(event).closest("tr");
             document.getElementById("templateId").innerHTML = event.id; //$(event).closest('tr').children('td:eq(3)').text();         
             var parts = document.getElementById("part_" + event.id).value;
-            alert(parts);
+            //alert(parts);
             var array = parts.split(",");
             var partscount = array[0];
             var variablecnt = array[1];
@@ -2127,7 +2177,7 @@
                                         return '<i class="btn btn-link"onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
                                     }
                                     else {
-                                        return "";
+                                        return " ";
                                     }
                                 }
                             },   

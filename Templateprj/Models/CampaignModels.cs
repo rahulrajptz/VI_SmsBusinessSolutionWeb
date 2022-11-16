@@ -263,9 +263,6 @@ namespace Templateprj.Models
         public List<variableList> SMSvariable { get; set; }
 
         public List<testSMS> SMSTest { get; set; }
-      //  public List<string> SMSTestUnicode { get; set; }
-
-
 
         [JsonIgnore]
         public int listcampaignName { get; set; }

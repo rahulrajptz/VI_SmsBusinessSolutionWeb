@@ -177,6 +177,18 @@ namespace Templateprj.Controllers
         }
 
         [NonAction]
+        partial void SenderIdsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Templateprj.Models.Managements.UpdateSenderIdCommand command);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult SenderIds(Templateprj.Models.Managements.UpdateSenderIdCommand command)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.SenderIds);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "command", command);
+            SenderIdsOverride(callInfo, command);
+            return callInfo;
+        }
+
+        [NonAction]
         partial void SenderIdsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int id);
 
         [NonAction]
