@@ -255,7 +255,6 @@
                                 "render": function (data1, type, row) {
                                     return `<p>
                                                 <a class="edit" title="Add" data-toggle="tooltip" href="AddTemplates/`+ row.ID + `" style="color: #004d00 !important""><i class='fas fa-edit'></i></a>
-                                                <a class="delete" title="Add" data-toggle="tooltip" onClick="deleteTemplate(`+ row.ID + `)" style="color: #4a0e0e !important""><i class='fas fa-trash'></i></a>
                                          </p>`;
                                 }
                             });
@@ -335,7 +334,7 @@
             var expandedRpw = '<div class="row expandcontainer g-2 d-flex justify-content-center gx-5" style="padding:4px;margin-left:-12px !important;background:#ffffff">';
           
             for (var key in d) {
-                if (!ck.includes(key)) {
+                if (!ck.includes(key) && key !=='UnicodeStatus') {
                     var titleData = h.find((o) => { return o["Data"] === key });
                     if (titleData != '' && typeof titleData !== 'undefined') {
                         expandedRpw = expandedRpw + '<div class="col-3 border font-weight-bold" >' + titleData.Title + '</div>' + '<div class="col-3 border">'

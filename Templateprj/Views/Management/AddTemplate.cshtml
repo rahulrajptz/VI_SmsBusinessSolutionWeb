@@ -61,7 +61,7 @@
                                             <div class="col-lg-3 col-md-6 col-6">
                                                 @Html.Label("Template Id")
                                                 <div class="form-group">
-                                                    @Html.TextBoxFor(m => m.TemplateId, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+                                                    @Html.TextBoxFor(m => m.TemplateId, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")), @maxlength = "25" })
                                                     @Html.HiddenFor(m => m.Id)
                                                 </div>
                                             </div>
@@ -147,7 +147,7 @@
                                                 @Html.Label("Approval Status")
                                                 <div class="form-group">
 
-                                                    @Html.DropDownListFor(m => m.Header, Model.Masters.ApprovalStatus?.Where(a => a.Value != "0"), new { @id = "ApprovalStatus", @class = "form-control form-select w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+                                                    @Html.DropDownListFor(m => m.ApprovalStatus, Model.Masters.ApprovalStatus?.Where(a => a.Value != "0"), new { @id = "ApprovalStatus", @class = "form-control form-select w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
                                                 </div>
                                             </div>
@@ -307,7 +307,6 @@
 
             <link href="~/Scripts/virtualkeyboard/keyboard.css" rel="stylesheet" />
             <script type="text/javascript" src="~/Scripts/virtualkeyboard/keyboard.js" charset="UTF-8"></script>
-            <script type="text/javascript" src="http://cdn.rawgit.com/bassjobsen/Bootstrap-3-Typeahead/master/bootstrap3-typeahead.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
             <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
@@ -317,15 +316,15 @@
 
             <script>
                 $(document).ready(function () {
-
-                    if ($("ContentType").val() == 1) {
-                        $('#divVariableCount').hide();
-                    }
-                    else {
+                    if ($("ContentType").val() == 2) {
                         $('#divVariableCount').show();
                     }
-
+                    else {
+                        $('#divVariableCount').hide();
+                    }
+                  
                     $("#addNewTemplate").click(function (e) {
+                        if (isValid()){
                         //Serialize the form datas.
                         var valdata = $("#templateform").serialize();
                         $.ajax({
@@ -356,8 +355,21 @@
                                 console.log(jsondata);
                             }
                         });
+                        }
                     });
                 });
+
+             
+                function isValid() {
+                    if ($("#TemplateId").val().length > 25) {
+                        ErrorMsg("Temaplte Id maximum length exceeded.")
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+                
             </script>
 
             <script>
@@ -375,14 +387,9 @@
 
             </script>
 
-            @*Load autofill textboxes and reload report*@
+          
             <script type="text/javascript">
-        function onSubmit(form) {
-            var data = JSON.stringify($(form).serializeArray()); //  <-----------
-
-            return false; //don't submit
-        }
-
+       
         $(document).ready(function ()
         {
             if ('@ViewBag.IsEdit' === 'False') {
@@ -392,95 +399,8 @@
             } else {
                 $("#addUpload").collapse('show');
             }
-
-            var items = [];
-            var temaplteItems = [];
-            var headerItems = [];
-                $.ajax({
-                                url: "@Url.Action("GetTemplateNames", "Template")",
-                                type: "GET",
-                                contentType: "application/json; charset=utf-8",
-                                success: function (data) {
-
-                                    map = {};
-                                    $.each(data.TemaplteNames, function (i, item) {
-                                        var id = item.Id;
-                                        var name = item.Value;
-                                        map[name] = { id: id, name: name };
-                                        items.push(name);
-                                    });
-
-                                    map = {};
-                                    $.each(data.TemplateIds, function (i, item) {
-                                        var id = item.Id;
-                                        var name = item.Value;
-                                        map[name] = { id: id, name: name };
-                                        temaplteItems.push(name);
-                                    });
-
-
-                                    map = {};
-                                    $.each(data.Headers, function (i, item) {
-                                        var id = item.Id;
-                                        var name = item.Value;
-                                        map[name] = { id: id, name: name };
-                                        headerItems.push(name);
-                                    });
-
-                                },
-                                error: function (response) {
-                                    alert(response.responseText);
-                                },
-                                failure: function (response) {
-                                    alert(response.responseText);
-                                }
-                            });
-
-            $('#txtName').typeahead({
-                source: function (request, response) {
-                    response(items);
-                },
-                matcher: function (item) {
-                    if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
-                        return true;
-                    }
-                },
-                updater: function (item) {
-                    return item;
-                }
-            });
-
-            $('#TemplateId').typeahead({
-                source: function (request, response) {
-                    response(temaplteItems);
-                },
-                matcher: function (item) {
-                    if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
-                        return true;
-                    }
-                },
-                updater: function (item) {
-                    return item;
-                }
-            });
-
-            $('#HeaderSenderId').typeahead({
-                source: function (request, response) {
-                    response(headerItems);
-                },
-                matcher: function (item) {
-                    if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
-                        return true;
-                    }
-                },
-                updater: function (item) {
-                    return item;
-                }
-            });
        });
-
-
-            </script>
+        </script>
 
             <script>
                 function onContentTypeChange(val) {
