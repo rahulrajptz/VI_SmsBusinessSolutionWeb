@@ -279,10 +279,9 @@ namespace Templateprj.Repositories.Services
                     cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
                     cmd.Parameters.Add("@n_Account_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
                     cmd.Parameters.Add("@v_template", MySqlDbType.VarChar, 200).Value = !string.IsNullOrEmpty(model.TemplateName) ? model.TemplateName : "0";
+                    cmd.Parameters.Add("@v_template_type", MySqlDbType.Int32).Value = model.TemplateTypeId;
                     cmd.Parameters.Add("@v_Template_Id", MySqlDbType.VarChar, 200).Value = !string.IsNullOrEmpty(model.TemplateId)? model.TemplateId:"0";
                     cmd.Parameters.Add("@v_senderid", MySqlDbType.VarChar, 200).Value = !string.IsNullOrEmpty(model.HeaderSenderId)? model.HeaderSenderId:"0";
-
-                    cmd.Parameters.Add("@v_template_type", MySqlDbType.Int32).Value = model.TemplateTypeId;
                     cmd.Parameters.Add("@n_status_Id", MySqlDbType.Int32).Value = model.StatusId;
                     cmd.Parameters.Add("@n_Content_Type", MySqlDbType.Int32).Value = model.ContentTypeId;
                     cmd.Parameters.Add("@v_Data_Out", MySqlDbType.Text).Direction = ParameterDirection.Output;

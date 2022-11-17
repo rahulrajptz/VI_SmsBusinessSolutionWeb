@@ -179,6 +179,7 @@ namespace Templateprj.Controllers
             }
             catch(Exception ex)
             {
+                LogWriter.Write("UploadTemplate :: " + ex.Message);
                 ViewBag.Message = "File upload failed!!";
                 return View();
             }
