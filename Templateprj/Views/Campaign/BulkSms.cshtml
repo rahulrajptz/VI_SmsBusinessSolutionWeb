@@ -33,7 +33,7 @@
     .alert-danger {
         color: white;
     }
-
+   
     .alert-success {
         color: white;
     }
@@ -374,7 +374,7 @@
 
                                     <div id="StaticSmsDiv">
                                         <div class="row">
-                                            <div class="col-md-12 offset-5"> SMS Count: <span id="smscount"></span> (<span id="smscount" style="color:red;">*</span>W/o variables)</div>
+                                            <div class="col-md-12 offset-5"  style="color:#5f004b"> SMS Count: <span id="smscount"></span> (<span id="smscount" style="color:red;">*</span>W/o variables)</div>
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-md-12">
@@ -387,17 +387,17 @@
 
                                     <div id="dynamicSmsDiv">
                                         <div class="row">
-                                            <div class="col-md offset-3"><b>Define Parameters</b></div>
+                                            <div class="col-md  mb-1 mt-1" style="color:#5f004b"><b><u>Define Parameters</u></b><span style="color:red;">[Minimum 3 characters required]</span></div>
                                         </div>
                                         <div class="row">
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-6" style="color:#5f004b">
                                                 From Message Script
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-6" style="color:#5f004b">
                                                 Rename Variable
                                             </div>
-                                            <div class="col-md-12" id="generated" MaxLength="12">
+                                            <div class="col-md-12 mb-1" id="generated" MaxLength="12" MinLength="3">
 
                                                 @*@Html.TextBoxFor(m => m.SMSvariable[0].variableName, new { @class = " form-control", required = "required" })
                                             @Html.TextBoxFor(m => m.SMSvariable[0].renameVariable, new { @class = " form-control", required = "required"})*@
@@ -426,7 +426,7 @@
 
                                     <div class="row">
                                         <div class="col-md-3" id="savecampaignM2M">
-                                            <button class="btn-success mt-1" style="margin-left:251px;width:132px" type="button" id="SaveCampaign">Save Campaign</button>
+                                            <button class="btn-success mt-1" style="margin-left:251px;" type="button" id="SaveCampaign">Save Campaign</button>
 
                                         </div>
                                         <div class="col-md-12 offset-3">
@@ -467,12 +467,12 @@
 
                                     <div class="form-group">
 
-                                        @Html.Label("Test Numbers", new { style = "font-weight:bold;font-size:12px" })<span style="color:red;">[country code mandatory]*</span>
+                                        @Html.Label("Test Numbers", new { style = "font-weight:bold;font-size:12px" })<span style="color:red;">*[country code mandatory]</span>
 
                                     </div>
 
                                     <div class="form-group" id="variablesnameid">
-                                        <label><b><u>Variables</u></b></label>
+                                        <label style="font-size:12px;"><b><u>Variables</u></b></label>
 
                                     </div>
 
@@ -836,10 +836,7 @@
                                     <div class="mr-3 col-4">
                                         <i id="samplefiledownlod" style="color:#5f004b;font-size:13px;margin-top:10px;" class="now-ui-icons files_single-copy-04 btn btn-link">Sample Template</i>
                                     </div>
-
-                                 
-
-                                    <div class="col-md-4" id="">
+                                    <div class="col-md-4">
                                         <button class="btn-success" style=" margin-top:10px;" id="uploadfileid" type="button">Upload</button>
 
                                     </div>
@@ -989,7 +986,7 @@
 
                     @*</div>*@
 
-                    <div class="modal-content" style="width:850px;">
+                    <div class="modal-content" style="width:850px;height:700px;">
                         <div class="modal-header">
                             @Html.Label("TEST SMS REPORT", new { style = "font-weight:bold; font-size:18px;" })
                             <button type="button" id="closebtnupload" data-dismiss="modal">X</button>
@@ -1049,7 +1046,7 @@
                             <div class="col-md-2">
                                 <br />
                                 @*<button type="button" id="btn_search" style="height:35px;background-color:#212121;color:white;width:100px;" class="btn btn-block">Search</button>*@
-                                <input type="button" value="search" style="background-color:#28A745; color:white;width:70px; margin-left:5px; margin-top:30px;" onclick="loadtemplateSearchReport()" />
+                                <input type="button" value="Search" style="background-color:#28A745; color:white;width:70px; margin-left:5px; margin-top:30px;" onclick="loadtemplateSearchReport()" />
                             </div>
                             <div class="modal-body" id="modalTable" style="overflow-y: auto; overflow-x: auto; width:800px;height:400px;">
                                 <table id="tbl_templateDetails" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
@@ -1247,19 +1244,19 @@
                                 for (i = 0; i < jsondata.SMSvariable.length; i++) {
 
                                     var div = document.createElement('div');
-                                    div.innerHTML = '<labelvariable class="form-controlnew ">' + jsondata.SMSvariable[i].renameVariable + '<span style="color:red;">*</span>' + '</labelvariable>';
+                                    div.innerHTML = '<labelvariable class="form-controlnew ">' + jsondata.SMSvariable[i].renameVariable +'</labelvariable>';
                                     div.style.wordWrap = "break-word";
                                     document.getElementById("generatelabel").appendChild(div);
                                 }
                                 for (i = 0; i < jsondata.SMSvariable.length; i++) {
                                     var div1 = document.createElement('div');
-                                    div1.innerHTML = '<input class="form-control" id="SMSTest_0__variableData_' + i + '__variableContent" name="SMSTest[0].variableData[' + i + '].variableContent"  MaxLength="30"  type="text" value=""><input type="hidden" id="SMSTest_0__variableData_' + i + 'variableLabel" name="SMSTest[0].variableData[' + i + '].variableLabel"  MaxLength="30"  type="text" value="' + jsondata.SMSvariable[i].renameVariable + '">';
+                                    div1.innerHTML = '<input class="form-control" id="SMSTest_0__variableData_' + i + '__variableContent" name="SMSTest[0].variableData[' + i + '].variableContent"  MaxLength="30" type="text" value=""><input type="hidden" id="SMSTest_0__variableData_' + i + 'variableLabel" name="SMSTest[0].variableData[' + i + '].variableLabel"  MaxLength="30"  type="text" value="' + jsondata.SMSvariable[i].renameVariable + '">';
                                     document.getElementById("messageto1stnumber").appendChild(div1);
                                 }
 
                                 for (i = 0; i < jsondata.SMSvariable.length; i++) {
                                     var div2 = document.createElement('div');
-                                    div2.innerHTML = '<input class=" form-control" id="SMSTest_1__variableData_' + i + '__variableContent" name="SMSTest[1].variableData[' + i + '].variableContent"  MaxLength="30"  type="text" value=""><input type="hidden" id="SMSTest_1__variableData_' + i + 'variableLabel" name="SMSTest[1].variableData[' + i + '].variableLabel"  MaxLength="30"  type="text" value="' + jsondata.SMSvariable[i].renameVariable + '">';
+                                    div2.innerHTML = '<input class=" form-control" id="SMSTest_1__variableData_' + i + '__variableContent" name="SMSTest[1].variableData[' + i + '].variableContent"  MaxLength="30"  type="text" value=""><input type="hidden" id="SMSTest_1__variableData_' + i + 'variableLabel" name="SMSTest[1].variableData[' + i + '].variableLabel"   MaxLength="30"  type="text" value="' + jsondata.SMSvariable[i].renameVariable + '">';
                                     document.getElementById("messageto2ndnumber").appendChild(div2);
 
 
@@ -1734,7 +1731,24 @@
 
                           if (obj.status == "1") {
                               loadReport();
+                              $("#updatedToTime").flatpickr({
+                                  enableTime: true,
+                                  noCalendar: true,
+                                  minuteIncrement: 1,
+                                  dateFormat: "h:i K",
+                                  static: true
+
+                              });
+                              $("#updatedToDate").flatpickr({
+                                  dateFormat: "d/m/Y",
+                                  minDate: "today"
+                                  //enableTime: true,
+                                  //noCalendar: true,
+                                  //dateFormat: "H:i",
+
+                              });
                               $("#UpdateModal").modal('hide');
+                              SuccessMsg("Successfully updated");
                           }
                           else {
                               ErrorMsg(obj.response);
@@ -1884,6 +1898,7 @@
             noCalendar: true,
             minuteIncrement:1,
             
+
             dateFormat: "h:i K",
             time_24hr: false,
             //defaultHour: new Date().getHours(),
@@ -1945,7 +1960,7 @@
                 for (i = 0, j = 1; i < variablecnt; i++,j++) {
 
                     var div = document.createElement('row');
-                    div.innerHTML = '<div class="row"><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName" required="required" readonly="readonly" style="background:white;" type="text" value="VAR'+j+'"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable" required="required" type="text" value=""></div></div>';
+                    div.innerHTML = '<div class="row"><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName" required="required" MinLength="3" MaxLength="12" readonly="readonly" style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable" required="required" MinLength="3" MaxLength="12" type="text" value=""></div></div>';
 
                     document.getElementById("generated").appendChild(div);
                 }
@@ -2019,7 +2034,7 @@
             for (i = 0, j = 1; i < variablecnt; i++ , j++) {
 
                 var div = document.createElement('row');
-                div.innerHTML = '<div class="row" style="margin-top:10px;" ><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName"   readonly="readonly" MaxLength="12"  style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable"  MaxLength="12"  type="text" value=""></div></div>';
+                div.innerHTML = '<div class="row" style="margin-top:10px;" ><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName"   readonly="readonly" MaxLength="12" MinLength="3" required="required" style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable"  MaxLength="12" MinLength="3" required="required" type="text" value=""></div></div>';
 
                 document.getElementById("generated").appendChild(div);
             }
@@ -2157,24 +2172,24 @@
                                 "searchable": false
                             },
                             {
-                            "targets": 11,
+                            "targets": 10,
                             "className": "text-left",
 
                             "mRender": function (data, type, full) {
                               
                                    //return '<i class="btn btn-link"onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
-                                if (full[11].length > 3)
-                                    return "<a class='btn btn-default btn sm' onclick=downloadBase('" + full[0] + "');><i class='fa fa-download'></i></a><input id=File_" + full[0] + "  type=hidden value='" + full[11] + "' />";
+                                if (full[10].length > 3)
+                                    return "<a class='btn btn-default btn sm' onclick=downloadBase('" + full[0] + "');><i class='fa fa-download'></i></a><input id=File_" + full[0] + "  type=hidden value='" + full[10] + "' />";
 
                                 }
                             },  
                             {
-                                "targets": 12,
+                                "targets": 11,
                                 "className": "text-left",
 
                                 "mRender": function (data, type, full) {
-                                    if (full[12] == "1") {
-                                        return '<i class="btn btn-link"onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
+                                    if (full[11] == "1") {
+                                        return '<i class="btn btn-link" onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
                                     }
                                     else {
                                         return " ";
@@ -2182,11 +2197,11 @@
                                 }
                             },   
                             {
-                              "targets": 13,
+                              "targets": 12,
                               "className": "text-left",
                                 "mRender": function(data, type, full) {                                
                                  
-                                        if (full[9] == "Expired") {
+                                        if (full[8] == "Expired") {
                                             //return '<a class="fas fa-pencil-alt" onclick="EditData(' + full[0] + ')"></a><input id="HFrom_' + full[0] + '" type="hidden" value="' + full[6] + '" />';
                                             return "<a class='btn btn-default btn sm' onclick=EditData('" + full[0] + "');><i class='fas fa-pencil-alt'></i></a><input id=HFrom_" + full[0] + "  type=hidden value='" + full[6] + "' />";
                                         }
@@ -2268,6 +2283,11 @@
                                       "targets": 7,
                                       "visible": false,
                                       "searchable": false
+                                  },
+                                  {
+                                      "targets": [0,1,2,3,4,5,6],
+                                      "className":"text-left"
+                                      
                                   },
                               ],
                               order: [],
@@ -2886,6 +2906,10 @@
                                  "visible": false,
                                 "searchable": false,
                                
+                            },
+                            {
+                                "targets": [1, 2, 3, 5, 6, 7],
+                                "className": "text-left",
                             },
                             {
                                // { width: 200, targets: 0 },

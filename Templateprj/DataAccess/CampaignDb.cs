@@ -1129,8 +1129,8 @@ namespace Templateprj.DataAccess
                         dataAdapter.Fill(dt);
                         for(int rowIndex=0;rowIndex< dt.Rows.Count; rowIndex++)
                         {
-                            if (!System.IO.File.Exists(dt.Rows[rowIndex][11].ToString()))
-                                dt.Rows[rowIndex][11] = "";
+                            if (!System.IO.File.Exists(dt.Rows[rowIndex][10].ToString()))
+                                dt.Rows[rowIndex][10] = "";
                         }
                         return GetJsonString(dt);
                     }
