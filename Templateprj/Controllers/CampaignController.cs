@@ -33,6 +33,11 @@ namespace Templateprj.Controllers
         {
             string json = "";
             string CampaignId = Request["CampaignId"].ToString();
+            if (CampaignId.TrimEnd() == "")
+            {
+                json = "{\"status\":\"0\",\"response\":\"Please select a campaign\" }";
+                return Json(json, JsonRequestBehavior.AllowGet);
+            }
             string uploadCampaignstarttype = Request["uploadCampaignstarttype"].ToString();
             string scheduleDate = Request["scheduleDate"].ToString();
             string uploadpriority = Request["uploadpriority"].ToString();

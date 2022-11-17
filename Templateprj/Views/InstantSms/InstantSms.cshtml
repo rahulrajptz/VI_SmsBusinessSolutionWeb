@@ -489,7 +489,7 @@
                             <div class="col-md-2">
                                 <br />
                                 @*<button type="button" id="btn_search" style="height:35px;background-color:#212121;color:white;width:100px;" class="btn btn-block">Search</button>*@
-                                <input type="button" id="serchInstant" value="search" style="background-color:#28A745; color:white;width:70px; margin-left:5px; margin-top:30px;" />
+                                <input type="button" id="serchInstant" value="Search" style="background-color:#28A745; color:white;width:70px; margin-left:5px; margin-top:30px;" />
                             </div>
                             <div class="modal-body" id="modalTable" style="overflow-y: auto; overflow-x: auto; width:800px;height:400px;">
                                 <table id="tbl_templateDetails" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
@@ -941,6 +941,10 @@
                                  "visible": false,
                                 "searchable": false,
 
+                            },
+                            {
+                                "targets": [1, 2, 3, 5, 6, 7],
+                                "className": "text-left",
                             },
                             {
                                // { width: 200, targets: 0 },

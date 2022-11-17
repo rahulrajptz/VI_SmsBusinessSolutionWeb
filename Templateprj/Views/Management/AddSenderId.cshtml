@@ -61,7 +61,7 @@
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Header Id")
                                             <div class="form-group">
-                                                @Html.TextBoxFor(m => m.HeaderId, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")), @maxlength = "6" })
+                                                @Html.TextBoxFor(m => m.HeaderId, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")), @maxlength = "25" })
                                                 @Html.HiddenFor(m => m.SmId)
                                             </div>
                                         </div>
@@ -69,7 +69,7 @@
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Sender Id")
                                             <div class="form-group">
-                                                @Html.TextBoxFor(m => m.SenderId, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")), @maxlength = "25" })
+                                                @Html.TextBoxFor(m => m.SenderId, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")), @maxlength = "6" })
                                             </div>
                                         </div>
 
@@ -268,11 +268,11 @@
             });
 
             function isValid() {
-                if ($("#SenderId").val().length > 25) {
+                if ($("#SenderId").val().length > 6) {
                     ErrorMsg("Sender Id maximum length exceeded.")
                     return false;
                 }
-                else if ($("#HeaderId").val().length > 6) {
+                else if ($("#HeaderId").val().length > 25) {
                     ErrorMsg("Header Id maximum length exceeded.")
                     return false;
                 }
@@ -281,7 +281,7 @@
                 }
             }
 
-            setInputFilter(document.getElementById("SenderId"), function (value) {
+            setInputFilter(document.getElementById("HeaderId"), function (value) {
                 return /^-?\d*$/.test(value);
             });
 

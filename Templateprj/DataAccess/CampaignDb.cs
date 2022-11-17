@@ -1127,11 +1127,7 @@ namespace Templateprj.DataAccess
                         var dataTable = new DataTable();
                         MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
                         dataAdapter.Fill(dt);
-                        for(int rowIndex=0;rowIndex< dt.Rows.Count; rowIndex++)
-                        {
-                            if (!System.IO.File.Exists(dt.Rows[rowIndex][10].ToString()))
-                                dt.Rows[rowIndex][10] = "";
-                        }
+                      
                         return GetJsonString(dt);
                     }
                     //string response = cmd.Parameters["@v_Message"].Value.ToString();
@@ -1298,6 +1294,11 @@ namespace Templateprj.DataAccess
                         var dataTable = new DataTable();
                         MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
                         dataAdapter.Fill(dt);
+                        for (int rowIndex = 0; rowIndex < dt.Rows.Count; rowIndex++)
+                        {
+                            if (!System.IO.File.Exists(dt.Rows[rowIndex][11].ToString()))
+                                dt.Rows[rowIndex][11] = "file";
+                        }
                         return GetJsonString(dt);
                     }
                 }
@@ -1409,35 +1410,39 @@ namespace Templateprj.DataAccess
                         var dataTable = new DataTable();
                         MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
                         dataAdapter.Fill(dataTable);
-                        string data = "";
-
-                        dataTable.Columns.Add("val", typeof(System.String));
-                        int colCount = dataTable.Columns.Count;
-
-                        foreach (DataRow row in dataTable.Rows)
+                        if (dataTable != null)
                         {
-                            string unicodeStatus = row["UNICODE_STATUS"].ToString();
-                            string message = row["MESSAGE"].ToString();
-                            if (unicodeStatus == "8")
+                            string data = "";
+
+                            dataTable.Columns.Add("val", typeof(System.String));
+                            int colCount = dataTable.Columns.Count;
+
+                            foreach (DataRow row in dataTable.Rows)
                             {
-                                string str = message.ToString();
-                                //  string correctString = "";
-                                if (message.Trim() != "")
+                                string unicodeStatus = row["UNICODE_STATUS"].ToString();
+                                string message = row["MESSAGE"].ToString();
+                                if (unicodeStatus == "8")
                                 {
-                                    //  correctString = str.Replace("[PARAMETER]", "005B0050004100520041004D0045005400450052005D");
-                                    string tempMessage = "\\u" + Regex.Replace(message, ".{4}", "$0\\u");
-                                    data = Regex.Unescape(tempMessage.Substring(0, tempMessage.Length - 2));
+                                    string str = message.ToString();
+                                    //  string correctString = "";
+                                    if (message.Trim() != "")
+                                    {
+                                        //  correctString = str.Replace("[PARAMETER]", "005B0050004100520041004D0045005400450052005D");
+                                        string tempMessage = "\\u" + Regex.Replace(message, ".{4}", "$0\\u");
+                                        data = Regex.Unescape(tempMessage.Substring(0, tempMessage.Length - 2));
+                                    }
+                                    row["MESSAGE"] = data.ToString();
                                 }
-                                row["MESSAGE"] = data.ToString();
+                                else
+                                {
+                                    data = message.Replace("\r\n", "");
+                                    row["MESSAGE"] = data;
+                                }
+                                row["val"] = row[colCount - 5].ToString() + "," + row[colCount - 4].ToString() + "," + row[colCount - 3].ToString() + "," + row[colCount - 2].ToString();
                             }
-                            else
-                            {
-                                data = message.Replace("\r\n", "");
-                                row["MESSAGE"] = data;
-                            }
-                            row["val"] = row[colCount - 5].ToString() + "," + row[colCount - 4].ToString() + "," + row[colCount - 3].ToString() + "," + row[colCount - 2].ToString();
+                            if (dataTable.Columns.Contains("UNICODE_STATUS"))
+                                dataTable.Columns.Remove("UNICODE_STATUS");
                         }
-                        dataTable.Columns.Remove("UNICODE_STATUS");
                         return GetJsonString(dataTable);
                     }
                 }

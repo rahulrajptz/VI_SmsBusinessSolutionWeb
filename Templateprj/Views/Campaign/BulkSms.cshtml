@@ -2171,24 +2171,24 @@
                                 "visible": false,
                                 "searchable": false
                             },
-                            {
-                            "targets": 10,
-                            "className": "text-left",
+                            //{
+                            //"targets": 10,
+                            //"className": "text-left",
 
-                            "mRender": function (data, type, full) {
+                            //"mRender": function (data, type, full) {
                               
-                                   //return '<i class="btn btn-link"onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
-                                if (full[10].length > 3)
-                                    return "<a class='btn btn-default btn sm' onclick=downloadBase('" + full[0] + "');><i class='fa fa-download'></i></a><input id=File_" + full[0] + "  type=hidden value='" + full[10] + "' />";
+                            //       //return '<i class="btn btn-link"onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
+                            //    if (full[10].length > 3)
+                            //        return "<a class='btn btn-default btn sm' onclick=downloadBase('" + full[0] + "');><i class='fa fa-download'></i></a><input id=File_" + full[0] + "  type=hidden value='" + full[10] + "' />";
 
-                                }
-                            },  
+                            //    }
+                            //},  
                             {
-                                "targets": 11,
+                                "targets": 10,
                                 "className": "text-left",
 
                                 "mRender": function (data, type, full) {
-                                    if (full[11] == "1") {
+                                    if (full[10] == "1") {
                                         return '<i class="btn btn-link" onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
                                     }
                                     else {
@@ -2197,7 +2197,7 @@
                                 }
                             },   
                             {
-                              "targets": 12,
+                              "targets": 11,
                               "className": "text-left",
                                 "mRender": function(data, type, full) {                                
                                  
@@ -2388,21 +2388,34 @@
                                 "visible": false,
                                 "searchable": false
                             },
+                         {
+                            "targets": 11,
+                            "className": "text-left",
+
+                            "mRender": function (data, type, full) {
+                                
+                                   //return '<i class="btn btn-link"onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
+                                if (full[11] == "file")
+                                    return " ";
+                                else
+                                    return "<a class='btn btn-default btn sm' onclick=downloadBase('" + full[0] + "');><i class='fa fa-download'></i></a><input id=File_" + full[0] + "  type=hidden value='" + full[11] + "' />";
+                               }
+                            },  
                             {
-                                "targets": 14,
+                                "targets": 13,
                                 "className": "text-left",
 
                                 "mRender": function (data, type, full) {
                                   
-                                    if (full[14] == "1") {
+                                    if (full[13] == "1") {
                                       //  return '<button onclick="changestatus(this,1)" id='+full[0]+' class="fa fa-play" style="color:green;font-size:10px;"></button>';
                                         return '<i onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" title="Start" style="color:green;font-size:10px;" ></i>';
                                     }
-                                    else if ( full[14] == "2") {
+                                    else if ( full[13] == "2") {
                                         return '<i onclick="changestatus(this,2)" id=' + full[0] + ' class="fa fa-pause" title="Pause" style="color:black;font-size:10px;"></i>&nbsp; &nbsp;<i onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" title="Stop" style="color:red;font-size:10px;"></i>';
                                         //return '<i onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" style="color:green;font-size:10px;"></i>';
                                     }
-                                    else if (full[14] == "3") {
+                                    else if (full[13] == "3") {
                                         return '<i onclick="changestatus(this,3)" id=' + full[0] + ' class="fa fa-undo" title="Resume" style="color:#cc7a00;font-size:10px;"></i>&nbsp; &nbsp;<i onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" title="Stop" style="color:red;font-size:10px;"></i>';
 
                                     }
@@ -3023,36 +3036,51 @@
                     fileData.append("Variablcnt", $("#templatevariablecnt").val());
                     showLoadingSpinner();
                     $.ajax({
-                            url: "@Url.Action(MVC.Campaign.CampaignBase())",
-                            type: 'post',
-                            datatype: 'json',
-                            contentType: false,
-                            processData: false,
-                            async: true,
-                            data: fileData,
-                            success: function (response)
-                            {
-                                var obj = JSON.parse(response);
-                                console.log(obj);
-                           
-                                if (obj.status == "1") {
-                                    SuccessMsg(obj.response);
-                                    resetfunctionUpload();
-                                    hideLoadingSpinner();
-                                }
-                                else
-                                {
-                                    ErrorMsg(obj.response);
-                                    hideLoadingSpinner();
-                                }
-                                
-                            },
+                        url: "@Url.Action(MVC.Campaign.CampaignBase())",
+                        type: 'post',
+                        datatype: 'json',
+                        contentType: false,
+                        processData: false,
+                        async: true,
+                        data: fileData,
+                        success: function (response) {
+                            var obj = JSON.parse(response);
+                            console.log(obj);
+
+                            if (obj.status == "1") {
+                                SuccessMsg(obj.response);
+                                resetfunctionUpload();
+                                hideLoadingSpinner();
+                            }
+                            else {
+                                ErrorMsg(obj.response);
+                                hideLoadingSpinner();
+                            }
+
+                        },
                         complete: function () {
                             hideLoadingSpinner();//Request is complete so hide spinner
                         }
-                    
+                    }).fail(function(xhr, status, error) {
+                            $("#loading").hide();
+                            $("input[type=button]").removeAttr("disabled");
+                            if (xhr.status == 401) {
+                                alert("Click to continue", "Session Timedout", function () {
+                                    closing = false;
+                                    window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                                })
+                            }
+                            else if (xhr.status == 507) {
+                                $("#divNoData span").text(" Result is too large.");
+                                $("#divNoData").show();
+                                $("input[type=button]").removeAttr("disabled");
+                            } else {
+                                alert("Unable to fetch data from server", "Failed");
+
+                            }
                             
-                        });
+                    });
+
                 }
                
             }
