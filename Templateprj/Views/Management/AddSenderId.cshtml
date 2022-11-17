@@ -20,7 +20,7 @@
                                 <li class="nav-item" style="width: 100px;height:35px">
                                     <a style="font-size:9.2846px" class="nav-link" href="@Url.Action("Account", "Management")">
                                         <btn_searchi class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></btn_searchi>
-                                        ACCOUUNT
+                                        ACCOUNT
                                     </a>
                                 </li>
                                 <li class="nav-item " style="width: 111px;height:35px">
@@ -61,7 +61,7 @@
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Header Id")
                                             <div class="form-group">
-                                                @Html.TextBoxFor(m => m.HeaderId, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+                                                @Html.TextBoxFor(m => m.HeaderId, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")), @maxlength = "6" })
                                                 @Html.HiddenFor(m => m.SmId)
                                             </div>
                                         </div>
@@ -69,7 +69,7 @@
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("Sender Id")
                                             <div class="form-group">
-                                                @Html.TextBoxFor(m => m.SenderId, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+                                                @Html.TextBoxFor(m => m.SenderId, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")), @maxlength = "25" })
                                             </div>
                                         </div>
 
@@ -84,7 +84,7 @@
                                         <div class="col-lg-3 col-md-6 col-6">
                                             @Html.Label("RegisteredTsp")
                                             <div class="form-group">
-                                                @Html.TextBoxFor(m => m.TeleMarketer, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+                                                @Html.TextBoxFor(m => m.RegisteredTsp, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
                                             </div>
                                         </div>
 
@@ -124,7 +124,7 @@
 
                                     <div class="row">
                                         <div class="col-12">
-                                            @Html.Label("Template Message")
+                                            @Html.Label("Explanation")
                                             <div class="form-group">
                                                 @Html.TextAreaFor(m => m.Explanation, new { @class = "w-100", @rows = "4", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
@@ -237,33 +237,71 @@
             $("#addSender").click(function (e) {
                 //Serialize the form datas.
                 var valdata = $("#senderform").serialize();
-                $.ajax({
-                    url: "/SenderId/SenderIds",
-                    type: "POST",
-                    dataType: 'json',
-                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                    data: valdata
-                    , success: function (e) {
-                        jsondata = JSON.parse(e);
-                        if (jsondata.status == "1") {
-                            $('#divSummary').hide();
-                            $('#divAdd').show();
-                            window.location.href = '/SenderId/SenderIds';
+                if (isValid()) {
+                    $.ajax({
+                        url: '@Url.Action(MVC.SenderId.SenderIds())',
+                        type: "POST",
+                        dataType: 'json',
+                        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                        data: valdata
+                        , success: function (e) {
+                            jsondata = JSON.parse(e);
+                            if (jsondata.status == "1") {
+                                $('#divSummary').hide();
+                                $('#divAdd').show();
+                                window.location.href = '@Url.Action(MVC.SenderId.SenderIds())';
+                            }
+                            else {
+                                $('#divSummary').show();
+                                $('#divAdd').hide();
+                                $('#addUpload').hide();
+                                ErrorMsg("Failed to save details.")
+                                $('#spnTotal').text(jsondata.data.Total);
+                                $('#spnDuplicate').text(jsondata.data.Duplicate);
+                                $.each(jsondata.data.Data, function (index, val) {
+                                    addRow(index + 1, val.PId);
+                                });
+                            }
                         }
-                        else {
-                            $('#divSummary').show();
-                            $('#divAdd').hide();
-                            $('#addUpload').hide();
-                            ErrorMsg("Failed to save details.")
-                            $('#spnTotal').text(jsondata.data.Total);
-                            $('#spnDuplicate').text(jsondata.data.Duplicate);
-                            $.each(jsondata.data.Data, function (index, val) {
-                                addRow(index + 1, val.PId);
-                            });
-                        }
-                    }
-                });
+                    });
+                }
             });
+
+            function isValid() {
+                if ($("#SenderId").val().length > 25) {
+                    ErrorMsg("Sender Id maximum length exceeded.")
+                    return false;
+                }
+                else if ($("#HeaderId").val().length > 6) {
+                    ErrorMsg("Header Id maximum length exceeded.")
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+
+            setInputFilter(document.getElementById("SenderId"), function (value) {
+                return /^-?\d*$/.test(value);
+            });
+
+            // Restricts input for the given textbox to the given inputFilter.
+            function setInputFilter(textbox, inputFilter) {
+                ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+                    textbox.addEventListener(event, function () {
+                        if (inputFilter(this.value)) {
+                            this.oldValue = this.value;
+                            this.oldSelectionStart = this.selectionStart;
+                            this.oldSelectionEnd = this.selectionEnd;
+                        } else if (this.hasOwnProperty("oldValue")) {
+                            this.value = this.oldValue;
+                            this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                        } else {
+                            this.value = "";
+                        }
+                    });
+                });
+            }
         });
     </script>
 
@@ -293,7 +331,7 @@
     </script>
 
     @*Upload Sender File*@
-    <script>
+<script>
 
              $('#uploadfileid').on('click', function () {
 
@@ -328,7 +366,7 @@
                             if (jsondata.status == "1") {
                                 $('#divSummary').hide();
                                 $('#divAdd').show();
-                                window.location.href = '/SenderId/SenderIds';
+                                window.location.href = '@Url.Action(MVC.SenderId.SenderIds())';
                             }
                             else {
                                 $('#divSummary').show();
@@ -351,10 +389,10 @@
 
         });
 
-    </script>
+</script>
 
     @*Update Sender*@
-    <script>
+<script>
         $(document).on('click', '#updateSender', function (e) {
                 var templateModel = {};
                 var isValid = true;
@@ -363,7 +401,7 @@
 
                 if (isValid) {
                     $.ajax({
-                        url: "@Url.Action("SenderIds", "SenderId")",
+                        url: '@Url.Action(MVC.SenderId.SenderIds())',
                         type: 'PUT',
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -383,7 +421,7 @@
                     ErrorMsg("Please confirm the entries, there are some alerts exist.")
                 }
         });
-    </script>
+</script>
 
     <script>
         function addRow(rid, tid) {

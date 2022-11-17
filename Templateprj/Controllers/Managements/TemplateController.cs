@@ -12,6 +12,7 @@ using Templateprj.Repositories.Interfaces;
 namespace Templateprj.Controllers
 
 {
+    [AuthorizeUser]
     public partial class TemplateController : Controller
     {
         private readonly ITemplateManagemntRepository _templateManagemntRepository;
