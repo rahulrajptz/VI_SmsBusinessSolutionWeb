@@ -58,6 +58,8 @@ namespace Templateprj.Models.Managements
             }
         }
 
+        public string UnicodeTemplateMessage { get; set; }
+
         [JsonIgnore]
         public int? ExistingUnicodeStatus { get; set; }
 

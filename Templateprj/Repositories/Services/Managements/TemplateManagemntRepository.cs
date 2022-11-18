@@ -124,6 +124,12 @@ namespace Templateprj.Repositories.Services
             data = "";
             try
             {
+                commands?.ForEach(a => { if (a.UnicodeStatus == 8)
+                    {
+                        a.UnicodeTemplateMessage = a.TemplateMessage.ConvertToUnicode();
+                    } 
+                });
+
                 using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Add_New_Template"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
