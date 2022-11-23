@@ -340,6 +340,9 @@
                                                 @Html.Label("Template", new { style = "margin-left:15px;" })<span style="color:red;">*</span>
                                                 <input id="btnShow" value="Select Template" style="color:white; background-color:#5f004b;border:none;border-radius:10px;" type="button" />
                                             </div>
+                                            <div class="col-md"  id="timealertdiv" style="display:none;">
+                                                <span> Promotional-type SMS time span is between 9 AM and 9 PM.</span> 
+                                            </div>
                                         </div>
                                     </div>
                                     <div id="smstemplatediv">
@@ -2670,9 +2673,9 @@
 
         function getCamapignDetailsforUpload() {
 
-            if ($('#uploadCampaignName').val() != "") {
+            if ($('#uploadCampaignName').val()!= " ") {
               
-                $("#collapseCampaignDetails").addClass(" show");
+                $("#collapseCampaignDetails").addClass("show");
                 $("#Uploadingdiv").show();
 
                 geteachcampaigndetails($('#uploadCampaignName').val());
@@ -2889,7 +2892,7 @@
             var templateType = $("#pouptemplateType").val();
            // var templateStatus = $("#pouptemplateStatus").val();
             var ContentType = $("#poupContentType").val();      
-
+            
               $.ajax({
                url: "@Url.Action(MVC.Campaign.getcampaignSearchReport())",            
                 type: 'GET',
@@ -2930,7 +2933,14 @@
                                 "width": "50px",
                                 "className": "text-left", 
                                 "mRender": function (data, type, full) {
-                                    return '<i onclick="getTamplateDetails(this)"  class="btn btn-link" id=' + full[0] + ' style="color:blue;font-size:10px;">' + full[1] + '</i>';
+                                    return '<i onclick="getTamplateDetails(this)"  class="btn btn-link" id=' + full[0] + ' style="color:blue;font-size:10px;">' + full[1] + ' </i><input type="hidden" name="' + full[6] + '"/>';
+                                    if (name == "Promotional") {
+                                        //alert(full[6]);
+                                        $("#timealertdiv").show();
+                                    }
+                                    else {
+                                        $("#timealertdiv").hide();
+                                    }
                                 }
                                
                                 
@@ -2940,6 +2950,7 @@
                                 "targets": 5, // SMS Part count                               
                                 //"word-break": "break-all",
                                 "mRender": function (data, type, full) {
+                                    
                                     return '<div  style=" display:table-cell;vertical-align:middle; overflow-x:auto !important;overflow-y:auto !important;">' + full[5] + '</div>';
                                 }
                                 
@@ -2948,17 +2959,25 @@
                                 "targets": 7, // char count
                                 "className": "hide-column",
                                 //"sClass": "invisible",
-                              
 
-                                    "mRender": function (data, type, full) {
-                                        return '<span style="text=align:center;"id="">' + full[7] + '</span><input id="part_' + full[0] + '" type="hidden" value="' + full[11] + '" />';
-                                    }
-                                    //return ' <table style"height:1px;width:1px;"><tr><td><input id="part_' + full[0] + '" type="hidden" value="' + full[8] + '" />< input id = "variablecnt_' + full[0] + '" type = "hidden" value = "' + full[9] + '" /> < input id = "senderId_' + full[0] + '" type = "hidden" value = "' + full[10] + '" /> < input id = "unicode_' + full[0] + '" type = "hidden" value = "' + full[11] + '" /> </td>/tr></table>';
-                                
-                            }                            //{
-                            //    "targets": 9,// Variable count
-                            //    "className": "hide-column",
-                            //    "sClass": "invisible"
+
+                                "mRender": function (data, type, full) {
+                                    return '<span style="text=align:center;"id="">' + full[7] + '</span><input id="part_' + full[0] + '" type="hidden" value="' + full[11] + '" />';
+                                }
+                                //return ' <table style"height:1px;width:1px;"><tr><td><input id="part_' + full[0] + '" type="hidden" value="' + full[8] + '" />< input id = "variablecnt_' + full[0] + '" type = "hidden" value = "' + full[9] + '" /> < input id = "senderId_' + full[0] + '" type = "hidden" value = "' + full[10] + '" /> < input id = "unicode_' + full[0] + '" type = "hidden" value = "' + full[11] + '" /> </td>/tr></table>';
+
+                            },                     
+                            //{
+                            //    "targets": 6,// Variable count
+                            //    "mRender": function (data, type, full) {
+                            //        if (full[6] == "Promotional") {
+                            //            //alert(full[6]);
+                            //            $("#timealertdiv").show();
+                            //        }
+                            //        else {
+                            //            $("#timealertdiv").hide();
+                            //        }
+                            //    }
                             //},
 
                             //{
@@ -2980,10 +2999,10 @@
                             $("#loading").hide();
                             $("input[type=button]").removeAttr("disabled");
                         },
-                    });
-                }
+                   });
+                  }
               
-            }).fail(function (xhr, status, error) {
+              }).fail(function (xhr, status, error) {
                 $("#loading").hide();
                 $("input[type=button]").removeAttr("disabled");
                 if (xhr.status == 401) {
@@ -2996,12 +3015,15 @@
                     $("#divNoData span").text(" Result is too large.");
                     $("#divNoData").show();
                     $("input[type=button]").removeAttr("disabled");
-                } else {
+                }
+                else
+                {
                     alert("Unable to fetch data from server", "Failed");
 
                 }
-            });
-        }
+              });
+             
+         }
         
         $('#uploadfileid').on('click', function () {
             $("#loadingupload").show();

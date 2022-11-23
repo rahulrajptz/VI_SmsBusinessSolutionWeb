@@ -1623,14 +1623,14 @@ namespace Templateprj.DataAccess
             }
         }
 
-        public string insertfilepath(string path,SMSCampaignModel model,int newCampaignId,int newstatus,string message,int packcnt,int baseCount)
+        public string insertfilepath(string path, SMSCampaignModel model, bulkFileuploadModel uploadModel)
         {
             path = path.Replace("\\", "/");
             int packetcnt;
-            // `Web_bulk_upload_campaign_details`(IN N_Scm_id int, 
-            //IN N_packet_cnt int, IN N_Status int, IN Ln_Action_Type int, 
-            //IN Ln_scheduled_time varchar(50), IN Error_descp varchar(2000), 
-            //IN V_filepath varchar(300), OUT N_STATUS_OUT int)
+            //`Web_bulk_upload_campaign_details`(IN N_Scm_id int, IN N_packet_cnt int, IN N_Status int, IN Ln_Action_Type int, 
+            //IN Ln_scheduled_time varchar(50), IN Error_descp varchar(2000), IN V_filepath varchar(300),
+            //IN n_Base_Count bigint,IN V_Pushpath varchar(300),IN n_push_Count bigint,IN V_failpath varchar(300),
+            //IN n_fail_count bigint, OUT N_STATUS_OUT int)
 
             try
             {
@@ -1641,15 +1641,23 @@ namespace Templateprj.DataAccess
                     //IN Ln_scheduled_time varchar(50), IN Error_descp varchar(2000), IN V_filepath varchar(300),
                     //IN n_Base_Count bigint, OUT N_STATUS_OUT int)
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@N_Scm_id", MySqlDbType.Int32).Value = newCampaignId;
-                    cmd.Parameters.Add("@N_packet_cnt", MySqlDbType.Int32).Value =packcnt;
-                    cmd.Parameters.Add("@N_Status", MySqlDbType.Int32).Value =newstatus;
+                    cmd.Parameters.Add("@N_Scm_id", MySqlDbType.Int32).Value = uploadModel.newCampaignId;
+                    cmd.Parameters.Add("@N_packet_cnt", MySqlDbType.Int32).Value = uploadModel.packetcnt;
+                    cmd.Parameters.Add("@N_Status", MySqlDbType.Int32).Value = uploadModel.status;
                     cmd.Parameters.Add("@Ln_Action_Type", MySqlDbType.Int32).Value = model.uploadCampaignstarttype;
                     cmd.Parameters.Add("@Ln_scheduled_time", MySqlDbType.VarChar).Value = model.scheduleDate /*== null ? "0" : model.scheduleDate*/;
                     // cmd.Parameters.Add("@Ln_prioity", MySqlDbType.VarChar).Value = model.uploadpriority;
-                    cmd.Parameters.Add("@Error_descp", MySqlDbType.VarChar).Value = message;
+                    cmd.Parameters.Add("@Error_descp", MySqlDbType.VarChar).Value = uploadModel.message;
+
                     cmd.Parameters.Add("@V_filepath", MySqlDbType.VarChar, 200).Value = path;
-                    cmd.Parameters.Add("@n_Base_Count", MySqlDbType.Int64).Value = baseCount;
+                    cmd.Parameters.Add("@n_Base_Count", MySqlDbType.Int64).Value = uploadModel.baseCount;
+
+                    cmd.Parameters.Add("@V_Pushpath", MySqlDbType.VarChar, 200).Value = uploadModel.SuccessFileName;
+                    cmd.Parameters.Add("@n_push_Count", MySqlDbType.Int64).Value = uploadModel.successCount;
+
+                    cmd.Parameters.Add("@V_failpath", MySqlDbType.VarChar, 200).Value = uploadModel.failedFileName;
+                    cmd.Parameters.Add("@n_fail_count", MySqlDbType.Int64).Value = uploadModel.FailureCount;
+
                     cmd.Parameters.Add("@N_STATUS_OUT", MySqlDbType.Int32).Direction = ParameterDirection.Output;
 
                     DataTable dt = new DataTable();
@@ -1664,7 +1672,7 @@ namespace Templateprj.DataAccess
 
                     return status;
 
-                   
+
                 }
             }
             catch (Exception ex)
@@ -1674,6 +1682,7 @@ namespace Templateprj.DataAccess
 
             }
         }
+
         public string CampaignUpdate(string toDate, string toTime, string campaignId)
         {
             // `Web_update_control_status`(In N_scm_Id int, In n_control Int)
@@ -1842,30 +1851,30 @@ namespace Templateprj.DataAccess
                         MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
                         var dataTable = new DataTable();
                         dataAdapter.Fill(dataTable);
-                        string SMSData = "";
-                        foreach (DataRow row in dataTable.Rows)
-                        {
-                            string unicodeStatus = row["unicode_status"].ToString();
-                            string SMSContent = row["text"].ToString();
-                            if (unicodeStatus == "8")
-                            {
-                                //  string correctString = "";
-                                if (SMSContent.Trim() != "")
-                                {
-                                    //  correctString = str.Replace("[PARAMETER]", "005B0050004100520041004D0045005400450052005D");
-                                    SMSData = "\\u" + Regex.Replace(SMSContent, ".{4}", "$0\\u");
-                                    SMSData = Regex.Unescape(SMSData.Substring(0, SMSData.Length - 2));
-                                    row["text"] = SMSData;
+                        //string SMSData = "";
+                        //foreach (DataRow row in dataTable.Rows)
+                        //{
+                        //    string unicodeStatus = row["unicode_status"].ToString();
+                        //    string SMSContent = row["text"].ToString();
+                        //    if (unicodeStatus == "8")
+                        //    {
+                        //        //  string correctString = "";
+                        //        if (SMSContent.Trim() != "")
+                        //        {
+                        //            //  correctString = str.Replace("[PARAMETER]", "005B0050004100520041004D0045005400450052005D");
+                        //            SMSData = "\\u" + Regex.Replace(SMSContent, ".{4}", "$0\\u");
+                        //            SMSData = Regex.Unescape(SMSData.Substring(0, SMSData.Length - 2));
+                        //            row["text"] = SMSData;
 
-                                }
-                            }
-                            else
-                            {
-                                SMSData = SMSContent.Replace("\r\n", "");
-                                row["text"] = SMSData;
-                            }
-                        }
-                        dataTable.Columns.Remove("unicode_status");
+                        //        }
+                        //    }
+                        //    else
+                        //    {
+                        //        SMSData = SMSContent.Replace("\r\n", "");
+                        //        row["text"] = SMSData;
+                        //    }
+                        //}
+                        //dataTable.Columns.Remove("unicode_status");
                         //con.Close();
                         return dataTable;
                     }

@@ -32,6 +32,7 @@ namespace Templateprj.Controllers
         public virtual ActionResult CampaignBase(SMSCampaignModel model)
         {
             string json = "";
+
             string CampaignId = Request["CampaignId"].ToString();
             if (CampaignId.TrimEnd() == "")
             {
@@ -96,7 +97,7 @@ namespace Templateprj.Controllers
 
                             if (uploadStatus.status == 1)
                             {
-                                string status = _prc.insertfilepath(pathtoMove, model, Convert.ToInt32(uploadStatus.newCampaignId), uploadStatus.status, uploadStatus.message, uploadStatus.packetcnt, uploadStatus.baseCount);
+                                string status = _prc.insertfilepath(pathtoMove, model, uploadStatus);
                                 if (status == "1")
                                 {
                                     json = "{\"status\":\"1\",\"response\":\"File Successfully Uploaded\" }";
@@ -108,6 +109,8 @@ namespace Templateprj.Controllers
                                     try
                                     {
                                         System.IO.File.Delete(pathtoMove);
+                                        System.IO.File.Delete(uploadStatus.SuccessFileName);
+                                        System.IO.File.Delete(uploadStatus.failedFileName);
                                     }
                                     catch (Exception)
                                     {
@@ -128,7 +131,7 @@ namespace Templateprj.Controllers
                             else if (uploadStatus.status == 0)
                             {
                                 json = "{\"status\":\"-1\",\"response\":\"" + uploadStatus.message + "\" }";
-                                string status = _prc.insertfilepath(pathtoMove, model, Convert.ToInt32(uploadStatus.newCampaignId), 0, "", uploadStatus.packetcnt, uploadStatus.baseCount);
+                                string status = _prc.insertfilepath(pathtoMove, model, uploadStatus);
 
                                 try
                                 {
@@ -185,6 +188,8 @@ namespace Templateprj.Controllers
             }
             return Json(json, JsonRequestBehavior.AllowGet);
         }
+
+
 
 
         [HttpPost]
@@ -252,6 +257,8 @@ namespace Templateprj.Controllers
         {
             DataTable dt = new DataTable();
             DataTable dtRejected = new DataTable();
+            DataTable dtBaseSuccess = new DataTable();
+            DataTable dtBasefailure = new DataTable();
             bulkFileuploadModel uploadStatus = new bulkFileuploadModel();
             bulkFileuploadModel bulkInsert = new bulkFileuploadModel();
             bulkInsert.newCampaignId = CampaignId;
@@ -259,7 +266,7 @@ namespace Templateprj.Controllers
             bulkInsert.status = 0;
             string message = "";
             dt = ConverttoDataTable(filename, fileExtension);
-            int pos = 0, status = 0, packetcnt = 0, baseCount = 0;
+            int pos = 0, status = 0, packetcnt = 0, baseCount = 0, successCount = 0, failedCount = 0;
             try
             {
                 string columnname = "";
@@ -277,6 +284,8 @@ namespace Templateprj.Controllers
                         message = "File content is not match with template";
                         return uploadStatus;
                     }
+
+
                     for (int index = 1; index < dt.Columns.Count; index++)
                     {
                         columnname = "col" + index.ToString();
@@ -301,6 +310,14 @@ namespace Templateprj.Controllers
                     }
                     dt.AcceptChanges();
                     dt.Columns.Add("ROWID");
+                    dtBaseSuccess = dt.Clone();
+                    dtBasefailure = dt.Clone();
+                    dtBaseSuccess.Rows.Clear();
+                    dtBasefailure.Rows.Clear();
+                    DataColumn[] keyColumns = new DataColumn[1];
+                    keyColumns[0] = dtBaseSuccess.Columns["msisdn"];
+                    dtBaseSuccess.PrimaryKey = keyColumns;
+                    dtBasefailure.Columns.Add("Reason");
                     DataTable dtPartial = dt.Clone();
                     int rowIndex = 0;
                     int rowtoCopy = 10000, currentRow = 0;
@@ -310,20 +327,55 @@ namespace Templateprj.Controllers
                         dtPartial.Rows.Clear();
                         pos = 2;
                         currentRow = 0;
+                        rowtoCopy = 10000;
                         if (dt.Rows.Count - rowIndex < rowtoCopy)
                             rowtoCopy = dt.Rows.Count - rowIndex;
                         pos = 3;
+                        DataRow foundRow, dataRow;
                         for (int index = rowIndex; index < rowIndex + rowtoCopy; index++)
                         {
+                            if (dt.Rows.Count <= index)
+                                break;
+                            if (dt.Rows[index].ItemArray[0].ToString().Trim().Length > 5)
+                            {
+                                foundRow = null;
+                                dataRow = null;
+                                //   if (d.Trim()))                              
 
-                            pos = 4;
-                            dtPartial.ImportRow(dt.Rows[index]);
-                            pos = 5;
-                            dtPartial.Rows[currentRow]["ROWID"] = index.ToString();
-                            pos = 6;
-                            currentRow++;
-                            pos = 7;
-                            baseCount++;
+                                if (dtBaseSuccess.Rows.Count >= 1)
+                                    foundRow = dtBaseSuccess.Rows.Find(dt.Rows[index].ItemArray[0].ToString());
+                                baseCount++;
+                                if (foundRow == null)
+                                {
+                                    pos = 4;
+                                    dtPartial.ImportRow(dt.Rows[index]);
+                                    pos = 5;
+                                    dtPartial.Rows[currentRow]["ROWID"] = index.ToString();
+                                    pos = 6;
+                                    currentRow++;
+                                    pos = 7;
+                                    dtBaseSuccess.ImportRow(dt.Rows[index]);
+                                    dtBaseSuccess.AcceptChanges();
+                                    successCount++;
+                                }
+                                else
+                                {
+                                    dtBasefailure.ImportRow(dt.Rows[index]);
+                                    dtBasefailure.AcceptChanges();
+                                    dtBasefailure.Rows[dtBasefailure.Rows.Count - 1]["Reason"] = "Duplicate";
+                                    rowtoCopy++;
+                                    failedCount++;
+                                }
+                            }
+                            else
+                            {
+                                dtBasefailure.ImportRow(dt.Rows[index]);
+                                dtBasefailure.AcceptChanges();
+                                dtBasefailure.Rows[dtBasefailure.Rows.Count - 1]["Reason"] = "Too short";
+                                baseCount++;
+                                rowtoCopy++;
+                                failedCount++;
+                            }
                         }
                         rowIndex += rowtoCopy;
                         pos = 8;
@@ -339,6 +391,36 @@ namespace Templateprj.Controllers
                             message = "success";
                         pos = 9;
                     }
+                    if (dtBasefailure.Columns.Contains("ROWID"))
+                        dtBasefailure.Columns.Remove("ROWID");
+                    if (dtBaseSuccess.Columns.Contains("ROWID"))
+                        dtBaseSuccess.Columns.Remove("ROWID");
+                    bulkInsert.SuccessFileName = "";
+                    bulkInsert.failedFileName = "";
+                    if (bulkInsert.status == 1 && dtBaseSuccess.Rows.Count > 0)
+                    {
+                        bulkInsert.SuccessFileName = GlobalValues.BULKPath + (System.DateTime.Now.ToShortDateString()).Replace("/", "") + "\\" + "SuccessExport_" + bulkInsert.newCampaignId + "_" + DateTime.Now.ToString("MMddyyyyHHmmss") + ".xlsx";
+                        using (ExcelPackage pck = new ExcelPackage())
+                        {
+
+                            ExcelWorksheet workSheet = pck.Workbook.Worksheets.Add("sheet1");
+                            workSheet.Cells["A1"].LoadFromDataTable(dtBaseSuccess, true);
+                            pck.SaveAs(new FileInfo(bulkInsert.SuccessFileName));
+                        }
+
+                    }
+                    if (bulkInsert.status == 1 && dtBasefailure.Rows.Count > 0)
+                    {
+                        bulkInsert.failedFileName = GlobalValues.BULKPath + (System.DateTime.Now.ToShortDateString()).Replace("/", "") + "\\" + "ExportFailed_" + bulkInsert.newCampaignId + "_" + DateTime.Now.ToString("MMddyyyyHHmmss") + ".xlsx";
+                        using (ExcelPackage pck = new ExcelPackage())
+                        {
+
+                            ExcelWorksheet workSheet = pck.Workbook.Worksheets.Add("sheet1");
+                            workSheet.Cells["A1"].LoadFromDataTable(dtBasefailure, true);
+                            pck.SaveAs(new FileInfo(bulkInsert.failedFileName));
+                        }
+                    }
+
                 }
                 else
                 {
@@ -346,6 +428,7 @@ namespace Templateprj.Controllers
                     bulkInsert.status = -2;
                 }
                 message = message.Trim();
+
             }
             catch (Exception ex)
             {
@@ -359,10 +442,15 @@ namespace Templateprj.Controllers
                 uploadStatus.newCampaignId = bulkInsert.newCampaignId;
                 uploadStatus.packetcnt = packetcnt;
                 uploadStatus.baseCount = baseCount;
+                uploadStatus.successCount = successCount;
+                uploadStatus.FailureCount = failedCount;
+                uploadStatus.failedFileName = bulkInsert.failedFileName;
+                uploadStatus.SuccessFileName = bulkInsert.SuccessFileName;
             }
             return uploadStatus;
         }
-        
+
+
         [NoCompress]
         public void DownloadsampleFile(string id)
         {

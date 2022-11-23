@@ -196,6 +196,10 @@ namespace Templateprj.Models
         public string newmessage { get; set; }
         public int packetcnt { get; set; }
         public int baseCount { get; set; }
+        public int successCount { get; set; }
+        public int FailureCount { get; set; }
+        public string failedFileName { get; set; }
+        public string SuccessFileName { get; set; }
     }
 
 
