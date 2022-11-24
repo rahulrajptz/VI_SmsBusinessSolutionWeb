@@ -253,13 +253,15 @@
 
                                             @Html.Label("Content Type:", new { style = "margin-left:15px;" })
                                             @Html.HiddenFor(m => m.unicodeStatus, new { Value = "-1" })
+                                            @Html.HiddenFor(m => m.TemplateId, new { Value = "-1" })
+
                                             <div class="col-md" style="">
                                                 @*<span id="bindtemplatetype"></span>*@
                                                 @Html.TextAreaFor(m => m.ContentType, new { @class = "form-control nonedit", required = "required", @style = "width:80px;border: none;outline: none;color:black;height: auto !important; ", @readonly = "readonly", @rows = "1" })
                                             </div>
                                             @*</div>
 
-                                                <div class="row">*@
+                                            <div class="row">*@
                                             @Html.Label("Template Name:", new { style = "margin-left:15px;" })
                                             <div class="col-md" style="">
                                                 @*<span id="bindtemplatetype"></span>*@
@@ -282,7 +284,7 @@
 
                                 <div id="dynamicSmsDiv" class="row" style="margin-left:4px;margin-top:4px;width:75% !important;display:none;">
 
-                                    <div class="col-md-12"><b>Define Parameters</b></div>
+                                    <div class="col-md-12"><u><b>Define Parameters</b></u><span style="color:red;">[Minimum 3 characters required]</span></div>
 
                                     <div class="col-md-6">
                                         From Message Script
@@ -315,7 +317,7 @@
                                 <div class="row" id="collapseTestSms" style="margin-left:4px;width:100% !important;">
 
                                     <div class="row" id="div_inpunumber" style="margin-left:4px;width:100% !important;">
-                                        <div class="col-12">   @Html.Label("Mobile Numbers") <span style="color:red;">*[A comma is used to separate mobile numbers, and the maximum and minimum lengths are 12 and 8, respectively.]</span></div>
+                                        <div class="col-12">   @Html.Label("Mobile Numbers", new { style = "font-weight:bold;" }) <span style="color:red;">*[A comma is used to separate mobile numbers, and the maximum and minimum lengths are 12 and 8, respectively.]</span></div>
                                         <div class="col-12">
                                             <textarea class="form-control" style="width:90% !important;min-height:75px;" id="msisdnNumbers" rows="3"></textarea>
                                         </div>
@@ -358,7 +360,7 @@
 
                                         <div class="row" style="margin-left:10px; width:100% !important; text-align:right;">
                                             <div class="col-12">
-                                                <button class="btn-success mt-1" style="margin-left:482px" type="button" id="sendsms">Send</button>
+                                                <button class="btn-success mt-1" style="margin-right:40px;" type="button" id="sendsms">Send</button>
                                             </div>
                                         </div>
                                     </div>
@@ -573,7 +575,7 @@
                     }
                     i++;
                 });
-
+               // alert($("#TemplateId").val());
                 instantSmsModel.smsTypeId = $("#SmsTypeId").val();
                 instantSmsModel.senderId = $("#SenderId").val();
                 instantSmsModel.templateId = $("#TemplateId").val();
@@ -590,20 +592,22 @@
 
                             jsondata = JSON.parse(e);
                             if (jsondata.status == "1") {
-                                SuccessMsg("Successfully send the sms")
+                                SuccessMsg("Successfully send the sms");
+                                resetfunction();
                             }
                             else {
-                                ErrorMsg("Failed to send the sms")
+                                ErrorMsg("Failed to send the sms");
                             }
-                            console.log(jsondata);
+                           // console.log(jsondata);
                         }
                     });
+                    
                 }
                 else {
                     ErrorMsg("Please confirm the entries, there are some alerts exist.")
                 }
-
-        });
+                
+            });
 
         $('#SmsTypeId').on('change', function () {
 
@@ -698,7 +702,7 @@
         }
             function isNumberKey(evt) {
                 var charCode = (evt.which) ? evt.which : evt.keyCode
-                alert(charCode);
+               // alert(charCode);
                 if (charCode > 31 && (charCode < 48 || charCode > 57))
                     return false;
                 return true;
@@ -870,8 +874,9 @@
                 //  $(event).closest('tr').children('td:eq(0)').text();
                 var id = data.eq(0).html();
                 var fname = data.eq(1).html();
-                var camid = $(this).parents('tr').find('.wrapperDivHidden').val();
+                var camid = $(this).parents('tr').find('.wrapperDivHidden').val();             
                 var parts = document.getElementById("part_" + camid).value;
+               // var tempid = document.getElementById("part_" + camid).value;
                 var array = parts.split(",");
                 var partscount = array[0];
                 var variablecnt = array[1];
@@ -904,13 +909,13 @@
                 document.getElementById("SmsContent").innerHTML = data.eq(3).text();
                 document.getElementById("SenderId").innerHTML = sendrId;
                 document.getElementById("unicodeStatus").value = unicodestatus;
-
+                document.getElementById("TemplateId").value = camid;                
                 const container = document.querySelector('#generated');
                removeAllChildNodes(container);
             for (i = 0, j = 1; i < variablecnt; i++ , j++) {
 
                 var div = document.createElement('row');
-                div.innerHTML = '<div class="row" style="margin-top:10px;" ><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName"   readonly="readonly" MaxLength="12"  style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable"  MaxLength="12"  type="text" value=""></div></div>';
+                div.innerHTML = '<div class="row" style="margin-top:10px;" ><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName"   readonly="readonly" MaxLength="12"  MinLength="3" style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable" required="required" MaxLength="12" MinLength="3" type="text" value=""></div></div>';
                 document.getElementById("generated").appendChild(div);
             }
                 $('#closebtn').click();
@@ -1089,10 +1094,10 @@
                     + '<tr id="demo' + rawNumber + '" class="collapse">'
                     + '<td class="text-center" colspan="4">'
 
-                    + '<div class="card" style="margin-top: -14px !important;margin-bottom:-10px;background: #aeb4bb;color: black;width:1055px;">'
+                    + '<div class="card" style="margin-top: -14px !important;margin-bottom:-10px;background: #aeb4bb;color: black;width:1015px;">'
                     + '<div class="card-body" style="width:1055px;">'
 
-                    + '<div class="row">'
+                    + '<div class="row" style="width:1000px;">'
                     + ' <div class="col-10" style="text-align:center;margin-bottom:4px;">  <span style="font-weight:bold;"> Mobile Number : </span><input id="mob" type="text"  onkeypress="return /[0-9]/i.test(event.key)" MaxLength="12" MinLength="8" value="" style="height:22px;max-width:150px;"></div>'
 
                     + '<div class= "col-2" style = "text-align:right;margin-left:-35px;" data-toggle="collapse" data-target="#demo' + rawNumber + '" >'
@@ -1102,13 +1107,13 @@
                 for (j = 0; j < dvr.length; j++) {
                     if (dvr.length >= 3) {
                         str = str
-                            + '<div class="col-4" style="text-align:right;margin-bottom:4px;">'
-                            + '<span> ' + dvr[j] + '</span><input id="VAR' + (j + 1) + '" type="text" MaxLength="30" style="height:22px; max-width:150px;">'
+                            + '<div class="col-2" style="text-align:right;margin-bottom:4px;">'
+                            + '<span > ' + dvr[j] + '</span></div><div class="col-2" style="text-align:left;margin-bottom:4px;"><input id="VAR' + (j + 1) + '" type="text" MaxLength="30" style="height:22px; max-width:150px;">'
                             + '</div>';
                     }
                     else if (dvr.length == 2) {
                         str = str
-                            + '<div class="col-4" style="text-align:right;margin-bottom:4px;">'
+                            + '<div class="col-4" style="text-align:center;margin-bottom:4px;">'
                             + '<span> ' + dvr[j] + '</span><input id="VAR' + (j + 1) + '" type="text" MaxLength="30" style="height:22px; max-width:155px;">'
                             + '</div>';
                     }
@@ -1159,10 +1164,10 @@
                     + '<tr id="demo' + i + '" class="collapse">'
                     + '<td class="text-center" colspan="4">'
 
-                    + '<div class="card" style="margin-top: -14px !important;margin-bottom:-10px;background: #aeb4bb;color: black;width:1055px;">'
+                    + '<div class="card" style="margin-top: -14px !important;margin-bottom:-10px;background: #aeb4bb;color: black;width:1015px;">'
                     + '<div class="card-body" style="width:1055px;">'
-                    + '<div class="row">'
-                    + ' <div class="col-10" style="text-align:center;margin-bottom:10px;">  <span style="font-weight:bold;"> Mobile Number : </span><input id="mob" type="text"  MaxLength="12" MinLength="8" value="' + numbers[i] + '" style="height:22px;max-width:150px;"></div>'
+                    + '<div class="row" style="width:1000px;">'
+                    + ' <div class="col-10" style="text-align:center;margin-bottom:10px;">  <span style="font-weight:bold;"> Mobile Number : </span><input id="mob" type="text" onkeypress="return /[0-9]/i.test(event.key)"  MaxLength="12" MinLength="8" value="' + numbers[i] + '" style="height:22px;max-width:150px;"></div>'
 
                     + '<div class= "col-2" style = "text-align:right;margin-left:-35px;" data-toggle="collapse" data-target="#demo' + i + '" >'
 
@@ -1175,13 +1180,13 @@
                 for (j = 0; j < dvr.length; j++) {
                     if (dvr.length >= 3) {
                         str = str
-                            + '<div class="col-4" style="text-align:right;margin-bottom:4px;">'
-                            + '<span> ' + dvr[j] + '</span><input id="VAR' + (j + 1) + '" type="text" MaxLength="30" style="height:22px; max-width:150px;">'
+                            + '<div class="col-2" style="text-align:center;margin-bottom:4px;">'
+                            + '<span> ' + dvr[j] + '</span></div><div class="col-2" style="text-align:left;margin-bottom:4px;"><input id="VAR' + (j + 1) + '" type="text" MaxLength="30" style="height:22px; max-width:150px;">'
                             + '</div>';
                     }
                     else if (dvr.length == 2) {
                         str = str
-                            + '<div class="col-4" style="text-align:right;margin-bottom:4px;">'
+                            + '<div class="col-4" style="text-align:center;margin-bottom:4px;">'
                             + '<span> ' + dvr[j] + '</span><input id="VAR' + (j + 1) + '" type="text" MaxLength="30" style="height:22px; max-width:155px;">'
                             + '</div>';
                     }

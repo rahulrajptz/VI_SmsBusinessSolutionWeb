@@ -94,13 +94,14 @@ namespace Templateprj.Controllers
                             pos = 2;
                             bulkFileuploadModel uploadStatus = bulkUpload(pathtoMove, CampaignId, xtn, variablecnt);
                             pos = 3;
-
+                            string response;
                             if (uploadStatus.status == 1)
                             {
-                                string status = _prc.insertfilepath(pathtoMove, model, uploadStatus);
+                                
+                                string status = _prc.insertfilepath(pathtoMove, model, uploadStatus,out response);
                                 if (status == "1")
                                 {
-                                    json = "{\"status\":\"1\",\"response\":\"File Successfully Uploaded\" }";
+                                    json = "{\"status\":\"1\",\"response\":\""+response+"\" }";
                                 }
                                 else
                                 {
@@ -131,7 +132,7 @@ namespace Templateprj.Controllers
                             else if (uploadStatus.status == 0)
                             {
                                 json = "{\"status\":\"-1\",\"response\":\"" + uploadStatus.message + "\" }";
-                                string status = _prc.insertfilepath(pathtoMove, model, uploadStatus);
+                                string status = _prc.insertfilepath(pathtoMove, model, uploadStatus,out response);
 
                                 try
                                 {
@@ -612,7 +613,30 @@ namespace Templateprj.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
 
         }
+        public virtual ActionResult gettemplateNameList()
+        {
 
+
+            DataSet dspopupData = _prc.getTemplateSearchDetails();
+            List<DropDownMaster> list = new List<DropDownMaster>();
+            if (dspopupData != null && dspopupData.Tables.Count > 0)
+            {
+                DataRow newRow = dspopupData.Tables[0].NewRow();
+                newRow[0] = 0;
+                newRow[1] = "-All-";
+                dspopupData.Tables[0].Rows.InsertAt(newRow, 0);
+                list = (from DataRow row in dspopupData.Tables[0].Rows
+
+                        select new DropDownMaster()
+                        {
+                            TEXT = row["TEXT"].ToString(),
+                            VALUE = row["VALUE"].ToString()
+                        }).ToList();
+                //list[0].VALUE = "";
+            }
+            return Json(list, JsonRequestBehavior.AllowGet);
+
+        }
 
         public virtual ActionResult getcampaignSearchReport(string templateName, string templateType,  string ContentType)
         {

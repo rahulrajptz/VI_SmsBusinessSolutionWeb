@@ -1294,12 +1294,25 @@ namespace Templateprj.DataAccess
                         var dataTable = new DataTable();
                         MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
                         dataAdapter.Fill(dt);
-                        for (int rowIndex = 0; rowIndex < dt.Rows.Count; rowIndex++)
+                        if (dt != null)
                         {
-                            if (!System.IO.File.Exists(dt.Rows[rowIndex][11].ToString()))
-                                dt.Rows[rowIndex][11] = "file";
+                            for (int rowIndex = 0; rowIndex < dt.Rows.Count; rowIndex++)
+                            {
+                                dt.Rows[rowIndex][11] = dt.Rows[rowIndex][11].ToString().Replace("\\", "/");
+                                if (!System.IO.File.Exists(dt.Rows[rowIndex][11].ToString()))
+                                    dt.Rows[rowIndex][11] = "file";
+                                dt.Rows[rowIndex][12] = dt.Rows[rowIndex][12].ToString().Replace("\\", "/");
+                              if (!System.IO.File.Exists(dt.Rows[rowIndex][12].ToString()))
+                                    dt.Rows[rowIndex][12] = "file";
+                                dt.Rows[rowIndex][13] = dt.Rows[rowIndex][13].ToString().Replace("\\", "/");
+                                if (!System.IO.File.Exists(dt.Rows[rowIndex][13].ToString()))
+                                    dt.Rows[rowIndex][13] = "file";
+                            }
+
+                            return GetJsonString(dt);
                         }
-                        return GetJsonString(dt);
+                        else
+                            return "";
                     }
                 }
             }
@@ -1623,18 +1636,18 @@ namespace Templateprj.DataAccess
             }
         }
 
-        public string insertfilepath(string path, SMSCampaignModel model, bulkFileuploadModel uploadModel)
+        public string insertfilepath(string path, SMSCampaignModel model, bulkFileuploadModel uploadModel,out string response)
         {
             path = path.Replace("\\", "/");
             int packetcnt;
-            //`Web_bulk_upload_campaign_details`(IN N_Scm_id int, IN N_packet_cnt int, IN N_Status int, IN Ln_Action_Type int, 
-            //IN Ln_scheduled_time varchar(50), IN Error_descp varchar(2000), IN V_filepath varchar(300),
-            //IN n_Base_Count bigint,IN V_Pushpath varchar(300),IN n_push_Count bigint,IN V_failpath varchar(300),
-            //IN n_fail_count bigint, OUT N_STATUS_OUT int)
-
+            response = "";
+            //`Web_bulk_upload_campaign_details`(IN N_Scm_id int, IN N_packet_cnt int, IN N_Status int, 
+            //IN Ln_Action_Type int, IN Ln_scheduled_time varchar(50), IN Error_descp varchar(2000), IN V_filepath varchar(300),
+            //IN n_Base_Count bigint,IN V_Pushpath varchar(300),IN n_push_Count bigint,IN V_failpath varchar(300),IN n_fail_count bigint, 
+            //OUT N_STATUS_OUT int, OUT V_RESPONSE varchar(200))
             try
             {
-
+               
                 using (MySqlCommand cmd = new MySqlCommand("Web_bulk_upload_campaign_details"))
                 {
                     //`Web_bulk_upload_campaign_details`(IN N_Scm_id int, IN N_packet_cnt int, IN N_Status int, IN Ln_Action_Type int,
@@ -1659,7 +1672,7 @@ namespace Templateprj.DataAccess
                     cmd.Parameters.Add("@n_fail_count", MySqlDbType.Int64).Value = uploadModel.FailureCount;
 
                     cmd.Parameters.Add("@N_STATUS_OUT", MySqlDbType.Int32).Direction = ParameterDirection.Output;
-
+                    cmd.Parameters.Add("@V_RESPONSE", MySqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
                     DataTable dt = new DataTable();
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
@@ -1669,7 +1682,7 @@ namespace Templateprj.DataAccess
                         cmd.ExecuteNonQuery();
                     }
                     string status = cmd.Parameters["@N_STATUS_OUT"].Value.ToString();
-
+                    response = cmd.Parameters["@V_RESPONSE"].Value.ToString();
                     return status;
 
 

@@ -191,6 +191,7 @@ namespace Templateprj.Controllers
             public readonly string GetSenderIdFromSmsType = "GetSenderIdFromSmsType";
             public readonly string getcampaignnames = "getcampaignnames";
             public readonly string getcampaignnamesList = "getcampaignnamesList";
+            public readonly string gettemplateNameList = "gettemplateNameList";
             public readonly string getcampaignSearchReport = "getcampaignSearchReport";
             public readonly string GetmessagecontentfromTemplate = "GetmessagecontentfromTemplate";
             public readonly string CreatebulksmsCampaign = "CreatebulksmsCampaign";
@@ -217,6 +218,7 @@ namespace Templateprj.Controllers
             public const string GetSenderIdFromSmsType = "GetSenderIdFromSmsType";
             public const string getcampaignnames = "getcampaignnames";
             public const string getcampaignnamesList = "getcampaignnamesList";
+            public const string gettemplateNameList = "gettemplateNameList";
             public const string getcampaignSearchReport = "getcampaignSearchReport";
             public const string GetmessagecontentfromTemplate = "GetmessagecontentfromTemplate";
             public const string CreatebulksmsCampaign = "CreatebulksmsCampaign";
@@ -522,6 +524,17 @@ namespace Templateprj.Controllers
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.getcampaignnamesList);
             getcampaignnamesListOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void gettemplateNameListOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult gettemplateNameList()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.gettemplateNameList);
+            gettemplateNameListOverride(callInfo);
             return callInfo;
         }
 

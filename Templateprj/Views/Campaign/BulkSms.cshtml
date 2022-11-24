@@ -282,15 +282,15 @@
                                         </div>
 
                                         @*<div class="col-md-2">
-                                                @Html.Label(" Type*")
+                @Html.Label(" Type*")
 
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <div class="form-group" style="width:100px">
-                                                    @Html.DropDownListFor(m => m.campaignType, Model.campaignTypeList, new { @class = "form-control cl-black", @style = "width:117px", @required = "required" })
+            </div>
+            <div class="form-group col-md-4">
+                <div class="form-group" style="width:100px">
+                    @Html.DropDownListFor(m => m.campaignType, Model.campaignTypeList, new { @class = "form-control cl-black", @style = "width:117px", @required = "required" })
 
-                                                </div>
-                                            </div>*@
+                </div>
+            </div>*@
 
                                     </div>
 
@@ -321,6 +321,12 @@
                                         <div class="col-md-4">
                                             @Html.TextBoxFor(m => m.toTime, new { @class = " form-control", style = "background:white", required = "required", placeholder = "-To Time-", @readonly = "@readonly" })
                                         </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md" id="timealertdiv" style="display:none;">
+                                            <span style="color:red;font-size:12px;"> Promotional SMS time span is between 9 AM and 9 PM.</span>
+                                        </div>
                                     </div>
                                     <div class="row" style="margin-top:10px;">
                                         <div class="col-md-3">
@@ -340,9 +346,7 @@
                                                 @Html.Label("Template", new { style = "margin-left:15px;" })<span style="color:red;">*</span>
                                                 <input id="btnShow" value="Select Template" style="color:white; background-color:#5f004b;border:none;border-radius:10px;" type="button" />
                                             </div>
-                                            <div class="col-md"  id="timealertdiv" style="display:none;">
-                                                <span> Promotional-type SMS time span is between 9 AM and 9 PM.</span> 
-                                            </div>
+
                                         </div>
                                     </div>
                                     <div id="smstemplatediv">
@@ -1271,7 +1275,26 @@
                         document.getElementById('SMSTest_1__message').innerHTML = jsondata.smsContent;
 
                     }
+                }).fail(function (xhr, status, error) {
+                    $("#loading").hide();
+                    $("input[type=button]").removeAttr("disabled");
+                    if (xhr.status == 401) {
+                        alert("Click to continue", "Session Timedout", function () {
+                            closing = false;
+                            window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                        })
+                    }
+                    else if (xhr.status == 507) {
+                        $("#divNoData span").text(" Result is too large.");
+                        $("#divNoData").show();
+                        $("input[type=button]").removeAttr("disabled");
+                    }
+                    else {
+                        alert("Unable to fetch data from server", "Failed");
+
+                    }
                 });
+               
 
             }
             else {
@@ -1398,7 +1421,26 @@
                             //console.log(jsondata.SMSvariable.length);
 
                         }
+                    }).fail(function (xhr, status, error) {
+                        $("#loading").hide();
+                        $("input[type=button]").removeAttr("disabled");
+                        if (xhr.status == 401) {
+                            alert("Click to continue", "Session Timedout", function () {
+                                closing = false;
+                                window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                            })
+                        }
+                        else if (xhr.status == 507) {
+                            $("#divNoData span").text(" Result is too large.");
+                            $("#divNoData").show();
+                            $("input[type=button]").removeAttr("disabled");
+                        }
+                        else {
+                            alert("Unable to fetch data from server", "Failed");
+
+                        }
                     });
+                    
                 }
                 else if (templateTypeId == "DYNAMIC") {
                     
@@ -1459,7 +1501,26 @@
                             //console.log(jsondata.SMSvariable.length);
 
                         }
+                    }).fail(function (xhr, status, error) {
+                        $("#loading").hide();
+                        $("input[type=button]").removeAttr("disabled");
+                        if (xhr.status == 401) {
+                            alert("Click to continue", "Session Timedout", function () {
+                                closing = false;
+                                window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                            })
+                        }
+                        else if (xhr.status == 507) {
+                            $("#divNoData span").text(" Result is too large.");
+                            $("#divNoData").show();
+                            $("input[type=button]").removeAttr("disabled");
+                        }
+                        else {
+                            alert("Unable to fetch data from server", "Failed");
+
+                        }
                     });
+                    
                 }
 
 
@@ -1528,7 +1589,26 @@
                             }
                             //console.log(jsondata.SMSvariable.length);
                         }
+                    }).fail(function (xhr, status, error) {
+                        $("#loading").hide();
+                        $("input[type=button]").removeAttr("disabled");
+                        if (xhr.status == 401) {
+                            alert("Click to continue", "Session Timedout", function () {
+                                closing = false;
+                                window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                            })
+                        }
+                        else if (xhr.status == 507) {
+                            $("#divNoData span").text(" Result is too large.");
+                            $("#divNoData").show();
+                            $("input[type=button]").removeAttr("disabled");
+                        }
+                        else {
+                            alert("Unable to fetch data from server", "Failed");
+
+                        }
                     });
+                   
                 }
                 else if (templateTypeId == "DYNAMIC") {  // if ($("#smsType").val() == "2") {
 
@@ -1571,7 +1651,26 @@
                             }
 
                         }
+                    }).fail(function (xhr, status, error) {
+                        $("#loading").hide();
+                        $("input[type=button]").removeAttr("disabled");
+                        if (xhr.status == 401) {
+                            alert("Click to continue", "Session Timedout", function () {
+                                closing = false;
+                                window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                            })
+                        }
+                        else if (xhr.status == 507) {
+                            $("#divNoData span").text(" Result is too large.");
+                            $("#divNoData").show();
+                            $("input[type=button]").removeAttr("disabled");
+                        }
+                        else {
+                            alert("Unable to fetch data from server", "Failed");
+
+                        }
                     });
+                    
                 }
 
 
@@ -1710,7 +1809,26 @@
                                 ErrorMsg(jsondata.response);
                             }
                         }
+                    }).fail(function (xhr, status, error) {
+                        $("#loading").hide();
+                        $("input[type=button]").removeAttr("disabled");
+                        if (xhr.status == 401) {
+                            alert("Click to continue", "Session Timedout", function () {
+                                closing = false;
+                                window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                            })
+                        }
+                        else if (xhr.status == 507) {
+                            $("#divNoData span").text(" Result is too large.");
+                            $("#divNoData").show();
+                            $("input[type=button]").removeAttr("disabled");
+                        }
+                        else {
+                            alert("Unable to fetch data from server", "Failed");
+
+                        }
                     });
+                   
             }
             else {
                 ErrorMsg("Please fill in all fields.")
@@ -1834,7 +1952,26 @@
                                 $('<option></option>').val(minames.VALUE).html(minames.TEXT));
                         });
                 }
+            }).fail(function (xhr, status, error) {
+                $("#loading").hide();
+                $("input[type=button]").removeAttr("disabled");
+                if (xhr.status == 401) {
+                    alert("Click to continue", "Session Timedout", function () {
+                        closing = false;
+                        window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                    })
+                }
+                else if (xhr.status == 507) {
+                    $("#divNoData span").text(" Result is too large.");
+                    $("#divNoData").show();
+                    $("input[type=button]").removeAttr("disabled");
+                }
+                else {
+                    alert("Unable to fetch data from server", "Failed");
+
+                }
             });
+            
         }
         $("#updatedToTime").flatpickr({
             enableTime: true,
@@ -2011,6 +2148,13 @@
             $('#sendsmsdiv').hide();
             document.getElementById("SMSTest_1__mobileNumber").value = "";
             document.getElementById("SMSTest_0__mobileNumber").value = "";
+            if ($(event).closest('tr').children('td:eq(4)').text() == "Promotional") {
+                //alert($(event).closest('tr').children('td:eq(4)').text());
+                $("#timealertdiv").show();
+            }
+            else {
+                $("#timealertdiv").hide();
+            }
 
 
             if ($(event).closest('tr').children('td:eq(2)').text() == "STATIC") {
@@ -2343,7 +2487,137 @@
                      else
                          ErrorMsg("File not exists");
                  }
-            });
+             }).fail(function (xhr, status, error) {
+                 $("#loading").hide();
+                 $("input[type=button]").removeAttr("disabled");
+                 if (xhr.status == 401) {
+                     alert("Click to continue", "Session Timedout", function () {
+                         closing = false;
+                         window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                     })
+                 }
+                 else if (xhr.status == 507) {
+                     $("#divNoData span").text(" Result is too large.");
+                     $("#divNoData").show();
+                     $("input[type=button]").removeAttr("disabled");
+                 }
+                 else {
+                     alert("Unable to fetch data from server", "Failed");
+
+                 }
+             });
+            
+        }        
+
+        function downloadFailedBase(event) {           
+            var filed = "FileFail_" + event;            
+            var filePath = document.getElementById(filed).value;         
+            var filename = filePath.substr(filePath.lastIndexOf('/') + 1);  
+             $.ajax({
+                type: "post",
+                url: '@Url.Action("DownloadFile", "Campaign")',
+                 data: { filename: filePath },
+                 success: function (response) {
+                     //Convert Base64 string to Byte Array.
+                    // alert(response);
+                     if (response != null && response.length >5) {
+                         var bytes = Base64ToBytes(response);
+                         //Convert Byte Array to BLOB.
+                         var blob = new Blob([bytes], { type: "application/octetstream" });
+
+                         //Check the Browser type and download the File.
+                         var isIE = false || !!document.documentMode;
+                         if (isIE) {
+                             window.navigator.msSaveBlob(blob, fileName);
+                         } else {
+                             var url = window.URL || window.webkitURL;
+                             link = url.createObjectURL(blob);
+                             var a = $("<a />");
+                             a.attr("download", filename);
+                             a.attr("href", link);
+                             $("body").append(a);
+                             a[0].click();
+                             $("body").remove(a);
+                         }
+                     }
+                     else
+                         ErrorMsg("File not exists");
+                 }
+             }).fail(function (xhr, status, error) {
+                 $("#loading").hide();
+                 $("input[type=button]").removeAttr("disabled");
+                 if (xhr.status == 401) {
+                     alert("Click to continue", "Session Timedout", function () {
+                         closing = false;
+                         window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                     })
+                 }
+                 else if (xhr.status == 507) {
+                     $("#divNoData span").text(" Result is too large.");
+                     $("#divNoData").show();
+                     $("input[type=button]").removeAttr("disabled");
+                 }
+                 else {
+                     alert("Unable to download", "Failed");
+
+                 }
+             });
+            
+        }
+        function downloadUsedBase(event) {           
+            var filed = "FileUsed_" + event;            
+            var filePath = document.getElementById(filed).value;         
+            var filename = filePath.substr(filePath.lastIndexOf('/') + 1);  
+             $.ajax({
+                type: "post",
+                url: '@Url.Action("DownloadFile", "Campaign")',
+                 data: { filename: filePath },
+                 success: function (response) {
+                     //Convert Base64 string to Byte Array.
+                    // alert(response);
+                     if (response != null && response.length >5) {
+                         var bytes = Base64ToBytes(response);
+                         //Convert Byte Array to BLOB.
+                         var blob = new Blob([bytes], { type: "application/octetstream" });
+
+                         //Check the Browser type and download the File.
+                         var isIE = false || !!document.documentMode;
+                         if (isIE) {
+                             window.navigator.msSaveBlob(blob, fileName);
+                         } else {
+                             var url = window.URL || window.webkitURL;
+                             link = url.createObjectURL(blob);
+                             var a = $("<a />");
+                             a.attr("download", filename);
+                             a.attr("href", link);
+                             $("body").append(a);
+                             a[0].click();
+                             $("body").remove(a);
+                         }
+                     }
+                     else
+                         ErrorMsg("File not exists");
+                 }
+             }).fail(function (xhr, status, error) {
+                 $("#loading").hide();
+                 $("input[type=button]").removeAttr("disabled");
+                 if (xhr.status == 401) {
+                     alert("Click to continue", "Session Timedout", function () {
+                         closing = false;
+                         window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                     })
+                 }
+                 else if (xhr.status == 507) {
+                     $("#divNoData span").text(" Result is too large.");
+                     $("#divNoData").show();
+                     $("input[type=button]").removeAttr("disabled");
+                 }
+                 else {
+                     alert("Unable to download", "Failed");
+
+                 }
+             });
+            
         }
         function Base64ToBytes(base64) {
             var s = window.atob(base64);
@@ -2358,10 +2632,8 @@
 
             $("#loading").show();
             $("#divNoData").hide();
-
             // $("#divTable").html("<table class=\"table table-bordered dataTable dtr-inline \" id=\"tbl_rpt\" role=\"grid\" aria-describedby=\"datatable_info\" style=\"width:100 % !important;\" cellspacing=\"0\"><thead style= \"font-size:11px;width:auto;text-align:center;\" ><tr></tr> </thead ></table >");
-             $("input[type=button]").attr("disabled", "disabled");
-            
+             $("input[type=button]").attr("disabled", "disabled");            
              $.post("@Url.Action(MVC.Campaign.getcampaignstatusReport())", $("form").serialize(), function (resp) {
                  
                 if (jQuery.isEmptyObject(resp.tdata)) {
@@ -2403,22 +2675,48 @@
                                 else
                                     return "<a class='btn btn-default btn sm' onclick=downloadBase('" + full[0] + "');><i class='fa fa-download'></i></a><input id=File_" + full[0] + "  type=hidden value='" + full[11] + "' />";
                                }
-                            },  
+                            }, 
+                            {
+                                "targets": 12,
+                                "className": "text-left",
+
+                                "mRender": function (data, type, full) {
+
+                                    //return '<i class="btn btn-link"onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
+                                    if (full[12] == "file")
+                                        return " ";
+                                    else
+                                        return "<a class='btn btn-default btn sm' onclick=downloadUsedBase('" + full[0] + "');><i class='fa fa-download'></i></a><input id=FileUsed_" + full[0] + "  type=hidden value='" + full[12] + "' />";
+                                }
+                            },
                             {
                                 "targets": 13,
                                 "className": "text-left",
 
                                 "mRender": function (data, type, full) {
+
+                                    //return '<i class="btn btn-link"onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
+                                    if (full[13] == "file")
+                                        return " ";
+                                    else
+                                        return "<a class='btn btn-default btn sm' onclick=downloadFailedBase('" + full[0] + "');><i class='fa fa-download'></i></a><input id=FileFail_" + full[0] + "  type=hidden value='" + full[13] + "' />";
+                                }
+                            },
+                            {
+                                "targets": 16,
+                                "className": "text-left",
+
+                                "mRender": function (data, type, full) {
                                   
-                                    if (full[13] == "1") {
+                                    if (full[16] == "1") {
                                       //  return '<button onclick="changestatus(this,1)" id='+full[0]+' class="fa fa-play" style="color:green;font-size:10px;"></button>';
                                         return '<i onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" title="Start" style="color:green;font-size:10px;" ></i>';
                                     }
-                                    else if ( full[13] == "2") {
+                                    else if ( full[16] == "2") {
                                         return '<i onclick="changestatus(this,2)" id=' + full[0] + ' class="fa fa-pause" title="Pause" style="color:black;font-size:10px;"></i>&nbsp; &nbsp;<i onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" title="Stop" style="color:red;font-size:10px;"></i>';
                                         //return '<i onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" style="color:green;font-size:10px;"></i>';
                                     }
-                                    else if (full[13] == "3") {
+                                    else if (full[16] == "3") {
                                         return '<i onclick="changestatus(this,3)" id=' + full[0] + ' class="fa fa-undo" title="Resume" style="color:#cc7a00;font-size:10px;"></i>&nbsp; &nbsp;<i onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" title="Stop" style="color:red;font-size:10px;"></i>';
 
                                     }
@@ -2457,7 +2755,7 @@
                 }
                 else
                 {
-                    alert("Unable to fetch data from server", "Failed");
+                    alert("Unable to fetch data from server,pls wait", "Failed");
 
                 }
             });
@@ -2471,6 +2769,7 @@
             // $("#divTable").html("<table class=\"table table-bordered dataTable dtr-inline \" id=\"tbl_rpt\" role=\"grid\" aria-describedby=\"datatable_info\" style=\"width:100 % !important;\" cellspacing=\"0\"><thead style= \"font-size:11px;width:auto;text-align:center;\" ><tr></tr> </thead ></table >");
             $("input[type=button]").attr("disabled", "disabled");
             $.post("@Url.Action(MVC.Campaign.getcampaigndetailReport())", $("form").serialize(), function (resp) {
+               
                 if (jQuery.isEmptyObject(resp.tdata)) {
 
                     $("#divNoData span").text(" No data available");
@@ -2630,8 +2929,27 @@
                     //if (response != null && response != "") {
                     //    download(response, "Report.xlsx");
                     //}
-                }
-            });
+                   }
+               }).fail(function (xhr, status, error) {
+                   $("#loading").hide();
+                   $("input[type=button]").removeAttr("disabled");
+                   if (xhr.status == 401) {
+                       alert("Click to continue", "Session Timedout", function () {
+                           closing = false;
+                           window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                       })
+                   }
+                   else if (xhr.status == 507) {
+                       $("#divNoData span").text(" Result is too large.");
+                       $("#divNoData").show();
+                       $("input[type=button]").removeAttr("disabled");
+                   }
+                   else {
+                       alert("Unable to fetch data from server", "Failed");
+
+                   }
+               });
+            
         }
 
 
@@ -2667,8 +2985,27 @@
                         SuccessMsg("Stopped Successfully");
                    
 
-                }
-            });
+                 }
+             }).fail(function (xhr, status, error) {
+                 $("#loading").hide();
+                 $("input[type=button]").removeAttr("disabled");
+                 if (xhr.status == 401) {
+                     alert("Click to continue", "Session Timedout", function () {
+                         closing = false;
+                         window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                     })
+                 }
+                 else if (xhr.status == 507) {
+                     $("#divNoData span").text(" Result is too large.");
+                     $("#divNoData").show();
+                     $("input[type=button]").removeAttr("disabled");
+                 }
+                 else {
+                     alert("Unable to fetch data from server", "Failed");
+
+                 }
+             });
+            
         }
 
         function getCamapignDetailsforUpload() {
@@ -2731,6 +3068,22 @@
                      });                    
                      $("#uploadCampaignName option:contains(" + $('#campaignName').val()  + ")").attr('selected', 'selected');
                      getCamapignDetailsforUpload();                
+                }
+            });
+        }
+        function gettemplatenameList() {
+             $.ajax({
+                url: "@Url.Action(MVC.Campaign.gettemplateNameList())",
+                type: 'GET',
+                data: { },
+                 success: function (minames) {   
+                     $("#pouptemplateName").html("");
+                     $.each(minames, function (i, minames) {                        
+                         $("#pouptemplateName").append(
+                            $('<option></option>').val(minames.VALUE).html(minames.TEXT));
+                     });                    
+                     //$("#uploadCampaignName option:contains(" + $('#campaignName').val()  + ")").attr('selected', 'selected');
+                     //getCamapignDetailsforUpload();                
                 }
             });
         }
@@ -2860,7 +3213,7 @@
 
         $(function () {
             $("#btnShow").click(function () {
-
+                gettemplatenameList();
                 var rpt_datatable = $("#tbl_templateDetails").DataTable({
                     responsive: false,
                     deferRender: false,
@@ -2934,13 +3287,7 @@
                                 "className": "text-left", 
                                 "mRender": function (data, type, full) {
                                     return '<i onclick="getTamplateDetails(this)"  class="btn btn-link" id=' + full[0] + ' style="color:blue;font-size:10px;">' + full[1] + ' </i><input type="hidden" name="' + full[6] + '"/>';
-                                    if (name == "Promotional") {
-                                        //alert(full[6]);
-                                        $("#timealertdiv").show();
-                                    }
-                                    else {
-                                        $("#timealertdiv").hide();
-                                    }
+                                    
                                 }
                                
                                 
@@ -2967,18 +3314,7 @@
                                 //return ' <table style"height:1px;width:1px;"><tr><td><input id="part_' + full[0] + '" type="hidden" value="' + full[8] + '" />< input id = "variablecnt_' + full[0] + '" type = "hidden" value = "' + full[9] + '" /> < input id = "senderId_' + full[0] + '" type = "hidden" value = "' + full[10] + '" /> < input id = "unicode_' + full[0] + '" type = "hidden" value = "' + full[11] + '" /> </td>/tr></table>';
 
                             },                     
-                            //{
-                            //    "targets": 6,// Variable count
-                            //    "mRender": function (data, type, full) {
-                            //        if (full[6] == "Promotional") {
-                            //            //alert(full[6]);
-                            //            $("#timealertdiv").show();
-                            //        }
-                            //        else {
-                            //            $("#timealertdiv").hide();
-                            //        }
-                            //    }
-                            //},
+                            
 
                             //{
                             //    "targets": 10,// Sender_id value 
