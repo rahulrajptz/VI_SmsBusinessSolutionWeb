@@ -156,6 +156,7 @@
     <div class="col">
         @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "Idform" }))
         {
+            @Html.AntiForgeryToken()
             <div class="container">
                 <div class="row">
 
@@ -197,38 +198,38 @@
                             <div class="container">
                                 @*<div class="row justify-content-center">*@
                                 @*<div class="col-md-4">
-                                        <div class="row">
-                                            <div class="col-md-4 col-4" style="text-align:right">
-                                                @Html.Label("SMS Type*")
+                                    <div class="row">
+                                        <div class="col-md-4 col-4" style="text-align:right">
+                                            @Html.Label("SMS Type*")
 
-                                            </div>
-                                            <div class="form-group col-md-8 col-8">
-                                                @Html.DropDownListFor(m => m.SmsTypeId, Model.SmsTypes, new { @class = "form-control cl-black", @style = "width:117px", @required = "required" })
-                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-8 col-8">
+                                            @Html.DropDownListFor(m => m.SmsTypeId, Model.SmsTypes, new { @class = "form-control cl-black", @style = "width:117px", @required = "required" })
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="row">
-                                            <div class="col-md-4 col-4" style="text-align:right">
-                                                @Html.Label("Sender Id")
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4 col-4" style="text-align:right">
+                                            @Html.Label("Sender Id")
 
-                                            </div>
-                                            <div class="form-group col-md-8 col-8">
-                                                @Html.DropDownListFor(m => m.SenderId, Model.Senders, new { @class = "form-control cl-black", @style = "width:117px", @required = "required" })
-                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-8 col-8">
+                                            @Html.DropDownListFor(m => m.SenderId, Model.Senders, new { @class = "form-control cl-black", @style = "width:117px", @required = "required" })
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="col-md-4">
-                                        <div class="row">
-                                            <div class="col-md-4 col-4" style="text-align:right">
-                                                @Html.Label("Template ID*")
-                                            </div>
-                                            <div class="form-group col-md-8 col-8">
-                                                @Html.DropDownListFor(m => m.TemplateId, Model.Templates, new { @class = "form-control cl-black", @style = "width:117px", @required = "required" })
-                                            </div>
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4 col-4" style="text-align:right">
+                                            @Html.Label("Template ID*")
                                         </div>
-                                    </div>*@
+                                        <div class="form-group col-md-8 col-8">
+                                            @Html.DropDownListFor(m => m.TemplateId, Model.Templates, new { @class = "form-control cl-black", @style = "width:117px", @required = "required" })
+                                        </div>
+                                    </div>
+                                </div>*@
                                 <div class="row">
                                     <div class="row" style="margin-top:5px;margin-bottom:10px;">
                                         <div class="col-md" id="templateiddiv">
@@ -382,10 +383,10 @@
                        type="hidden"
                        value="" />
                 @*<div class="row">
-                    <a class="btn btn-block text-white dropdown-toggle" style="margin-left:5px;height:25px;text-align:left;background-color:#5f004b;font-size:9.2846px;vertical-align:middle;"
-                       data-toggle="collapse" href="#collapseCreateCampaign" role="button" aria-expanded="false">
-                        REPORTS
-                    </a>*@
+                <a class="btn btn-block text-white dropdown-toggle" style="margin-left:5px;height:25px;text-align:left;background-color:#5f004b;font-size:9.2846px;vertical-align:middle;"
+                   data-toggle="collapse" href="#collapseCreateCampaign" role="button" aria-expanded="false">
+                    REPORTS
+                </a>*@
 
                 <div class="tab-pane navclr" style="background:#ebecf1;margin-top:40px;" id="reportsnav">
 
@@ -417,12 +418,12 @@
                         </div>
 
                         <div class="row pull-right">
-                            <button type="button" id="btn_search" style="height:30px;width:60px;background-color:#5f004b;color:white;margin-left:20px;margin-top:16px;" class="btn btn-block">
+                            <button type="button" id="btn_search" style="height:35px;width:45px;background-color:#5f004b;color:white;margin-left:20px;margin-top:20px;" class="btn btn-block">
                                 <i class="fa fa-search" style="font-size:14px;"></i>
                             </button>
                             @*<button type="button" id="btn_download" style="height:30px;width:60px;background-color:#5f004b;color:white;margin-left:10px;margin-top:16px;" class="btn btn-block">
-                                    <i class="fa fa-download" style="font-size:14px;"></i>
-                                </button>*@
+                                <i class="fa fa-download" style="font-size:14px;"></i>
+                            </button>*@
                         </div>
                     </div>
 
@@ -439,8 +440,8 @@
                                         <span>No data found for the search</span>
                                     </div>
                                     @*<div class="row">
-                                            <div id="loading" class="col-sm-12" style="display:none;text-align:center;" st><img src="~/Content/Images/loading.gif" style="width:100px;height:50px;" /></div>
-                                        </div>*@
+                                        <div id="loading" class="col-sm-12" style="display:none;text-align:center;" st><img src="~/Content/Images/loading.gif" style="width:100px;height:50px;" /></div>
+                                    </div>*@
                                 </div>
 
                             </div>
@@ -477,11 +478,11 @@
                                     </div>
                                 </div>
                                 @*<div class="col-md-3">
-                                        @Html.Label("Template Status")
-                                        <div class="form-group">
-                                            @Html.DropDownListFor(m => m.pouptemplateStatus, Model.pouptemplateStatusList, new { @class = "form-control cl-black", @required = "required" })
-                                        </div>
-                                    </div>*@
+                                    @Html.Label("Template Status")
+                                    <div class="form-group">
+                                        @Html.DropDownListFor(m => m.pouptemplateStatus, Model.pouptemplateStatusList, new { @class = "form-control cl-black", @required = "required" })
+                                    </div>
+                                </div>*@
                                 <div class="col-md-3">
                                     @Html.Label("Content Type")
                                     <div class="form-group">
@@ -490,12 +491,12 @@
                                 </div>
                             </div>
                             @*<div class="col-md-3">
-                                    @Html.Label("Campaign Type")
-                                    <div class="form-group">
-                                        @Html.DropDownListFor(m => m.listCampaignType, Model.listCampaignTypeList, new { @class = "form-control cl-black", @required = "required" })
+                                @Html.Label("Campaign Type")
+                                <div class="form-group">
+                                    @Html.DropDownListFor(m => m.listCampaignType, Model.listCampaignTypeList, new { @class = "form-control cl-black", @required = "required" })
 
-                                    </div>
-                                </div>*@
+                                </div>
+                            </div>*@
                             <div class="col-md-2">
                                 <br />
                                 @*<button type="button" id="btn_search" style="height:35px;background-color:#212121;color:white;width:100px;" class="btn btn-block">Search</button>*@
@@ -579,6 +580,7 @@
                 instantSmsModel.smsTypeId = $("#SmsTypeId").val();
                 instantSmsModel.senderId = $("#SenderId").val();
                 instantSmsModel.templateId = $("#TemplateId").val();
+                instantSmsModel.unicodestatus = $("#unicodeStatus").val();
                 instantSmsModel.messages = additionItems;
                 instantSmsModel.variables = getVariablesWithName();
                 if (isValid) {
@@ -1020,24 +1022,7 @@
                                     }
                                     //return ' <table style"height:1px;width:1px;"><tr><td><input id="part_' + full[0] + '" type="hidden" value="' + full[8] + '" />< input id = "variablecnt_' + full[0] + '" type = "hidden" value = "' + full[9] + '" /> < input id = "senderId_' + full[0] + '" type = "hidden" value = "' + full[10] + '" /> < input id = "unicode_' + full[0] + '" type = "hidden" value = "' + full[11] + '" /> </td>/tr></table>';
 
-                            }                            //{
-                            //    "targets": 9,// Variable count
-                            //    "className": "hide-column",
-                            //    "sClass": "invisible"
-                            //},
-
-                            //{
-                            //    "targets": 10,// Sender_id value
-                            //    "className": "hide-column",
-                            //    "sClass": "invisible"
-                            //}
-                            //,
-
-                            //{
-                            //    "targets": 11// Sender_id value
-                            //    //"className": "hide-column",
-                            //    //"sClass": "invisible"
-                            //}
+                            }                           
                        ],
 
                        order: [],
@@ -1296,7 +1281,26 @@
                         var json = $.parseJSON(resp);
                         resolve(json);
                     }
+                }).fail(function (xhr, status, error) {
+                    $("#loading").hide();
+                    $("input[type=button]").removeAttr("disabled");
+                    if (xhr.status == 401) {
+                        alert("Click to continue", "Session Timedout", function () {
+                            closing = false;
+                            window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                        })
+                    }
+                    else if (xhr.status == 507) {
+                        $("#divNoData span").text(" Result is too large.");
+                        $("#divNoData").show();
+                        $("input[type=button]").removeAttr("disabled");
+                    }
+                    else {
+                        alert("Unable to fetch data from server", "Failed");
+
+                    }
                 });
+                
             });
         }
 
@@ -1414,9 +1418,10 @@
                 }
             });
         }
-        function resetfunction() {
-            document.getElementById("Idform").reset();
 
+        function resetfunction() {
+
+            document.getElementById("Idform").reset();
             $('#StaticSmsDiv').hide();
             $('#dynamicSmsDiv').hide();
             document.getElementById("bindsenderName").innerHTML = "";

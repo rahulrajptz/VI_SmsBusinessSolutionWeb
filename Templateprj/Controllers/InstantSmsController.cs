@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Templateprj.DataAccess;
@@ -29,7 +30,7 @@ namespace Templateprj.Controllers
         [Route("InstantSms")]
         public virtual ActionResult InstantSms()
         {
-            ViewBag.ItemList = "Computer Shop Item List Page";
+            ViewBag.ItemList = "Instant SMS";
             var model = _instantserviceRepo.GetInstantSms();
             return View(model);
         }
@@ -37,6 +38,21 @@ namespace Templateprj.Controllers
         [HttpPost]
         public virtual ActionResult SendInstatntSms(InstantSmsCommand model)
         {
+            // model.DBMessage=GetSingleUnicodeHex(model.Messages[0].)
+            if (model.unicodeStatus == "8")
+            {
+                for (int index = 0; index < model.Messages.Count; index++)
+                {
+                    model.Messages[index].DBMessage = GetSingleUnicodeHex(model.Messages[index].Message);
+                }
+            }
+            else
+            {
+                for (int index = 0; index < model.Messages.Count; index++)
+                {
+                    model.Messages[index].DBMessage =model.Messages[index].Message;
+                }
+            }
             string status = _instantserviceRepo.SendInstantSms(model, out string response);
 
             string responsejson = "{\"status\":\""+status+"\",\"response\":\"" + response + "\"}";
@@ -76,6 +92,27 @@ namespace Templateprj.Controllers
 
 
 
+        }
+        public static string GetSingleUnicodeHex(string strTextMsg)
+        {
+            byte[] s1 = UTF8Encoding.Unicode.GetBytes(strTextMsg);
+            string strUnicode = "";
+            string strTmp1 = "";
+            string strTmp2 = "";
+
+            for (int i = 0; i < s1.Length; i += 2)
+            {
+                strTmp1 = int.Parse(s1[i + 1].ToString()).ToString("x");
+                if (strTmp1.Length == 1)
+                    strTmp1 = "0" + strTmp1;
+
+                strTmp2 = int.Parse(s1[i].ToString()).ToString("x");
+                if (strTmp2.Length == 1)
+                    strTmp2 = "0" + strTmp2;
+
+                strUnicode += strTmp1 + strTmp2;
+            }
+            return strUnicode;
         }
     }
 }

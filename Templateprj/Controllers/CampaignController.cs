@@ -356,13 +356,11 @@ namespace Templateprj.Controllers
                                     currentRow++;
                                     pos = 7;
                                     dtBaseSuccess.ImportRow(dt.Rows[index]);
-                                    dtBaseSuccess.AcceptChanges();
                                     successCount++;
                                 }
                                 else
                                 {
-                                    dtBasefailure.ImportRow(dt.Rows[index]);
-                                    dtBasefailure.AcceptChanges();
+                                    dtBasefailure.ImportRow(dt.Rows[index]);                                   
                                     dtBasefailure.Rows[dtBasefailure.Rows.Count - 1]["Reason"] = "Duplicate";
                                     rowtoCopy++;
                                     failedCount++;
@@ -370,8 +368,7 @@ namespace Templateprj.Controllers
                             }
                             else
                             {
-                                dtBasefailure.ImportRow(dt.Rows[index]);
-                                dtBasefailure.AcceptChanges();
+                                dtBasefailure.ImportRow(dt.Rows[index]);                              
                                 dtBasefailure.Rows[dtBasefailure.Rows.Count - 1]["Reason"] = "Too short";
                                 baseCount++;
                                 rowtoCopy++;
@@ -381,6 +378,8 @@ namespace Templateprj.Controllers
                         rowIndex += rowtoCopy;
                         pos = 8;
                         packetcnt++;
+                        dtBaseSuccess.AcceptChanges();
+                        dtBasefailure.AcceptChanges();
                         bulkInsert = _prc.InsertBulk(dtPartial, bulkInsert.newCampaignId);
                         status = bulkInsert.status;
                         if (bulkInsert.status != 1)

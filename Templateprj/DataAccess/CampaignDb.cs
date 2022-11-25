@@ -24,48 +24,58 @@ namespace Templateprj.DataAccess
 
         private string GetJsonString(DataTable dt)
         {
-            int columnCount =dt.Columns.Count;
-           // DataTable dtSchema = dr.GetSchemaTable();
-
-            StringBuilder json = new StringBuilder();
-            string[] tmpHeadRow = new string[columnCount];
-
-            if (dt != null)
+            try
             {
-                //for (int i = 0; i < 1; i++)
-                //{
-                //    tmpHeadRow[i] = "{\"title\":\"" + dtSchema.Rows[i]["ColumnName"].ToString() + "\", \"visible\":false}";
-                //}
-                for (int colIndex = 0; colIndex < columnCount; colIndex++)
+                int columnCount = dt.Columns.Count;
+                // DataTable dtSchema = dr.GetSchemaTable();
+
+                StringBuilder json = new StringBuilder();
+                string[] tmpHeadRow = new string[columnCount];
+
+                if (dt != null)
                 {
-                    tmpHeadRow[colIndex] = "{\"title\":\"" + dt.Columns[colIndex].ColumnName.ToString() + "\"}";
+                    //for (int i = 0; i < 1; i++)
+                    //{
+                    //    tmpHeadRow[i] = "{\"title\":\"" + dtSchema.Rows[i]["ColumnName"].ToString() + "\", \"visible\":false}";
+                    //}
+                    for (int colIndex = 0; colIndex < columnCount; colIndex++)
+                    {
+                        tmpHeadRow[colIndex] = "{\"title\":\"" + dt.Columns[colIndex].ColumnName.ToString() + "\"}";
+                    }
                 }
+
+                json.Append("{\"thead\":[" + string.Join(",", tmpHeadRow) + "],\"tdata\":[");
+
+                //  if (dr.HasRows)
+                // {
+                //  while (dr.Read())
+                // {
+                for (int rowIndex = 0; rowIndex < dt.Rows.Count; rowIndex++)
+                {
+                    for (int colIndex = 0; colIndex < columnCount; colIndex++)
+                    {
+                        tmpHeadRow[colIndex] = dt.Rows[rowIndex].ItemArray[colIndex].ToString().Trim();
+                    }
+                    json.Append("[\"" + string.Join("\",\"", tmpHeadRow) + "\"],");
+                }
+                //  }
+                if (dt.Rows.Count > 0)
+                    json.Length--;
+                //  }
+
+                return json.ToString() + "]}";
             }
-
-            json.Append("{\"thead\":[" + string.Join(",", tmpHeadRow) + "],\"tdata\":[");
-
-            //  if (dr.HasRows)
-            // {
-            //  while (dr.Read())
-            // {
-            for (int rowIndex = 0; rowIndex < dt.Rows.Count; rowIndex++)
+            catch (Exception ex)
             {
-                for (int colIndex = 0; colIndex < columnCount; colIndex++)
-                {
-                    tmpHeadRow[colIndex] = dt.Rows[rowIndex].ItemArray[colIndex].ToString().Trim();
-                }
-                json.Append("[\"" + string.Join("\",\"", tmpHeadRow) + "\"],");
+                LogWriter.Write("DataAccess.CampaignDb.GetJsonString :: Exception :: " + ex.Message);
+                return "";
             }
-              //  }
-              if(dt.Rows.Count>0)
-                json.Length--;
-          //  }
-
-            return json.ToString() + "]}";
         }
 
         private string GetJsonStringwithName(DataTable dt)
         {
+            try
+            { 
             int columnCount = dt.Columns.Count;
             // DataTable dtSchema = dr.GetSchemaTable();
 
@@ -78,7 +88,7 @@ namespace Templateprj.DataAccess
                 //{
                 //    tmpHeadRow[i] = "{\"title\":\"" + dtSchema.Rows[i]["ColumnName"].ToString() + "\", \"visible\":false}";
                 //}
-            
+
             }
 
             json.Append("{");
@@ -90,8 +100,8 @@ namespace Templateprj.DataAccess
             for (int rowIndex = 0; rowIndex < dt.Rows.Count; rowIndex++)
             {
                 for (int colIndex = 0; colIndex < columnCount; colIndex++)
-                { 
-                    tmpHeadRow[colIndex] = dt.Columns[colIndex].ColumnName.ToString()+ "\":\"" + dt.Rows[rowIndex].ItemArray[colIndex].ToString().Trim();
+                {
+                    tmpHeadRow[colIndex] = dt.Columns[colIndex].ColumnName.ToString() + "\":\"" + dt.Rows[rowIndex].ItemArray[colIndex].ToString().Trim();
                 }
                 json.Append("\"" + string.Join("\",\"", tmpHeadRow) + "\",");
             }
@@ -102,105 +112,135 @@ namespace Templateprj.DataAccess
 
             return json.ToString() + "}";
         }
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.CampaignDb.GetJsonStringwithName :: Exception :: " + ex.Message);
+                return "";
+            }
+        }
 
         private string GetJsonStringtoinsert(DataTable dt)
         {
-            int columnCount = dt.Columns.Count;
-            // DataTable dtSchema = dr.GetSchemaTable();
+            try
+            { 
+                int columnCount = dt.Columns.Count;
+                // DataTable dtSchema = dr.GetSchemaTable();
 
-            StringBuilder json = new StringBuilder();
-            string[] tmpHeadRow = new string[columnCount];
+                StringBuilder json = new StringBuilder();
+                string[] tmpHeadRow = new string[columnCount];
 
-            json.Append("[");
-            for (int rowIndex = 0; rowIndex < dt.Rows.Count; rowIndex++)
-            {
-                for (int colIndex = 0; colIndex < columnCount; colIndex++)
+                json.Append("[");
+                for (int rowIndex = 0; rowIndex < dt.Rows.Count; rowIndex++)
                 {
-                    tmpHeadRow[colIndex] = dt.Columns[colIndex].ColumnName.ToString() + "\":\"" + dt.Rows[rowIndex].ItemArray[colIndex].ToString().Trim();
+                    for (int colIndex = 0; colIndex < columnCount; colIndex++)
+                    {
+                        tmpHeadRow[colIndex] = dt.Columns[colIndex].ColumnName.ToString() + "\":\"" + dt.Rows[rowIndex].ItemArray[colIndex].ToString().Trim();
+                    }
+                    json.Append("{\"" + string.Join("\",\"", tmpHeadRow) + "\"},");
+
                 }
-                json.Append("{\"" + string.Join("\",\"", tmpHeadRow) + "\"},");
+                if (dt.Rows.Count > 0)
+                    json.Length--;
 
+
+                return json.ToString() + "]";
             }
-            if (dt.Rows.Count > 0)
-                json.Length--;
-
-
-            return json.ToString() + "]";
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.CampaignDb.GetJsonStringtoinsert :: Exception :: " + ex.Message);
+                return "";
+            }
         }
 
         private string GetJsonString(OracleDataReader dr)
         {
-            int columnCount = dr.FieldCount;
-            DataTable dtSchema = dr.GetSchemaTable();
+            try
+            { 
+                int columnCount = dr.FieldCount;
+                DataTable dtSchema = dr.GetSchemaTable();
 
-            StringBuilder json = new StringBuilder();
-            string[] tmpHeadRow = new string[columnCount];
+                StringBuilder json = new StringBuilder();
+                string[] tmpHeadRow = new string[columnCount];
 
-            if (dtSchema != null)
-            {
-                //for (int i = 0; i < 1; i++)
-                //{
-                //    tmpHeadRow[i] = "{\"title\":\"" + dtSchema.Rows[i]["ColumnName"].ToString() + "\", \"visible\":false}";
-                //}
-                for (int colIndex = 0; colIndex < columnCount; colIndex++)
+                if (dtSchema != null)
                 {
-                    tmpHeadRow[colIndex] = "{\"title\":\"" + dtSchema.Rows[colIndex]["ColumnName"].ToString() + "\"}";
-                }
-            }
-
-            json.Append("{\"thead\":[" + string.Join(",", tmpHeadRow) + "],\"tdata\":[");
-
-            if (dr.HasRows)
-            {
-                while (dr.Read())
-                {
+                    //for (int i = 0; i < 1; i++)
+                    //{
+                    //    tmpHeadRow[i] = "{\"title\":\"" + dtSchema.Rows[i]["ColumnName"].ToString() + "\", \"visible\":false}";
+                    //}
                     for (int colIndex = 0; colIndex < columnCount; colIndex++)
                     {
-                        tmpHeadRow[colIndex] = dr[colIndex].ToString();
+                        tmpHeadRow[colIndex] = "{\"title\":\"" + dtSchema.Rows[colIndex]["ColumnName"].ToString() + "\"}";
                     }
-                    json.Append("[\"" + string.Join("\",\"", tmpHeadRow) + "\"],");
                 }
-                json.Length--;
-            }
 
-            return json.ToString() + "]}";
+                json.Append("{\"thead\":[" + string.Join(",", tmpHeadRow) + "],\"tdata\":[");
+
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        for (int colIndex = 0; colIndex < columnCount; colIndex++)
+                        {
+                            tmpHeadRow[colIndex] = dr[colIndex].ToString();
+                        }
+                        json.Append("[\"" + string.Join("\",\"", tmpHeadRow) + "\"],");
+                    }
+                    json.Length--;
+                }
+
+                return json.ToString() + "]}";
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.CampaignDb.GetJsonString :: Exception :: " + ex.Message);
+                return "";
+            }
         }
         private string GetJsonString(MySqlDataReader dr)
         {
-            int columnCount = dr.FieldCount;
-            DataTable dtSchema = dr.GetSchemaTable();
+            try
+            { 
+                int columnCount = dr.FieldCount;
+                DataTable dtSchema = dr.GetSchemaTable();
 
-            StringBuilder json = new StringBuilder();
-            string[] tmpHeadRow = new string[columnCount];
+                StringBuilder json = new StringBuilder();
+                string[] tmpHeadRow = new string[columnCount];
 
-            if (dtSchema != null)
-            {
-                //for (int i = 0; i < 1; i++)
-                //{
-                //    tmpHeadRow[i] = "{\"title\":\"" + dtSchema.Rows[i]["ColumnName"].ToString() + "\", \"visible\":false}";
-                //}
-                for (int colIndex = 0; colIndex < columnCount; colIndex++)
+                if (dtSchema != null)
                 {
-                    tmpHeadRow[colIndex] = "{\"title\":\"" + dtSchema.Rows[colIndex]["ColumnName"].ToString() + "\"}";
-                }
-            }
-
-            json.Append("{\"thead\":[" + string.Join(",", tmpHeadRow) + "],\"tdata\":[");
-
-            if (dr.HasRows)
-            {
-                while (dr.Read())
-                {
+                    //for (int i = 0; i < 1; i++)
+                    //{
+                    //    tmpHeadRow[i] = "{\"title\":\"" + dtSchema.Rows[i]["ColumnName"].ToString() + "\", \"visible\":false}";
+                    //}
                     for (int colIndex = 0; colIndex < columnCount; colIndex++)
                     {
-                        tmpHeadRow[colIndex] = dr[colIndex].ToString().Trim();
+                        tmpHeadRow[colIndex] = "{\"title\":\"" + dtSchema.Rows[colIndex]["ColumnName"].ToString() + "\"}";
                     }
-                    json.Append("[\"" + string.Join("\",\"", tmpHeadRow) + "\"],");
                 }
-                json.Length--;
-            }
 
-            return json.ToString() + "]}";
+                json.Append("{\"thead\":[" + string.Join(",", tmpHeadRow) + "],\"tdata\":[");
+
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        for (int colIndex = 0; colIndex < columnCount; colIndex++)
+                        {
+                            tmpHeadRow[colIndex] = dr[colIndex].ToString().Trim();
+                        }
+                        json.Append("[\"" + string.Join("\",\"", tmpHeadRow) + "\"],");
+                    }
+                    json.Length--;
+                }
+
+                return json.ToString() + "]}";
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.CampaignDb.GetJsonString :: Exception :: " + ex.Message);
+                return "";
+            }
         }
 
 
@@ -858,22 +898,10 @@ namespace Templateprj.DataAccess
                 return "";
             }
         }
+
         protected void Export_Click(DataTable dt)
         {
-            //DataTable dt = GParam.GetreferentielContacts();
-            //HttpContext context = HttpContext.Current;
-            //context.Response.Clear();
-            //context.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            //context.Response.AddHeader("content-disposition", "attachment;filename=" + HttpUtility.UrlEncode("Logs.xlsx", System.Text.Encoding.UTF8));
-            //using (ExcelPackage pck = new ExcelPackage())
-            //{
-            //    ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Logs");
-            //    ws.Cells["A1"].LoadFromDataTable(dt, true);
-            //    var ms = new System.IO.MemoryStream();
-            //    pck.SaveAs(ms);
-            //    ms.WriteTo(context.Response.OutputStream);
-            //}
-            //context.Response.End();
+            
             using (ExcelPackage pck = new ExcelPackage())
             {
 
@@ -895,6 +923,7 @@ namespace Templateprj.DataAccess
                 context.Response.End();
             }
         }
+
         public DataTable getCampaignwiseDetailReport(string id)
         {
             //`Web_Get_Variable_details`(IN Ln_Campaign_Id int, OUT V_Out text)
@@ -1046,7 +1075,7 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.CampaignDb.getTemplatebytemplateId :: Exception :: " + ex.Message);
+                LogWriter.Write("DataAccess.CampaignDb.InsertBulk :: Exception :: " + ex.Message);
                 bulkInsert.status = -1;
                 bulkInsert.newCampaignId = "-1";
                 bulkInsert.message = "";
@@ -1140,7 +1169,7 @@ namespace Templateprj.DataAccess
                 return "";
             }
         }
-        //UpdateCampList
+      
 
         public string getcampaigntestreportlistNew(string id)
         {
@@ -1205,7 +1234,7 @@ namespace Templateprj.DataAccess
             }
             catch (Exception ex)
             {
-                LogWriter.Write("DataAccess.Campaign.getcampaigntestreportlist::Exce ::  :: " + ex.Message);
+                LogWriter.Write("DataAccess.Campaign.getcampaigntestreportlistNew::Exce ::  :: " + ex.Message);
                 return null;
             }
            
@@ -1253,13 +1282,7 @@ namespace Templateprj.DataAccess
             
             try
             {
-                //`Web_Get_Campaign_Status_Details`(IN n_Acc_Id int, 
-                //                            IN n_user_id int, 
-                //                            IN Ln_Camp_name_Id int, 
-                //                            IN Lv_From_Date varchar(50), 
-                //                            IN Ln_Camp_Status int, 
-                //                            IN Ln_Campaign_Type int)
-
+               
                 //`Web_Get_Campaign_Status_Details`(IN n_Acc_Id int,
                 //IN n_user_id int,
                 //IN Ln_Camp_name_Id int,
@@ -1285,12 +1308,6 @@ namespace Templateprj.DataAccess
                     {
                         con.Open();
                         cmd.Connection = con;
-                        //cmd.ExecuteNonQuery();
-                        //var dataReader_new = cmd.ExecuteReader();
-                        //return GetJsonString(dataReader_new);
-                        //MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
-                        //var dataTable = new DataTable();
-                        //dataAdapter.Fill(dataTable);
                         var dataTable = new DataTable();
                         MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
                         dataAdapter.Fill(dt);
@@ -1819,7 +1836,7 @@ namespace Templateprj.DataAccess
                 {
 
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@n_MSISDN_in", MySqlDbType.Int64).Value = model.MSISDN;
+                    cmd.Parameters.Add("@n_MSISDN_in", MySqlDbType.Int64).Value = model.MSISDN == null ? "0" : model.MSISDN;
                     cmd.Parameters.Add("@v_template_id_in", MySqlDbType.VarChar).Value = model.Template;
                     cmd.Parameters.Add("@v_DateRange_In", MySqlDbType.VarChar).Value = model.dateFrom;
                     //cmd.Parameters.Add("@v_todate", MySqlDbType.VarChar).Value = model.dateTo;

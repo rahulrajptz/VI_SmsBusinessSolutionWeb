@@ -9,6 +9,6 @@
         public int SmsLength { get; set; }
 
         public int Count { get; set; }
-
+        public string DBMessage { get; set; }
     }
 }

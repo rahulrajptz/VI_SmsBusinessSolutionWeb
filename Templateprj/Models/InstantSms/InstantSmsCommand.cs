@@ -19,6 +19,7 @@ namespace Templateprj.Models.InstantSms
 
         public List<Variable> Variables { get; set; }
         public int reportStatus { get; set; }
-
+       
+        public string unicodeStatus { get; set; }
     }
 }
