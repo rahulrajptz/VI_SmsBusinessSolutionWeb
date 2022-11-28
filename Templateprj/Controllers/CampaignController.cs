@@ -58,7 +58,7 @@ namespace Templateprj.Controllers
                     return Json(json, JsonRequestBehavior.AllowGet);
                 }
                 CultureInfo enUS = new CultureInfo("en-US");
-                string currentTime = DateTime.Now.ToString("dd/MM/yyyy h:m tt");
+                string currentTime = DateTime.Now.ToString("dd/MM/yyyy h:mm tt");
                 dateStatus = checkEndTimeValidity(scheduleDate, currentTime, false);
                 if (dateStatus != 1)
                 {
@@ -266,6 +266,7 @@ namespace Templateprj.Controllers
             bulkInsert.message = "Error";
             bulkInsert.status = 0;
             string message = "";
+            int firstTime = 1;
             dt = ConverttoDataTable(filename, fileExtension);
             int pos = 0, status = 0, packetcnt = 0, baseCount = 0, successCount = 0, failedCount = 0;
             try
@@ -380,7 +381,7 @@ namespace Templateprj.Controllers
                         packetcnt++;
                         dtBaseSuccess.AcceptChanges();
                         dtBasefailure.AcceptChanges();
-                        bulkInsert = _prc.InsertBulk(dtPartial, bulkInsert.newCampaignId);
+                        bulkInsert = _prc.InsertBulk(dtPartial, bulkInsert.newCampaignId, firstTime);
                         status = bulkInsert.status;
                         if (bulkInsert.status != 1)
                         {
@@ -388,7 +389,10 @@ namespace Templateprj.Controllers
                             break;
                         }
                         else
+                        {
                             message = "success";
+                            firstTime = 0;
+                        }
                         pos = 9;
                     }
                     if (dtBasefailure.Columns.Contains("ROWID"))

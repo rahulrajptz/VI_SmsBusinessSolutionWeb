@@ -500,7 +500,7 @@
                             <div class="col-md-2">
                                 <br />
                                 @*<button type="button" id="btn_search" style="height:35px;background-color:#212121;color:white;width:100px;" class="btn btn-block">Search</button>*@
-                                <input type="button" id="serchInstant" value="Search" style="background-color:#28A745; color:white;width:70px; margin-left:5px; margin-top:30px;" />
+                                <input type="button" id="serchInstant" value="Search" style="background-color:#28A745; color:white;width:70px; margin-left:-150px; margin-top:25px;" />
                             </div>
                             <div class="modal-body" id="modalTable" style="overflow-y: auto; overflow-x: auto; width:800px;height:400px;">
                                 <table id="tbl_templateDetails" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
@@ -532,12 +532,8 @@
             $(document).on('click', '#btn_add', function (e) {
                 e.preventDefault();
                 var arrVariables = getVariables();
-
-
-                //alert(arrVariables);
                 constructNewRows(arrVariables, $("#numberOfRaw").val())
-
-                console.log($("#numberOfRaw").val());
+                //console.log($("#numberOfRaw").val());
 
             });
             document.getElementById('msisdnNumbers').addEventListener('keydown', function (ev) {
@@ -639,6 +635,7 @@
 
         });
             $(function () {
+                alert("hi");
                 $("#btnShow").click(function () {
 
                     var rpt_datatable = $("#tbl_templateDetails").DataTable({
@@ -973,20 +970,20 @@
                         'columnDefs': [
                             {
                                 "targets": [0,4,8,9,10,11],
-                                "className": "text-left",
+                                "className": "text-center",
                                  "visible": false,
                                 "searchable": false,
 
                             },
                             {
                                 "targets": [1, 2, 3, 5, 6, 7],
-                                "className": "text-left",
+                                "className": "text-center",
                             },
                             {
                                // { width: 200, targets: 0 },
                                 "targets": 1,
                                 "width": "50px",
-                                "className": "text-left",
+                                "className": "text-center",
                                 "mRender": function (data, type, full) {
                                     return '<i class="btn btn-link" id=btnEdit  style="color:blue;font-size:10px;">' + full[1] + '</i>'
 
@@ -996,7 +993,7 @@
                                 // { width: 200, targets: 0 },
                                 "targets": 2,
                                 "width": "50px",
-                                "className": "text-left",
+                                "className": "text-center",
                                 "mRender": function (data, type, full) {
                                     return '<span style="text=align:center;"id="">' + full[2] + '</span><input class="wrapperDivHidden" id="tempid" type="hidden" value="' + full[0] + '" />'
                                    // return '<i class="btn btn-link" class="templateId" data-id=' + full[0]+'  style="color:blue;font-size:10px;">' + full[2] + '</i>'
@@ -1006,6 +1003,7 @@
                             {
                                 "targets": 5, // SMS Part count
                                 //"word-break": "break-all",
+                                "className": "text-center",
                                 "mRender": function (data, type, full) {
                                     return '<div  style=" display:table-cell;vertical-align:middle; overflow-x:auto !important;overflow-y:auto !important;">' + full[5] + '</div>';
                                 }
@@ -1382,10 +1380,10 @@
                         ],
                         'columnDefs': [
                             {
-                                "targets": [0, 1, 2, 3, 4],
-                                "className": "text-left",
-                            },
-                                
+                                "defaultContent": "",
+                                "targets": "_all",
+                                "className":"text-center"
+                            },  
                         ],
 
                         order: [],

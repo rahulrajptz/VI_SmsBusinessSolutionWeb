@@ -1039,7 +1039,7 @@ namespace Templateprj.DataAccess
                 return "";
             }
         }
-        public bulkFileuploadModel InsertBulk(DataTable dt, string CampaignId)
+        public bulkFileuploadModel InsertBulk(DataTable dt, string CampaignId,int firstTime)
         {
             bulkFileuploadModel bulkInsert = new bulkFileuploadModel();
             int status = -1, newCampId=0;
@@ -1055,6 +1055,7 @@ namespace Templateprj.DataAccess
                     cmd.Parameters.Add("@v_Data", MySqlDbType.LongText).Value = GetJsonStringtoinsert(dt);
                     cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"].ToString());
                     cmd.Parameters.Add("@n_acc_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
+                    cmd.Parameters.Add("@n_flag", MySqlDbType.Int32).Value = firstTime;
                     cmd.Parameters.Add("@scamp_id", MySqlDbType.Int32).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("@n_status", MySqlDbType.Int32).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("@v_response", MySqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
@@ -1846,12 +1847,47 @@ namespace Templateprj.DataAccess
                     {
                         con.Open();
                         cmd.Connection = con;
-                        var dataReader_new = cmd.ExecuteReader();
-                        return GetJsonString(dataReader_new);
+                        var dataTable = new DataTable();
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        dataAdapter.Fill(dataTable);
+                        if (dataTable != null)
+                        {
+                            string data = "";
+
+                            dataTable.Columns.Add("val", typeof(System.String));
+                            int colCount = dataTable.Columns.Count;
+
+                            foreach (DataRow row in dataTable.Rows)
+                            {
+                                string unicodeStatus = row["UNICODE_STATUS"].ToString();
+                                string message = row["SMS SCRIPT"].ToString();
+                                if (unicodeStatus == "8")
+                                {
+                                    string str = message.ToString();
+                                    //  string correctString = "";
+                                    if (message.Trim() != "")
+                                    {
+                                        //  correctString = str.Replace("[PARAMETER]", "005B0050004100520041004D0045005400450052005D");
+                                        string tempMessage = "\\u" + Regex.Replace(message, ".{4}", "$0\\u");
+                                        data = Regex.Unescape(tempMessage.Substring(0, tempMessage.Length - 2));
+                                    }
+                                    row["SMS SCRIPT"] = data.ToString();
+                                }
+                                else
+                                {
+                                    data = message.Replace("\r\n", "");
+                                    row["SMS SCRIPT"] = data;
+                                }
+                                row["val"] = row[colCount - 5].ToString() + "," + row[colCount - 4].ToString() + "," + row[colCount - 3].ToString() + "," + row[colCount - 2].ToString();
+                            }
+                            if (dataTable.Columns.Contains("UNICODE_STATUS"))
+                                dataTable.Columns.Remove("UNICODE_STATUS");
+                            dataTable.Columns.Remove("val");
+                        }
+                        return GetJsonString(dataTable);
                     }
+
                 }
-
-
             }
             catch (Exception ex)
             {

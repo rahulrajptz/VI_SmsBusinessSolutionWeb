@@ -3009,7 +3009,7 @@
                      $("input[type=button]").removeAttr("disabled");
                  }
                  else {
-                     alert("Unable to fetch data from server", "Failed");
+                     alert("Please select the Campaign Name", "Failed");
 
                  }
              });
@@ -3156,6 +3156,8 @@
                    //console.log(minames);
                      var obj = JSON.parse(minames);
                     //console.log(obj);  
+                    if (obj.VariableCount == "")
+                        obj.VariableCount = 0;
                     $('#templatevariablecnt').val(obj.VariableCount);
                     document.getElementById("bindcampaignname").innerHTML = obj.campaignName;
                     document.getElementById("bindcampaigntype").innerHTML = obj.campaignType;
