@@ -20,6 +20,7 @@ using Templateprj.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
+using ExcelDataReader;
 
 namespace Templateprj.Helpers
 {
@@ -940,5 +941,49 @@ namespace Templateprj.Helpers
         //    public string Type { get; set; }
         //    public string TableNames { get; set; }
         //}
+
+
+        public DataTable ConvertToDataTable(string FilePath, string extension)
+        {
+            try
+            {
+                IExcelDataReader reader = null;
+                switch (extension)
+                {
+                    case ".XLSX":
+                        reader = ExcelReaderFactory.CreateOpenXmlReader(System.IO.File.OpenRead(FilePath));
+                        break;
+                    case ".XLS":
+                        reader = ExcelReaderFactory.CreateBinaryReader(System.IO.File.OpenRead(FilePath));
+                        break;
+                    case ".CSV":
+                        reader = ExcelReaderFactory.CreateCsvReader(System.IO.File.OpenRead(FilePath));
+                        break;
+                }
+
+                DataTable FileTable = new DataTable();
+                DataRow datarow;
+                if (reader != null)
+                {
+                    DataTable dataTab = reader.AsDataSet().Tables[0];
+                    for (int index = 0; index < dataTab.Columns.Count; index++)
+                    {
+                        FileTable.Columns.Add(dataTab.Rows[0][index].ToString());
+                    }
+                    for (int index = 1; index < dataTab.Rows.Count; index++)
+                    {
+                        DataRow drNew = FileTable.NewRow();
+                        drNew.ItemArray = dataTab.Rows[index].ItemArray;
+                        FileTable.Rows.Add(drNew);
+                    }
+                }
+
+                return FileTable;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }
