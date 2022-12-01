@@ -277,7 +277,7 @@
                                 <div id="StaticSmsDiv" class="row" style="margin-left:4px;margin-top:4px;width:100% !important;display:none;">
 
 
-                                    <div class="col-md-12" style="text-align:right"> SMS Count: <span id="smscount"></span> (<span style="color:red;">*</span>W/o variables)</div>
+                                    <div class="col-md-12" style="text-align:right;color:#5f004b"> SMS Count: <span id="smscount"></span> (<span style="color:red;">*</span>W/o variables)</div>
 
 
                                     <div class="form-group col-md-12">
@@ -288,12 +288,12 @@
 
                                 <div id="dynamicSmsDiv" class="row" style="margin-left:4px;margin-top:4px;width:75% !important;display:none;">
 
-                                    <div class="col-md-12"><u><b>Define Parameters</b></u><span style="color:red;">[Minimum 3 characters required]</span></div>
+                                    <div class="col-md-12" style="color:#5f004b"><u><b>Define Parameters</b></u><span style="color:red;">[Minimum 3 characters required]</span></div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="color:#5f004b">
                                         From Message Script
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="color:#5f004b">
                                         Rename Variable
                                     </div>
 
@@ -305,7 +305,7 @@
 
                                 <div class="row" id="sendbutton" style="margin-left:4px;width:100% !important; text-align:right;display:none">
                                     <div class="col-12">
-                                        <button class="btn-success mt-1" style="margin-left:482px" type="button" id="send">Send</button>
+                                        <button style="margin-left:482px;background-color:#5f004b;color:white;border-radius:20px;" type="button" id="send">Send</button>
                                     </div>
                                 </div>
 
@@ -328,7 +328,7 @@
 
                                         <div class="row" style="margin-left:4px;width:100% !important; text-align:right;">
                                             <div class="col-12">
-                                                <button class="btn-success mt-1" style="margin-right:25px" type="button" id="btn_sendNumber">Send</button>
+                                                <button style="margin-right:25px;background-color:#5f004b;color:white;border-radius:20px;" type="button" id="btn_sendNumber">Send</button>
                                             </div>
                                         </div>
                                     </div>
@@ -339,17 +339,17 @@
                                         <div class="d-flex flex-row-reverse" style="width:100%">
 
                                             <button id="btn_add" style="background-color:white !important;float:right !important;">
-                                                <i class="fa fa-plus" aria-hidden="true" style="color:lawngreen;"></i>
+                                                <i class="fa fa-plus" aria-hidden="true" style="color:green;"></i>
                                             </button>
                                         </div>
                                         <div class="table-responsive">
                                             <table class="table-borderless" id="tblEntAttributes">
                                                 <thead>
                                                     <tr>
-                                                        <th style="width:20%">Mobile Number</th>
-                                                        <th style="width:60%">SMS</th>
-                                                        <th style="width:10%">Count</th>
-                                                        <th style="width:10%">Action</th>
+                                                        <th style="width:20%;color:#5f004b">Mobile Number</th>
+                                                        <th style="width:60%;color:#5f004b">SMS</th>
+                                                        <th style="width:10%;color:#5f004b">Count</th>
+                                                        <th style="width:10%;color:#5f004b">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="table-body"></tbody>
@@ -361,7 +361,7 @@
 
                                         <div class="row" style="margin-left:10px; width:100% !important; text-align:right;">
                                             <div class="col-12">
-                                                <button class="btn-success mt-1" style="margin-right:40px;" type="button" id="sendsms">Send</button>
+                                                <button style="margin-right:40px;background-color:#5f004b;color:white;border-radius:20px;" type="button" id="sendsms">Send</button>
                                             </div>
                                         </div>
                                     </div>
@@ -418,8 +418,8 @@
                         </div>
 
                         <div class="row pull-right">
-                            <button type="button" id="btn_search" style="background-color:#5f004b;color:white;margin-left:15px;margin-top:15px;" class="btn btn-block">
-                                <i class="fa fa-search" style="font-size:14px;">Search</i>
+                            <button type="button" id="btn_search" style="background-color:#5f004b;color:white;margin-left:15px;margin-top:15px;">
+                                <i class="fa fa-search" style="font-size:14px;"></i>Search
                             </button>
                             @*<button type="button" id="btn_download" style="height:30px;width:60px;background-color:#5f004b;color:white;margin-left:10px;margin-top:16px;" class="btn btn-block">
                                 <i class="fa fa-download" style="font-size:14px;"></i>
@@ -429,7 +429,7 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="card">
+                            <div class="card mt-1">
 
 
                                 <div class="card-body col-sm-12" style="width:1100px">
@@ -451,12 +451,12 @@
             </div>
             <div class="modal fade" id="templateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
-                <div class="modal-dialog" style="width:850px;">
+                <div class="modal-dialog" style="width:850px;margin-left:350px;">
                     @*<div style="height:40px; margin-left:100px;  margin-top:10px;">*@
 
                     @*</div>*@
 
-                    <div class="modal-content" style="width:850px;">
+                    <div class="modal-content" style="width:850px;height:550px;">
                         <div class="modal-header">
                             @Html.Label("SMS TEMPLATE", new { style = "font-weight:bold; font-size:18px;" })
                             <button type="button" id="closebtn" class="btn btn-default" data-dismiss="modal">X</button>
@@ -500,9 +500,11 @@
                             <div class="col-md-2">
                                 <br />
                                 @*<button type="button" id="btn_search" style="height:35px;background-color:#212121;color:white;width:100px;" class="btn btn-block">Search</button>*@
-                                <input type="button" id="serchInstant" value="Search" style="background-color:#28A745; color:white;width:70px; margin-left:-150px; margin-top:25px;" />
+                                <button type="button" id="serchInstant" style="background-color:#5f004b; color:white;margin-left:-150px; margin-top:25px;">
+                                    <i class="fa fa-search" style="font-size:12px;"></i>Search
+                                </button>
                             </div>
-                            <div class="modal-body" id="modalTable" style="overflow-y:auto; overflow-x: auto; width:800px;height:400px;">
+                            <div class="modal-body" id="modalTable" style="overflow-y:auto; overflow-x: auto; width:800px;height:300px;">
                                 <table id="tbl_templateDetails" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
                             </div>
                         </div>
@@ -528,6 +530,7 @@
             }
             return true;
         }
+
         $(document).ready(function () {
             $(document).on('click', '#btn_add', function (e) {
                 e.preventDefault();
@@ -572,7 +575,7 @@
                     }
                     i++;
                 });
-               // alert($("#TemplateId").val());
+              
                 instantSmsModel.smsTypeId = $("#SmsTypeId").val();
                 instantSmsModel.senderId = $("#SenderId").val();
                 instantSmsModel.templateId = $("#TemplateId").val();
@@ -607,33 +610,34 @@
                 
             });
 
-        $('#SmsTypeId').on('change', function () {
+            //$('#SmsTypeId').on('change', function () {
 
-            getSendersBySmsType($('#SmsTypeId').val());
-            getTemplatesBySenderAndSMSType($('#SmsTypeId').val(), $('#SenderId').val())
+            //    getSendersBySmsType($('#SmsTypeId').val());
+            //    getTemplatesBySenderAndSMSType($('#SmsTypeId').val(), $('#SenderId').val())
 
-        });
-        $(document).on('click', '#templates a', function (e) {
-            e.preventDefault(); $(this).tab('show');
-            var v = e.target.querySelector('p > input');
+            //});
+            $(document).on('click', '#templates a', function (e) {
+                e.preventDefault(); $(this).tab('show');
+                var v = e.target.querySelector('p > input');
 
-            $("#TemplateId").val(v.value);
+                $("#TemplateId").val(v.value);
 
-            getTemplatesBySenderAndSMSType($('#SmsTypeId').val(),$('#SenderId').val());
+                getTemplatesBySenderAndSMSType($('#SmsTypeId').val(),$('#SenderId').val());
 
 
             });
-            $(function () {
-                $("#serchInstant").click(function () {
-                    loadtemplateSearchReportInstant();
+                $(function () {
+                    $("#serchInstant").click(function () {
+                        loadtemplateSearchReportInstant();
+                    });
                 });
+
+            $('#SenderId').on('change', function () {
+
+                getTemplatesBySenderAndSMSType($('#SmsTypeId').val(),$('#SenderId').val());
+
             });
 
-        $('#SenderId').on('change', function () {
-
-            getTemplatesBySenderAndSMSType($('#SmsTypeId').val(),$('#SenderId').val());
-
-        });
             $(function () {
                
                 $("#btnShow").click(function () {
@@ -661,44 +665,45 @@
                     $("#templateModal").modal('show');
                 });
             });
-        function getSendersBySmsType(smstype)
-        {
-            $.ajax({
-                url: "@Url.Action(MVC.Campaign.GetSenderIdFromSmsType())",
-                type: 'GET',
-                data: { smstype: smstype},
-                success: function (minames) {
+            function getSendersBySmsType(smstype)
+            {
+                $.ajax({
+                    url: "@Url.Action(MVC.Campaign.GetSenderIdFromSmsType())",
+                    type: 'GET',
+                    data: { smstype: smstype},
+                    success: function (minames) {
 
-                    $("#SenderId").html("");
-                    $("#SenderId").append(
-                            $('<option></option>').val('').html('-Select-'));
-                        $.each(minames, function (i, minames) {
-                            $("#SenderId").append(
-                                $('<option></option>').val(minames.VALUE).html(minames.TEXT));
-                        });
-                }
-            });
-        }
+                        $("#SenderId").html("");
+                        $("#SenderId").append(
+                                $('<option></option>').val('').html('-Select-'));
+                            $.each(minames, function (i, minames) {
+                                $("#SenderId").append(
+                                    $('<option></option>').val(minames.VALUE).html(minames.TEXT));
+                            });
+                    }
+                });
+            }
 
-        function getTemplatesBySenderAndSMSType(smstype, senderId)
-        {
+            function getTemplatesBySenderAndSMSType(smstype, senderId)
+            {
 
-            $.ajax({
-                url: "@Url.Action(MVC.Campaign.GetTemplateIdfromSenderId())",
-                type: 'GET',
-                data: { senderId: senderId, smstype: smstype },
-                success: function (minames) {
+                $.ajax({
+                    url: "@Url.Action(MVC.Campaign.GetTemplateIdfromSenderId())",
+                    type: 'GET',
+                    data: { senderId: senderId, smstype: smstype },
+                    success: function (minames) {
 
-                    $("#TemplateId").html("");
-                    $("#TemplateId").append(
-                            $('<option></option>').val('').html('-Select-'));
-                        $.each(minames, function (i, minames) {
-                            $("#TemplateId").append(
-                                $('<option></option>').val(minames.VALUE).html(minames.TEXT));
-                        });
-                }
-            });
-        }
+                        $("#TemplateId").html("");
+                        $("#TemplateId").append(
+                                $('<option></option>').val('').html('-Select-'));
+                            $.each(minames, function (i, minames) {
+                                $("#TemplateId").append(
+                                    $('<option></option>').val(minames.VALUE).html(minames.TEXT));
+                            });
+                    }
+                });
+            }
+
             function isNumberKey(evt) {
                 var charCode = (evt.which) ? evt.which : evt.keyCode
                // alert(charCode);
@@ -717,228 +722,230 @@
                 if (allow == 0)
                     ev.preventDefault();
             });
-       //On Template selected
-       $('#TemplateId').on('change', function () {
+            //On Template selected
+               $('#TemplateId').on('change', function () {
 
-            var templateId = $('#TemplateId').val();
-           var smstype = $('#SmsTypeId').val();
-            var variablecnt;
-            //var variableNames;
-           document.getElementById("SmsContent").innerHTML="";
+                    var templateId = $('#TemplateId').val();
+                   var smstype = $('#SmsTypeId').val();
+                    var variablecnt;
+                    //var variableNames;
+                   document.getElementById("SmsContent").innerHTML="";
 
-             $.ajax({
-                url: "@Url.Action(MVC.Campaign.GetmessagecontentfromTemplate())",
-                type: 'GET',
-                 data: { templateId: templateId},
-                 success: function (minames) {
-                     var obj = JSON.parse(minames);
-                     if ($('#ContentType').val() == "STATIC") {
-                         document.getElementById("SmsContent").innerHTML = obj[0].templateContent;
-                         variablecnt = obj[0].variableCount;
-                         document.getElementById("smscount").innerHTML = obj[0].smsLength;
-                     }
-                     else if ($('#ContentType').val() == "DYNAMIC") {
-                         document.getElementById("SmsContent").innerHTML = obj[0].templateContent;
-                            variablecnt = obj[0].variableCount;
-                         document.getElementById("smscount").innerHTML = obj[0].smsLength;
-                     }
-                     afterAjax()
-                }
-            });
-
-           function afterAjax() {
-
-               const container = document.querySelector('#generated');
-
-                removeAllChildNodes(container);
-               var div = document.createElement('div');
-               div.className = "raw";
-
-               for (i = 0, j = 1; i < variablecnt; i++ , j++) {
-
-                   var div = document.createElement('row');
-                   div.innerHTML = '<div class="row"><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName" required="required" readonly="readonly" style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable" required="required" type="text" value=""></div></div>';
-
-                   document.getElementById("generated").appendChild(div);
-               }
-            }
-       });
-
-    });
-
-        $(document).ready(function () {
-
-            $('#send').on('click', function () {
-
-                //if ($('#SmsTypeId').val() <= 0 || $('#SenderId').val() <= 0 || $('#SmsContent').val().length <= 0) {
-
-                //    ErrorMsg("Please fill all fields");
-                //}
-                 if ($("#Idform").valid()) {
-                    $("input[id=btnShow]").attr("disabled", "disabled");
-                    var arrVariables = getVariables();
-                        $('#div_inpunumber').show();
-                        $('#testsmsdiv').show();
-                        $('#sendbutton').hide();
-
-                } else {
-                    ErrorMsg("Please fill all fields");
-                }
-            });
-
-            $(document).on('click', '.btn_hide', function (e) {
-                e.preventDefault();
-
-                var $row_c = $(this).closest("tr"),
-                    $tds_c = $row_c.find("td");
-                var isValid = isCurrentRawIsValid($tds_c);
-                if (isValid) {
-                    var $row = $(this).closest("tr").prev(),
-                        $tds = $row.find("td");
-                    var i = 0;
-                    var inputext = $('#SmsContent').val();
-
-
-
-                    $.each($tds_c, function () {
-
-                        $edtv = $(this).find("input");
-                        if (i == 0) {
-                            mob = $(this).find("input").val();
+                     $.ajax({
+                        url: "@Url.Action(MVC.Campaign.GetmessagecontentfromTemplate())",
+                        type: 'GET',
+                         data: { templateId: templateId},
+                         success: function (minames) {
+                             var obj = JSON.parse(minames);
+                             if ($('#ContentType').val() == "STATIC") {
+                                 document.getElementById("SmsContent").innerHTML = obj[0].templateContent;
+                                 variablecnt = obj[0].variableCount;
+                                 document.getElementById("smscount").innerHTML = obj[0].smsLength;
+                             }
+                             else if ($('#ContentType').val() == "DYNAMIC") {
+                                 document.getElementById("SmsContent").innerHTML = obj[0].templateContent;
+                                    variablecnt = obj[0].variableCount;
+                                 document.getElementById("smscount").innerHTML = obj[0].smsLength;
+                             }
+                             afterAjax()
                         }
-                        $.each($edtv, function () {
-                            inputext = inputext.replace('[' + $(this).attr('id') + ']', $(this).val())
-                        });
-                        i++;
                     });
 
-                    getSMSCountByTemplate(inputext).then(function (data1) {
-                        i = 0;
-                        $.each($tds, function () {
-                            switch (i) {
-                                case 0: $(this).find("span").text(mob); break;
-                                case 1:
-                                    $(this).find("span").text(inputext);
-                                    $(this).find("#icon_alert").remove();
-                                    break;
-                                case 2: $(this).find("span").text(data1.SmsLeg + '/' + data1.SmsLength); break;
+                   function afterAjax() {
+
+                       const container = document.querySelector('#generated');
+
+                        removeAllChildNodes(container);
+                       var div = document.createElement('div');
+                       div.className = "raw";
+
+                       for (i = 0, j = 1; i < variablecnt; i++ , j++) {
+
+                           var div = document.createElement('row');
+                           div.innerHTML = '<div class="row"><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName" required="required" readonly="readonly" style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable" required="required" type="text" value=""></div></div>';
+
+                           document.getElementById("generated").appendChild(div);
+                       }
+                    }
+               });
+
+        });
+
+            $(document).ready(function () {
+
+                $('#send').on('click', function () {
+
+                    //if ($('#SmsTypeId').val() <= 0 || $('#SenderId').val() <= 0 || $('#SmsContent').val().length <= 0) {
+
+                    //    ErrorMsg("Please fill all fields");
+                    //}
+                     if ($("#Idform").valid()) {
+                        $("input[id=btnShow]").attr("disabled", "disabled");
+                        var arrVariables = getVariables();
+                            $('#div_inpunumber').show();
+                            $('#testsmsdiv').show();
+                            $('#sendbutton').hide();
+
+                    } else {
+                        ErrorMsg("Please fill all fields");
+                    }
+                });
+
+                $(document).on('click', '.btn_hide', function (e) {
+                    e.preventDefault();
+
+                    var $row_c = $(this).closest("tr"),
+                        $tds_c = $row_c.find("td");
+                    var isValid = isCurrentRawIsValid($tds_c);
+                    if (isValid) {
+                        var $row = $(this).closest("tr").prev(),
+                            $tds = $row.find("td");
+                        var i = 0;
+                        var inputext = $('#SmsContent').val();
+
+
+
+                        $.each($tds_c, function () {
+
+                            $edtv = $(this).find("input");
+                            if (i == 0) {
+                                mob = $(this).find("input").val();
                             }
+                            $.each($edtv, function () {
+                                inputext = inputext.replace('[' + $(this).attr('id') + ']', $(this).val())
+                            });
                             i++;
                         });
-                    }).catch(function (err) {
-                        console.log(err)
-                    });
-                }
-                else {
 
-                    $row_c.addClass("collapse show");
-                    ErrorMsg("Please check your inputs.Mobile number should have minimum 8 digits.");
-                }
-            });
-
-            $('#btn_sendNumber').on('click', function () {
-
-                if ($('#msisdnNumbers').val().charAt($('#msisdnNumbers').val().length - 1) == ",")
-                    $('#msisdnNumbers').val($('#msisdnNumbers').val().substring(0, $('#msisdnNumbers').val().length - 1));
-
-                var numbers = $('#msisdnNumbers').val().split(",");
-                if (($('#ContentType').val() == "STATIC" && numbers.length - 1 < 10) || ($('#ContentType').val() == "DYNAMIC" && numbers.length - 1 < 10)) {
-
-                    if (isValidNumber(numbers)) {
-                        getSMSCountByTemplate($('#SmsContent').val()).then(function (data) {
-
-                            $('#div_table').show();
-                            $('#div_inpunumber').hide();
-                            var arrVariables = getVariables();
-                            constructRows(numbers, arrVariables, data);
+                        getSMSCountByTemplate(inputext).then(function (data1) {
+                            i = 0;
+                            $.each($tds, function () {
+                                switch (i) {
+                                    case 0: $(this).find("span").text(mob); break;
+                                    case 1:
+                                        $(this).find("span").text(inputext);
+                                        $(this).find("#icon_alert").remove();
+                                        break;
+                                    case 2: $(this).find("span").text(data1.SmsLeg + '/' + data1.SmsLength); break;
+                                }
+                                i++;
+                            });
                         }).catch(function (err) {
-                            console.log('tt'+err)
+                            console.log(err)
                         });
-                    } else {
-                        ErrorMsg("Invalid numbers");
                     }
+                    else {
+
+                        $row_c.addClass("collapse show");
+                        ErrorMsg("Please check your inputs.Mobile number should have minimum 8 digits.");
+                    }
+                });
+
+                $('#btn_sendNumber').on('click', function () {
+
+                    if ($('#msisdnNumbers').val().charAt($('#msisdnNumbers').val().length - 1) == ",")
+                        $('#msisdnNumbers').val($('#msisdnNumbers').val().substring(0, $('#msisdnNumbers').val().length - 1));
+
+                    var numbers = $('#msisdnNumbers').val().split(",");
+                    if (($('#ContentType').val() == "STATIC" && numbers.length - 1 < 10) || ($('#ContentType').val() == "DYNAMIC" && numbers.length - 1 < 10)) {
+
+                        if (isValidNumber(numbers)) {
+                            getSMSCountByTemplate($('#SmsContent').val()).then(function (data) {
+
+                                $('#div_table').show();
+                                $('#div_inpunumber').hide();
+                                var arrVariables = getVariables();
+                                constructRows(numbers, arrVariables, data);
+                            }).catch(function (err) {
+                                console.log('tt'+err)
+                            });
+                        } else {
+                            ErrorMsg("Invalid numbers");
+                        }
+                    }
+                    else {
+                        ErrorMsg("Number exceeds maximum limit.");
+                    }
+                });
+
+                $('body').on('click', '[id*=btnEdit]', function () {
+                    var data;
+                    if ($(window).width() > 320) {
+                        data = $(this).parents('tr').find('td');
+                    } else {
+                        data = $(this).parents('tr').prev().eq(0).find('td');
+                    }
+                    //  $(event).closest('tr').children('td:eq(0)').text();
+                    var id = data.eq(0).html();
+                    var fname = data.eq(1).html();
+                    var camid = $(this).parents('tr').find('.wrapperDivHidden').val();             
+                    var parts = document.getElementById("part_" + camid).value;
+                   // var tempid = document.getElementById("part_" + camid).value;
+                    var array = parts.split(",");
+                    var partscount = array[0];
+                    var variablecnt = array[1];
+                    var unicodestatus = array[3];
+                    var sendrId = array[2];
+                    //  = $(event).closest('tr').children('td:eq(0)').text();
+
+                    $('#dynamicSmsDiv').hide();
+                    $('#StaticSmsDiv').hide();
+
+
+                    if (data.eq(2).text() == "STATIC") {
+                        $('#smstemplatediv').show();
+                        $('#templateiddiv').show();
+                        $('#sendbutton').show();
+                        $('#StaticSmsDiv').show();
+                    }
+                    else if (data.eq(2).text() == "DYNAMIC") {
+                        $('#smstemplatediv').show();
+                        $('#templateiddiv').show();
+                        $('#sendbutton').show();
+                        $('#StaticSmsDiv').show();
+                        $('#dynamicSmsDiv').show();
+                    }
+                    document.getElementById("bindsenderName").innerHTML = data.eq(0).text();
+
+                    document.getElementById("ContentType").innerHTML = data.eq(2).text();
+                    document.getElementById("smscount").innerHTML = data.eq(5).text() + '/' + partscount;//$(event).closest('tr').children('td:eq(7)').text() + '';
+                    document.getElementById("bindtemplatename").innerHTML = data.eq(1).text();;
+                    document.getElementById("SmsContent").innerHTML = data.eq(3).text();
+                    document.getElementById("SenderId").innerHTML = sendrId;
+                    document.getElementById("unicodeStatus").value = unicodestatus;
+                    document.getElementById("TemplateId").value = camid;                
+                    const container = document.querySelector('#generated');
+                   removeAllChildNodes(container);
+                for (i = 0, j = 1; i < variablecnt; i++ , j++) {
+
+                    var div = document.createElement('row');
+                    div.innerHTML = '<div class="row" style="margin-top:10px;" ><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName"   readonly="readonly" MaxLength="12"  MinLength="3" style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable" required="required" MaxLength="12" MinLength="3" type="text" value=""></div></div>';
+                    document.getElementById("generated").appendChild(div);
                 }
-                else {
-                    ErrorMsg("Number exceeds maximum limit.");
-                }
+                    $('#closebtn').click();
+                });
+
+
+                $(document).on('click', '#btn_remove', function (e) {
+                    e.preventDefault();
+
+
+                    var $row_n = $(this).closest("tr").next("tr");
+                    $row_n.remove();
+
+                    var $row_c = $(this).closest("tr");
+                    $row_c.remove();
+                    $("#numberOfRaw").val(parseInt($("#numberOfRaw").val()) - 1);
+
+                });
             });
 
-            $('body').on('click', '[id*=btnEdit]', function () {
-                var data;
-                if ($(window).width() > 320) {
-                    data = $(this).parents('tr').find('td');
-                } else {
-                    data = $(this).parents('tr').prev().eq(0).find('td');
+            function removeAllChildNodes(parent) {
+                while (parent.firstChild) {
+                    parent.removeChild(parent.firstChild);
                 }
-                //  $(event).closest('tr').children('td:eq(0)').text();
-                var id = data.eq(0).html();
-                var fname = data.eq(1).html();
-                var camid = $(this).parents('tr').find('.wrapperDivHidden').val();             
-                var parts = document.getElementById("part_" + camid).value;
-               // var tempid = document.getElementById("part_" + camid).value;
-                var array = parts.split(",");
-                var partscount = array[0];
-                var variablecnt = array[1];
-                var unicodestatus = array[3];
-                var sendrId = array[2];
-                //  = $(event).closest('tr').children('td:eq(0)').text();
-
-                $('#dynamicSmsDiv').hide();
-                $('#StaticSmsDiv').hide();
-
-
-                if (data.eq(2).text() == "STATIC") {
-                    $('#smstemplatediv').show();
-                    $('#templateiddiv').show();
-                    $('#sendbutton').show();
-                    $('#StaticSmsDiv').show();
-                }
-                else if (data.eq(2).text() == "DYNAMIC") {
-                    $('#smstemplatediv').show();
-                    $('#templateiddiv').show();
-                    $('#sendbutton').show();
-                    $('#StaticSmsDiv').show();
-                    $('#dynamicSmsDiv').show();
-                }
-                document.getElementById("bindsenderName").innerHTML = data.eq(0).text();
-
-                document.getElementById("ContentType").innerHTML = data.eq(2).text();
-                document.getElementById("smscount").innerHTML = data.eq(5).text() + '/' + partscount;//$(event).closest('tr').children('td:eq(7)').text() + '';
-                document.getElementById("bindtemplatename").innerHTML = data.eq(1).text();;
-                document.getElementById("SmsContent").innerHTML = data.eq(3).text();
-                document.getElementById("SenderId").innerHTML = sendrId;
-                document.getElementById("unicodeStatus").value = unicodestatus;
-                document.getElementById("TemplateId").value = camid;                
-                const container = document.querySelector('#generated');
-               removeAllChildNodes(container);
-            for (i = 0, j = 1; i < variablecnt; i++ , j++) {
-
-                var div = document.createElement('row');
-                div.innerHTML = '<div class="row" style="margin-top:10px;" ><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName"   readonly="readonly" MaxLength="12"  MinLength="3" style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable" required="required" MaxLength="12" MinLength="3" type="text" value=""></div></div>';
-                document.getElementById("generated").appendChild(div);
             }
-                $('#closebtn').click();
-            });
-
-
-            $(document).on('click', '#btn_remove', function (e) {
-                e.preventDefault();
-
-
-                var $row_n = $(this).closest("tr").next("tr");
-                $row_n.remove();
-
-                var $row_c = $(this).closest("tr");
-                $row_c.remove();
-                $("#numberOfRaw").val(parseInt($("#numberOfRaw").val()) - 1);
-
-            });
-        });
-        function removeAllChildNodes(parent) {
-            while (parent.firstChild) {
-                parent.removeChild(parent.firstChild);
-            }
-        }
+            
          function loadtemplateSearchReportInstant() {
             $("#loading").show();
             var templateName = $("#pouptemplateName").val();

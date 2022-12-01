@@ -48,7 +48,7 @@ namespace Templateprj.Controllers
             string Fromtime = Request["Fromtime"].ToString();
             int variablecnt = Convert.ToInt32(Request["Variablcnt"].ToString());
 
-            if (scheduleDate != "")
+            if (uploadCampaignstarttype =="2" && scheduleDate != "")
             {
                 int dateStatus = checkEndTimeValidity(ToDate + " " + Totime, scheduleDate, false);
                 int dateStatusStart = checkEndTimeValidity(scheduleDate, FromDate + " " + Fromtime, false);
@@ -200,7 +200,7 @@ namespace Templateprj.Controllers
             string json = "";
             string currentTime = DateTime.Now.ToString("dd/MM/yyyy h:mm tt");
             if (checkEndTimeValidity(model.updatedToDate + " " + model.updatedToTime, currentTime, false) != 1)
-                return Json("{\"status\":\"0\",\"response\":\"To Date should be greater than Current Time\" }", JsonRequestBehavior.AllowGet);
+                return Json("{\"status\":\"0\",\"response\":\"To Time should be greater than Current Time\" }", JsonRequestBehavior.AllowGet);
             string status = _prc.CampaignUpdate(model.updatedToDate, model.updatedToTime, model.updatedId);
             if (status == "1")
             {

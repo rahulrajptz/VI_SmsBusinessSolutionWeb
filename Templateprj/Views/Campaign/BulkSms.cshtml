@@ -434,12 +434,12 @@
 
                                     <div class="row">
                                         <div class="col-md-3" id="savecampaignM2M">
-                                            <button class="btn-success mt-1" style="margin-left:251px;" type="button" id="SaveCampaign">Save Campaign</button>
+                                            <button style="margin-left:200px;color:white; background-color:#5f004b;border-radius:20px;" type="button" id="SaveCampaign">Save Campaign</button>
 
                                         </div>
                                         <div class="col-md-12 offset-3">
                                             @*<button class="btn-success mt-1" style="margin-left:250px" type="reset" id="configreset" value="Reset">Reset</button>*@
-                                            <button class="btn-success mt-1" style="margin-left:251px" type="button" id="campaignsubmit">Test SMS</button>
+                                            <button type="button" style="margin-left:200px;color:white; background-color:#5f004b;border-radius:20px;" id="campaignsubmit">Test</button>
                                         </div>
                                     </div>
 
@@ -447,7 +447,7 @@
                                 </div>
                             </div>
                         </div>
-                        <hr />
+                        <hr/>
 
 
 
@@ -520,8 +520,8 @@
 
                                 <div class="row">
 
-                                    <div class="col-md-12">
-                                        <button class="btn-success mt-1" style="margin-left:482px" type="button" id="createsms">Create SMS</button>
+                                    <div class="col-12">
+                                        <button type="button" style="margin-left:500px;color:white; background-color:#5f004b;border-radius:20px;" id="createsms">Create</button>
 
                                     </div>
 
@@ -562,10 +562,10 @@
 
                             <div class="row col-md-12">
                                 <div class="col-md-2 mt-3" id="sendsmsdiv" style="display:none">
-                                    <button class="btn-success mt-1" style="margin-left:785px;width:96px" type="button" id="SendSms">Send SMS</button>
+                                    <button type="button" style="margin-left:600px;color:white; background-color:#5f004b;border-radius:20px;" id="SendSms">Send</button>
                                 </div>
                                 <div class="col-md-4 mt-3" id="CampaignCreationButtondiv" style="display:none">
-                                    <button class="btn-success mt-1" style="margin-left:746px;width:128px" id="SaveCampaignnew" type="button">Save Campaign</button>
+                                    <button type="button" style="margin-left:650px;color:white; background-color:#5f004b;border-radius:20px;" id="SaveCampaignnew">Save</button>
                                 </div>
                             </div>
 
@@ -615,7 +615,9 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <button type="button" id="btn_show" style="height:36px" class="btn btn-outline-success">Search</button>
+                        <button type="button" id="btn_show" style="background-color:#5f004b;color:white;margin-top:15px;">
+                            <i class="fa fa-search" style="font-size:12px;"></i>Search
+                        </button>
                     </div>
 
                 </div>
@@ -845,7 +847,8 @@
                                         <i id="samplefiledownlod" style="color:#5f004b;font-size:13px;margin-top:10px;" class="now-ui-icons files_single-copy-04 btn btn-link">Sample Template</i>
                                     </div>
                                     <div class="col-md-4">
-                                        <button class="btn-success" style=" margin-top:10px;" id="uploadfileid" type="button">Upload</button>
+                                        <button style="margin-top:10px;background-color:#5f004b;color:white;" id="uploadfileid" type="button">
+                                            @*<i class="fa fa-upload" style="font-size:12px;"></i>*@Upload</button>
 
                                     </div>
 
@@ -903,13 +906,15 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <button type="button" id="btn_showstatus" style="height:36px" class="btn btn-outline-success">Search</button>
+                        <button type="button" id="btn_showstatus" style="background-color:#5f004b;color:white;margin-top:15px;">
+                            <i class="fa fa-search" style="font-size:12px;"></i>Search
+                        </button>
                     </div>
 
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card" style="width:1100px;">
+                        <div class="card" style="width:1125px;">
 
 
                             <div class="card-body col-sm-12" style="width:100%; height:80%;">
@@ -962,13 +967,15 @@
                     </div>
 
                     <div class="col-md-2">
-                        <button type="button" id="btn_showreport" style="height:36px" class="btn btn-outline-success">Search</button>
+                        <button type="button" id="btn_showreport" style="background-color:#5f004b;color:white;margin-top:15px;">
+                            <i class="fa fa-search" style="font-size:12px;"></i>Search
+                        </button>
                     </div>
 
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card" style="width:1000px;">
+                        <div class="card" style="width:1100px;">
 
 
                             <div class="card-body col-sm-12" style="width:100%; height:80%;">
@@ -989,7 +996,7 @@
             </div>
             <div class="modal fade" id="ViewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
-                <div class="modal-dialog" style="width:850px;margin-left:310px;">
+                <div class="modal-dialog" style="width:850px;margin-left:350px;">
                     @*<div style="height:40px; margin-left:100px;  margin-top:10px;">*@
 
                     @*</div>*@
@@ -997,7 +1004,7 @@
                     <div class="modal-content" style="width:850px;height:500px;">
                         <div class="modal-header">
                             @Html.Label("TEST SMS REPORT", new { style = "font-weight:bold; font-size:18px;" })
-                            <button type="button" id="closebtnupload" data-dismiss="modal">X</button>
+                            <button id="closebtnupload" data-dismiss="modal">X</button>
                         </div>
 
                         <div id="modal-content" class="row ml-3 mt-4" style="height:550px;width:800px;">
@@ -1016,10 +1023,10 @@
             <div class="modal fade" id="templateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
                 <div class="modal-dialog" style="width:850px;">
-                    <div class="modal-content" style="width:850px;margin-left:-75px;">
+                    <div class="modal-content" style="width:850px;margin-left:-75px;height:550px;">
                         <div class="modal-header">
                             @Html.Label("SMS TEMPLATE", new { style = "font-weight:bold; font-size:18px;" })
-                            <button type="button" id="closebtn" class="btn btn-default" data-dismiss="modal">X</button>
+                            <button  id="closebtn"  data-dismiss="modal">X</button>
                         </div>
 
                         <div id="modal-content" class="row ml-3 mt-4 text-break" style="height:550px;  width:820px;">
@@ -1054,9 +1061,11 @@
                             <div class="col-md-2">
                                 <br />
                                 @*<button type="button" id="btn_search" style="height:35px;background-color:#212121;color:white;width:100px;" class="btn btn-block">Search</button>*@
-                                <input type="button" value="Search" style="background-color:#28A745; color:white;width:70px; margin-left:-140px; margin-top:25px;" onclick="loadtemplateSearchReport()" />
+                                <button type="button" style="background-color:#5f004b; color:white;margin-left:-140px; margin-top:25px;" onclick="loadtemplateSearchReport()">
+                                    <i class="fa fa-search" style="font-size:12px;">Search</i>
+                                </button>
                             </div>
-                            <div class="modal-body" id="modalTable" style="overflow-y: auto; overflow-x: auto; width:800px;height:400px;">
+                            <div class="modal-body" id="modalTable" style="overflow-y: auto; overflow-x: auto; width:800px;height:300px;">
                                 <table id="tbl_templateDetails" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
                             </div>
                         </div>
@@ -1081,7 +1090,7 @@
                     <div class="modal-content" style="width:400px;height:200px;text-align:center;">
                         <div class="modal-header">
                             @Html.Label("Campaign Validity Extension", new { style = "font-weight:bold; font-size:18px;" })
-                            <button type="button" id="closebtnupload" data-dismiss="modal">X</button>
+                            <button id="closebtnupload" data-dismiss="modal">X</button>
                         </div>
                         <table style="height:200px; width:390px;">
                             <tr>
@@ -1111,7 +1120,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2" style="text-align:center;">
-                                    <input type="button" value="update" style="background-color:#28A745; color:white;width:70px; margin-left:50px; margin-top:5px;" onclick="submitUpdateTime()" />
+                                    <button type="button" value="Update" style="background-color:#5f004b; color:white;margin-left:50px; margin-top:5px;" onclick="submitUpdateTime()" ></button>
                                 </td>
                             </tr>
 
@@ -1759,7 +1768,7 @@
                             $("input[type=button]").removeAttr("disabled");
                         }
                         else {
-                            alert("Unable to fetch data from server", "Failed");
+                            alert("Please select Campaign Name", "Failed");
 
                         }
                     });
@@ -2153,6 +2162,7 @@
                // $('#priorityDiv').show();
                 $('#schedulenameDiv').hide();
                 $('#scheduleDiv').hide();
+                $("#scheduleDate").val("");
                 
             }
             else if ($('#uploadCampaignstarttype').val() == "2") {
@@ -2167,6 +2177,7 @@
                 //$('#priorityDiv').show();
                 $('#schedulenameDiv').hide();
                 $('#scheduleDiv').hide();
+                $("#scheduleDate").val("");
 
             }
             else {
@@ -2380,7 +2391,6 @@
                                   {
                                       "targets": [0, 1, 2, 4, 5, 6],
                                       "width": "5%",
-                                     
                                       "className":"text-center"
                                       
                                   },
