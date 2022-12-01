@@ -6,6 +6,7 @@
 }
 
 <style>
+
     table.dataTable thead > tr > td.sorting, table.dataTable thead > tr > td.sorting_asc, table.dataTable thead > tr > td.sorting_desc, table.dataTable thead > tr > th.sorting, table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sorting_desc {
         font-size: 9.5pt;
         text-align: center;
@@ -325,7 +326,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md" id="timealertdiv" style="display:none;">
-                                            <span style="color:red;font-size:12px;"> Promotional SMS time span is between 9 AM and 9 PM.</span>
+                                            <span style="color:red;font-size:12px;"> Promotional SMS time span is between 9 AM to 9 PM.</span>
                                         </div>
                                     </div>
                                     <div class="row" style="margin-top:10px;">
@@ -967,7 +968,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card" style="width:1100px;">
+                        <div class="card" style="width:1000px;">
 
 
                             <div class="card-body col-sm-12" style="width:100%; height:80%;">
@@ -988,21 +989,21 @@
             </div>
             <div class="modal fade" id="ViewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
-                <div class="modal-dialog" style="width:850px;">
+                <div class="modal-dialog" style="width:850px;margin-left:310px;">
                     @*<div style="height:40px; margin-left:100px;  margin-top:10px;">*@
 
                     @*</div>*@
 
-                    <div class="modal-content" style="width:850px;height:700px;">
+                    <div class="modal-content" style="width:850px;height:500px;">
                         <div class="modal-header">
                             @Html.Label("TEST SMS REPORT", new { style = "font-weight:bold; font-size:18px;" })
                             <button type="button" id="closebtnupload" data-dismiss="modal">X</button>
                         </div>
 
-                        <div id="modal-content" class="row ml-3 mt-4 text-break" style="height:550px;  width:820px;">
+                        <div id="modal-content" class="row ml-3 mt-4" style="height:550px;width:800px;">
 
 
-                            <div class="modal-body" id="modalTable" style="overflow-y: auto; overflow-x: auto; width:800px;height:400px;">
+                            <div class="modal-body" id="modalTable" style="overflow-y:auto; overflow-x:auto; width:800px;height:400px;">
                                 <table id="tbl_TestSMSDetails" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
                             </div>
                         </div>
@@ -1015,7 +1016,7 @@
             <div class="modal fade" id="templateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
                 <div class="modal-dialog" style="width:850px;">
-                    <div class="modal-content" style="width:850px;">
+                    <div class="modal-content" style="width:850px;margin-left:-75px;">
                         <div class="modal-header">
                             @Html.Label("SMS TEMPLATE", new { style = "font-weight:bold; font-size:18px;" })
                             <button type="button" id="closebtn" class="btn btn-default" data-dismiss="modal">X</button>
@@ -1075,14 +1076,14 @@
             <div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
 
-                <div class="modal-dialog" style="width:400px;height:235px;">
+                <div class="modal-dialog modal-dialog-centered" style="width:400px;height:235px;">
 
                     <div class="modal-content" style="width:400px;height:200px;text-align:center;">
                         <div class="modal-header">
                             @Html.Label("Campaign Validity Extension", new { style = "font-weight:bold; font-size:18px;" })
                             <button type="button" id="closebtnupload" data-dismiss="modal">X</button>
                         </div>
-                        <table style="height:200px; width:390px;  ">
+                        <table style="height:200px; width:390px;">
                             <tr>
                                 <td> @Html.HiddenFor(m => m.updatedId, new { Value = "-1" }) @Html.HiddenFor(m => m.updatedFromDate, new { Value = "-1" })</td>
 
@@ -2262,13 +2263,14 @@
                         'columnDefs': [
                             {
                                 "defaultContent": "",
-                                "targets": "_all"
+                                "targets": "_all",
+                                "className": "text-center",
                             },
                             {
                             
                                 
                                 "targets": 0,
-                                "className": "text-left",
+                                "className": "text-center",
                                 "visible": false,
                                 "searchable": false
                             },
@@ -2286,7 +2288,7 @@
                             //},  
                             {
                                 "targets": 10,
-                                "className": "text-left",
+                                "className": "text-center",
 
                                 "mRender": function (data, type, full) {
                                     if (full[10] == "1") {
@@ -2299,7 +2301,7 @@
                             },   
                             {
                               "targets": 11,
-                              "className": "text-left",
+                              "className": "text-center",
                                 "mRender": function(data, type, full) {                                
                                  
                                         if (full[8] == "Expired") {
@@ -2370,13 +2372,23 @@
                               'columnDefs': [
                                  {
                                       "targets": 7,
+                                      
                                       "visible": false,
-                                      "searchable": false
+                                      "searchable": false,
+                                      "className": "text-center"
                                   },
                                   {
-                                      "targets": [0,1,2,3,4,5,6],
-                                      "className":"text-left"
+                                      "targets": [0, 1, 2, 4, 5, 6],
+                                      "width": "5%",
+                                     
+                                      "className":"text-center"
                                       
+                                  },
+                                  {
+                                      "targets": 3,
+                                     
+                                      "className": "text-center"
+
                                   },
                               ],
                               order: [],
@@ -2601,13 +2613,18 @@
                         'columnDefs': [
                             {
                                 "targets": 0,
-                                "className": "text-left",
+                                "className": "text-center",
                                 "visible": false,
                                 "searchable": false
                             },
+                            {
+                                "targets": "_all",
+                                "className": "text-center",
+                                
+                            },
                          {
                             "targets": 11,
-                            "className": "text-left",
+                            "className": "text-center",
 
                             "mRender": function (data, type, full) {
                                 
@@ -2620,7 +2637,7 @@
                             }, 
                             {
                                 "targets": 12,
-                                "className": "text-left",
+                                "className": "text-center",
 
                                 "mRender": function (data, type, full) {
 
@@ -2633,7 +2650,7 @@
                             },
                             {
                                 "targets": 13,
-                                "className": "text-left",
+                                "className": "text-center",
 
                                 "mRender": function (data, type, full) {
 
@@ -2646,7 +2663,7 @@
                             },
                             {
                                 "targets": 16,
-                                "className": "text-left",
+                                "className": "text-center",
 
                                 "mRender": function (data, type, full) {
                                   
@@ -2748,7 +2765,7 @@
 
                             {
                                 "targets": 0,
-                                "className": "text-left",
+                                "className": "text-center",
                                 "visible": false,
                                 "searchable": false
 
@@ -2756,9 +2773,13 @@
 
 
                             },
+                            {
+                                "targets": "_all",
+                                "className": "text-center"
+                            },
                         {
                                 "targets": 14,
-                                "className": "text-left",
+                                "className": "text-center",
 
                                 "mRender": function (data, type, full) {
                         //            if (full[10] == 0) {
@@ -2903,18 +2924,7 @@
                 type: 'GET',
                  data: { campaignid: campaignid, cstatus: cstatus },
                 success: function (minames) {
-                    //var obj = JSON.parse(minames);
-                    //if (obj.status == "1") {
-                    //    SuccessMsg("Status Changed Successfully")
-                    //    reinitializeDataTable(tbl_rptstatus);
-                    //    loadReportstatus();
-                    //}
-                    //else {
-                    //    ErrorMsg("Status not changed")
-                    //    reinitializeDataTable(tbl_rptstatus);
-                    //    loadReportstatus();
-                    //}
-                   // SuccessMsg("Status Changed Successfully")
+                   
                     reinitializeDataTable(tbl_rptstatus);
                     loadReportstatus();
                     if (cstatus == "1")
@@ -3152,11 +3162,12 @@
                 type: 'GET',
                 data: { campaignid: campaignid},
                 success: function (minames) {
-                    //alert(minames);
+                   
                    //console.log(minames);
                      var obj = JSON.parse(minames);
-                    //console.log(obj);  
-                    if (obj.VariableCount == "")
+                    //console.log(obj); 
+                    //alert(obj.VariableCount);
+                    if (obj.VariableCount== "")
                         obj.VariableCount = 0;
                     $('#templatevariablecnt').val(obj.VariableCount);
                     document.getElementById("bindcampaignname").innerHTML = obj.campaignName;
@@ -3303,7 +3314,7 @@
                        searching: false,
                         data: resp.tdata,
                        columns: resp.thead,
-                       autoWidth: true,
+                       autoWidth: false,
                        
                       
                         'columnDefs': [
@@ -3321,7 +3332,7 @@
                             {
                                // { width: 200, targets: 0 },
                                 "targets": 1,
-                                "width": "50px",
+                                "width": "10%",
                                 "className": "text-center", 
                                 "mRender": function (data, type, full) {
                                     return '<i onclick="getTamplateDetails(this)"  class="btn btn-link" id=' + full[0] + ' style="color:blue;font-size:10px;">' + full[1] + ' </i><input type="hidden" name="' + full[6] + '"/>';
@@ -3332,11 +3343,12 @@
                             {                                
                                 "targets": 5, // SMS Part count                               
                                 //"word-break": "break-all",
+                                "width": "42%",
                                 "className": "text-center", 
-                                "mRender": function (data, type, full) {
+                                //"mRender": function (data, type, full) {
                                     
-                                    return '<div  style=" display:table-cell;vertical-align:middle; overflow-x:auto !important;overflow-y:auto !important;">' + full[5] + '</div>';
-                                }
+                                //    return '<div  style=" display:table-cell;vertical-align:middle; overflow-x:auto !important;overflow-y:auto !important;">' + full[5] + '</div>';
+                                //}
                                 
                             },
                             {

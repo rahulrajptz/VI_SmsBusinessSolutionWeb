@@ -6,7 +6,7 @@
         },
         type: 'success',        
         placement: {
-            from: "bottom",
+            from: "top",
             align: "right"
         },
         autoHideDelay: 2000,
@@ -26,7 +26,7 @@ function ErrorMsg(msg) {
             exit: 'animated fadeOutRight'            
         }, type: 'danger',
         placement: {
-            from: "bottom",
+            from: "top",
             align: "right"
         },
 

@@ -198,8 +198,9 @@ namespace Templateprj.Controllers
         public virtual ActionResult Campaignupdate(SMSCampaignModel model)
         {
             string json = "";
-            if (checkEndTimeValidity(model.updatedToDate + " " + model.updatedToTime, model.updatedFromDate, false) != 1)
-                return Json("{\"status\":\"0\",\"response\":\"To Date should be greather than From Date\" }", JsonRequestBehavior.AllowGet);
+            string currentTime = DateTime.Now.ToString("dd/MM/yyyy h:mm tt");
+            if (checkEndTimeValidity(model.updatedToDate + " " + model.updatedToTime, currentTime, false) != 1)
+                return Json("{\"status\":\"0\",\"response\":\"To Date should be greater than Current Time\" }", JsonRequestBehavior.AllowGet);
             string status = _prc.CampaignUpdate(model.updatedToDate, model.updatedToTime, model.updatedId);
             if (status == "1")
             {

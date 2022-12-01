@@ -63,7 +63,15 @@ namespace Templateprj.Controllers
         [HttpPost]
         public virtual ActionResult GetSmsCount(GetSmsCountQuery query)
         {
-            return Json(JsonConvert.SerializeObject(_instantserviceRepo.GetSmsContent(query.SMSContent, query.TemplateId)), JsonRequestBehavior.AllowGet);
+            if (query.unicodeStatus == "8")
+            {
+
+                query.DBMessage = GetSingleUnicodeHex(query.SMSContent);
+                return Json(JsonConvert.SerializeObject(_instantserviceRepo.GetSmsContent(query.DBMessage, query.TemplateId)), JsonRequestBehavior.AllowGet);
+            }
+            else { 
+                return Json(JsonConvert.SerializeObject(_instantserviceRepo.GetSmsContent(query.SMSContent, query.TemplateId)), JsonRequestBehavior.AllowGet);
+            }
         }
 
         

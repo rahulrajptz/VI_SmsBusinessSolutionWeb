@@ -1119,6 +1119,7 @@ namespace Templateprj.DataAccess
             catch (Exception ex)
             {
                 LogWriter.Write("DataAccess.CampaignDb.saveCampaign :: Exception :: " + ex.Message);
+                response = "Something went wrong, please try again";
                 return "";
             }
         }
@@ -1186,8 +1187,6 @@ namespace Templateprj.DataAccess
                     cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"].ToString());
                     cmd.Parameters.Add("@n_Campaign_Id", MySqlDbType.VarChar, 200).Value = id;
                     //cmd.Parameters.Add("@N_Sms_Type", MySqlDbType.Int32).Value = smstype;
-
-
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
@@ -1225,10 +1224,7 @@ namespace Templateprj.DataAccess
                         }
                         dt.Columns.Remove("Unicode");
                         return GetJsonString(dt);
-                        //if (dt.Rows.Count > 0)
-                        //    return GetJsonString(dt);
-                        //else
-                        //    return "";
+                       
                     }
                 }
 
@@ -1860,7 +1856,7 @@ namespace Templateprj.DataAccess
                             foreach (DataRow row in dataTable.Rows)
                             {
                                 string unicodeStatus = row["UNICODE_STATUS"].ToString();
-                                string message = row["SMS SCRIPT"].ToString();
+                                string message = row["SMS"].ToString();
                                 if (unicodeStatus == "8")
                                 {
                                     string str = message.ToString();
@@ -1871,12 +1867,12 @@ namespace Templateprj.DataAccess
                                         string tempMessage = "\\u" + Regex.Replace(message, ".{4}", "$0\\u");
                                         data = Regex.Unescape(tempMessage.Substring(0, tempMessage.Length - 2));
                                     }
-                                    row["SMS SCRIPT"] = data.ToString();
+                                    row["SMS"] = data.ToString();
                                 }
                                 else
                                 {
                                     data = message.Replace("\r\n", "");
-                                    row["SMS SCRIPT"] = data;
+                                    row["SMS"] = data;
                                 }
                                 row["val"] = row[colCount - 5].ToString() + "," + row[colCount - 4].ToString() + "," + row[colCount - 3].ToString() + "," + row[colCount - 2].ToString();
                             }
