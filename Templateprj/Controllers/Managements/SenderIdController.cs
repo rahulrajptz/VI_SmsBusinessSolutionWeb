@@ -111,11 +111,11 @@ namespace Templateprj.Controllers
                                 path = Path.Combine(path, fileName);
                                 uploadedFile.SaveAs(path);
 
-                                var d = _xls.GetDataSetFromExcel(path, false, out bool isError);
+                                var d = _xls.ConvertToDataTable(path, xtn);
 
-                                if (d?.Tables[0]?.Rows != null && d.Tables[0].Rows.Count > 0)
+                                if (d?.Rows != null && d.Rows.Count > 0)
                                 {
-                                    string data = d.Tables[0].DataTableToJSONWithStringBuilder();
+                                    string data = d.DataTableToJSONWithStringBuilder();
                                     var commands = JsonConvert.DeserializeObject<List<AddSenderModel>>(data);
                                     string status = _senderRepository.SaveSenderId(commands, out string response, out string dataduplicate);
                                     //string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\",\"data\":" + dataduplicate + "}";
@@ -134,7 +134,6 @@ namespace Templateprj.Controllers
                                 else
                                 {
                                     json = "{\"status\":\"0\",\"response\":\"File is empty\" }";
-
                                 }
 
                                 System.IO.File.Delete(path);

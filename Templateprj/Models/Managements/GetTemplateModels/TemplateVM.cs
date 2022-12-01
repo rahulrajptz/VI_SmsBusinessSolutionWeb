@@ -33,8 +33,14 @@ namespace Templateprj.Models.Managements.GetTemplateModels
                 {
                     if (_templateMessage.Trim() != "")
                     {
-                        _templateMessage = "\\u" + Regex.Replace(_templateMessage, ".{4}", "$0\\u");
-                        _templateMessage = Regex.Unescape(_templateMessage.Substring(0, _templateMessage.Length - 2));
+                        try
+                        {
+                            _templateMessage = "\\u" + Regex.Replace(_templateMessage, ".{4}", "$0\\u");
+                            _templateMessage = Regex.Unescape(_templateMessage.Substring(0, _templateMessage.Length - 2));
+                        }catch
+                        {
+                            _templateMessage= null;
+                        }
                     }
                 }
                 else

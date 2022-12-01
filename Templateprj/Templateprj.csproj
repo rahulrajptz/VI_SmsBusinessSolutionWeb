@@ -353,6 +353,7 @@
     <Compile Include="Helpers\JsonStringResult.cs" />
     <Compile Include="Helpers\LogWriter.cs" />
     <Compile Include="Helpers\MailSender.cs" />
+    <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Helpers\WaveProcessor.cs" />
     <Compile Include="HomeController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>

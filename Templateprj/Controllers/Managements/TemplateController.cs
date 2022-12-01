@@ -99,7 +99,7 @@ namespace Templateprj.Controllers
                 if (Request.Files.Count > 0)
                 {
                     ExcelExtension _xls = new ExcelExtension();
-                    string filePath = GlobalValues.TempPath;
+                    string filePath = "D:/Home/SMSSolution/File";//GlobalValues.TempPath;
                     if (!Directory.Exists(filePath))
                         Directory.CreateDirectory(filePath);
 
@@ -121,11 +121,11 @@ namespace Templateprj.Controllers
                                 path = Path.Combine(path, fileName);
                                 uploadedFile.SaveAs(path);
 
-                                var d = _xls.GetDataSetFromExcel(path, false, out bool isError);
+                                var d = _xls.ConvertToDataTable(path, xtn);
 
-                                if (d?.Tables[0]?.Rows != null && d.Tables[0].Rows.Count > 0)
+                                if (d?.Rows != null && d.Rows.Count > 0)
                                 {
-                                    string data = d.Tables[0].DataTableToJSONWithStringBuilder();
+                                    string data = d.DataTableToJSONWithStringBuilder();
                                     var commands = JsonConvert.DeserializeObject<List<RegisterTemplateCommand>>(data);
                                     string status = _templateManagemntRepository.SaveTemplate(commands, out string response, out string dataduplicate);
                                     if (string.IsNullOrEmpty(dataduplicate) || dataduplicate.Length<=3)
@@ -155,8 +155,6 @@ namespace Templateprj.Controllers
                         }
                         catch (Exception e)
                         {
-
-
                             json = "{\"status\":\"0\",\"response\":\"Unable to load file\" }";
                             LogWriter.Write(DateTime.Now + " :: Controller.CampaignBase :: Exception :: " + e.Message.ToString());
                         }
@@ -179,7 +177,6 @@ namespace Templateprj.Controllers
             }
             catch(Exception ex)
             {
-                LogWriter.Write("UploadTemplate :: " + ex.Message);
                 ViewBag.Message = "File upload failed!!";
                 return View();
             }
