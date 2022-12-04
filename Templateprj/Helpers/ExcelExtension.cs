@@ -977,7 +977,7 @@ namespace Templateprj.Helpers
                         FileTable.Rows.Add(drNew);
                     }
                 }
-
+                reader.Close();
                 return FileTable;
             }
             catch (Exception ex)

@@ -155,7 +155,7 @@ namespace Templateprj.Controllers
                         }
                         catch (Exception e)
                         {
-                            json = "{\"status\":\"0\",\"response\":\"Unable to load file\" }";
+                            json = "{\"status\":\"0\",\"response\":\"Unable to load file,"+ e.Message + "\" }";
                             LogWriter.Write(DateTime.Now + " :: Controller.CampaignBase :: Exception :: " + e.Message.ToString());
                         }
                     }
@@ -180,6 +180,13 @@ namespace Templateprj.Controllers
                 ViewBag.Message = "File upload failed!!";
                 return View();
             }
+        }
+
+        [HttpGet]
+        public virtual ActionResult Download()
+        {
+            byte[] fileByteArray = _templateManagemntRepository.GetTemplateMasters("TemplateSampleFile.xlsx");
+            return File(fileByteArray, "application/vnd.ms-excel", "TemplateSampleFile.xlsx");
         }
 
     }

@@ -242,35 +242,7 @@ namespace Templateprj.Repositories.Services
             return dt;
         }
 
-        private DataTable GetDeliveryStatus()
-        {
-            DataTable dt = new DataTable();
-            dt.Clear();
-            dt.Columns.Add("VALUE");
-            dt.Columns.Add("TEXT");
-            DataRow newRow = dt.NewRow();
-            newRow[0] = 0;
-            newRow[1] = "No";
-            dt.Rows.InsertAt(newRow, 0);
-            newRow = dt.NewRow();
-            newRow[0] = 1;
-            newRow[1] = "Yes";
-            dt.Rows.InsertAt(newRow, 0);
-            return dt;
-        }
-
-        private List<KeyValueModel> GetDataTableToKeyValueText(DataTable dt)
-        {
-            List<KeyValueModel> keyValues = new List<KeyValueModel>();
-            if (dt != null)
-            {
-                foreach (DataRow row in dt.Rows)
-                {
-                    keyValues.Add(new KeyValueModel() { Id = Convert.ToString(row["value"]), Value = Convert.ToString(row["text"]) });
-                }
-            }
-            return keyValues;
-        }
+       
 
         public string GetTemplates(TemplateModel model)
         {
@@ -313,5 +285,102 @@ namespace Templateprj.Repositories.Services
 
             return null;
         }
+
+        public byte[] GetTemplateMasters(string fileName)
+        {
+            try
+            {
+                ExcelExtension extension = new ExcelExtension();
+                var allData = new DataSet();
+                allData.Tables.Add(GetTemaplateExcelHeader());
+             
+                using (MySqlCommand cmd = new MySqlCommand("Web_Manage_Template_Dropdown"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
+                    cmd.Parameters.Add("@n_Account_Id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
+                    var dataset = new DataSet();
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        dataAdapter.Fill(dataset);
+                        int t = 0;
+                        foreach(DataTable dt in dataset.Tables)
+                        {
+                            dt.TableName = "TBL"+ t++;
+                            allData.Tables.Add(dt.Copy());
+                        }
+                    }
+                }
+                allData.Tables.Add(GetDeliveryStatus());
+                return extension.ExportToExcel(allData, ref fileName, out string contentType, new string[] { "Templates", "Types", "Status", "ContentTypes", "ApprovalStatus", "ConsentType", "Headers", "DeliveryStatus" });//Category
+
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("TemplateManagemntRepository.GetTemplateMasters :: Exception :: " + ex.Message);
+            }
+
+            return null;
+        }
+
+        private List<KeyValueModel> GetDataTableToKeyValueText(DataTable dt)
+        {
+            List<KeyValueModel> keyValues = new List<KeyValueModel>();
+            if (dt != null)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    keyValues.Add(new KeyValueModel() { Id = Convert.ToString(row["value"]), Value = Convert.ToString(row["text"]) });
+                }
+            }
+            return keyValues;
+        }
+
+        private DataTable GetDeliveryStatus()
+        {
+            DataTable dt = new DataTable();
+            dt.Clear();
+            dt.Columns.Add("VALUE");
+            dt.Columns.Add("TEXT");
+            DataRow newRow = dt.NewRow();
+            newRow[0] = 0;
+            newRow[1] = "No";
+            dt.Rows.InsertAt(newRow, 0);
+            newRow = dt.NewRow();
+            newRow[0] = 1;
+            newRow[1] = "Yes";
+            dt.Rows.InsertAt(newRow, 0);
+            return dt;
+        }
+
+        private DataTable GetTemaplateExcelHeader()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("TemplateId");
+            dt.Columns.Add("TeleMarketer");
+            dt.Columns.Add("TemplateName");
+            dt.Columns.Add("Type");
+            dt.Columns.Add("Header");
+            dt.Columns.Add("Category");
+            dt.Columns.Add("RegisteredDlt");
+            dt.Columns.Add("RequestedOn");
+            dt.Columns.Add("StatusDate");
+            dt.Columns.Add("CreatedBy");
+            dt.Columns.Add("BlackListedBy");
+            dt.Columns.Add("ApprovalStatus");
+            dt.Columns.Add("Status");
+            dt.Columns.Add("TemplateMessage");
+            dt.Columns.Add("ConsentType");
+            dt.Columns.Add("Reason");
+            dt.Columns.Add("ContentType");
+            dt.Columns.Add("ValidityPeriod");
+            dt.Columns.Add("DeliveryStatus");
+            dt.Columns.Add("VariableCount");
+            return dt;
+        }
+
     }
 }

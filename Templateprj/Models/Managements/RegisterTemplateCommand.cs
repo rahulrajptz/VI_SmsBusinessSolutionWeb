@@ -17,8 +17,8 @@ namespace Templateprj.Models.Managements
         public string StatusDate { get; set; }
         public string CreatedBy { get; set; }
         public string BlackListedBy { get; set; }
-        public int ApprovalStatus { get; set; }
-        public int Status { get; set; }
+        public int? ApprovalStatus { get; set; }
+        public int? Status { get; set; }
 
         private string _templateMessage;
 
@@ -46,9 +46,9 @@ namespace Templateprj.Models.Managements
                 _templateMessage = value;
             }
         }
-        public int ConsentType { get; set; }
+        public int? ConsentType { get; set; }
         public string Reason { get; set; }
-        public int ContentType { get; set; }
+        public int? ContentType { get; set; }
         public int UnicodeStatus
         {
             get
@@ -64,7 +64,7 @@ namespace Templateprj.Models.Managements
         public int? ExistingUnicodeStatus { get; set; }
 
         public string ValidityPeriod { get; set; }
-        public int DeliveryStatus { get; set; }
+        public int? DeliveryStatus { get; set; }
         public string VariableCount { get; set; }
 
         [JsonIgnore]
