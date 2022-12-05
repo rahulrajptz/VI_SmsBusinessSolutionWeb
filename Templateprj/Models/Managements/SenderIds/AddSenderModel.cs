@@ -13,7 +13,7 @@ namespace Templateprj.Models.Managements
         public string RegisteredTsp { get; set; }
         public string RequestedDate { get; set; }
         public string StatusDate { get; set; }
-        public int Status { get; set; }
+        public int? Status { get; set; }
         public string CreatedBy { get; set; }
         public string BlackListedBy { get; set; }
 

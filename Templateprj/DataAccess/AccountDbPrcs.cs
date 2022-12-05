@@ -84,7 +84,6 @@ namespace Templateprj.DataAccess
                     if (status == 1)
                     {
                         int passFlag = Convert.ToInt32(cmd.Parameters["@n_Pwd_Required_Out"].Value.ToString());
-
                         HttpContext.Current.Session["Username"] = model.Username.Trim().ToTitleCase();
                         HttpContext.Current.Session["UserID"] = cmd.Parameters["@n_Userid_Out"].Value.ToString();
                         HttpContext.Current.Session["PasswordFlag"] = passFlag;

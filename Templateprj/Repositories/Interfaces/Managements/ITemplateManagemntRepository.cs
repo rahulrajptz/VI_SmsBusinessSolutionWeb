@@ -12,5 +12,6 @@ namespace Templateprj.Repositories.Interfaces
         string DeleteTemplate(int id, out string response);
         string GetTemplates(TemplateModel model);
         RegisterTemplateCommand GetTemplateById(int id);
+        byte[] GetTemplateMasters(string fileName);
     }
 }

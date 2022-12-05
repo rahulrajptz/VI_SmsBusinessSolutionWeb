@@ -89,6 +89,7 @@ namespace Templateprj.Controllers
             public readonly string GetTemplateNames = "GetTemplateNames";
             public readonly string GetTemplates = "GetTemplates";
             public readonly string UploadTemplate = "UploadTemplate";
+            public readonly string Download = "Download";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -99,6 +100,7 @@ namespace Templateprj.Controllers
             public const string GetTemplateNames = "GetTemplateNames";
             public const string GetTemplates = "GetTemplates";
             public const string UploadTemplate = "UploadTemplate";
+            public const string Download = "Download";
         }
 
 
@@ -236,6 +238,17 @@ namespace Templateprj.Controllers
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.UploadTemplate);
             UploadTemplateOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void DownloadOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult Download()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Download);
+            DownloadOverride(callInfo);
             return callInfo;
         }
 
