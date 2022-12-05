@@ -16,6 +16,14 @@
         table-layout: fixed;
         color: #5f004b;
     }
+    table.fixed {
+        table-layout: fixed;
+        width:100%!important;
+    }
+
+        table.fixed td {
+            overflow: hidden;
+        }
     .dataTables_wrapper .dt-buttons {
         float: none;
         text-align: right;
@@ -335,15 +343,15 @@
 
 
 
-                                    <div class="row" id="div_table" style="display:none; width:100% !important;margin-left:-3px;">
+                                    <div class="row" id="div_table" style="display:none; width:100% !important;margin-left:5px;">
                                         <div class="d-flex flex-row-reverse" style="width:100%">
 
-                                            <button id="btn_add" style="background-color:white !important;float:right !important;">
+                                            <button id="btn_add" style="background-color:white !important;float:right !important;margin-right:25px;">
                                                 <i class="fa fa-plus" aria-hidden="true" style="color:green;"></i>
                                             </button>
                                         </div>
                                         <div class="table-responsive">
-                                            <table class="table-borderless" id="tblEntAttributes">
+                                            <table class="table-borderless fixed" id="tblEntAttributes">
                                                 <thead>
                                                     <tr>
                                                         <th style="width:20%;color:#5f004b">Mobile Number</th>
@@ -419,7 +427,7 @@
 
                         <div class="row pull-right">
                             <button type="button" id="btn_search" style="background-color:#5f004b;color:white;margin-left:15px;margin-top:15px;">
-                                <i class="fa fa-search" style="font-size:14px;"></i>Search
+                                Search
                             </button>
                             @*<button type="button" id="btn_download" style="height:30px;width:60px;background-color:#5f004b;color:white;margin-left:10px;margin-top:16px;" class="btn btn-block">
                                 <i class="fa fa-download" style="font-size:14px;"></i>
@@ -501,7 +509,7 @@
                                 <br />
                                 @*<button type="button" id="btn_search" style="height:35px;background-color:#212121;color:white;width:100px;" class="btn btn-block">Search</button>*@
                                 <button type="button" id="serchInstant" style="background-color:#5f004b; color:white;margin-left:-150px; margin-top:25px;">
-                                    <i class="fa fa-search" style="font-size:12px;"></i>Search
+                                    Search
                                 </button>
                             </div>
                             <div class="modal-body" id="modalTable" style="overflow-y:auto; overflow-x: auto; width:800px;height:300px;">
@@ -582,32 +590,36 @@
                 instantSmsModel.unicodestatus = $("#unicodeStatus").val();
                 instantSmsModel.messages = additionItems;
                 instantSmsModel.variables = getVariablesWithName();
-                if (isValid) {
-                    $.ajax({
-                        url: "@Url.Action("SendInstatntSms", "InstantSms")",
-                        type: 'POST',
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        data: JSON.stringify(instantSmsModel),
-                        success: function (e) {
+                if ($("#numberOfRaw").val() > 0) {
 
-                            jsondata = JSON.parse(e);
-                            if (jsondata.status == "1") {
-                                SuccessMsg("Successfully send the sms");
-                                resetfunction();
+                    if (isValid) {
+                        $.ajax({
+                            url: "@Url.Action("SendInstatntSms", "InstantSms")",
+                            type: 'POST',
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            data: JSON.stringify(instantSmsModel),
+                            success: function (e) {
+
+                                jsondata = JSON.parse(e);
+                                if (jsondata.status == "1") {
+                                    SuccessMsg("Successfully send the sms");
+                                    resetfunction();
+                                }
+                                else {
+                                    ErrorMsg("Failed to send the sms");
+                                }
+                                // console.log(jsondata);
                             }
-                            else {
-                                ErrorMsg("Failed to send the sms");
-                            }
-                           // console.log(jsondata);
-                        }
-                    });
-                    
+                        });
+
+                    }
+                    else {
+                        ErrorMsg("Please confirm the entries, there are some alerts exist.")
+                    }
                 }
-                else {
-                    ErrorMsg("Please confirm the entries, there are some alerts exist.")
-                }
-                
+                else 
+                     ErrorMsg("No SMS to send");    
             });
 
             //$('#SmsTypeId').on('change', function () {

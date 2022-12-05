@@ -54,18 +54,25 @@
                                             </div>
                                             @*<input type="text" class="form-control" placeholder="First Name...">*@
 
-                                            @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @onkeypress = "return (event.which!==32)", placeholder = "User Name...", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false", @style = "border-top-right-radius: 80px 80px;border-bottom-right-radius: 80px 80px;",MaxLength="16"})
+                                            @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @onkeypress = "return (event.which!==32)", placeholder = "User Name...", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false", @style = "border-top-right-radius: 80px 80px;border-bottom-right-radius: 80px 80px;", MaxLength = "16" })
                                         </div>
 
                                         <div class="input-group no-border form-control-lg" style="margin-top: -12px">
                                             <div class="input-group-prepend">
-                                                <div class="input-group-text">
+                                                <div class="input-group-text" style="height:38px;">
                                                     <i class="now-ui-icons ui-1_lock-circle-open" style="margin-right:10px;"></i>
                                                 </div>
                                             </div>
                                             @*<input type="text" placeholder="Last Name..." class="form-control">*@
-                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @onkeypress = "return (event.which!==32)", placeholder = "Password...", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false", @style = "border-top-right-radius: 80px 80px;border-bottom-right-radius: 80px 80px;",MaxLength="16",MinLength="6" })
+                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @onkeypress = "return (event.which!==32)", placeholder = "Password...", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false", @style = "border-radius:0px;", MaxLength = "16", MinLength = "6" })
+                                            <div class="input-group-append">
+                                                <div class="input-group-text" style="height:38px;">
+                                                    <i class="fas fa-eye-slash " id="eye" style="margin-left:5px;"></i>
+                                                </div>
+                                            </div>
+
                                         </div>
+
                                     </div>
                                     <div class="form-group">
                                         @if (ViewBag.ErrorMsg != null)
@@ -125,6 +132,29 @@
            {
                <text>alert("@TempData["Status"].ToString()")</text>
            }
+
+            $('#eye').on('click', function () {
+
+                var x = document.getElementById("Password");
+                if ($(this).hasClass('fa-eye-slash')) {
+
+                    $(this).removeClass('fa-eye-slash');
+
+                    $(this).addClass('fa-eye');
+
+
+                    x.type = "text";
+
+
+                } else {
+
+                    $(this).removeClass('fa-eye');
+
+                    $(this).addClass('fa-eye-slash');
+
+                    x.type = "Password";
+                }
+            });
 
             //$(".btn").click(function () {
             //    if ($("#Password").val() == "" || $("#Username").val() == "" || $("#Password").val() == null || $("#Username").val() == null ) { }

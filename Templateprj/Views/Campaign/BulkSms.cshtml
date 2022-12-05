@@ -437,9 +437,9 @@
                                             <button style="margin-left:200px;color:white; background-color:#5f004b;border-radius:20px;" type="button" id="SaveCampaign">Save Campaign</button>
 
                                         </div>
-                                        <div class="col-md-12 offset-3">
+                                        <div class="col-md-12">
                                             @*<button class="btn-success mt-1" style="margin-left:250px" type="reset" id="configreset" value="Reset">Reset</button>*@
-                                            <button type="button" style="margin-left:200px;color:white; background-color:#5f004b;border-radius:20px;" id="campaignsubmit">Test</button>
+                                            <button type="button" style="margin-left:370px;color:white; background-color:#5f004b;border-radius:20px;" id="campaignsubmit">Test</button>
                                         </div>
                                     </div>
 
@@ -520,8 +520,8 @@
 
                                 <div class="row">
 
-                                    <div class="col-12">
-                                        <button type="button" style="margin-left:500px;color:white; background-color:#5f004b;border-radius:20px;" id="createsms">Create</button>
+                                    <div class="col-12 mt-2">
+                                        <button type="button" style="margin-left:700px;color:white; background-color:#5f004b;border-radius:20px;" id="createsms">Create</button>
 
                                     </div>
 
@@ -561,11 +561,11 @@
                             </div>
 
                             <div class="row col-md-12">
-                                <div class="col-md-2 mt-3" id="sendsmsdiv" style="display:none">
-                                    <button type="button" style="margin-left:600px;color:white; background-color:#5f004b;border-radius:20px;" id="SendSms">Send</button>
+                                <div class="col-md-2 mt-2" id="sendsmsdiv" style="display:none">
+                                    <button type="button" style="margin-left:660px;color:white; background-color:#5f004b;border-radius:20px;" id="SendSms">Send</button>
                                 </div>
-                                <div class="col-md-4 mt-3" id="CampaignCreationButtondiv" style="display:none">
-                                    <button type="button" style="margin-left:650px;color:white; background-color:#5f004b;border-radius:20px;" id="SaveCampaignnew">Save</button>
+                                <div class="col-md-4 mt-2" id="CampaignCreationButtondiv" style="display:none">
+                                    <button type="button" style="margin-left:650px;color:white; background-color:#5f004b;border-radius:20px;" id="SaveCampaignnew">Save Campaign</button>
                                 </div>
                             </div>
 
@@ -616,7 +616,7 @@
                     </div>
                     <div class="col-md-2">
                         <button type="button" id="btn_show" style="background-color:#5f004b;color:white;margin-top:15px;">
-                            <i class="fa fa-search" style="font-size:12px;"></i>Search
+                            Search
                         </button>
                     </div>
 
@@ -907,7 +907,7 @@
                     </div>
                     <div class="col-md-2">
                         <button type="button" id="btn_showstatus" style="background-color:#5f004b;color:white;margin-top:15px;">
-                            <i class="fa fa-search" style="font-size:12px;"></i>Search
+                            Search
                         </button>
                     </div>
 
@@ -968,7 +968,7 @@
 
                     <div class="col-md-2">
                         <button type="button" id="btn_showreport" style="background-color:#5f004b;color:white;margin-top:15px;">
-                            <i class="fa fa-search" style="font-size:12px;"></i>Search
+                           Search
                         </button>
                     </div>
 
@@ -1062,7 +1062,7 @@
                                 <br />
                                 @*<button type="button" id="btn_search" style="height:35px;background-color:#212121;color:white;width:100px;" class="btn btn-block">Search</button>*@
                                 <button type="button" style="background-color:#5f004b; color:white;margin-left:-140px; margin-top:25px;" onclick="loadtemplateSearchReport()">
-                                    <i class="fa fa-search" style="font-size:12px;">Search</i>
+                                   Search
                                 </button>
                             </div>
                             <div class="modal-body" id="modalTable" style="overflow-y: auto; overflow-x: auto; width:800px;height:300px;">
@@ -1087,7 +1087,7 @@
 
                 <div class="modal-dialog modal-dialog-centered" style="width:400px;height:235px;">
 
-                    <div class="modal-content" style="width:400px;height:200px;text-align:center;">
+                    <div class="modal-content" style="width:400px;height:200px;text-align:center;margin-left:130px;">
                         <div class="modal-header">
                             @Html.Label("Campaign Validity Extension", new { style = "font-weight:bold; font-size:18px;" })
                             <button id="closebtnupload" data-dismiss="modal">X</button>
@@ -1120,7 +1120,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2" style="text-align:center;">
-                                    <button type="button" value="Update" style="background-color:#5f004b; color:white;margin-left:50px; margin-top:5px;" onclick="submitUpdateTime()" ></button>
+                                    <button type="button" style="background-color:#5f004b; color:white;" onclick="submitUpdateTime()">Update</button>
                                 </td>
                             </tr>
 
@@ -1725,7 +1725,7 @@
                             else if (jsondata.status == 1){
                            
                                 $("#testsmsdiv").hide();
-                                
+                                SuccessMsg(jsondata.response);
                                  getcampigndrowpdown();
                                 
                                 getcampigndropdownList();
@@ -3478,7 +3478,7 @@
                                 $("#divNoData").show();
                                 $("input[type=button]").removeAttr("disabled");
                             } else {
-                                alert("Unable to fetch data from server", "Failed");
+                                alert("Please select Campaign Name", "Failed");
 
                             }
                             

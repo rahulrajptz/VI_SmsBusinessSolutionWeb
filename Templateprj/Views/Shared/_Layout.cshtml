@@ -79,59 +79,60 @@
         </div>
         <div class="main-panel ps-container ps-theme-default" data-ps-id="0e902cce-0c39-23e4-7594-d92ed7a3c672">
             <!-- Navbar -->
-            <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top">
-                <div class="container-fluid">
-                    <div class="navbar-wrapper">
-                        <div class="navbar-toggle">
-                            <button type="button" class="navbar-toggler">
-                                <span class="navbar-toggler-bar bar1"></span>
-                                <span class="navbar-toggler-bar bar2"></span>
-                                <span class="navbar-toggler-bar bar3"></span>
-                            </button>
-                        </div>
-                        <a class="navbar-brand" href="#"></a>
-                    </div>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-bar navbar-kebab"></span>
-                        <span class="navbar-toggler-bar navbar-kebab"></span>
-                        <span class="navbar-toggler-bar navbar-kebab"></span>
-                    </button>
-                    <div class="collapse navbar-collapse justify-content-end" id="navigation">
-                        @*<div class="float-right">
-                            <div class="logo">
-                                <img src="~/assets/img/vilogo.png" />
+            
+            <!-- End Navbar -->
+            <div class="panel-header panel-header-sm">
+                <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top">
+                    <div class="container-fluid">
+                        <div class="navbar-wrapper">
+                            <div class="navbar-toggle">
+                                <button type="button" class="navbar-toggler">
+                                    <span class="navbar-toggler-bar bar1"></span>
+                                    <span class="navbar-toggler-bar bar2"></span>
+                                    <span class="navbar-toggler-bar bar3"></span>
+                                </button>
                             </div>
-                        </div>*@
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link dropdown-toggle ml-auto" style="width:60px" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="now-ui-icons users_single-02"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right ml-auto col-md-4 mr-4" aria-labelledby="navbarDropdownMenuLink" id="navigation" style="width:160px ; height:132px">
-                                    <div class="" style="margin-top:-10px">
-                                        @*<div class="image">
-                                            <img src="~/assets/img/bg14.jpg" alt="..." />
-                                        </div>*@
-                                        <div class="card-body flip">
-                                            @*<img src="~/assets/img/customer_Large.jpg" alt="..." />*@
-                                            <div class="author">
-                                                @*<a href="#">*@
-                                                @*<img class="avatar border-gray" src="~/assets/img/PTPL-WB-720.png" alt="...">*@
-                                                <h5 class="title" style="margin-left:31px">@Session["Username"].ToString()</h5>
-                                                @*<p class="title">@Session["RoleName"]</p>*@
-                                                @*</a>*@
-                                                <a href="@Url.Action("Login", "Account")" class="dropdown-item waves-effect waves-orange  not-close full-width" style="margin-left:15px;color:#5f004b">Logout</a>
+                            <a class="navbar-brand" href="#"></a>
+                        </div>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-bar navbar-kebab"></span>
+                            <span class="navbar-toggler-bar navbar-kebab"></span>
+                            <span class="navbar-toggler-bar navbar-kebab"></span>
+                        </button>
+                        <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                            @*<div class="float-right">
+                        <div class="logo">
+                            <img src="~/assets/img/vilogo.png" />
+                        </div>
+                    </div>*@
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link dropdown-toggle ml-auto" style="width:60px" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="now-ui-icons users_single-02"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right ml-auto col-md-4 mr-4" aria-labelledby="navbarDropdownMenuLink" id="navigation" style="width:160px ; height:132px">
+                                        <div class="" style="margin-top:-10px">
+                                            @*<div class="image">
+                                        <img src="~/assets/img/bg14.jpg" alt="..." />
+                                    </div>*@
+                                            <div class="card-body flip">
+                                                @*<img src="~/assets/img/customer_Large.jpg" alt="..." />*@
+                                                <div class="author">
+                                                    @*<a href="#">*@
+                                                    @*<img class="avatar border-gray" src="~/assets/img/PTPL-WB-720.png" alt="...">*@
+                                                    <h5 class="title" style="margin-left:31px">@Session["Username"].ToString()</h5>
+                                                    @*<p class="title">@Session["RoleName"]</p>*@
+                                                    @*</a>*@
+                                                    <a href="@Url.Action("Login", "Account")" class="dropdown-item waves-effect waves-orange  not-close full-width" style="margin-left:15px;color:#5f004b">Logout</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                        </ul>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </nav>
-            <!-- End Navbar -->
-            <div class="panel-header panel-header-sm">
+                </nav>
             </div>
             <div class="content"  >
                 @RenderBody()
@@ -139,7 +140,7 @@
 
             </div>
 
-            <footer class="pb-5">
+            <footer>
                 <div class="container-fluid">
                     <p class="float-left">
                         @*<span id="time"></span> &nbsp;*@
@@ -179,15 +180,15 @@
         });
         });
 
-        var time = document.getElementById("time");
-        function changeTime() {
-            var date = new Date().toLocaleString("en-IN", {
-                timeZone: "Asia/Kolkata"
-            });
-            var dateFormatted = date.replace(", ", " - ");
-            time.innerHTML = dateFormatted;
-        }
-        setInterval(changeTime, 1000);
+        //var time = document.getElementById("time");
+        //function changeTime() {
+        //    var date = new Date().toLocaleString("en-IN", {
+        //        timeZone: "Asia/Kolkata"
+        //    });
+        //    var dateFormatted = date.replace(", ", " - ");
+        //    time.innerHTML = dateFormatted;
+        //}
+        //setInterval(changeTime, 1000);
 
 
         var mybutton = document.getElementById("myBtn");

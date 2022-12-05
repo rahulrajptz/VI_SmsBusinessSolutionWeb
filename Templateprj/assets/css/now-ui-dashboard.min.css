@@ -5450,7 +5450,7 @@ img {
     }
 
 .main-panel {
-    position: relative;
+    position: static;
     float: right;
     width: calc(100% - 200px);
     background-color: #ebecf1;
