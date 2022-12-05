@@ -90,16 +90,21 @@ namespace Templateprj.Controllers
 
         public virtual ActionResult UploadTemplate()
         {
+            LogWriter.Write(DateTime.Now + " UploadTemplate 1 ");
+
             try
             {
                 string json = "";
                 string CampignId = "TempalteTemp";
                 string starttype = "2";
+                LogWriter.Write(DateTime.Now + " UploadTemplate 2 ");
 
                 if (Request.Files.Count > 0)
                 {
+                    LogWriter.Write(DateTime.Now + " UploadTemplate 3 ");
+
                     ExcelExtension _xls = new ExcelExtension();
-                    string filePath = "D:/Home/SMSSolution/File";//GlobalValues.TempPath;
+                    string filePath = GlobalValues.TempPath;
                     if (!Directory.Exists(filePath))
                         Directory.CreateDirectory(filePath);
 
@@ -112,6 +117,7 @@ namespace Templateprj.Controllers
                     int cnt = uploadedFile.FileName.Count(f => f == '.');
                     if (cnt <= 1)
                     {
+                        LogWriter.Write(DateTime.Now + " UploadTemplate 3 ");
 
                         string xtn = Path.GetExtension(fileName).ToUpper();
                         try
@@ -120,6 +126,7 @@ namespace Templateprj.Controllers
                             {
                                 path = Path.Combine(path, fileName);
                                 uploadedFile.SaveAs(path);
+                                LogWriter.Write(DateTime.Now + " UploadTemplate 4 ");
 
                                 var d = _xls.ConvertToDataTable(path, xtn);
 
@@ -135,6 +142,8 @@ namespace Templateprj.Controllers
                                     }
                                     else
                                     {
+                                        LogWriter.Write(DateTime.Now + " UploadTemplate 5 ");
+
                                         json = "{\"status\":\"" + 2 + "\",\"response\":\"" + response + "\",\"data\":" + dataduplicate + "}";
                                     }
                                 }
@@ -179,6 +188,8 @@ namespace Templateprj.Controllers
             {
                 ViewBag.Message = "File upload failed!!";
                 return View();
+                LogWriter.Write(DateTime.Now + ":: UploadTemplate :: "+ ex.Message);
+
             }
         }
 

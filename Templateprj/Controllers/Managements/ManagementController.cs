@@ -16,6 +16,8 @@ namespace Templateprj.Controllers
             _accountManagemntRepository = accountManagemntRepository;
         }
 
+        [HttpGet]
+        [AuthorizeUser]
         public virtual ActionResult Account()
         {
             ViewBag.ItemList = "Account";
