@@ -152,16 +152,36 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-12">
-                                                @Html.Label("Template Message")
-                                                <div class="form-group">
-                                                    @Html.TextAreaFor(m => m.TemplateMessage, new { @class = "keyboardInput w-100", @rows = "4", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
+                                        @if (ViewBag.IsEdit)
+                                        {
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    @Html.Label("Template Message")
+                                                    <div class="form-group">
+                                                        @Html.TextAreaFor(m => m.TemplateMessage, new { @class = "w-100", @rows = "4", @disabled = "disabled" })
+
+                                                    </div>
                                                 </div>
+
+                                            </div>
+                                        }
+                                        else
+                                        {<div class="row">
+                                                <div class="col-12">
+                                                    @Html.Label("Template Message")
+                                                    <div class="form-group">
+                                                        @Html.TextAreaFor(m => m.TemplateMessage, new { @class = "keyboardInput w-100", @rows = "4" })
+
+                                                    </div>
+                                                </div>
+
                                             </div>
 
-                                        </div>
+                                        }
+
+
+
                                         <div class="row">
 
                                             <div class="col-lg-3 col-md-6 col-6">
