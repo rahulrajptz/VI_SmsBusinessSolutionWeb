@@ -565,7 +565,7 @@
                                     <button type="button" style="margin-left:660px;color:white; background-color:#5f004b;border-radius:20px;" id="SendSms">Send</button>
                                 </div>
                                 <div class="col-md-4 mt-2" id="CampaignCreationButtondiv" style="display:none">
-                                    <button type="button" style="margin-left:650px;color:white; background-color:#5f004b;border-radius:20px;" id="SaveCampaignnew">Save Campaign</button>
+                                    <button type="button" style="margin-left:650px;color:white; background-color:#5f004b;border-radius:20px;width:120px;" id="SaveCampaignnew">Save Campaign</button>
                                 </div>
                             </div>
 
@@ -1768,7 +1768,7 @@
                             $("input[type=button]").removeAttr("disabled");
                         }
                         else {
-                            alert("Please select Campaign Name", "Failed");
+                            alert("Unable to fetch data from server", "Failed");
 
                         }
                     });
@@ -3065,7 +3065,7 @@
                      $("input[type=button]").removeAttr("disabled");
                  }
                  else {
-                     alert("Unable to fetch data from server", "Failed");
+                     alert("Please select the Campaign Name", "Failed");
 
                  }
              });
@@ -3249,8 +3249,8 @@
             $('#tbl_rptstatus').parents('div.dataTables_wrapper').first().hide();
             $("#tbl_rptreport").hide();
             $('#tbl_rptreport').parents('div.dataTables_wrapper').first().hide();
-            $("#divTable").hide();
-           
+            $("#divTable").hide(); timealertdiv
+            $("#timealertdiv").hide();
             $("input[id=btnShow]").removeAttr("disabled");
             document.getElementById("campaignName").readOnly = false;
         }
@@ -3478,7 +3478,7 @@
                                 $("#divNoData").show();
                                 $("input[type=button]").removeAttr("disabled");
                             } else {
-                                alert("Please select Campaign Name", "Failed");
+                                alert("Unable to fetch data from server", "Failed");
 
                             }
                             

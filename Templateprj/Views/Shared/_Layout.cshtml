@@ -80,8 +80,6 @@
         <div class="main-panel ps-container ps-theme-default" data-ps-id="0e902cce-0c39-23e4-7594-d92ed7a3c672">
             <!-- Navbar -->
             
-            <!-- End Navbar -->
-            <div class="panel-header panel-header-sm">
                 <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top">
                     <div class="container-fluid">
                         <div class="navbar-wrapper">
@@ -101,20 +99,20 @@
                         </button>
                         <div class="collapse navbar-collapse justify-content-end" id="navigation">
                             @*<div class="float-right">
-                        <div class="logo">
-                            <img src="~/assets/img/vilogo.png" />
-                        </div>
-                    </div>*@
+                                <div class="logo">
+                                    <img src="~/assets/img/vilogo.png" />
+                                </div>
+                            </div>*@
                             <ul class="navbar-nav">
                                 <li class="nav-item">
                                     <a class="nav-link dropdown-toggle ml-auto" style="width:60px" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="now-ui-icons users_single-02"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right ml-auto col-md-4 mr-4" aria-labelledby="navbarDropdownMenuLink" id="navigation" style="width:160px ; height:132px">
-                                        <div class="" style="margin-top:-10px">
+                                        @*<div class="fixed-top" style="margin-top:-10px">*@
                                             @*<div class="image">
-                                        <img src="~/assets/img/bg14.jpg" alt="..." />
-                                    </div>*@
+                                                <img src="~/assets/img/bg14.jpg" alt="..." />
+                                            </div>*@
                                             <div class="card-body flip">
                                                 @*<img src="~/assets/img/customer_Large.jpg" alt="..." />*@
                                                 <div class="author">
@@ -126,18 +124,19 @@
                                                     <a href="@Url.Action("Login", "Account")" class="dropdown-item waves-effect waves-orange  not-close full-width" style="margin-left:15px;color:#5f004b">Logout</a>
                                                 </div>
                                             </div>
-                                        </div>
+                                        @*</div>*@
                                     </div>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </nav>
-            </div>
-            <div class="content"  >
+            
+            <!-- End Navbar -->
+                <div class="panel-header panel-header-sm">
+                </div>
+            <div class="content">
                 @RenderBody()
-
-
             </div>
 
             <footer>
@@ -160,7 +159,6 @@
     @Scripts.Render("~/Scripts/CommonJS")
     @Scripts.Render("~/Scripts/DataTable")
     @RenderSection("scripts", required: false)
-
 
     <script src="~/assets/session/jquery-ui.min.js"></script>
     <link href="~/assets/session/timeout-dialog.css" rel="stylesheet" />

@@ -962,7 +962,7 @@ namespace Templateprj.Controllers
             model.templateIdList = dt.ToSelectList();
 
             model.listcampaignNameList = dtcmpaignamelist.ToSelectList(listItemsAll, "VALUE", "TEXT");
-            model.listCampaignStatusList = dtstatus.ToSelectList(listItemsAll, "VALUE", "TEXT");
+            model.listCampaignStatusList = dtstatuslist.ToSelectList(listItemsAll, "VALUE", "TEXT");
             model.listCampaignPriorityList = dtprioritylist.ToSelectList(listItemsAll, "VALUE", "TEXT");
             model.listCampaignTypeList = dtCampaignType.ToSelectList(listItemsAll, "VALUE", "TEXT");
             model.pouptemplateNameList = dspopupData.Tables[0].ToSelectList(listItemsAll, "VALUE", "TEXT");

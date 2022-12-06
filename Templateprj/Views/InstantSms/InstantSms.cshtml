@@ -52,11 +52,8 @@
     }
 
     .box {
-        /*border: 1px solid #878080;*/
         padding: 20px;
         box-shadow: rgba(0, 0, 0, 0.35) 1px 5px 10px;
-        /*min-height: 150px;*/
-        /*width:25%;*/
     }
 
     .blue {
@@ -143,9 +140,7 @@
     .navclr {
         background-color: #ebecf1;
     }
-    /*.dropdown-toggle {
-        float: right;
-    }*/
+   
     .cl-black {
         color: #495057 !important;
     }
@@ -557,6 +552,7 @@
                 if(allow==0)
                     ev.preventDefault();
             });
+
             $(document).on('click', '#sendsms', function (e) {
 
                 var instantSmsModel = {};
@@ -609,7 +605,6 @@
                                 else {
                                     ErrorMsg("Failed to send the sms");
                                 }
-                                // console.log(jsondata);
                             }
                         });
 
@@ -628,26 +623,25 @@
             //    getTemplatesBySenderAndSMSType($('#SmsTypeId').val(), $('#SenderId').val())
 
             //});
-            $(document).on('click', '#templates a', function (e) {
-                e.preventDefault(); $(this).tab('show');
-                var v = e.target.querySelector('p > input');
+            //$(document).on('click', '#templates a', function (e) {
+            //    e.preventDefault(); $(this).tab('show');
+            //    var v = e.target.querySelector('p > input');
 
-                $("#TemplateId").val(v.value);
+            //    $("#TemplateId").val(v.value);
 
-                getTemplatesBySenderAndSMSType($('#SmsTypeId').val(),$('#SenderId').val());
+            //    getTemplatesBySenderAndSMSType($('#SmsTypeId').val(),$('#SenderId').val());
+            //});
+               
+            //$('#SenderId').on('change', function () {
 
+            //    getTemplatesBySenderAndSMSType($('#SmsTypeId').val(),$('#SenderId').val());
 
-            });
-                $(function () {
-                    $("#serchInstant").click(function () {
-                        loadtemplateSearchReportInstant();
-                    });
+            //});
+
+            $(function () {
+                $("#serchInstant").click(function () {
+                    loadtemplateSearchReportInstant();
                 });
-
-            $('#SenderId').on('change', function () {
-
-                getTemplatesBySenderAndSMSType($('#SmsTypeId').val(),$('#SenderId').val());
-
             });
 
             $(function () {
@@ -677,7 +671,8 @@
                     $("#templateModal").modal('show');
                 });
             });
-            function getSendersBySmsType(smstype)
+
+            @*function getSendersBySmsType(smstype)
             {
                 $.ajax({
                     url: "@Url.Action(MVC.Campaign.GetSenderIdFromSmsType())",
@@ -714,11 +709,10 @@
                             });
                     }
                 });
-            }
+            }*@
 
             function isNumberKey(evt) {
                 var charCode = (evt.which) ? evt.which : evt.keyCode
-               // alert(charCode);
                 if (charCode > 31 && (charCode < 48 || charCode > 57))
                     return false;
                 return true;
@@ -738,7 +732,7 @@
                $('#TemplateId').on('change', function () {
 
                     var templateId = $('#TemplateId').val();
-                   var smstype = $('#SmsTypeId').val();
+                    var smstype = $('#SmsTypeId').val();
                     var variablecnt;
                     //var variableNames;
                    document.getElementById("SmsContent").innerHTML="";
@@ -814,9 +808,7 @@
                             $tds = $row.find("td");
                         var i = 0;
                         var inputext = $('#SmsContent').val();
-
-
-
+                        
                         $.each($tds_c, function () {
 
                             $edtv = $(this).find("input");
@@ -927,28 +919,26 @@
                     document.getElementById("unicodeStatus").value = unicodestatus;
                     document.getElementById("TemplateId").value = camid;                
                     const container = document.querySelector('#generated');
-                   removeAllChildNodes(container);
-                for (i = 0, j = 1; i < variablecnt; i++ , j++) {
+                    removeAllChildNodes(container);
+                    for (i = 0, j = 1; i < variablecnt; i++ , j++)
+                    {
 
-                    var div = document.createElement('row');
-                    div.innerHTML = '<div class="row" style="margin-top:10px;" ><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName"   readonly="readonly" MaxLength="12"  MinLength="3" style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable" required="required" MaxLength="12" MinLength="3" type="text" value=""></div></div>';
-                    document.getElementById("generated").appendChild(div);
-                }
+                        var div = document.createElement('row');
+                        div.innerHTML = '<div class="row" style="margin-top:10px;" ><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName"   readonly="readonly" MaxLength="12"  MinLength="3" style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable" required="required" MaxLength="12" MinLength="3" type="text" value=""></div></div>';
+                        document.getElementById("generated").appendChild(div);
+                    }
                     $('#closebtn').click();
                 });
 
 
                 $(document).on('click', '#btn_remove', function (e) {
                     e.preventDefault();
-
-
                     var $row_n = $(this).closest("tr").next("tr");
                     $row_n.remove();
 
                     var $row_c = $(this).closest("tr");
                     $row_c.remove();
                     $("#numberOfRaw").val(parseInt($("#numberOfRaw").val()) - 1);
-
                 });
             });
 
@@ -1075,14 +1065,16 @@
 
             var str = "";
             if ($('#ContentType').val() == "DYNAMIC" && rawNumber >= 10) {
-                ErrorMsg("Exceeds the limit")
+                ErrorMsg("Exceeds the limit");
 
             }
-            else if ($('#ContentType').val() == "STATIC" && rawNumber >= 10) {
-                ErrorMsg("Exceeds the limit")
+            else if ($('#ContentType').val() == "STATIC" && rawNumber >= 10)
+            {
+                ErrorMsg("Exceeds the limit");
 
             }
-            else {
+            else
+            {
                 str = "";
                 $("#numberOfRaw").val(parseInt($("#numberOfRaw").val()) + 1);
                 str = '<tr class="cell-1">'
@@ -1107,36 +1099,36 @@
                     + '<button style="color: green !important;" data-toggle="collapse" data-target="#demo' + rawNumber + '" class="btn_hide"><i class="fa fa-save text-black-50" style = "color: green!important;"></i></button>'
                     + '</div>';
 
-                for (j = 0; j < dvr.length; j++) {
-                    if (dvr.length >= 3) {
-                        str = str
-                            + '<div class="col-2" style="text-align:right;margin-bottom:4px;">'
-                            + '<span > ' + dvr[j] + '</span></div><div class="col-2" style="text-align:left;margin-bottom:4px;"><input id="VAR' + (j + 1) + '" type="text" MaxLength="30" style="height:22px; max-width:150px;">'
-                            + '</div>';
+                    for (j = 0; j < dvr.length; j++) {
+                        if (dvr.length >= 3) {
+                            str = str
+                                + '<div class="col-2" style="text-align:right;margin-bottom:4px;">'
+                                + '<span > ' + dvr[j] + '</span></div><div class="col-2" style="text-align:left;margin-bottom:4px;"><input id="VAR' + (j + 1) + '" type="text" MaxLength="30" style="height:22px; max-width:150px;">'
+                                + '</div>';
+                        }
+                        else if (dvr.length == 2) {
+                            str = str
+                                + '<div class="col-4" style="text-align:center;margin-bottom:4px;">'
+                                + '<span> ' + dvr[j] + '</span><input id="VAR' + (j + 1) + '" type="text" MaxLength="30" style="height:22px; max-width:155px;">'
+                                + '</div>';
+                        }
+                        else {
+                            str = str
+                                + '<div class="col-12" style="text-align:center;margin-bottom:4px;">'
+                                + '<span> ' + dvr[j] + '</span><input id="VAR' + (j + 1) + '" type="text" MaxLength="30" style="height:22px; max-width:155px;">'
+                                + '</div>';
+                             }
                     }
-                    else if (dvr.length == 2) {
-                        str = str
-                            + '<div class="col-4" style="text-align:center;margin-bottom:4px;">'
-                            + '<span> ' + dvr[j] + '</span><input id="VAR' + (j + 1) + '" type="text" MaxLength="30" style="height:22px; max-width:155px;">'
-                            + '</div>';
-                    }
-                    else {
-                        str = str
-                            + '<div class="col-12" style="text-align:center;margin-bottom:4px;">'
-                            + '<span> ' + dvr[j] + '</span><input id="VAR' + (j + 1) + '" type="text" MaxLength="30" style="height:22px; max-width:155px;">'
-                            + '</div>';
-                    }
-                }
 
-                str = str + '</div>'
+                    str = str + '</div>'
 
-                    + '</div>'
-                    + '</div >'
+                        + '</div>'
+                        + '</div >'
 
-                    + '</td>'
-                    + '</tr>'
-                $("#tblEntAttributes tbody").append(str);
-            }
+                        + '</td>'
+                        + '</tr>'
+                    $("#tblEntAttributes tbody").append(str);
+                 }
             return true;
         }
 
