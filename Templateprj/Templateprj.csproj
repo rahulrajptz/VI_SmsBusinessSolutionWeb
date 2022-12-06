@@ -1132,6 +1132,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\select2.min.js" />
+    <Content Include="Scripts\virtualkeyboard\keyboard.css" />
+    <Content Include="Scripts\virtualkeyboard\keyboard.js" />
+    <Content Include="Scripts\virtualkeyboard\keyboard.png" />
     <Content Include="Scripts\xls.core.min.js" />
     <Content Include="Scripts\xlsx.core.min.js" />
     <Content Include="Web.config">

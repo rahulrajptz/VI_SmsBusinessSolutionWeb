@@ -246,21 +246,24 @@
                         data: valdata
                         , success: function (e) {
                             jsondata = JSON.parse(e);
+                          
                             if (jsondata.status == "1") {
                                 $('#divSummary').hide();
                                 $('#divAdd').show();
                                 window.location.href = '@Url.Action(MVC.SenderId.SenderIds())';
                             }
-                            else {
+                            else if (jsondata.status == "2") {
                                 $('#divSummary').show();
                                 $('#divAdd').hide();
                                 $('#addUpload').hide();
-                                ErrorMsg("Failed to save details.")
+                                ErrorMsg(jsondata.response)
                                 $('#spnTotal').text(jsondata.data.Total);
                                 $('#spnDuplicate').text(jsondata.data.Duplicate);
                                 $.each(jsondata.data.Data, function (index, val) {
                                     addRow(index + 1, val.PId);
                                 });
+                            } else {
+                                ErrorMsg(jsondata.response)
                             }
                         }
                     });
@@ -367,8 +370,8 @@
                                 $('#divSummary').hide();
                                 $('#divAdd').show();
                                 window.location.href = '@Url.Action(MVC.SenderId.SenderIds())';
-                            }
-                            else {
+                            } 
+                                else if (jsondata.status == "2") {
                                 $('#divSummary').show();
                                 $('#divAdd').hide();
                                 $('#addUpload').hide();
@@ -378,6 +381,8 @@
                                 $.each(jsondata.data.Data, function (index, val) {
                                     addRow(index + 1, val.PId);
                                 });
+                            } else {
+                                ErrorMsg(jsondata.response)
                             }
                         }
                     });
