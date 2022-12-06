@@ -89,7 +89,7 @@ namespace Templateprj.Controllers
                 if (Request.Files.Count > 0)
                 {
                     ExcelExtension _xls = new ExcelExtension();
-                    string filePath = "D:/Home"; //GlobalValues.TempPath;
+                    string filePath = GlobalValues.TempPath;
                     if (!Directory.Exists(filePath))
                         Directory.CreateDirectory(filePath);
 
