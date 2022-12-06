@@ -59,7 +59,7 @@
                                 <div class="col">
                                     <div class="row">
                                         <div class="col-lg-3 col-md-6 col-6">
-                                            @Html.Label("Header Id")
+                                            @Html.Label("Header Id")<span style="color:red">*</span>
                                             <div class="form-group">
                                                 @Html.TextBoxFor(m => m.HeaderId, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")), @maxlength = "25" })
                                                 @Html.HiddenFor(m => m.SmId)
@@ -67,14 +67,14 @@
                                         </div>
 
                                         <div class="col-lg-3 col-md-6 col-6">
-                                            @Html.Label("Sender Id")
+                                            @Html.Label("Sender Id")<span style="color:red">*</span>
                                             <div class="form-group">
                                                 @Html.TextBoxFor(m => m.SenderId, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")), @maxlength = "6" })
                                             </div>
                                         </div>
 
                                         <div class="col-lg-3 col-md-6 col-6">
-                                            @Html.Label("Tele Marketer")
+                                            @Html.Label("Tele Marketer")<span style="color:red">*</span>
                                             <div class="form-group">
                                                 @Html.TextBoxFor(m => m.TeleMarketer, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
@@ -82,7 +82,7 @@
                                         </div>
 
                                         <div class="col-lg-3 col-md-6 col-6">
-                                            @Html.Label("RegisteredTsp")
+                                            @Html.Label("RegisteredTsp")<span style="color:red">*</span>
                                             <div class="form-group">
                                                 @Html.TextBoxFor(m => m.RegisteredTsp, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
                                             </div>
@@ -92,7 +92,7 @@
 
                                     <div class="row">
                                         <div class="col-lg-3 col-md-6 col-6">
-                                            @Html.Label("Requested On")
+                                            @Html.Label("Requested On")<span style="color:red">*</span>
                                             <div class="form-group">
                                                 @Html.TextBoxFor(m => m.RequestedDate, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
@@ -100,14 +100,14 @@
                                         </div>
 
                                         <div class="col-lg-3 col-md-6 col-6">
-                                            @Html.Label("Status Date")
+                                            @Html.Label("Status Date")<span style="color:red">*</span>
                                             <div class="form-group">
                                                 @Html.TextBoxFor(m => m.StatusDate, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
                                             </div>
                                         </div>
 
                                         <div class="col-lg-3 col-md-6 col-6">
-                                            @Html.Label("Status")
+                                            @Html.Label("Status")<span style="color:red">*</span>
                                             <div class="form-group">
                                                 @Html.DropDownListFor(m => m.Status, Model.ApprovalStatus, new { @class = "form-control w-100" })
                                             </div>
@@ -277,6 +277,13 @@
                 }
                 else if ($("#HeaderId").val().length > 25) {
                     ErrorMsg("Header Id maximum length exceeded.")
+                    return false;
+                }
+                else if (!($("#SenderId").val() && $("#HeaderId").val() && $("#TeleMarketer").val()
+                    && $("#RegisteredTsp").val() && $("#RequestedDate").val()
+                    && $("#StatusDate").val() && $("#Status").val()))
+                {
+                    ErrorMsg("Please confirm the entries, there are some mandatory fields missing.")
                     return false;
                 }
                 else {

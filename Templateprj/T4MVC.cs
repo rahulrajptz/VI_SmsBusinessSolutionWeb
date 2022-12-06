@@ -668,6 +668,16 @@ namespace Links
             public static readonly string popper_min_js_map = Url("popper.min.js.map");
         }
     
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public static class virtualkeyboard {
+            public const string UrlPath = "~/Scripts/virtualkeyboard";
+            public static string Url() { return T4MVCHelpers.ProcessVirtualPath(UrlPath); }
+            public static string Url(string fileName) { return T4MVCHelpers.ProcessVirtualPath(UrlPath + "/" + fileName); }
+            public static readonly string keyboard_css = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(UrlPath + "/keyboard.min.css") ? Url("keyboard.min.css") : Url("keyboard.css");
+            public static readonly string keyboard_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(UrlPath + "/keyboard.min.js") ? Url("keyboard.min.js") : Url("keyboard.js");
+            public static readonly string keyboard_png = Url("keyboard.png");
+        }
+    
         public static readonly string xls_core_min_js = Url("xls.core.min.js");
         public static readonly string xlsx_core_min_js = Url("xlsx.core.min.js");
     }
@@ -1273,6 +1283,14 @@ namespace Links
                     public static readonly string popper_utils_min_js = T4MVCHelpers.ProcessAssetPath("~/Scripts/umd/popper-utils.min.js"); 
                     public static readonly string popper_js = T4MVCHelpers.ProcessAssetPath("~/Scripts/umd/popper.js"); 
                     public static readonly string popper_min_js = T4MVCHelpers.ProcessAssetPath("~/Scripts/umd/popper.min.js"); 
+                }
+            }
+            public static partial class virtualkeyboard 
+            {
+                public static class Assets
+                {
+                    public static readonly string keyboard_css = T4MVCHelpers.ProcessAssetPath("~/Scripts/virtualkeyboard/keyboard.css");
+                    public static readonly string keyboard_js = T4MVCHelpers.ProcessAssetPath("~/Scripts/virtualkeyboard/keyboard.js"); 
                 }
             }
             public static class Assets
