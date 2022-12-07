@@ -856,14 +856,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="spinner-div" class="pt-5">
+                        @*<div id="spinner-div" class="pt-5">
                             <div class="spinner-border text-primary" role="status">
                             </div>
                         </div>
-                        @*<div class="row" id="loadingupload" style="width:600px;height:150px; ">
-                                <img src="~/Content/Images/loading.gif" style="width:100px;height:50px;" />
+                        <div class="row" id="loadingupload" style="width:600px;height:150px; ">
+                                <img src="Content/Images/loading.gif" style="width:100px;height:50px;" />
 
-                            </div>*@
+                        </div>*@
                     </div>
                 </div>
             </div>
@@ -1092,7 +1092,7 @@
                             @Html.Label("Campaign Validity Extension", new { style = "font-weight:bold; font-size:18px;" })
                             <button id="closebtnupload" data-dismiss="modal">X</button>
                         </div>
-                        <table style="height:200px; width:390px;">
+                        <table style="height:200px;width:390px;">
                             <tr>
                                 <td> @Html.HiddenFor(m => m.updatedId, new { Value = "-1" }) @Html.HiddenFor(m => m.updatedFromDate, new { Value = "-1" })</td>
 
@@ -1169,12 +1169,12 @@
         });
 
         
-        $('#senderId').on('change', function () {
-            if ($('#smsType').val() != "3") {
+        //$('#senderId').on('change', function () {
+        //    if ($('#smsType').val() != "3") {
 
-                gettemplateidfromsenderidsmstype($("#senderId").val(), $('#smsType').val());
-            }
-        });
+        //        gettemplateidfromsenderidsmstype($("#senderId").val(), $('#smsType').val());
+        //    }
+        //});
 
 
         $('#campaignsubmit').on('click', function () {
@@ -2845,7 +2845,7 @@
 
         $('#upload').on('click', function () {
 
-            console.log("called");
+            //console.log("called");
             //document.getElementById("campaignlistnavitem").classList.remove("active");
             //document.getElementById("uploadlistnavitem").classList.add("active");
 
@@ -2857,10 +2857,10 @@
 
 
         function redirectToBaseupload() {
-          $("#campaigncreationnavitem").removeClass("show  active");
-            $("#uploadlistnavitem").addClass("show  active");
-         $("#campaignnav").removeClass("show active");
-            $("#uploadbasenav").addClass("show active");
+              $("#campaigncreationnavitem").removeClass("show  active");
+              $("#uploadlistnavitem").addClass("show  active");
+              $("#campaignnav").removeClass("show active");
+              $("#uploadbasenav").addClass("show active");
         }
 
         function fileupload() {
@@ -3417,7 +3417,7 @@
 
                 var fileData = new FormData();
                 const fsize = files[0].size;
-                console.log(fsize);
+                //console.log(fsize);
                 const filesizeinkb = Math.round((fsize / 1024));
 
                 if (filesizeinkb >= 41000) {
@@ -3448,7 +3448,7 @@
                         data: fileData,
                         success: function (response) {
                             var obj = JSON.parse(response);
-                            console.log(obj);
+                            //console.log(obj);
 
                             if (obj.status == "1") {
                                 SuccessMsg(obj.response);

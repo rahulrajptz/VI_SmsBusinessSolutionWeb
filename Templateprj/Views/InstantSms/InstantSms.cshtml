@@ -359,9 +359,6 @@
                                             </table>
                                         </div>
 
-                                        @*//table*@
-
-
                                         <div class="row" style="margin-left:10px; width:100% !important; text-align:right;">
                                             <div class="col-12">
                                                 <button style="margin-right:40px;background-color:#5f004b;color:white;border-radius:20px;" type="button" id="sendsms">Send</button>
@@ -1441,10 +1438,9 @@
         function resetfunction() {
 
             document.getElementById("Idform").reset();
+            document.getElementById("bindsenderName").innerHTML = "";
             $('#StaticSmsDiv').hide();
             $('#dynamicSmsDiv').hide();
-            document.getElementById("bindsenderName").innerHTML = "";
-            $('#sendbutton').hide();
             $("#smstemplatediv").hide();
             document.getElementById("bindtemplatename").innerHTML = "";
             $('#tbl_report').parents('div.dataTables_wrapper').first().hide();
