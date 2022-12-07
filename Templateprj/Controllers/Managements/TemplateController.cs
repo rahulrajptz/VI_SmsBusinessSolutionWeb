@@ -33,11 +33,11 @@ namespace Templateprj.Controllers
         public virtual ActionResult AddTemplates(int? id)
         {
             TemplateModel masters = _templateManagemntRepository.GetTemplateFilters();
-            RegisterTemplateCommand model=new RegisterTemplateCommand();
-            if (id.HasValue) { model= _templateManagemntRepository.GetTemplateById(id.Value); }
-            model.Masters= masters;
+            RegisterTemplateCommand model = new RegisterTemplateCommand();
+            if (id.HasValue) { model = _templateManagemntRepository.GetTemplateById(id.Value); }
+            model.Masters = masters;
             ViewBag.IsEdit = id.HasValue;
-         
+
             return View("~/Views/Management/AddTemplate.cshtml", model);
         }
 
@@ -48,8 +48,8 @@ namespace Templateprj.Controllers
             string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\",\"data\":" + data + "}";
             TempData["Message"] = response;
             return Json(responsejson, JsonRequestBehavior.AllowGet);
-        } 
-        
+        }
+
         [HttpPut]
         public virtual ActionResult Templates(UpdateTemplateCommand command)
         {
@@ -90,19 +90,14 @@ namespace Templateprj.Controllers
 
         public virtual ActionResult UploadTemplate()
         {
-            LogWriter.Write(DateTime.Now + " UploadTemplate 1 ");
-
             try
             {
                 string json = "";
                 string CampignId = "TempalteTemp";
                 string starttype = "2";
-                LogWriter.Write(DateTime.Now + " UploadTemplate 2 ");
 
                 if (Request.Files.Count > 0)
                 {
-                    LogWriter.Write(DateTime.Now + " UploadTemplate 3 ");
-
                     ExcelExtension _xls = new ExcelExtension();
                     string filePath = GlobalValues.TempPath;
                     if (!Directory.Exists(filePath))
@@ -126,7 +121,6 @@ namespace Templateprj.Controllers
                             {
                                 path = Path.Combine(path, fileName);
                                 uploadedFile.SaveAs(path);
-                                LogWriter.Write(DateTime.Now + " UploadTemplate 4 ");
 
                                 var d = _xls.ConvertToDataTable(path, xtn);
 
@@ -134,17 +128,25 @@ namespace Templateprj.Controllers
                                 {
                                     string data = d.DataTableToJSONWithStringBuilder();
                                     var commands = JsonConvert.DeserializeObject<List<RegisterTemplateCommand>>(data);
-                                    string status = _templateManagemntRepository.SaveTemplate(commands, out string response, out string dataduplicate);
-                                    if (string.IsNullOrEmpty(dataduplicate) || dataduplicate.Length<=3)
+                                    string message = string.Empty;
+                                    if (IsValidSender(commands, out message))
                                     {
-                                        json = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\"}";
-                                        TempData["Message"] = response;
+                                        string status = _templateManagemntRepository.SaveTemplate(commands, out string response, out string dataduplicate);
+                                        if (string.IsNullOrEmpty(dataduplicate) || dataduplicate.Length <= 3)
+                                        {
+                                            json = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\"}";
+                                            TempData["Message"] = response;
+                                        }
+                                        else
+                                        {
+                                            LogWriter.Write(DateTime.Now + " UploadTemplate 5 ");
+
+                                            json = "{\"status\":\"" + 2 + "\",\"response\":\"" + response + "\",\"data\":" + dataduplicate + "}";
+                                        }
                                     }
                                     else
                                     {
-                                        LogWriter.Write(DateTime.Now + " UploadTemplate 5 ");
-
-                                        json = "{\"status\":\"" + 2 + "\",\"response\":\"" + response + "\",\"data\":" + dataduplicate + "}";
+                                        json = "{\"status\":\"0\",\"response\":\"" + message + "\" }";
                                     }
                                 }
                                 else
@@ -164,7 +166,7 @@ namespace Templateprj.Controllers
                         }
                         catch (Exception e)
                         {
-                            json = "{\"status\":\"0\",\"response\":\"Unable to load file,"+ e.Message + "\" }";
+                            json = "{\"status\":\"0\",\"response\":\"Unable to load file," + e.Message + "\" }";
                             LogWriter.Write(DateTime.Now + " :: Controller.CampaignBase :: Exception :: " + e.Message.ToString());
                         }
                     }
@@ -173,23 +175,20 @@ namespace Templateprj.Controllers
                         json = "{\"status\":\"0\",\"response\":\"Input file contain more than one extention , Please Chcek and upload !\" }";
                     }
 
-
                 }
                 else
                 {
                     ViewBag.ErrorMsg = "Input file not found !";
                     json = "{\"status\":\"0\",\"response\":\"Input file not found!\" }";
-
                 }
 
                 return Json(json, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ViewBag.Message = "File upload failed!!";
-                return View();
-                LogWriter.Write(DateTime.Now + ":: UploadTemplate :: "+ ex.Message);
-
+                LogWriter.Write(DateTime.Now + ":: UploadTemplate :: " + ex.Message);
+                return Json("{\"status\":\"0\",\"response\":\"File upload failed!\" }", JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -198,6 +197,101 @@ namespace Templateprj.Controllers
         {
             byte[] fileByteArray = _templateManagemntRepository.GetTemplateMasters("TemplateSampleFile.xlsx");
             return File(fileByteArray, "application/vnd.ms-excel", "TemplateSampleFile.xlsx");
+        }
+        private bool IsValidSender(List<RegisterTemplateCommand> senderIds, out string message)
+        {
+            message = "Success";
+            if (senderIds.Any(b => string.IsNullOrEmpty(b.TemplateId)))
+            {
+                message = "Please verify data, TemplateId required.";
+                return false;
+            }
+            if (senderIds.Any(b => string.IsNullOrEmpty(b.TeleMarketer)))
+            {
+                message = "Please verify data, TeleMarketer required.";
+                return false;
+            }
+            if (senderIds.Any(b => string.IsNullOrEmpty(b.TemplateName)))
+            {
+                message = "Please verify data, TemplateName required.";
+                return false;
+            }
+            if (senderIds.Any(b => string.IsNullOrEmpty(b.TeleMarketer)))
+            {
+                message = "Please verify data, TeleMarketer required.";
+                return false;
+            }
+            if (senderIds.Any(b => !b.Type.HasValue))
+            {
+                message = "Please verify data, Type required.";
+                return false;
+            }
+            if (senderIds.Any(b => !b.Header.HasValue))
+            {
+                message = "Please verify data, Header required.";
+                return false;
+            }
+            if (senderIds.Any(b => string.IsNullOrEmpty(b.RequestedOn)))
+            {
+                message = "Please verify data, RequestedOn required.";
+                return false;
+            }
+            if (senderIds.Any(b => string.IsNullOrEmpty(b.StatusDate)))
+            {
+                message = "Please verify data, StatusDate required.";
+                return false;
+            }
+            if (senderIds.Any(b => string.IsNullOrEmpty(b.CreatedBy)))
+            {
+                message = "Please verify data, CreatedBy required.";
+                return false;
+            }
+            if (senderIds.Any(b => !b.ContentType.HasValue))
+            {
+                message = "Please verify data, ContentType required.";
+                return false;
+            }
+            if (senderIds.Any(b => !b.ApprovalStatus.HasValue))
+            {
+                message = "Please verify data, ApprovalStatus required.";
+                return false;
+            }
+            if (senderIds.Any(b => !b.Status.HasValue))
+            {
+                message = "Please verify data, Status required.";
+                return false;
+            }
+            if (senderIds.Any(b => string.IsNullOrEmpty(b.TemplateMessage)))
+            {
+                message = "Please verify data, TemplateMessage required.";
+                return false;
+            }
+            if (senderIds.Any(b => !b.ConsentType.HasValue))
+            {
+                message = "Please verify data, ConsentType required.";
+                return false;
+            }
+            if (senderIds.Any(b => !b.DeliveryStatus.HasValue))
+            {
+                message = "Please verify data, DeliveryStatus required.";
+                return false;
+            }
+            if (senderIds.Any(b => string.IsNullOrEmpty(b.ValidityPeriod)))
+            {
+                message = "Please verify data, ValidityPeriod required.";
+                return false;
+            }
+            if (senderIds.Any(b => string.IsNullOrEmpty(b.Category)))
+            {
+                message = "Please verify data, Category required.";
+                return false;
+            }
+            if (senderIds.Any(b => string.IsNullOrEmpty(b.RegisteredDlt)))
+            {
+                message = "Please verify data, RegisteredDlt required.";
+                return false;
+            }
+            return true;
         }
 
     }

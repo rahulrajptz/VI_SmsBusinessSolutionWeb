@@ -117,18 +117,26 @@ namespace Templateprj.Controllers
                                 {
                                     string data = d.DataTableToJSONWithStringBuilder();
                                     var commands = JsonConvert.DeserializeObject<List<AddSenderModel>>(data);
-                                    string status = _senderRepository.SaveSenderId(commands, out string response, out string dataduplicate);
-                                    //string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\",\"data\":" + dataduplicate + "}";
-                                    //TempData["Message"] = response;
-
-                                    if (string.IsNullOrEmpty(dataduplicate) || dataduplicate.Length <= 3)
+                                    string message=string.Empty;
+                                    if (IsValidSender(commands, out message))
                                     {
-                                        json = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\"}";
-                                        TempData["Message"] = response;
+                                        string status = _senderRepository.SaveSenderId(commands, out string response, out string dataduplicate);
+                                        //string responsejson = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\",\"data\":" + dataduplicate + "}";
+                                        //TempData["Message"] = response;
+
+                                        if (string.IsNullOrEmpty(dataduplicate) || dataduplicate.Length <= 3)
+                                        {
+                                            json = "{\"status\":\"" + status + "\",\"response\":\"" + response + "\"}";
+                                            TempData["Message"] = response;
+                                        }
+                                        else
+                                        {
+                                            json = "{\"status\":\"" + 2 + "\",\"response\":\"" + response + "\",\"data\":" + dataduplicate + "}";
+                                        }
                                     }
                                     else
                                     {
-                                        json = "{\"status\":\"" + 2 + "\",\"response\":\"" + response + "\",\"data\":" + dataduplicate + "}";
+                                        json = "{\"status\":\"0\",\"response\":\""+ message + "\" }";
                                     }
                                 }
                                 else
@@ -157,7 +165,6 @@ namespace Templateprj.Controllers
 
                     }
 
-
                 }
                 else
                 {
@@ -170,8 +177,73 @@ namespace Templateprj.Controllers
             catch (Exception ex)
             {
                 ViewBag.Message = "File upload failed!!";
-                return View();
+                return Json("{\"status\":\"0\",\"response\":\"Failed to proccess file!\" }", JsonRequestBehavior.AllowGet);
+
             }
+        }
+
+        private bool IsValidSender(List<AddSenderModel> senderIds,out string message)
+        {
+            message = "Success";
+           
+            if(senderIds.Any(b=>string.IsNullOrEmpty(b.HeaderId)))
+            {
+                message = "Please verify data, HeaderId required.";
+                return false;
+            }
+            if (senderIds.Any(b => string.IsNullOrEmpty(b.SenderId)))
+            {
+                message = "Please verify data, SenderId required.";
+                return false;
+            }
+            if (senderIds.Any(b => string.IsNullOrEmpty(b.TeleMarketer)))
+            {
+                message = "Please verify data, TeleMarketer required.";
+                return false;
+            }
+            if (senderIds.Any(b => string.IsNullOrEmpty(b.RegisteredTsp)))
+            {
+                message = "Please verify data, RegisteredTsp required.";
+                return false;
+            }
+            if (senderIds.Any(b => string.IsNullOrEmpty(b.RequestedDate)))
+            {
+                message = "Please verify data, RequestedDate required.";
+                return false;
+            }
+            if (senderIds.Any(b => string.IsNullOrEmpty(b.StatusDate)))
+            {
+                message = "Please verify data, RequestedDate required.";
+                return false;
+            }
+            if (senderIds.Any(b => !b.Status.HasValue))
+            {
+                message = "Please verify data, Status required.";
+                return false;
+            }
+            if (senderIds.Any(b => b.SenderId.Trim().Length >= 7))
+            {
+                message = "SenderId maximum length(6) exceeded.Please verify data.";
+                return false;
+            }
+            if (senderIds.Any(b => b.HeaderId.Trim().Length >= 26))
+            {
+                message = "HeaderId maximum length(25) exceeded.Please verify data.";
+                return false;
+            }
+            if (senderIds.Any(b => !b.HeaderId.Trim().IsDigitsOnly()))
+            {
+                message = "HeaderId should only contains digits.";
+                return false;
+            }
+            if (senderIds.Any(b => b.Status.Value!=1 && b.Status.Value != 2))
+            {
+                message = "Please verify data, invalid status.";
+                return false;
+            }
+
+            return true;
+
         }
 
 

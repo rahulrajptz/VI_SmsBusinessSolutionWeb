@@ -59,7 +59,7 @@
                                     <div class="col">
                                         <div class="row">
                                             <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Template Id")
+                                                @Html.Label("Template Id")<span style="color:red">*</span>
                                                 <div class="form-group">
                                                     @Html.TextBoxFor(m => m.TemplateId, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")), @maxlength = "25" })
                                                     @Html.HiddenFor(m => m.Id)
@@ -67,20 +67,20 @@
                                             </div>
 
                                             <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Tele Marketer")
+                                                @Html.Label("Tele Marketer")<span style="color:red">*</span>
                                                 <div class="form-group">
                                                     @Html.TextBoxFor(m => m.TeleMarketer, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Template Name")
+                                                @Html.Label("Template Name")<span style="color:red">*</span>
                                                 <div class="form-group">
                                                     @Html.TextBoxFor(m => m.TemplateName, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Type")
+                                                @Html.Label("Type")<span style="color:red">*</span>
                                                 <div class="form-group">
 
                                                     @Html.DropDownListFor(m => m.Type, Model.Masters.TemplateTypes?.Where(a => a.Value != "0"), new { @id = "Type", @class = "form-control form-select", @disabled = @ViewBag.IsEdit ? "disabled" : "" })
@@ -91,28 +91,28 @@
 
                                         <div class="row">
                                             <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Header")
+                                                @Html.Label("Header")<span style="color:red">*</span>
                                                 <div class="form-group">
                                                     @Html.DropDownListFor(a => a.Header, Model.Masters.Headers, new { @class = "form-control cl-black", id = "Header", autocomplete = "off", @disabled = @ViewBag.IsEdit ? "disabled" : "" })
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Category")
+                                                @Html.Label("Category")<span style="color:red">*</span>
                                                 <div class="form-group">
                                                     @Html.TextBoxFor(m => m.Category, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Registered Dlt")
+                                                @Html.Label("Registered Dlt")<span style="color:red">*</span>
                                                 <div class="form-group">
                                                     @Html.TextBoxFor(m => m.RegisteredDlt, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Requested On")
+                                                @Html.Label("Requested On")<span style="color:red">*</span>
                                                 <div class="form-group">
                                                     @Html.TextBoxFor(m => m.RequestedOn, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
@@ -124,14 +124,14 @@
                                         <div class="row">
 
                                             <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Status Date")
+                                                @Html.Label("Status Date")<span style="color:red">*</span>
                                                 <div class="form-group">
                                                     @Html.TextBoxFor(m => m.StatusDate, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Created By")
+                                                @Html.Label("Created By")<span style="color:red">*</span>
                                                 <div class="form-group">
                                                     @Html.TextBoxFor(m => m.CreatedBy, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
@@ -144,7 +144,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Approval Status")
+                                                @Html.Label("Approval Status")<span style="color:red">*</span>
                                                 <div class="form-group">
 
                                                     @Html.DropDownListFor(m => m.ApprovalStatus, Model.Masters.ApprovalStatus?.Where(a => a.Value != "0"), new { @id = "ApprovalStatus", @class = "form-control form-select w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
@@ -160,16 +160,14 @@
                                                     @Html.Label("Template Message")
                                                     <div class="form-group">
                                                         @Html.TextAreaFor(m => m.TemplateMessage, new { @class = "w-100", @rows = "4", @disabled = "disabled" })
-
                                                     </div>
                                                 </div>
-
                                             </div>
                                         }
                                         else
                                         {<div class="row">
                                                 <div class="col-12">
-                                                    @Html.Label("Template Message")
+                                                    @Html.Label("Template Message")<span style="color:red">*</span>
                                                     <div class="form-group">
                                                         @Html.TextAreaFor(m => m.TemplateMessage, new { @class = "keyboardInput w-100", @rows = "4" })
 
@@ -185,40 +183,40 @@
                                         <div class="row">
 
                                             <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Status")
+                                                @Html.Label("Status")<span style="color:red">*</span>
                                                 <div class="form-group">
                                                     @Html.DropDownListFor(m => m.Status, Model.Masters.Status?.Where(a => a.Value != "0"), new { @id = "Status", @class = "form-control cl-black" })
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Consent Type")
+                                                @Html.Label("Consent Type")<span style="color:red">*</span>
                                                 <div class="form-group">
                                                     @Html.DropDownListFor(m => m.ConsentType, Model.Masters.ConsentType?.Where(a => a.Value != "0"), new { @id = "ConsentType", @class = "form-control cl-black", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Delivery Status")
+                                                @Html.Label("Delivery Status")<span style="color:red">*</span>
                                                 <div class="form-group">
                                                     @Html.DropDownListFor(m => m.DeliveryStatus, Model.Masters.DeliveryStatus, new { @class = "form-control cl-black", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Content Type")
+                                                @Html.Label("Content Type")<span style="color:red">*</span>
                                                 <div class="form-group">
                                                     @Html.DropDownListFor(m => m.ContentType, Model.Masters.ContentTypes?.Where(a => a.Value != "0"), new { @id = "ContentType", @onchange = "onContentTypeChange(this.value)", @class = "form-control cl-black", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-6 col-6" id="divVariableCount" style="display:none">
-                                                @Html.Label("Variable Count")
+                                                @Html.Label("Variable Count")<span style="color:red">*</span>
                                                 <div class="form-group">
                                                     @Html.TextBoxFor(m => m.VariableCount, new { @class = "form-control w-100", @type = "number", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Validity Period")
+                                                @Html.Label("Validity Period")<span style="color:red">*</span>
                                                 <div class="form-group">
 
                                                     @Html.TextBoxFor(m => m.ValidityPeriod, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
@@ -394,6 +392,17 @@
                     }
                     else if ($("#VariableCount").val() <= 0 && $("#ContentType").val() == 2) {
                         ErrorMsg("variable count should be greater gthan 0.")
+                        return false;
+                    }
+                    else if (!($("#TemplateId").val() && $("#TeleMarketer").val() && $("#TemplateName").val()
+                        && $("#Type").val() && $("#Header").val()
+                        && $("#RequestedOn").val() && $("#StatusDate").val()
+                        && $("#CreatedBy").val() && $("#ContentType").val()
+                        && $("#ApprovalStatus").val() && $("#Status").val()
+                        && $("#TemplateMessage").val() && $("#ConsentType").val()
+                        && $("#DeliveryStatus").val() && $("#ValidityPeriod").val()
+                        && $("#Category").val() && $("#RegisteredDlt").val())) {
+                        ErrorMsg("Please confirm the entries, there are some mandatory fields missing.")
                         return false;
                     }
                     else {
