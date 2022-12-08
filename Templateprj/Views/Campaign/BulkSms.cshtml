@@ -333,7 +333,7 @@
                                         <div class="col-md-3">
                                             @Html.Label("SMS Type")<span style="color:red;">*</span>
                                         </div>
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 @Html.DropDownListFor(m => m.smsType, Model.smsTypeList, new { @class = "form-control cl-black", @required = "required" })
 
@@ -1153,7 +1153,7 @@
         };
 
         $(document).ready(function () {
-         
+            $("#collapseCreateCampaign").addClass("show");
             $('#StaticSmsDiv').hide();
             $('#dynamicSmsDiv').hide();
             $('#messageScriptdiv').hide();
@@ -1727,9 +1727,9 @@
                                 $("#testsmsdiv").hide();
                                 SuccessMsg(jsondata.response);
                                  getcampigndrowpdown();
-                                
                                 getcampigndropdownList();
                                 getcampignlistdropdownList();
+                                $("#collapseupload").addClass("show");
                                 $("#smstemplatediv").hide();
                                 $('#StaticSmsDiv').hide();
                                 $('#dynamicSmsDiv').hide();
@@ -2976,11 +2976,12 @@
               
                 $("#collapseCampaignDetails").addClass("show");
                 $("#Uploadingdiv").show();
-
+                $("#collapseupload").addClass("show");
                 geteachcampaigndetails($('#uploadCampaignName').val());
             }
             else {
                 $("#collapseCampaignDetails").removeClass("show");
+                $("#collapseupload").removeClass("show");
                 $("#Uploadingdiv").hide();
 
             }
@@ -3048,7 +3049,8 @@
                             $('<option></option>').val(minames.VALUE).html(minames.TEXT));
                      });                    
                      $("#uploadCampaignName option:contains(" + $('#campaignName').val()  + ")").attr('selected', 'selected');
-                     getCamapignDetailsforUpload();                
+                     getCamapignDetailsforUpload();    
+                    
                  }
              }).fail(function (xhr, status, error) {
                  $("#loading").hide();
