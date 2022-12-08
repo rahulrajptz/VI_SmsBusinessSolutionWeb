@@ -229,62 +229,75 @@
                         $("#divNoData").show();
                         $("#divTablereport").hide();
                     }
-                    else {
+                    else
+                    {
                         columnHeaders = resp.Header;
                         columnHeaders = sortResults("Id", true);
-                    coulmnLimit = resp.Count;
-                    var headers = [{
+                        coulmnLimit = resp.Count;
+                        var headers = [{
                         className: 'dt-control',
                         orderable: false,
                         data: null,
                         defaultContent: '',
-                    }];
-                    var i = 0;
+                        }];
+                        var i = 0;
                         $.each(columnHeaders, function (i, item) {
                             i = i + 1;
-                        columnKeys.push(item.Data);
-                        var title = item.Title;
-                        var data = item.Data;
-                        /*map[name] = { data: id, title: name };*/
-                        headers.push({ "data": data, "title": title, "name": title });
-                        if (i > resp.Count) {
-                            headers.push({
-                                "title": "Manage",
-                                "data": "TemplateId",
-                                "width": "50px !mportant",
-                                "render": function (data1, type, row) {
-                                    return `<p>
-                                                <a class="edit" title="Add" data-toggle="tooltip" href="AddTemplates/`+ row.ID + `" style="color: #004d00 !important""><i class='fas fa-edit'></i></a>
-                                         </p>`;
-                                }
-                            });
-                            return false;
-                        }
-                    });
-
-                    {
-                        $("#tbl_rptreport").show();
-                        $("#divTablereport").show();
-
-                        rpt_datatable = $("#tbl_rptreport").DataTable({
-                            responsive: true,
-                            deferRender: true,
-                            "destroy": true,
-                            bFilter: false,
-                            bInfo: false,
-                            "data": resp.Data,
-                            "columns":
-                                headers,
-                            "columnDefs": [
-                                { "width": "30px !important", "targets": 0 }
-                            ],
-                            fnInitComplete: function (o) {
-                                $("#loading").hide();
-                                $(".spinner-grow").hide();
-                            },
+                            columnKeys.push(item.Data);
+                            var title = item.Title;
+                            var data = item.Data;
+                            /*map[name] = { data: id, title: name };*/
+                            headers.push({ "data": data, "title": title, "name": title });
+                            if (i > resp.Count)
+                            {
+                                headers.push({
+                                    "title": "Manage",
+                                    "data": "TemplateId",
+                                    "width": "50px !mportant",
+                                    "render": function (data1, type, row) {
+                                        return `<p>
+                                                    <a class="edit" title="Add" data-toggle="tooltip" href="AddTemplates/`+ row.ID + `" style="color: #004d00 !important""><i class='fas fa-edit'></i></a>
+                                             </p>`;
+                                    }
+                                });
+                                return false;
+                            }
                         });
+
+                        {
+                            $("#tbl_rptreport").show();
+                            $("#divTablereport").show();
+
+                            rpt_datatable = $("#tbl_rptreport").DataTable({
+                                responsive: true,
+                                deferRender: true,
+                                "destroy": true,
+                                bFilter: false,
+                                bInfo: false,
+                                "data": resp.Data,
+                                "columns": headers,
+                                "columnDefs": [
+                                    {
+                                        "targets": "_all",
+                                        "className": "text-center"
+                                    },
+                                    //{
+                                    //    "width": "30px !important",
+                                    //    "targets": 0
+                                    //},
+                                    {
+                                        "targets": 3,
+                                        "width": "30px !important",
+                                        "className": "text-center"
+                                    }
+                                ],
+                                fnInitComplete: function (o) {
+                                    $("#loading").hide();
+                                    $(".spinner-grow").hide();
+                                },
+                            });
+                        }
                     }
-                }
                  
                 }).fail(function (xhr, status, error) {
                     $("#loading").hide();
@@ -303,7 +316,7 @@
                     } else {
                         alert("Unable to fetch data from server", "Failed");
                     }
-                    });
+                });
 
                 $(function () {
                     $("#tbl_rptreport").click(function (event) {
@@ -324,7 +337,7 @@
                             tr.addClass('shown');
                         }
                     });
-        });
+                });
 
         }
 

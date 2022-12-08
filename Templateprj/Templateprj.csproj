@@ -1235,7 +1235,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties Content_4bootstrap-reboot_1min_1css_1map__JSONSchema="https://json.schemastore.org/swa-cli.config.json" />
+      <UserProperties Content_4bootstrap_1css_1map__JSONSchema="https://json.schemastore.org/stale.json" Content_4bootstrap-reboot_1min_1css_1map__JSONSchema="https://json.schemastore.org/swa-cli.config.json" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

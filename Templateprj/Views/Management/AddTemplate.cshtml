@@ -131,7 +131,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Created By")<span style="color:red">*</span>
+                                                @Html.Label("Created By")
                                                 <div class="form-group">
                                                     @Html.TextBoxFor(m => m.CreatedBy, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
 
@@ -212,11 +212,11 @@
                                             <div class="col-lg-3 col-md-6 col-6" id="divVariableCount" style="display:none">
                                                 @Html.Label("Variable Count")<span style="color:red">*</span>
                                                 <div class="form-group">
-                                                    @Html.TextBoxFor(m => m.VariableCount, new { @class = "form-control w-100", @type = "number", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
+                                                    @Html.TextBoxFor(m => m.VariableCount, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-6 col-6">
-                                                @Html.Label("Validity Period")<span style="color:red">*</span>
+                                                @Html.Label("Validity Period")
                                                 <div class="form-group">
 
                                                     @Html.TextBoxFor(m => m.ValidityPeriod, new { @class = "form-control w-100", @disabled = ((ViewBag.IsEdit ? "disabled" : "")) })
