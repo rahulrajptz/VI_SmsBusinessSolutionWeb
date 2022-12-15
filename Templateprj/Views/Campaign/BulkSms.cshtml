@@ -6,6 +6,9 @@
 }
 
 <style>
+    table.table-bordered.dataTable tbody td {
+        color: black !important;
+    }
 
     table.dataTable thead > tr > td.sorting, table.dataTable thead > tr > td.sorting_asc, table.dataTable thead > tr > td.sorting_desc, table.dataTable thead > tr > th.sorting, table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sorting_desc {
         font-size: 9.5pt;
@@ -13,11 +16,26 @@
         font-weight: bold;
         white-space: nowrap !important;
         table-layout: fixed;
-        color: #5f004b;
+        color: black !important;
     }
 
-    .dt-control {
-        width: 30px !important;
+    table.dataTable td.dt-control:before {
+        height: 1em;
+        width: 1em;
+        margin-top: -9px;
+        display: inline-block;
+        color: white;
+        border: 0.15em solid white;
+        border-radius: 1em;
+        box-shadow: 0 0 0.2em #444;
+        box-sizing: content-box;
+        text-align: center;
+        text-indent: 0 !important;
+        font-family: "Courier New",Courier,monospace;
+        line-height: 1em;
+        content: "+";
+        background-color: #31b131;
+        margin-right: 5px;
     }
 
     #spinner-div {
@@ -39,16 +57,19 @@
     .alert-danger {
         color: white;
     }
-   
+
     .alert-success {
         color: white;
     }
+
     #ajaxSpinnerImage {
         display: none;
     }
+
     hr {
         border: 1px solid #5f004b
     }
+
     .modal1 {
         position: fixed;
         z-index: 999;
@@ -78,6 +99,7 @@
             height: 100px;
             width: 100px;
         }
+
     .box {
         /*border: 1px solid #878080;*/
         padding: 20px;
@@ -86,7 +108,7 @@
         /*width:25%;*/
     }
 
-    .blue {
+    /*.blue {
         width: 60%;
         background-color: #57b4eb;
     }
@@ -105,34 +127,37 @@
         position: sticky;
         top: 0;
         z-index: 5;
-    }
+    }*/
 
     body {
         font-size: 13px !important;
     }
 
     .form-control {
+        border-radius: 10px;
         height: 20px !important;
         padding: 0px 5px !important;
         font-size: 12px !important;
         background-color: white !important;
         /*color:#5f004b;*/
     }
+
     .form-control1 {
         margin-top: 4px;
     }
+
     .form-controlnew {
         height: 20px !important;
         padding: 0px 5px !important;
         font-size: 12px !important;
-    
     }
+
     .form-group {
         margin-bottom: 4px;
     }
+
     .text {
         overflow-wrap: break-word;
-      
     }
     /*.card {
         width: 420px;
@@ -144,35 +169,35 @@
         background: #ded0da;
     }*/
 
-    .navstyle {
-        border: 0px solid black;
+    .navstyle > ul > li {
+        border: 1px solid #5f004b;
+        /*background-color: #5f004b;*/
+        margin-left: 5px;
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+        width: 200px;
     }
-
-        .navstyle > ul > li {
-            border: 1px solid black;
-            background-color: #5f004b;
-            margin-left: 5px;
-            border-top-right-radius: 10px;
-            border-top-left-radius: 10px;
-            width: 200px;
-        }
 
     a {
         color: white;
     }
 
         a:hover {
-            color: white;
+            background-color: #5f004b;
         }
 
+    .navstyle {
+        border: 0px solid black;
+    }
+
     .active {
-        background-color: white;
-        color: black;
+        background-color: #5f004b;
+        color: white !important;
     }
 
         .active:hover {
-            background-color: white;
-            color: black;
+            background-color: #5f004b;
+            color: white;
         }
 
     .nav-link {
@@ -188,15 +213,15 @@
     .navclr:hover {
         background-color: #ebecf1;
     }
+
     input:read-only {
         background-color: transparent;
     }
+
     .navclr {
         background-color: #ebecf1;
     }
-    /*.dropdown-toggle {
-        float: right;
-    }*/
+
     .cl-black {
         color: #495057 !important;
     }
@@ -218,39 +243,39 @@
 
     @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "Idform" }))
     {
-       
+
         @Html.AntiForgeryToken()
         <div class="container" style="margin-left:10px">
             <div class="row">
                 <div class="wizard-navigation">
                     <div class="col-xs-12 navstyle">
                         <ul class="nav">
-                            <li class="nav-item" style="width: 100px;height:35px">
-                                <a style="font-size:9.2846px" id="campaigncreationnavitem" onclick="return resetfunction()" class="nav-link active" href="#campaignnav" data-toggle="tab" role="tab" aria-controls="about" aria-selected="true">
+                            <li class="nav-item" style="width: 130px;height:35px">
+                                <a style="font-size:12px;font-weight:bold;" id="campaigncreationnavitem" onclick="return resetfunction()" class="nav-link active" href="#campaignnav" data-toggle="tab" role="tab" aria-controls="about" aria-selected="true">
                                     <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
                                     CAMPAIGN
                                 </a>
                             </li>
-                            <li class="nav-item" style="width: 118px;height:35px">
-                                <a style="font-size:9.2846px" id="campaignlistnavitem" class="nav-link" href="#campaignlistnav" onclick="return resetfunction()" data-toggle="tab" role="tab" aria-controls="account" aria-selected="false">
+                            <li class="nav-item" style="width: 150px;height:35px">
+                                <a style="font-size:12px;font-weight:bold;" id="campaignlistnavitem" class="nav-link" href="#campaignlistnav" onclick="return resetfunction()" data-toggle="tab" role="tab" aria-controls="account" aria-selected="false">
                                     <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
                                     CAMPAIGN LIST
                                 </a>
                             </li>
-                            <li class="nav-item " style="width: 111px;height:35px">
-                                <a style="font-size:9.2846px" id="uploadlistnavitem" class="nav-link" href="#uploadbasenav" onclick="return resetfunctionUpload()" data-toggle="tab" role="tab" aria-controls="account" aria-selected="false">
+                            <li class="nav-item " style="width: 150px;height:35px">
+                                <a style="font-size:12px;font-weight:bold;" id="uploadlistnavitem" class="nav-link" href="#uploadbasenav" onclick="return resetfunctionUpload()" data-toggle="tab" role="tab" aria-controls="account" aria-selected="false">
                                     <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
                                     UPLOAD BASE
                                 </a>
                             </li>
-                            <li class="nav-item arrow" style="width: 131px;height:35px">
-                                <a style="font-size:9.2846px" id="campaignstatusnavitem" class="nav-link" href="#campaignstatusnav" onclick="return resetfunction()" data-toggle="tab" role="tab" aria-controls="address" aria-selected="false">
+                            <li class="nav-item arrow" style="width: 160px;height:35px">
+                                <a style="font-size:12px;font-weight:bold;" id="campaignstatusnavitem" class="nav-link" href="#campaignstatusnav" onclick="return resetfunction()" data-toggle="tab" role="tab" aria-controls="address" aria-selected="false">
                                     <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
                                     CAMPAIGN STATUS
                                 </a>
                             </li>
-                            <li class="nav-item" style="width:133px;height:35px">
-                                <a style="font-size:9.2846px" id="campaignreportsnavitem" class="nav-link" href="#campaignreportsnav" onclick="return resetfunction()" data-toggle="tab" role="tab" aria-controls="about" aria-selected="false">
+                            <li class="nav-item" style="width:170px;height:35px">
+                                <a style="font-size:12px;font-weight:bold;" id="campaignreportsnavitem" class="nav-link" href="#campaignreportsnav" onclick="return resetfunction()" data-toggle="tab" role="tab" aria-controls="about" aria-selected="false">
                                     <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
                                     CAMPAIGN REPORTS
                                 </a>
@@ -262,10 +287,10 @@
         </div>
 
         <div class="tab-content">
-            <div class="tab-pane show active navclr" id="campaignnav">
-                <div style="margin-top:5px;background:#ebecf1" class="col-md-12">
+            <div class="tab-pane show active " style="background-color:white;" id="campaignnav">
+                <div style="margin-top:5px;" class="col-md-12">
                     <p>
-                        <a class="btn btn-block text-white dropdown-toggle" style="width:1000px;height:25px;text-align:left;background-color:#5f004b;font-size:9.2846px;vertical-align:middle;"
+                        <a class="btn btn-block text-white dropdown-toggle" style="width:1000px;height:25px;font-weight:bold;text-align:left;background-color:grey;font-size:10px;vertical-align:middle;"
                            data-toggle="collapse" href="#collapseCreateCampaign" role="button" aria-expanded="false">
                             CREATE  NEW CAMPAIGN
                         </a>
@@ -444,7 +469,7 @@
                                         </div>
                                         <div class="col-md-12">
                                             @*<button class="btn-success mt-1" style="margin-left:250px" type="reset" id="configreset" value="Reset">Reset</button>*@
-                                            <button type="button" style="margin-left:370px;color:white; background-color:#5f004b;border-radius:20px;" id="campaignsubmit">Test</button>
+                                            <button type="button" style="margin-left:370px;color:white; background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);border-radius:20px;" id="campaignsubmit">Test</button>
                                         </div>
                                     </div>
 
@@ -452,7 +477,7 @@
                                 </div>
                             </div>
                         </div>
-                        <hr/>
+                        <hr />
 
 
 
@@ -466,9 +491,9 @@
 
 
                 <div id="testsmsdiv" style="display:none">
-                    <div style="margin-top:0px;background:#ebecf1" class="col-md-12">
+                    <div style="margin-top:0px;background:white" class="col-md-12">
                         <p>
-                            <a class="btn btn-block text-white dropdown-toggle" style="width:1000px;height:25px;text-align:left;background-color:#5f004b;font-size:9.2846px"
+                            <a class="btn btn-block text-white dropdown-toggle" style="width:1000px;height:25px;text-align:left;background-color:grey;font-size:9.2846px"
                                data-toggle="collapse" href="#collapseTestSms" role="button" aria-expanded="false">
                                 TEST SMS
                             </a>
@@ -526,7 +551,7 @@
                                 <div class="row">
 
                                     <div class="col-12 mt-2">
-                                        <button type="button" style="margin-left:700px;color:white; background-color:#5f004b;border-radius:20px;" id="createsms">Create</button>
+                                        <button type="button" style="margin-left:700px;color:white; background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);border-radius:20px;" id="createsms">Create</button>
 
                                     </div>
 
@@ -567,10 +592,10 @@
 
                             <div class="row col-md-12">
                                 <div class="col-md-2 mt-2" id="sendsmsdiv" style="display:none">
-                                    <button type="button" style="margin-left:660px;color:white; background-color:#5f004b;border-radius:20px;" id="SendSms">Send</button>
+                                    <button type="button" style="margin-left:660px;color:white; background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);border-radius:20px;" id="SendSms">Send</button>
                                 </div>
                                 <div class="col-md-4 mt-2" id="CampaignCreationButtondiv" style="display:none">
-                                    <button type="button" style="margin-left:650px;color:white; background-color:#5f004b;border-radius:20px;width:120px;" id="SaveCampaignnew">Save Campaign</button>
+                                    <button type="button" style="margin-left:650px;color:white; background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);border-radius:20px;width:120px;" id="SaveCampaignnew">Save Campaign</button>
                                 </div>
                             </div>
 
@@ -580,7 +605,7 @@
                 </div>
             </div>
 
-            <div class="tab-pane navclr" style="background:#ebecf1" id="campaignlistnav">
+            <div class="tab-pane navclr" style="background:white;margin-top:50px;" id="campaignlistnav">
 
                 <div class="row ml-3 mt-4" style="width:900px;">
 
@@ -612,7 +637,7 @@
 
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         @Html.Label("Campaign Type")
                         <div class="form-group">
                             @Html.DropDownListFor(m => m.listCampaignType, Model.listCampaignTypeList, new { @class = "form-control cl-black" })
@@ -620,15 +645,15 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <button type="button" id="btn_show" style="background-color:#5f004b;color:white;margin-top:15px;">
+                        <button type="button" id="btn_show" style="background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);color:white;margin-top:15px;">
                             Search
                         </button>
                     </div>
 
                 </div>
-                <div class="row">
+                <div class="row" style="margin-top:40px;">
                     <div class="col-md-12">
-                        <div class="card" style="width:1100px;">
+                        <div class="card" style="width:1100px;border:0px;box-shadow:none;">
 
 
                             <div class="card-body col-sm-12" style="width: 100%; height:80%;">
@@ -671,7 +696,7 @@
             </div>
 
 
-            <div class="tab-pane navclr" style="background:#ebecf1" id="uploadbasenav">
+            <div class="tab-pane navclr" style="background:white;margin-top:50px;" id="uploadbasenav">
 
 
 
@@ -692,7 +717,7 @@
                     </div>
                     <p>
 
-                        <a class="btn btn-block text-white dropdown-toggle" style="width:1000px;height:25px;text-align:left;background-color:#5f004b;font-size:9.2846px"
+                        <a class="btn btn-block text-white dropdown-toggle" style="width:1000px;height:25px;text-align:left;background-color:grey;font-size:9.2846px"
                            data-toggle="collapse" href="#collapseCampaignDetails" role="button" aria-expanded="false">
                             CAMPAIGN DETAILS
                         </a>
@@ -708,13 +733,13 @@
                                             @Html.Label("Name:")
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <span id="bindcampaignname"></span>
+                                            <span id="bindcampaignname" style="color:black;"></span>
                                         </div>
                                         <div class="col-md-2" style="margin-left:65px;">
                                             @Html.Label("Type:")
                                         </div>
                                         <div class="form-group" style="margin-left: -30px;">
-                                            <span id="bindcampaigntype" style="margin-left:-1px;"></span>
+                                            <span id="bindcampaigntype" style="margin-left:-1px;color:black;"></span>
                                         </div>
                                     </div>
 
@@ -723,13 +748,13 @@
                                             @Html.Label("From Date:")
                                         </div>
                                         <div class="col-md-2" style="margin-left:-51px">
-                                            <span id="bindfromdate"></span>
+                                            <span id="bindfromdate" style="color:black;"></span>
                                         </div>
                                         <div class="col-md-2" style="margin-left:80px">
                                             @Html.Label("To Date:")
                                         </div>
                                         <div class="col-md-2" style="margin-left: -30px;">
-                                            <span id="bindtodate"></span>
+                                            <span id="bindtodate" style="color:black;"></span>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -737,13 +762,13 @@
                                             @Html.Label("From Time:")
                                         </div>
                                         <div class="col-md-3" style="margin-left:-51px">
-                                            <span id="bindfromtime"></span>
+                                            <span id="bindfromtime" style="color:black;"></span>
                                         </div>
                                         <div class="col-md-3" style="margin-left:44px">
                                             @Html.Label("To Time:")
                                         </div>
                                         <div class="col-md-3" style="margin-left:-65px;">
-                                            <span id="bindtotime"></span>
+                                            <span id="bindtotime" style="color:black;"></span>
                                         </div>
                                     </div>
 
@@ -757,7 +782,7 @@
                                             @Html.Label("Sender ID:")
                                         </div>
                                         <div class="col-md-3" style="margin-left:-35px">
-                                            <span id="bindsenderid"></span>
+                                            <span id="bindsenderid" style="color:black;"></span>
                                         </div>
                                     </div>
                                     <div class="row" width="700px" height="115px">
@@ -765,7 +790,7 @@
                                             @Html.Label("Template ID:")
                                         </div>
                                         <div class="col-md-9" style="margin-left:-50px; ">
-                                            <span id="bindtemplateid" class="text"></span>@Html.HiddenFor(m => m.templatevariablecnt, new { Value = "-1" })
+                                            <span id="bindtemplateid" style="color:black;" class="text"></span>@Html.HiddenFor(m => m.templatevariablecnt, new { Value = "-1" })
                                         </div>
                                     </div>
 
@@ -778,7 +803,7 @@
                                             @Html.Label("Message Content:")
                                         </div>
                                         <div class="form-group col-md-12">
-                                            <textarea class="form-control" readonly="readonly" style="height: auto !important;" id="bindmsgcontent" rows="5"></textarea>
+                                            <textarea class="form-control" readonly="readonly" style="height: auto !important;color:black !important;" id="bindmsgcontent" rows="5"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -799,7 +824,7 @@
                     <p>
 
 
-                        <a class="btn btn-block text-white dropdown-toggle" style="width:1000px;height:25px;text-align:left;background-color:#5f004b;font-size:9.2846px"
+                        <a class="btn btn-block text-white dropdown-toggle" style="width:1000px;height:25px;text-align:left;background-color:grey;font-size:9.2846px"
                            data-toggle="collapse" href="#collapseupload" role="button" aria-expanded="false">
                             BASE UPLOAD
                         </a>
@@ -852,8 +877,9 @@
                                         <i id="samplefiledownlod" style="color:#5f004b;font-size:13px;margin-top:10px;" class="now-ui-icons files_single-copy-04 btn btn-link">Sample Template</i>
                                     </div>
                                     <div class="col-md-4">
-                                        <button style="margin-top:10px;background-color:#5f004b;color:white;" id="uploadfileid" type="button">
-                                            @*<i class="fa fa-upload" style="font-size:12px;"></i>*@Upload</button>
+                                        <button style="margin-top:10px;background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);color:white;" id="uploadfileid" type="button">
+                                            @*<i class="fa fa-upload" style="font-size:12px;"></i>*@Upload
+                                        </button>
 
                                     </div>
 
@@ -861,18 +887,18 @@
                                 </div>
                             </div>
                         </div>
-                        @*<div id="spinner-div" class="pt-5">
+                        <div id="spinner-div" class="pt-5">
                             <div class="spinner-border text-primary" role="status">
                             </div>
                         </div>
-                        <div class="row" id="loadingupload" style="width:600px;height:150px; ">
-                                <img src="Content/Images/loading.gif" style="width:100px;height:50px;" />
+                        @*<div class="row" id="loadingupload" style="width:600px;height:150px; ">
+                                <img src="~/Content/Images/loading.gif" style="width:100px;height:50px;" />
 
-                        </div>*@
+                            </div>*@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane navclr" id="campaignstatusnav">
+            <div class="tab-pane navclr" id="campaignstatusnav" style="background-color:white;margin-top:50px;">
 
                 <div class="row ml-3 mt-3" style="width:900px;">
 
@@ -903,7 +929,7 @@
 
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         @Html.Label("Campaign Type")
                         <div class="form-group">
                             @Html.DropDownListFor(m => m.statusCampaignType, Model.statusCampaignTypeList, new { @class = "form-control cl-black" })
@@ -911,15 +937,15 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <button type="button" id="btn_showstatus" style="background-color:#5f004b;color:white;margin-top:15px;">
+                        <button type="button" id="btn_showstatus" style="background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);color:white;margin-top:15px;">
                             Search
                         </button>
                     </div>
 
                 </div>
-                <div class="row">
+                <div class="row" style="margin-top:40px;">
                     <div class="col-md-12">
-                        <div class="card" style="width:1125px;">
+                        <div class="card" style="width:1125px;border:0px;box-shadow:none;">
 
 
                             <div class="card-body col-sm-12" style="width:100%; height:80%;">
@@ -939,7 +965,7 @@
                 </div>
 
             </div>
-            <div class="tab-pane navclr" id="campaignreportsnav">
+            <div class="tab-pane navclr" id="campaignreportsnav" style="background-color:white;margin-top:50px;">
                 <div class="row ml-3 mt-3" style="width:900px;">
 
                     <div>
@@ -972,15 +998,15 @@
                     </div>
 
                     <div class="col-md-2">
-                        <button type="button" id="btn_showreport" style="background-color:#5f004b;color:white;margin-top:15px;">
-                           Search
+                        <button type="button" id="btn_showreport" style="background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);color:white;margin-top:15px;">
+                            Search
                         </button>
                     </div>
 
                 </div>
-                <div class="row">
+                <div class="row" style="margin-top:40px;">
                     <div class="col-md-12">
-                        <div class="card" style="width:1100px;">
+                        <div class="card" style="width:1100px;border:0px;box-shadow:none;">
 
 
                             <div class="card-body col-sm-12" style="width:100%; height:80%;">
@@ -1031,7 +1057,7 @@
                     <div class="modal-content" style="width:850px;margin-left:-75px;height:550px;">
                         <div class="modal-header">
                             @Html.Label("SMS TEMPLATE", new { style = "font-weight:bold; font-size:18px;" })
-                            <button  id="closebtn"  data-dismiss="modal">X</button>
+                            <button id="closebtn" data-dismiss="modal">X</button>
                         </div>
 
                         <div id="modal-content" class="row ml-3 mt-4 text-break" style="height:550px;  width:820px;">
@@ -1066,8 +1092,8 @@
                             <div class="col-md-2">
                                 <br />
                                 @*<button type="button" id="btn_search" style="height:35px;background-color:#212121;color:white;width:100px;" class="btn btn-block">Search</button>*@
-                                <button type="button" style="background-color:#5f004b; color:white;margin-left:-140px; margin-top:25px;" onclick="loadtemplateSearchReport()">
-                                   Search
+                                <button type="button" style="background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3); color:white;margin-left:-140px; margin-top:25px;" onclick="loadtemplateSearchReport()">
+                                    Search
                                 </button>
                             </div>
                             <div class="modal-body" id="modalTable" style="overflow-y: auto; overflow-x: auto; width:800px;height:300px;">
@@ -1097,7 +1123,7 @@
                             @Html.Label("Campaign Validity Extension", new { style = "font-weight:bold; font-size:18px;" })
                             <button id="closebtnupload" data-dismiss="modal">X</button>
                         </div>
-                        <table style="height:200px;width:390px;">
+                        <table style="height:200px; width:390px;">
                             <tr>
                                 <td> @Html.HiddenFor(m => m.updatedId, new { Value = "-1" }) @Html.HiddenFor(m => m.updatedFromDate, new { Value = "-1" })</td>
 
@@ -1147,7 +1173,7 @@
 
 @section scripts {
 
-<script>
+    <script>
         function showLoadingSpinner() {
 
             $('.modal1').show();
@@ -1156,6 +1182,13 @@
 
             $('.modal1').hide();
         };
+
+        function RestrictSpace() {
+            if (event.keyCode == 32) {
+                event.returnValue = false;
+                return false;
+            }
+        }
 
         $(document).ready(function () {
             $("#collapseCreateCampaign").addClass("show");
@@ -1174,12 +1207,12 @@
         });
 
 
-        //$('#senderId').on('change', function () {
-        //    if ($('#smsType').val() != "3") {
+        $('#senderId').on('change', function () {
+            if ($('#smsType').val() != "3") {
 
-        //        gettemplateidfromsenderidsmstype($("#senderId").val(), $('#smsType').val());
-        //    }
-        //});
+                gettemplateidfromsenderidsmstype($("#senderId").val(), $('#smsType').val());
+            }
+        });
 
 
         $('#campaignsubmit').on('click', function () {
@@ -2069,12 +2102,13 @@
                 for (i = 0, j = 1; i < variablecnt; i++,j++) {
 
                     var div = document.createElement('row');
-                    div.innerHTML = '<div class="row"><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName" required="required" MinLength="3" MaxLength="12" readonly="readonly" style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable" required="required" MinLength="3" MaxLength="12" type="text" value=""></div></div>';
+                    div.innerHTML = '<div class="row"><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName" required="required" onkeypress="return RestrictSpace()" MinLength="3" MaxLength="12" readonly="readonly" style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable" required="required" onkeypress="return RestrictSpace()" MinLength="3" MaxLength="12" type="text" value=""></div></div>';
 
                     document.getElementById("generated").appendChild(div);
                 }
             }
         });
+
         function removeAllChildNodes(parent) {
             while (parent.firstChild) {
                 parent.removeChild(parent.firstChild);
@@ -2150,7 +2184,7 @@
             for (i = 0, j = 1; i < variablecnt; i++ , j++) {
 
                 var div = document.createElement('row');
-                div.innerHTML = '<div class="row" style="margin-top:10px;" ><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName"   readonly="readonly" MaxLength="12" MinLength="3" required="required" style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable"  MaxLength="12" MinLength="3" required="required" type="text" value=""></div></div>';
+                div.innerHTML = '<div class="row" style="margin-top:10px;" ><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName"   readonly="readonly" MaxLength="12" MinLength="3" required="required" onkeypress="return RestrictSpace()" style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable"  MaxLength="12" MinLength="3" required="required" onkeypress="return RestrictSpace()" type="text" value=""></div></div>';
 
                 document.getElementById("generated").appendChild(div);
             }
@@ -2308,7 +2342,7 @@
 
                                 "mRender": function (data, type, full) {
                                     if (full[10] == "1") {
-                                        return '<i class="btn btn-link" onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
+                                        return '<span class="btn btn-link" onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</span>';
                                     }
                                     else {
                                         return " ";
@@ -2533,7 +2567,6 @@
              });
 
         }
-
         function downloadUsedBase(event) {
             var filed = "FileUsed_" + event;
             var filePath = document.getElementById(filed).value;
@@ -2603,9 +2636,9 @@
             $("#loading").show();
             $("#divNoData").hide();
             // $("#divTable").html("<table class=\"table table-bordered dataTable dtr-inline \" id=\"tbl_rpt\" role=\"grid\" aria-describedby=\"datatable_info\" style=\"width:100 % !important;\" cellspacing=\"0\"><thead style= \"font-size:11px;width:auto;text-align:center;\" ><tr></tr> </thead ></table >");
-             $("input[type=button]").attr("disabled", "disabled");
+             $("input[type=button]").attr("disabled", "disabled");            
              $.post("@Url.Action(MVC.Campaign.getcampaignstatusReport())", $("form").serialize(), function (resp) {
-
+                 
                 if (jQuery.isEmptyObject(resp.tdata)) {
 
                     $("#divNoData span").text(" No data available");
@@ -2618,6 +2651,8 @@
                 else {
                     $("#tbl_rptstatus").show();
                     $("#divTable").show();
+                   
+                    //alert(header);
                     rpt_datatable = $("#tbl_rptstatus").DataTable({
                         responsive: true,
                         deferRender: true,
@@ -2625,8 +2660,20 @@
                         searching: false,
 
                         data: resp.tdata,
+                        
+                        
+
                         columns: resp.thead,
                         'columnDefs': [
+                            {
+                                "targets": 1,
+                                "className": "dt-control",
+                                "width": "30%",
+                                
+                                "searchable": false
+
+                            },
+                            { "width": "30px !important", "targets": 1},
                             {
                                 "targets": 0,
                                 "className": "text-center",
@@ -2636,25 +2683,25 @@
                             {
                                 "targets": "_all",
                                 "className": "text-center",
-
+                                
                             },
                          {
                             "targets": 11,
                             "className": "text-center",
-
+                             "visible": false,
                             "mRender": function (data, type, full) {
-
+                                
                                    //return '<i class="btn btn-link"onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
                                 if (full[11] == "file")
                                     return " ";
                                 else
                                     return "<a class='btn btn-default btn sm' onclick=downloadBase('" + full[0] + "');><i class='fa fa-download'></i></a><input id=File_" + full[0] + "  type=hidden value='" + full[11] + "' />";
                                }
-                            },
+                            }, 
                             {
                                 "targets": 12,
                                 "className": "text-center",
-
+                                //"visible": false,
                                 "mRender": function (data, type, full) {
 
                                     //return '<i class="btn btn-link"onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
@@ -2667,7 +2714,7 @@
                             {
                                 "targets": 13,
                                 "className": "text-center",
-
+                                "visible": false,
                                 "mRender": function (data, type, full) {
 
                                     //return '<i class="btn btn-link"onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
@@ -2677,25 +2724,47 @@
                                         return "<a class='btn btn-default btn sm' onclick=downloadFailedBase('" + full[0] + "');><i class='fa fa-download'></i></a><input id=FileFail_" + full[0] + "  type=hidden value='" + full[13] + "' />";
                                 }
                             },
+
+                            {
+                                "targets": 4,
+                                "visible": false,
+                            },
+                            {
+                                "targets": 5,
+                                "visible": false,
+                            },
+                            {
+                                "targets": 6,
+                                "visible": false,
+                            },
+                            {
+                                "targets": 8,
+                                "visible": false,
+                            },
+                            {
+                                "targets": 9,
+                                "visible": false,
+                            },
+                            
                             {
                                 "targets": 16,
                                 "className": "text-center",
-
+                                
                                 "mRender": function (data, type, full) {
-
+                                  
                                     if (full[16] == "1") {
                                       //  return '<button onclick="changestatus(this,1)" id='+full[0]+' class="fa fa-play" style="color:green;font-size:10px;"></button>';
-                                        return '<i onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" title="Start" style="color:green;font-size:10px;" ></i>';
+                                        return '<span onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" title="Start" style="color:green;font-size:10px;" ></span>';
                                     }
                                     else if ( full[16] == "2") {
-                                        return '<i onclick="changestatus(this,2)" id=' + full[0] + ' class="fa fa-pause" title="Pause" style="color:black;font-size:10px;"></i>&nbsp; &nbsp;<i onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" title="Stop" style="color:red;font-size:10px;"></i>';
+                                        return '<span onclick="changestatus(this,2)" id=' + full[0] + ' class="fa fa-pause" title="Pause" style="color:black;font-size:10px;"></span>&nbsp; &nbsp;<span onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" title="Stop" style="color:red;font-size:10px;"></span>';
                                         //return '<i onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" style="color:green;font-size:10px;"></i>';
                                     }
                                     else if (full[16] == "3") {
-                                        return '<i onclick="changestatus(this,3)" id=' + full[0] + ' class="fa fa-undo" title="Resume" style="color:#cc7a00;font-size:10px;"></i>&nbsp; &nbsp;<i onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" title="Stop" style="color:red;font-size:10px;"></i>';
+                                        return '<span onclick="changestatus(this,3)" id=' + full[0] + ' class="fa fa-undo" title="Resume" style="color:#cc7a00;font-size:10px;"></span>&nbsp; &nbsp;<span onclick="changestatus(this,4)" id=' + full[0] +' class="fa fa-stop" title="Stop" style="color:red;font-size:10px;"></span>';
 
                                     }
-
+                                   
                                     else {
                                         //alert(full[15]);
                                         return "";
@@ -2736,6 +2805,99 @@
             });
         }
 
+
+        $("#tbl_rptstatus").on("click", "td.dt-control", function (event) {
+            
+            
+            var $target = $(event.target);
+            
+            var tr = $target.closest('tr');
+            var row = rpt_datatable.row(tr);
+            //var a = row.data();
+            
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+
+
+
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+            
+            function format(d) {
+
+                if (d[11] == "file") {
+                    var h11 = "";
+                }
+                    else {
+
+                        var h11 = "<a class='btn btn-default btn sm' onclick=downloadBase('" + d[0] + "');> <i class='fa fa-download'></i></a > <input id=File_" + d[0] + "  type = hidden value = '" + d[11] + "' />";
+                }
+
+                if (d[12] == "file") {
+                    var h12 = "";
+                }
+                else {
+                    var h12= "<a class='btn btn-default btn sm' onclick=downloadUsedBase('" + d[0] + "');><i class='fa fa-download'></i></a><input id=FileUsed_" + d[0] + "  type=hidden value='" + d[12] + "' />";
+                
+                }
+
+                if (d[13] == "file") {
+                    var h13 = "";
+                }
+                else {
+                    var h13= "<a class='btn btn-default btn sm' onclick=downloadFailedBase('" + d[0] + "');><i class='fa fa-download'></i></a><input id=FileFail_" + d[0] + "  type=hidden value='" + d[13] + "' />";
+                
+
+                }
+                
+                // `d` is the original data object for the row
+                var expandedRpw = '<div class="row expandcontainer g-2 d-flex justify-content-center gx-5" style="padding:4px;margin-left:-12px !important;background:#ffffff">';
+               
+                expandedRpw = expandedRpw + '<div class="col-3 border" > Created Date :</div>' + '<div class="col-3 border font-weight-bold">'
+                                +
+                                d[4]
+                                + '</div>' + '<div class="col-3 border" > Date Window :</div>' + '<div class="col-3 border font-weight-bold">'
+                        +
+                        d[5]
+                                + '</div>' + '<div class="col-3 border " > Time Window :</div>' + '<div class="col-3 border font-weight-bold">'
+                        +
+                        d[6]
+                                + '</div>' + '<div class="col-3 border" > Start Time</div>' + '<div class="col-3 border font-weight-bold">'
+                        +
+                        d[8]
+                                + '</div>' + '<div class="col-3 border" > End Time:</div>' + '<div class="col-3 border font-weight-bold">'
+                        +
+                        d[9]
+                                + '</div>' + '<div class="col-3 border " > Failed Base:</div>' + '<div class="col-3 border font-weight-bold">'
+                        +
+                        h13
+                                + '</div>'
+                                + '<div class="col-3 border " > Uploaded Base :</div>' + '<div class="col-3 border font-weight-bold">'
+                        +
+                        h11
+                                       + '</div>'
+                                //+ '<div class="col-3 border font-weight-bold" > Pushed:</div>' + '<div class="col-3 border">'
+                        //        +
+                        //        d[15]
+                        //        + '</div>'
+                       
+                   
+                
+                expandedRpw = expandedRpw + '</div>';
+                return (
+                    expandedRpw
+                );
+                
+            }
+            
+        });
+        
         function loadReportreport() {
 
             $("#loading").show();
@@ -2744,7 +2906,7 @@
             // $("#divTable").html("<table class=\"table table-bordered dataTable dtr-inline \" id=\"tbl_rpt\" role=\"grid\" aria-describedby=\"datatable_info\" style=\"width:100 % !important;\" cellspacing=\"0\"><thead style= \"font-size:11px;width:auto;text-align:center;\" ><tr></tr> </thead ></table >");
             $("input[type=button]").attr("disabled", "disabled");
             $.post("@Url.Action(MVC.Campaign.getcampaigndetailReport())", $("form").serialize(), function (resp) {
-
+               
                 if (jQuery.isEmptyObject(resp.tdata)) {
 
                     $("#divNoData span").text(" No data available");
@@ -2778,15 +2940,55 @@
 
                         ],
                         'columnDefs': [
+                            {
+                                "targets": 1,
+                                "className": "dt-control",
+                                "width": "30%",
 
+                                "searchable": false
+
+                            },
                             {
                                 "targets": 0,
                                 "className": "text-center",
                                 "visible": false,
                                 "searchable": false
 
+                            },
+                            {
+                                "targets": 9,
+                               
+                                "visible": false,
+                               
 
+                            },
+                            {
+                                "targets": 10,
+                               
+                                "visible": false,
+                                
 
+                            },
+                            {
+                                "targets": 11,
+                                
+                                "visible": false,
+                               
+
+                            },
+                            {
+                                "targets": 12,
+                               
+                                "visible": false,
+                               
+
+                            },
+
+                            {
+                                "targets": 13,
+                                
+                                "visible": false,
+                               
 
                             },
                             {
@@ -2798,10 +3000,6 @@
                                 "className": "text-center",
 
                                 "mRender": function (data, type, full) {
-                        //            if (full[10] == 0) {
-                        //                return "NA";
-                        //            }
-                        //            else {
                                     if (full[14] == 1)
                                         return '<i class="fa fa-download" id=' + full[0] + ' onclick="downLoadReport(this)"></i>';
                                     else
@@ -2844,6 +3042,85 @@
                 }
             });
         }
+       
+        $("#tbl_rptreport").on("click", "td.dt-control", function (event) {
+            
+            var $target = $(event.target);
+            var tr = $target.closest('tr');
+            var row = rpt_datatable.row(tr);
+            //var a = row.data();
+
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+            
+            function format(d) {
+                // `d` is the original data object for the row
+                var expandedRpw = '<div class="row expandcontainer g-2 d-flex justify-content-center gx-5" style="padding:4px;margin-left:-12px !important;background:#ffffff">';
+                
+                expandedRpw = expandedRpw + '<div class="col-3 border " > Base Count :</div>' + '<div class="col-3 border font-weight-bold">'
+                    +
+                    d[9]
+                    + '</div>' + '<div class="col-3 border " > Pushed :</div>' + '<div class="col-3 border font-weight-bold">'
+                    +
+                    d[10]
+                    + '</div>' + '<div class="col-3 border " > Submitted :</div>' + '<div class="col-3 border font-weight-bold">'
+                    +
+                    d[11]
+                    + '</div>' + '<div class="col-3 border " > Delivered :</div>' + '<div class="col-3 border font-weight-bold">'
+                    +
+                   d[12]
+                    + '</div>' + '<div class="col-3 border " > Failure :</div>' + '<div class="col-3 border font-weight-bold">'
+                    +
+                   d[13]
+                    + '</div>' 
+                expandedRpw = expandedRpw + '</div>';
+                return (
+                    expandedRpw
+                );
+
+                //return '<div style="background-color:white !importand;"><table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;background-color:white !importand;">' +
+                //    '<tr >' +
+                //    '<td style="font-weight:bold;">Start Time:</td>' +
+                //    '<td>'+d[8]+'</td>' +
+
+                //    '<td style="font-weight:bold;">End Time:</td>' +
+                //    '<td>' + d[9] + '</td>' +
+
+                //    '<td style="font-weight:bold;">Status:</td>' +
+                //    '<td>' + d[10] + '</td>' +
+
+                //    '<td style="font-weight:bold;">Uploaded:</td>' +
+                //    '<td>' + d[11] + '</td>' +
+                //    '</tr>' +
+                //    '<tr>' +
+                //    '<td style="font-weight:bold;">Used Base:</td>' +
+                //    '<td>' + d[12] + '</td>' +
+
+                //    '<td style="font-weight:bold;">Failed Base:</td>' +
+                //    '<td>' + d[13] + '</td>' +
+
+                //    '<td style="font-weight:bold;">Base Count:</td>' +
+                //    '<td>' + d[14] + '</td>' +
+
+                //    '<td style="font-weight:bold;">Pushed:</td>' +
+                //    '<td>' + d[15] + '</td>' +
+                //    '</tr>' +
+                //    '<tr>' +
+                //    '<td style="font-weight:bold;">Control:</td>' +
+                //    '<td>' + d[16] + '</td>' +
+                //    '</tr>' +
+                //    '</table></div>';
+            }
+
+        });
 
         $(".NumFld").inputFilter(function (value) {
             return /^\d*$/.test(value);
@@ -2851,7 +3128,7 @@
 
         $('#upload').on('click', function () {
 
-            //console.log("called");
+            console.log("called");
             //document.getElementById("campaignlistnavitem").classList.remove("active");
             //document.getElementById("uploadlistnavitem").classList.add("active");
 
@@ -2863,10 +3140,10 @@
 
 
         function redirectToBaseupload() {
-              $("#campaigncreationnavitem").removeClass("show  active");
-              $("#uploadlistnavitem").addClass("show  active");
-              $("#campaignnav").removeClass("show active");
-              $("#uploadbasenav").addClass("show active");
+          $("#campaigncreationnavitem").removeClass("show  active");
+            $("#uploadlistnavitem").addClass("show  active");
+         $("#campaignnav").removeClass("show active");
+            $("#uploadbasenav").addClass("show active");
         }
 
         function fileupload() {
@@ -2904,10 +3181,7 @@
                            a[0].click();
                            $("body").remove(a);
                        }
-                    //console.log(response, "response");
-                    //if (response != null && response != "") {
-                    //    download(response, "Report.xlsx");
-                    //}
+                  
                    }
                }).fail(function (xhr, status, error) {
                    $("#loading").hide();
@@ -2933,7 +3207,6 @@
 
 
         function changestatus(event, cstatus) {
-            //alert(cstatus);
             var campaignid = event.id;
              $.ajax({
                 url: "@Url.Action(MVC.Campaign.changeCampaignStatus())",
@@ -3056,7 +3329,6 @@
                      });
                      $("#uploadCampaignName option:contains(" + $('#campaignName').val()  + ")").attr('selected', 'selected');
                      getCamapignDetailsforUpload();
-
                  }
              }).fail(function (xhr, status, error) {
                  $("#loading").hide();
@@ -3353,7 +3625,7 @@
                                 "width": "10%",
                                 "className": "text-center",
                                 "mRender": function (data, type, full) {
-                                    return '<i onclick="getTamplateDetails(this)"  class="btn btn-link" id=' + full[0] + ' style="color:blue;font-size:10px;">' + full[1] + ' </i><input type="hidden" name="' + full[6] + '"/>';
+                                    return '<span onclick="getTamplateDetails(this)"  class="btn btn-link" id=' + full[0] + ' style="color:blue;font-size:10px;">' + full[1] + ' </span><input type="hidden" name="' + full[6] + '"/>';
 
                                 }
                             },
@@ -3425,7 +3697,7 @@
 
                 var fileData = new FormData();
                 const fsize = files[0].size;
-                //console.log(fsize);
+                console.log(fsize);
                 const filesizeinkb = Math.round((fsize / 1024));
 
                 if (filesizeinkb >= 41000) {
@@ -3456,7 +3728,7 @@
                         data: fileData,
                         success: function (response) {
                             var obj = JSON.parse(response);
-                            //console.log(obj);
+                            console.log(obj);
 
                             if (obj.status == "1") {
                                 SuccessMsg(obj.response);
@@ -3503,199 +3775,5 @@
 
         });
 
-        @*var columnHeaders = [];
-        var columnKeys = [];
-        function loadReportstatus() {
-            var coulmnLimit = 1;
-            $("#loading").show();
-            $("#divNoData").hide();
-            // $("#divTable").html("<table class=\"table table-bordered dataTable dtr-inline \" id=\"tbl_rpt\" role=\"grid\" aria-describedby=\"datatable_info\" style=\"width:100 % !important;\" cellspacing=\"0\"><thead style= \"font-size:11px;width:auto;text-align:center;\" ><tr></tr> </thead ></table >");
-             $("input[type=button]").attr("disabled", "disabled");
-             $.post("@Url.Action(MVC.Campaign.getcampaignstatusReport())", $("form").serialize(), function (resp) {
-
-                if (jQuery.isEmptyObject(resp.tdata)) {
-
-                    $("#divNoData span").text(" No data available");
-                    //$("#divNoData").show();
-                    $("input[type=button]").removeAttr("disabled");
-                    $("#loading").hide();
-                    $("#divTable").hide();
-                    ErrorMsg('No data available');
-                }
-                else {
-                    columnHeaders = resp.Header;
-                    columnHeaders = sortResults("Id", true);
-                    coulmnLimit = resp.Count;
-                    var headers = [{
-                        className: 'dt-control',
-                        orderable: false,
-                        data: null,
-                        defaultContent: '',
-                    }];
-                    var i = 0;
-                    $.each(columnHeaders, function (i, item) {
-                        i = i + 1;
-                        columnKeys.push(item.Data);
-                        var title = item.Title;
-                        var data = item.Data;
-                        /*map[name] = { data: id, title: name };*/
-                        headers.push({ "data": data, "title": title, "name": title });
-                        if (i > resp.Count) {
-                            headers.push({
-                                "title": "STATUS",
-                                "data": "ID",
-                                "width": "50px !mportant",
-                                //"render": function (data1, type, row) {
-                                //    return `<p>
-                                //                    <a class="edit" title="Add" data-toggle="tooltip" href="AddTemplates/`+ row.ID + `" style="color: #004d00 !important""><i class='fas fa-edit'></i></a>
-                                //             </p>`;
-                                //}
-                            });
-                            return false;
-                        }
-                    });
-                    {
-                    $("#tbl_rptstatus").show();
-                    $("#divTable").show();
-                        rpt_datatable = $("#tbl_rptstatus").DataTable({
-                            responsive: true,
-                            deferRender: true,
-                            "destroy": true,
-                            searching: false,
-
-                            data: resp.tdata,
-                            columns: resp.thead,
-                            'columnDefs': [
-                                {
-                                    "targets": 0,
-                                    "className": "text-center",
-                                    "visible": false,
-                                    "searchable": false
-                                },
-                                {
-                                    "targets": "_all",
-                                    "className": "text-center",
-
-                                },
-                                {
-                                    "targets": 11,
-                                    "className": "text-center",
-
-                                    "mRender": function (data, type, full) {
-
-                                        //return '<i class="btn btn-link"onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
-                                        if (full[11] == "file")
-                                            return " ";
-                                        else
-                                            return "<a class='btn btn-default btn sm' onclick=downloadBase('" + full[0] + "');><i class='fa fa-download'></i></a><input id=File_" + full[0] + "  type=hidden value='" + full[11] + "' />";
-                                    }
-                                },
-                                {
-                                    "targets": 12,
-                                    "className": "text-center",
-
-                                    "mRender": function (data, type, full) {
-
-                                        //return '<i class="btn btn-link"onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
-                                        if (full[12] == "file")
-                                            return " ";
-                                        else
-                                            return "<a class='btn btn-default btn sm' onclick=downloadUsedBase('" + full[0] + "');><i class='fa fa-download'></i></a><input id=FileUsed_" + full[0] + "  type=hidden value='" + full[12] + "' />";
-                                    }
-                                },
-                                {
-                                    "targets": 13,
-                                    "className": "text-center",
-
-                                    "mRender": function (data, type, full) {
-
-                                        //return '<i class="btn btn-link"onclick="popuptable(this)" id=' + full[0] + ' style="color:blue;font-size:12px;">VIEW</i>';
-                                        if (full[13] == "file")
-                                            return " ";
-                                        else
-                                            return "<a class='btn btn-default btn sm' onclick=downloadFailedBase('" + full[0] + "');><i class='fa fa-download'></i></a><input id=FileFail_" + full[0] + "  type=hidden value='" + full[13] + "' />";
-                                    }
-                                },
-                                {
-                                    "targets": 16,
-                                    "className": "text-center",
-
-                                    "mRender": function (data, type, full) {
-
-                                        if (full[16] == "1") {
-                                            //  return '<button onclick="changestatus(this,1)" id='+full[0]+' class="fa fa-play" style="color:green;font-size:10px;"></button>';
-                                            return '<i onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" title="Start" style="color:green;font-size:10px;" ></i>';
-                                        }
-                                        else if (full[16] == "2") {
-                                            return '<i onclick="changestatus(this,2)" id=' + full[0] + ' class="fa fa-pause" title="Pause" style="color:black;font-size:10px;"></i>&nbsp; &nbsp;<i onclick="changestatus(this,4)" id=' + full[0] + ' class="fa fa-stop" title="Stop" style="color:red;font-size:10px;"></i>';
-                                            //return '<i onclick="changestatus(this,1)" id=' + full[0] + ' class="fa fa-play" style="color:green;font-size:10px;"></i>';
-                                        }
-                                        else if (full[16] == "3") {
-                                            return '<i onclick="changestatus(this,3)" id=' + full[0] + ' class="fa fa-undo" title="Resume" style="color:#cc7a00;font-size:10px;"></i>&nbsp; &nbsp;<i onclick="changestatus(this,4)" id=' + full[0] + ' class="fa fa-stop" title="Stop" style="color:red;font-size:10px;"></i>';
-
-                                        }
-
-                                        else {
-                                            //alert(full[15]);
-                                            return "";
-                                        }
-                                    }
-                                },
-                            ],
-                            order: [],
-                            fnInitComplete: function (o) {
-                                $("#loading").hide();
-                                $("input[type=button]").removeAttr("disabled");
-
-                            },
-
-                        });
-                    }
-                }
-                $("#loading").hide();
-                $("input[type=button]").removeAttr("disabled");
-            }).fail(function (xhr, status, error) {
-                $("#loading").hide();
-                $("input[type=button]").removeAttr("disabled");
-                if (xhr.status == 401) {
-                    alert("Click to continue", "Session Timedout", function () {
-                        closing = false;
-                        window.location = JSON.parse(xhr.responseText).LogOnUrl;
-                    })
-                }
-                else if (xhr.status == 507) {
-                    $("#divNoData span").text(" Result is too large.");
-                    $("#divNoData").show();
-                    $("input[type=button]").removeAttr("disabled");
-                }
-                else
-                {
-                    alert("Unable to fetch data from server,pls wait", "Failed");
-
-                }
-            });
-
-            $(function () {
-                $("#tbl_rptreport").click(function (event) {
-
-                    event.stopPropagation();
-                    var $target = $(event.target);
-
-                    var tr = $target.closest('tr');
-                    var row = rpt_datatable.row(tr);
-
-                    if (row.child.isShown()) {
-                        // This row is already open - close it
-                        row.child.hide();
-                        tr.removeClass('shown');
-                    } else {
-                        // Open this row
-                        row.child(format(row.data(), columnHeaders, coulmnLimit, columnKeys)).show();
-                        tr.addClass('shown');
-                    }
-                });
-            });
-        }*@
-
-</script>
+    </script>
 }

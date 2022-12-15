@@ -974,7 +974,7 @@
 
 .form-control {
     background-color: transparent;
-    border: 1px solid #5f004b;
+    /*border: 1px solid #5f004b;*/
     border-radius: 30px;
     color: #2c2c2c;
     line-height: normal;
@@ -5061,12 +5061,13 @@ img {
 
     .off-canvas-sidebar .sidebar-wrapper, .sidebar .sidebar-wrapper {
         position: relative;
+        background-color: #ebecf1;
         height: 100vh;
         overflow: auto;
         width: 200px;
         z-index: 4;
         padding-bottom: 100px;
-        background-image: linear-gradient(to bottom,#530D3E,#530D3E,#530D3E,#530D3E,#530D3E)
+        /*background-image: linear-gradient(to bottom,#530D3E,#530D3E,#530D3E,#530D3E,#530D3E)*/
     }
 
         .off-canvas-sidebar .sidebar-wrapper .dropdown .dropdown-backdrop, .sidebar .sidebar-wrapper .dropdown .dropdown-backdrop {
@@ -5147,7 +5148,7 @@ img {
 
         .off-canvas-sidebar .nav li > a, .sidebar .nav li > a {
             margin: 10px 15px 0;
-            border-left: 6px solid #5f004b;
+            /*border-left: 6px solid #5f004b;*/
             /*border-radius: 30px;*/
             color: white;
             display: block;
@@ -5166,7 +5167,7 @@ img {
         }
 
         .off-canvas-sidebar .nav li:focus:not(.active) > a, .off-canvas-sidebar .nav li:hover:not(.active) > a, .sidebar .nav li:focus:not(.active) > a, .sidebar .nav li:hover:not(.active) > a {
-            background-color: #70005B;
+            background-color: ;
             color: #fff;
         }
 
@@ -5175,7 +5176,7 @@ img {
             }
 
         .off-canvas-sidebar .nav li.active > a:not([data-toggle=collapse]), .sidebar .nav li.active > a:not([data-toggle=collapse]) {
-            background-color: #70005B;
+            background-color: #5f004b;
             box-shadow: 0 1px 15px 1px rgba(39,39,39,.1)
         }
 
@@ -5224,7 +5225,7 @@ img {
             line-height: 30px;
             width: 34px;
             text-align: center;
-            color: #000;
+            /*color: grey;*/
             position: relative
         }
 
@@ -5255,7 +5256,7 @@ img {
         position: relative;
         padding: .5rem .7rem;
         z-index: 4;
-        background-image: linear-gradient(to bottom,#530D3E,#530D3E,#530D3E,#530D3E,#530D3E)
+        /*background-image: linear-gradient(to bottom,#530D3E,#530D3E,#530D3E,#530D3E,#530D3E)*/
     }
 
         .off-canvas-sidebar .logo a.logo-mini, .sidebar .logo a.logo-mini {
@@ -5453,7 +5454,7 @@ img {
     position: relative;
     float: right;
     width: calc(100% - 200px);
-    background-color: #ebecf1;
+    background-color: white;
     transition: all .5s cubic-bezier(.685,.0473,.346,1)
 }
 
@@ -5567,7 +5568,8 @@ img {
     /*padding-top: 80px;*/
     padding-bottom: 45px;
     background: #141e30;
-    background: linear-gradient(90deg,#0c2646 0,#204065 60%,#2a5788);
+    background-color:white;
+    /*background: linear-gradient(90deg,#0c2646 0,#204065 60%,#2a5788);*/
     position: relative;
     overflow: hidden
 }
@@ -11965,7 +11967,7 @@ a.fc-more {
     }
 
     .sidebar {
-        box-shadow: none
+       box-shadow: none;
     }
 
     #bodyClick {
@@ -12481,7 +12483,8 @@ a.fc-more {
     }
 
     .nav-open .sidebar {
-        transform: translateZ(0)
+        transform: translateZ(0);
+        box-shadow: 0 2px 22px 0 rgba(0,0,0,.2),0 2px 30px 0 rgba(0,0,0,.35);
     }
 
     .nav-open body {

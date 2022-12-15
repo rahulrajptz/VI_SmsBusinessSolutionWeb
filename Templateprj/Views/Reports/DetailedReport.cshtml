@@ -11,7 +11,14 @@
         border-right: 0;
         border-bottom: 0;
     }
-
+    .form-control {
+        border-radius: 10px;
+        height: 20px !important;
+        padding: 0px 5px !important;
+        font-size: 12px !important;
+        background-color: white !important;
+        /*color:#5f004b;*/
+    }
     table.dataTable thead th, table.dataTable tfoot th {
         font-weight: bold;
         font-size: medium;
@@ -25,26 +32,26 @@
 {
     <div class="row" style="margin-top:30px;">
         <div class="col s12">
-            <div class="card">
+            <div class="card" style="margin-top:30px; border:0px;box-shadow:none;">
                 <div class="card-header">
-                    <div class="card-title" style="font-size:35px;font-weight:bold;">Detailed Report</div>
+                    <div class="card-title" style="font-size:20px;font-weight:bold;">Detailed Report</div>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col s6 col-md-3">
+                        <div class="col s6 col-md-2">
                             @Html.Label("Campaign Name", new { style="color:#5f004b;font-size:12px;" })
-                            @Html.DropDownListFor(m => m.SelectedId, Model.IdList, new { @class = "form-control", @id = "ddlacnt" })
+                            @Html.DropDownListFor(m => m.SelectedId, Model.IdList, new { @class = "form-control", @id = "ddlacnt", style="width:150px;" })
                         </div>
-                        <div class="col s6 col-md-3">
+                        <div class="col s6 col-md-2">
                             @Html.Label("From Date", new { style = "color:#5f004b;font-size:12px;" })
-                            @Html.TextBoxFor(m => m.fromdate, new { @class ="form-control mask-date" })
+                            @Html.TextBoxFor(m => m.fromdate, new { @class ="form-control mask-date", style = "width:150px;" })
                         </div>
-                        <div class="col s6 col-md-3">
+                        <div class="col s6 col-md-2">
                             @Html.Label("To Date", new { style = "color:#5f004b;font-size:12px;" })
-                            @Html.TextBoxFor(m => m.todate, new { @class ="form-control mask-date" })
+                            @Html.TextBoxFor(m => m.todate, new { @class ="form-control mask-date", style = "width:150px;" })
                         </div>
-                        <div class="col s6 col-md-3" @*style="padding-left:500px"*@>
-                            <input type="button" id="btn_download" class="btn fa fa-download"  value="Download" style="margin-top:24px;"/>
+                        <div class="col s6 col-md-2" @*style="padding-left:500px"*@>
+                            <input type="button" id="btn_download" class="btn fa fa-download"  value="Download" style="margin-top:15px; background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);color:white;"/>
                             @*<button type="submit" class=" btn btn-primary not-close" id="search" name="search" formmethod="post" value="search"></button>*@
                         </div>
                     </div>

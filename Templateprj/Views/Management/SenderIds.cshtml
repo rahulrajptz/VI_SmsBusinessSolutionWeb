@@ -4,7 +4,176 @@
     ViewBag.Title = "Management";
 }
 
-<link href="~/assets/css/common-style.css" rel="stylesheet" />
+
+<style>
+    table.dataTable > tbody > tr > td, table.dataTable > tbody > tr > th, table.dataTable > tfoot > tr > td, table.dataTable > tfoot > tr > th, table.dataTable > thead > tr > td, table.dataTable > thead > tr > th {
+        padding: 5px !important;
+        outline: 0;
+        max-width: 150px;
+        width: 150px;
+        border-right: 0;
+        border-bottom: 0;
+        color: black;
+    }
+    table.dataTable thead > tr > td.sorting, table.dataTable thead > tr > td.sorting_asc, table.dataTable thead > tr > td.sorting_desc, table.dataTable thead > tr > th.sorting, table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sorting_desc {
+        font-size: 9.5pt;
+        text-align: center;
+        font-weight: bold;
+        white-space: nowrap !important;
+        table-layout: fixed;
+        color: black;
+    }
+
+
+    .alert-danger {
+        color: white;
+    }
+
+    .alert-success {
+        color: white;
+    }
+
+    hr {
+        border: 1px solid #5f004b
+    }
+
+    .box {
+        /*border: 1px solid #878080;*/
+        padding: 20px;
+        box-shadow: rgba(0, 0, 0, 0.35) 1px 5px 10px;
+        /*min-height: 150px;*/
+        /*width:25%;*/
+    }
+
+    .blue {
+        width: 60%;
+        background-color: #57b4eb;
+    }
+
+    .yellow {
+        width: 30%;
+        background-color: yellow;
+    }
+
+    .red {
+        width: 10%;
+        background-color: red;
+    }
+
+    .head {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+    }
+
+    body {
+        font-size: 13px !important;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        height: 20px !important;
+        padding: 0px 5px !important;
+        font-size: 12px !important;
+        background-color: white !important;
+        /*color:#5f004b;*/
+    }
+
+    .form-group {
+        margin-bottom: 4px;
+        border-radius: 10px;
+    }
+
+
+
+    .navstyle {
+        border: 0px solid black;
+    }
+
+        .navstyle > ul > li {
+            border: 1px solid #5f004b;
+            /*background-color: #5f004b;*/
+            margin-left: 5px;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+            width: 200px;
+        }
+
+    a {
+        color: grey;
+    }
+
+        a:hover {
+            color: white;
+        }
+
+    .active {
+        background-color: #5f004b;
+        color: white!important;
+    }
+
+        /*.active:hover {
+            background-color: #5f004b;
+            color: white;
+        }*/
+
+    .nav-link {
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+    }
+
+    label {
+        color: #5f004b;
+        font-size: 12px;
+    }
+
+    .label_side_head {
+        color: #5f004b;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .navclr:hover {
+        background-color: #ebecf1;
+    }
+
+    .navclr {
+        background-color: #ebecf1;
+    }
+    /*.dropdown-toggle {
+        float: right;
+    }*/
+    .cl-black {
+        color: #495057 !important;
+    }
+
+    .text-danger {
+        width: 109px;
+        font-size: 10px;
+        height: 0px;
+    }
+
+    labelvariable {
+        color: #5f004b;
+        font-size: 12px;
+    }
+
+    .button-edit {
+        /*background-color: #5f004b;*/
+        border-radius: 10px;
+        /*border-bottom-color: #5f004b;*/
+        color: white;
+        padding: 8px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        min-width: 65px !important;
+    }
+    
+
+
+</style>
 
 <div class="row" style="margin-top:50px">
     <div class="col">
@@ -17,20 +186,20 @@
                     <div class="wizard-navigation">
                         <div class="col-xs-12 navstyle">
                             <ul class="nav">
-                                <li class="nav-item" style="width: 100px;height:35px">
-                                    <a style="font-size:9.2846px" class="nav-link" href="@Url.Action("Account", "Management")">
-                                        <btn_searchi class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></btn_searchi>
+                                <li class="nav-item" style="width: 130px;height:35px">
+                                    <a style="font-size:12px;font-weight:bold;" class="nav-link" href="@Url.Action("Account", "Management")">
+                                        <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
                                         ACCOUNT
                                     </a>
                                 </li>
-                                <li class="nav-item " style="width: 111px;height:35px">
-                                    <a style="font-size:9.2846px" class="nav-link" href="@Url.Action("Templates", "Template")">
+                                <li class="nav-item " style="width: 140px;height:35px">
+                                    <a style="font-size:12px;font-weight:bold;" class="nav-link" href="@Url.Action("Templates", "Template")">
                                         <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
                                         TEMPLATES
                                     </a>
                                 </li>
-                                <li class="nav-item arrow" style="width: 131px;height:35px">
-                                    <a style="font-size:9.2846px" class="nav-link active" href="@Url.Action("SenderIds", "SenderId")">
+                                <li class="nav-item arrow" style="width: 150px;height:35px">
+                                    <a style="font-size:12px;font-weight:bold;" class="nav-link active" href="@Url.Action("SenderIds", "SenderId")">
                                         <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
                                         SENDER ID
                                     </a>
@@ -44,12 +213,12 @@
 
             <div class="tab-content" style="margin-left:15px;margin-top:10px;">
                 <div class="tab-pane show active navclr">
-                    <div class="row" id="divList">
+                    <div class="row" id="divList" style="background-color:white;">
                         <div class="col">
                             @*Listing table*@
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="card">
+                                    <div class="card" style="border:0px;box-shadow:none;">
                                         <div class="col-12">
                                             <a class="btn btn-outline-info" href="AddSenderId" style="float:right"><i class="fa fa-plus"></i></a>
                                         </div>

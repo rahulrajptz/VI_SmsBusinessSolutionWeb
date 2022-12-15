@@ -1,24 +1,54 @@
 ﻿<style>
-    .smallSpan {
+    .sidebar .nav li.active > a:not([data-toggle=collapse]) {
+    color:white !important;
+    
+    }
+    
+    .sidebar-wrapper > .nav [data-toggle=collapse] ~ div > ul > li.active > a .sidebar-mini-icon {
+    color:white !important;
+    
+    }
+        .smallSpan {
         width: 20px;
-        background-color:red;
+        background-color: red;
     }
+
     .navact {
-        background-color: #530d3e !important;
+        background-color: #ebecf1 !important;
     }
-    .not-close1{
-        margin-left:5px;
+
+    .not-close1 {
+        margin-left: 5px;
     }
+
     body {
         font-size: 13px !important;
         /*color: #5f004b;*/
     }
+
+    .imagebox {
+        height: 50px;
+        width: 56px;
+        margin-left: 10px;
+        border-radius: 13px;
+    }
+    
+    a {
+        color: black !important;
+    }
+        i {
+            color: black!important;
+        }
+    i.fa-home.not-close{
+        color: white !important;
+    }
+            
 </style>
 
 <div class="sidebar-wrapper ps-container ps-theme-default ps-active-y" data-ps-id="131e9311-ee64-0e96-773f-c47a19cdc8dc">
-    <div class="" style="margin-left:50px; width:100px">
-        <div class="photo">
-            <img src="~/Content/Images/LogRound.png" />
+    <div style="margin-left:50px; width:100px">
+        <div class="photo" style="margin-left:10px;">
+            <img src="Content/Images/LogRound.png" style="height:60px;width:60px;margin-top:20px;"/>
         </div>
 
         @*<div class="info">
@@ -35,26 +65,24 @@
 
     @if (Session["RoleID"].ToString() == "1" || Session["RoleID"].ToString() == "2" || Session["RoleID"].ToString() == "3" || Session["RoleID"].ToString() == "4")
     {
-        <ul class="nav">
-            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "insights" ? "navact active" : "") not-close">
-                <a href="home/insights">
-                    @*<i class="now-ui-icons files_single-copy-04"></i>*@
-                    <i style="color:white" class=" now-ui-icons fa fa-home"></i>
-                    <p>
-                        Home
-                    </p>
-                </a>
-            </li>
-        </ul>
-
+        <div class="not-close">
+            <ul class="nav">
+                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "insights" ? " active" : "") not-close">
+                    <a href="home/insights" style="border-radius:25px;" >
+                        @*<i class="now-ui-icons files_single-copy-04"></i>*@
+                        <i class="fa fa-home"></i>
+                        <p style="font-weight:bold;">Home</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
         <ul class="nav">
             <li class="not-close">
-                <a data-toggle="collapse" href="#smsservices">
+                <a data-toggle="collapse" href="#smsservices" style="border-radius:25px;">
                     @*<i class="now-ui-icons files_single-copy-04"></i>*@
                     @*<i><img src="~/assets/img/megaphone.png" style="height:23px"></i>*@
-                    <i style="color:white" class="now-ui-icons ui-1_email-85 sidebar-mini-icon"></i>
-
-                    <p>
+                    <i  class="now-ui-icons ui-1_email-85"></i>
+                    <p style="font-weight:bold;">
                         SMS services  <b class="caret"></b>
                     </p>
                 </a>
@@ -64,16 +92,16 @@
 
                         <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "BulkSms" ? "navact active" : "") not-close">
 
-                            <a href="Campaign/BulkSms" class="not-close">
-                                <i class="fa fa-comments sidebar-mini-icon"></i>
-                                <span class="sidebar-normal"> BULK SMS </span>
+                            <a href="Campaign/BulkSms" class="not-close"  style="border-radius:25px;">
+                                <i class="fa fa-comments sidebar-mini-icon" ></i>
+                                <p class="sidebar-normal" style="font-weight:bold;">BULK SMS</p>
                             </a>
                         </li>
                         <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "InstantSms" ? "navact active" : "") not-close">
 
-                            <a href="Campaign/InstantSms" class="not-close">
+                            <a href="Campaign/InstantSms" class="not-close" style="border-radius:25px;">
                                 <i class="fa fa-comment-alt sidebar-mini-icon"></i>
-                                <span class="sidebar-normal"> INSTANT SMS </span>
+                                <p class="sidebar-normal" style="font-weight:bold;">INSTANT SMS</p>
                             </a>
                         </li>
 
@@ -81,12 +109,11 @@
                     </ul>
                     <ul class="nav">
                         <li class="not-close">
-                            <a data-toggle="collapse" href="#ApiSms">
+                            <a data-toggle="collapse" href="#ApiSms"  style="border-radius:25px;">
                                 @*<i class="now-ui-icons files_single-copy-04"></i>*@
                                 @*<i><img src="~/assets/img/megaphone.png" style="height:23px"></i>*@
-                                <i style="color:white" class="fa fa-share-square sidebar-mini-icon"></i>
-
-                                <p>
+                                <i  class="fa fa-share-square sidebar-mini-icon"></i>
+                                <p style="font-weight:bold;">
                                     API SMS <b class="caret"></b>
                                 </p>
                             </a>
@@ -97,16 +124,16 @@
 
                                     <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "ApiBulk" ? "navact active" : "") not-close1">
 
-                                        <a @*href="Campaign/ApiBulk" class="not-close"*@>
-                                            <span class="fa fa-th-large sidebar-mini-icon"></span>
-                                            <span class="sidebar-normal"> API - BULK SMS </span>
+                                        <a @*href="Campaign/ApiBulk" class="not-close"*@  style="border-radius:25px;">
+                                            <i class="fa fa-th-large sidebar-mini-icon" ></i>
+                                            <p class="sidebar-normal" style="font-weight:bold;"> API - BULK SMS </p>
                                         </a>
                                     </li>
                                     <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "ApiNotification" ? "navact active" : "") not-close1">
 
-                                        <a @*href="Campaign/ApiNotification" class="not-close"*@>
-                                            <span class="fa fa-th-large sidebar-mini-icon"></span>
-                                            <span class="sidebar-normal"> API - NOTIFICATION SMS </span>
+                                        <a @*href="Campaign/ApiNotification" class="not-close"*@  style="border-radius:25px;">
+                                            <i class="fa fa-th-large sidebar-mini-icon"></i>
+                                            <p class="sidebar-normal" style="font-weight:bold;"> API - NOTIFICATION SMS </p>
                                         </a>
                                     </li>
 
@@ -136,10 +163,10 @@
 
         <ul class="nav">
             <li class="not-close">
-                <a data-toggle="collapse" href="#Management">
+                <a data-toggle="collapse" href="#Management"  style="border-radius:25px;">
                     @*<i class="now-ui-icons files_single-copy-04"></i>*@
-                    <i style="color:white" class=" now-ui-icons ui-1_email-85 sidebar-mini-icon"></i>
-                    <p>
+                    <i  class=" now-ui-icons ui-1_email-85"></i>
+                    <p style="font-weight:bold;">
                         MANAGEMENT <b class="caret"></b>
                     </p>
                 </a>
@@ -148,21 +175,21 @@
                                         || (ViewContext.RouteData.Values["Action"].ToString() == "Templates" ) ? "collapse show" : "collapse") not-close" id="Management">
                     <ul class="nav">
                         <li class="@((ViewContext.RouteData.Values["Action"].ToString() == "Account")||(ViewContext.RouteData.Values["Action"].ToString() == "Account") ? "navact active" : "") not-close">
-                            <a href="Management/Account" class="not-close">
-                                <span class="fa fa-share-square sidebar-mini-icon"></span>
-                                <span class="sidebar-normal">ACCOUNT</span>
+                            <a href="Management/Account" class="not-close"  style="border-radius:25px;">
+                                <i class="fa fa-share-square sidebar-mini-icon" ></i>
+                                <p class="sidebar-normal" style="font-weight:bold;">ACCOUNT</p>
                             </a>
                         </li>
                         <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Templates" ? "navact active" : "") not-close">
-                            <a href="Template/Templates" class="not-close">
-                                <span class="fa fa-comments sidebar-mini-icon"></span>
-                                <span class="sidebar-normal">TEMPLATE</span>
+                            <a href="Template/Templates" class="not-close"  style="border-radius:25px;">
+                                <i class="fa fa-comments sidebar-mini-icon" ></i>
+                                <p class="sidebar-normal" style="font-weight:bold;">TEMPLATES</p>
                             </a>
                         </li>
                         <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "SenderIds" ? "navact active" : "") not-close">
-                            <a href="Management/SenderIds" class="not-close">
-                                <span class="fa fa-comment-alt sidebar-mini-icon"></span>
-                                <span class="sidebar-normal">SENDER ID</span>
+                            <a href="Management/SenderIds" class="not-close"  style="border-radius:25px;">
+                                <i class="fa fa-comment-alt sidebar-mini-icon" ></i>
+                                <p class="sidebar-normal" style="font-weight:bold;">SENDER ID</p>
                             </a>
                         </li>
 
@@ -196,20 +223,21 @@
             </ul>*@
         <ul class="nav">
             <li class="not-close">
-                <a data-toggle="collapse" href="#Reports">
+                <a data-toggle="collapse" href="#Reports"  style="border-radius:25px;">
                     @*<i class="now-ui-icons files_single-copy-04"></i>*@
-                    <i style="color:white" class="fa fa-book"></i>
-                    <p>
+                    <i  class="fa fa-book"></i>
+                    <p style="font-weight:bold;">
                         REPORTS <b class="caret"></b>
                     </p>
                 </a>
-                <div class="@((ViewContext.RouteData.Values["Action"].ToString() == "Reports") ? "collapse show" : "collapse") not-close" id="Reports">
+                <div class="@((ViewContext.RouteData.Values["Action"].ToString() == "Reports")
+            || (ViewContext.RouteData.Values["Action"].ToString() == "DetailedReport")? "collapse show" : "collapse") not-close" id="Reports">
                     <ul class="nav">
 
-                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Detailedreport" ? "navact active" : "") not-close">
-                            <a href="Reports/DetailedReport" class="not-close">
-                                <span class="now-ui-icons files_single-copy-04 sidebar-mini-icon"></span>
-                                <span class="sidebar-normal">Detailed Report</span>
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "DetailedReport" ? "navact active" : "") not-close">
+                            <a href="Reports/DetailedReport" class="not-close"  style="border-radius:25px;">
+                                <i class="now-ui-icons files_single-copy-04 sidebar-mini-icon" ></i>
+                                <p class="sidebar-normal" style="font-weight:bold;">Detailed Report</p>
                             </a>
                         </li>
                     </ul>

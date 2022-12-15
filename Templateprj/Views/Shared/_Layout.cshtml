@@ -19,7 +19,7 @@
     <link rel="stylesheet" type='text/css' href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-
+    @*<link href="~/assets/css/CustomCss.css" rel="stylesheet" />*@
     <link href="~/assets/css/animate.css" rel="stylesheet" />
     <base href="@Url.Content("~")" />
     @Styles.Render("~/Content/css")
@@ -29,14 +29,16 @@
     @RenderSection("styles", required: false)
     <style>
         .panel-header {
-            background: linear-gradient(0deg, #5f004b 15%,#5f004b);
+            /*background: linear-gradient(0deg, #5f004b 15%,#5f004b);*/
             /*background: linear-gradient(90deg,#f9633f 0,#ffc107 60%,#ffffff);*/
             /*background: linear-gradient(90deg,#1e4167 0,#224b75 60%,#0c2f50);*/
+            background-color: #ebecf1;
         }
 
         .off-canvas-sidebar[data-color=orange]:after, .sidebar[data-color=orange]:after {
             /*background: linear-gradient(20deg,#16385b, #f9633f 70%);*/
-            background: linear-gradient(20deg, #530D3E, #530D3E);
+            /*background: linear-gradient(20deg, #530D3E, #530D3E);*/
+            background-color: #ebecf1;
         }
 
         [data-background-color=orange] {
@@ -49,7 +51,7 @@
     </style>
 </head>
 <body>
-    <link href="~/assets/css/CustomCss.css" rel="stylesheet" />
+    
     <noscript>
         <div class="JSError">
             Please Enable Javascript and Refresh the Page
@@ -58,7 +60,7 @@
     <div class="sidebar"></div>
     <div class="wrapper">
         <div class="sidebar" data-color="orange">
-            <div class="logo">
+            <div class="logo" style="background-color:#ebecf1;">
                 <a class="simple-text logo-mini" href="#">
                     @* c *@
                 </a>
@@ -105,8 +107,8 @@
                             </div>*@
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a class="nav-link dropdown-toggle ml-auto" style="width:60px" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="now-ui-icons users_single-02"></i>
+                                    <a class="nav-link dropdown-toggle ml-auto" style="width:60px;color:#5f004b;" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="now-ui-icons users_single-02" style="color:#5f004b;" ></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right ml-auto col-md-4 mr-4" aria-labelledby="navbarDropdownMenuLink" id="navigation" style="width:160px ; height:132px">
                                         @*<div class="fixed-top" style="margin-top:-10px">*@

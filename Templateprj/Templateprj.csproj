@@ -432,6 +432,7 @@
     <Content Include="assets\css\common-style.css" />
     <Content Include="assets\css\css.css" />
     <Content Include="assets\css\CustomCssInner.css" />
+    <Content Include="assets\css\datatabler.css" />
     <Content Include="assets\css\demo.css" />
     <Content Include="assets\css\flatpickr.min.css" />
     <Content Include="assets\css\jquery.dataTables.min.css" />
@@ -518,6 +519,8 @@
     <Content Include="Content\Images\smslinkicon.png" />
     <Content Include="Content\Images\vi.png" />
     <Content Include="Content\Images\Vi12.PNG" />
+    <Content Include="Content\Images\vi2image.png" />
+    <Content Include="Content\Images\viimage.png" />
     <Content Include="Content\ionicons.min.css" />
     <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\Mobile.png" />
@@ -1235,7 +1238,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties Content_4bootstrap_1css_1map__JSONSchema="https://json.schemastore.org/stale.json" Content_4bootstrap-reboot_1min_1css_1map__JSONSchema="https://json.schemastore.org/swa-cli.config.json" />
+      <UserProperties Content_4bootstrap-reboot_1min_1css_1map__JSONSchema="https://json.schemastore.org/swa-cli.config.json" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -8,13 +8,22 @@
 <link href="~/Styles/modelright.css" rel="stylesheet" />
 
 <style>
+    table.dataTable > tbody > tr > td, table.dataTable > tbody > tr > th, table.dataTable > tfoot > tr > td, table.dataTable > tfoot > tr > th, table.dataTable > thead > tr > td, table.dataTable > thead > tr > th {
+        padding: 5px !important;
+        outline: 0;
+        max-width: 150px;
+        width: 150px;
+        border-right: 0;
+        border-bottom: 0;
+        color: black;
+    }
     table.dataTable thead > tr > td.sorting, table.dataTable thead > tr > td.sorting_asc, table.dataTable thead > tr > td.sorting_desc, table.dataTable thead > tr > th.sorting, table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sorting_desc {
         font-size: 9.5pt;
         text-align: center;
         font-weight: bold;
         white-space: nowrap !important;
         table-layout: fixed;
-        color: #5f004b;
+        color: black;
     }
     table.fixed {
         table-layout: fixed;
@@ -82,6 +91,7 @@
     }
 
     .form-control {
+        border-radius:10px;
         height: 20px !important;
         padding: 0px 5px !important;
         font-size: 12px !important;
@@ -92,35 +102,36 @@
         margin-bottom: 4px;
     }
 
-    .navstyle {
+    /*.navstyle {
         border: 0px solid black;
+    }*/
+
+    .navstyle > ul > li {
+        border: 1px solid #5f004b;
+        /*background-color: #5f004b;*/
+        margin-left: 5px;
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+        width: 200px;
     }
 
-        .navstyle > ul > li {
-            border: 1px solid black;
-            background-color: #5f004b;
-            margin-left: 5px;
-            border-top-right-radius: 10px;
-            border-top-left-radius: 10px;
-            width: 200px;
-        }
-
     a {
-        color: white;
+        color: gray;
+        /*background-color: #ebecf1;*/
     }
 
         a:hover {
-            color: white;
+            color: gray;
         }
 
     .active {
-        background-color: white;
-        color: black;
+        background-color: #5f004b;
+        color: white !important;
     }
 
         .active:hover {
-            background-color: white;
-            color: black;
+            background-color: #5f004b;
+            color: gray;
         }
 
     .nav-link {
@@ -137,9 +148,9 @@
         background-color: #ebecf1;
     }
 
-    .navclr {
+    /*.navclr {
         background-color: #ebecf1;
-    }
+    }*/
    
     .cl-black {
         color: #495057 !important;
@@ -170,14 +181,14 @@
                         <div class="col-xs-12 navstyle">
                             <ul class="nav">
                                 <li class="nav-item" style="width: 150px;height:35px">
-                                    <a style="font-size:10px" id="campaigncreationnavitem" class="nav-link active" onclick="resetfunction()" href="#Instantsmsnav" data-toggle="tab" role="tab" aria-controls="about" aria-selected="true">
+                                    <a style="font-size:12px;font-weight:bold;" id="campaigncreationnavitem" class="nav-link active" onclick="resetfunction()" href="#Instantsmsnav" data-toggle="tab" role="tab" aria-controls="about" aria-selected="true">
                                         <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
                                         INSTANT SMS
                                     </a>
                                 </li>
 
                                 <li class="nav-item " style="width: 111px;height:35px">
-                                    <a style="font-size:10px" id="reportsnavitem" class="nav-link" href="#reportsnav" onclick="resetfunction()" data-toggle="tab" role="tab" aria-controls="account" aria-selected="false">
+                                    <a style="font-size:12px;font-weight:bold;" id="reportsnavitem" class="nav-link" href="#reportsnav" onclick="resetfunction()" data-toggle="tab" role="tab" aria-controls="account" aria-selected="false">
                                         <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
                                         REPORTS
                                     </a>
@@ -190,9 +201,9 @@
 
             <div class="tab-content">
                 <div class="tab-pane show active navclr" id="Instantsmsnav">
-                    <div style="margin-top:5px;background:#ebecf1" class="col-md-12">
+                    <div style="margin-top:5px;background:white" class="col-md-12">
                         <p>
-                            <a class="btn btn-block text-white dropdown-toggle" style="margin-left:5px;height:25px;text-align:left;background-color:#5f004b;font-size:10px;vertical-align:middle;"
+                            <a class="btn btn-block text-white dropdown-toggle" style="margin-left:5px;height:25px;text-align:left;background-color:grey;font-size:10px;vertical-align:middle;"
                                data-toggle="collapse" href="#collapseInstantsms" role="button" aria-expanded="false">
                                 INSTANT SMS
                             </a>
@@ -255,7 +266,7 @@
 
                                             @Html.TextAreaFor(m => m.SenderId, new { @class = " form-control", required = "required", @style = "display:none;width:80px; height: auto !important;background:white;", @readonly = "readonly", @rows = "1" })
                                             <div class="col-md" style="">
-                                                <span id="bindsenderName"></span>
+                                                <span id="bindsenderName" style="color:black;"></span>
                                             </div>
 
                                             @Html.Label("Content Type:", new { style = "margin-left:15px;" })
@@ -272,7 +283,7 @@
                                             @Html.Label("Template Name:", new { style = "margin-left:15px;" })
                                             <div class="col-md" style="">
                                                 @*<span id="bindtemplatetype"></span>*@
-                                                <span id="bindtemplatename"></span>
+                                                <span id="bindtemplatename" style="color:black;"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -284,7 +295,7 @@
 
 
                                     <div class="form-group col-md-12">
-                                        @Html.TextAreaFor(m => m.SmsContent, new { @class = "form-control", required = "required", @style = "height: auto !important;background:white;", @readonly = "readonly", @rows = "5" })
+                                        @Html.TextAreaFor(m => m.SmsContent, new { @class = "form-control", required = "required", @style = "height: auto !important;background:white; color:black !important;", @readonly = "readonly", @rows = "5" })
 
                                     </div>
                                 </div>
@@ -308,7 +319,7 @@
 
                                 <div class="row" id="sendbutton" style="margin-left:4px;width:100% !important; text-align:right;display:none">
                                     <div class="col-12">
-                                        <button style="margin-left:482px;background-color:#5f004b;color:white;border-radius:20px;" type="button" id="send">Send</button>
+                                        <button style="margin-left:482px;background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);color:white;border-radius:20px;" type="button" id="send">Send</button>
                                     </div>
                                 </div>
 
@@ -316,7 +327,7 @@
                             </div>
                             <div id="testsmsdiv" class="row" style="display:none">
 
-                                <a class="btn btn-block text-white dropdown-toggle" style="margin-left:5px;height:25px;text-align:left;background-color:#5f004b;font-size:10px;vertical-align:middle;"
+                                <a class="btn btn-block text-white dropdown-toggle" style="margin-left:5px;height:25px;text-align:left;background-color:grey;font-size:10px;vertical-align:middle;"
                                    data-toggle="collapse" href="#collapseTestSms" role="button" aria-expanded="false">
                                     SEND SMS
                                 </a>
@@ -331,7 +342,7 @@
 
                                         <div class="row" style="margin-left:4px;width:100% !important; text-align:right;">
                                             <div class="col-12">
-                                                <button style="margin-right:25px;background-color:#5f004b;color:white;border-radius:20px;" type="button" id="btn_sendNumber">Send</button>
+                                                <button style="margin-right:25px;background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);color:white;border-radius:20px;" type="button" id="btn_sendNumber">Send</button>
                                             </div>
                                         </div>
                                     </div>
@@ -355,13 +366,16 @@
                                                         <th style="width:10%;color:#5f004b">Action</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody class="table-body"></tbody>
+                                                <tbody class="table-body" style="color :black !important;"></tbody>
                                             </table>
                                         </div>
 
+                                        @*//table*@
+
+
                                         <div class="row" style="margin-left:10px; width:100% !important; text-align:right;">
                                             <div class="col-12">
-                                                <button style="margin-right:40px;background-color:#5f004b;color:white;border-radius:20px;" type="button" id="sendsms">Send</button>
+                                                <button style="margin-right:40px;background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);;color:white;border-radius:20px;" type="button" id="sendsms">Send</button>
                                             </div>
                                         </div>
                                     </div>
@@ -388,7 +402,7 @@
                     REPORTS
                 </a>*@
 
-                <div class="tab-pane navclr" style="background:#ebecf1;margin-top:40px;" id="reportsnav">
+                <div class="tab-pane navclr" style="background:white;margin-top:40px;" id="reportsnav">
 
                     <div class="row mt-3">
                         <div class="col-sm-2">
@@ -418,7 +432,7 @@
                         </div>
 
                         <div class="row pull-right">
-                            <button type="button" id="btn_search" style="background-color:#5f004b;color:white;margin-left:15px;margin-top:15px;">
+                            <button type="button" id="btn_search" style="background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);color:white;margin-left:15px;margin-top:15px;">
                                 Search
                             </button>
                             @*<button type="button" id="btn_download" style="height:30px;width:60px;background-color:#5f004b;color:white;margin-left:10px;margin-top:16px;" class="btn btn-block">
@@ -427,9 +441,9 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row" style="margin-top:50px;">
                         <div class="col-md-12">
-                            <div class="card mt-1">
+                            <div class="card mt-1" style="border:0px;box-shadow:none;">
 
 
                                 <div class="card-body col-sm-12" style="width:1100px">
@@ -500,7 +514,7 @@
                             <div class="col-md-2">
                                 <br />
                                 @*<button type="button" id="btn_search" style="height:35px;background-color:#212121;color:white;width:100px;" class="btn btn-block">Search</button>*@
-                                <button type="button" id="serchInstant" style="background-color:#5f004b; color:white;margin-left:-150px; margin-top:25px;">
+                                <button type="button" id="serchInstant" style="background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3); color:white;margin-left:-150px; margin-top:25px;">
                                     Search
                                 </button>
                             </div>
@@ -524,7 +538,7 @@
         $(document).ready(function () {
             $("#collapseInstantsms").addClass("show");
         });
-       
+
         function isValidNumber(numbers) {
 
             for (i = 0; i < numbers.length; i++) {
@@ -1079,7 +1093,7 @@
                 str = "";
                 $("#numberOfRaw").val(parseInt($("#numberOfRaw").val()) + 1);
                 str = '<tr class="cell-1">'
-                    + '<td><span id="spn_mob"> _</span></td>'
+                    + '<td><span style="color:black " id="spn_mob"> _</span></td>'
                     + ' <td><i id="icon_alert" class="fa fa-exclamation-circle" style="margin-right:8px;color:red !important"></i><span id="spn_message">' + ReplaceSMSContentWithParameter($('#SmsContent').val(), dvr) + '</span></td>'
                     + '<td> <span id="spn_count">' + $("#smsCount").val() + ' /' + $("#smsLeg").val() + '</span></td>'
                     + '<td class="table-elipse">'
@@ -1442,9 +1456,10 @@
         function resetfunction() {
 
             document.getElementById("Idform").reset();
-            document.getElementById("bindsenderName").innerHTML = "";
             $('#StaticSmsDiv').hide();
             $('#dynamicSmsDiv').hide();
+            document.getElementById("bindsenderName").innerHTML = "";
+            $('#sendbutton').hide();
             $("#smstemplatediv").hide();
             document.getElementById("bindtemplatename").innerHTML = "";
             $('#tbl_report').parents('div.dataTables_wrapper').first().hide();
