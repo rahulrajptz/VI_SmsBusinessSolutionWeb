@@ -1823,16 +1823,15 @@ namespace Templateprj.DataAccess
 
             try
             {
-                //`Web_Instant_Sms_Report`(
-                //    in n_MSISDN_in bigint(21), in v_template_id_in varchar(200),
-                //    in v_DateRange_In varchar(100),
-                //    in n_status int
-                //    )
+                //`Web_Instant_Sms_Report`( IN N_acc_id INT,IN N_user_id int,IN n_MSISDN_in bigint(21), IN v_template_id_in varchar(200),
+                //IN v_DateRange_In varchar(100), IN n_status int)
 
                 using (MySqlCommand cmd = new MySqlCommand("Web_Instant_Sms_Report"))
                 {
 
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@N_acc_id", MySqlDbType.Int32).Value = HttpContext.Current.Session["AccountID"].ToString();
+                    cmd.Parameters.Add("@N_user_id", MySqlDbType.Int32).Value = HttpContext.Current.Session["UserID"].ToString();
                     cmd.Parameters.Add("@n_MSISDN_in", MySqlDbType.Int64).Value = model.MSISDN == null ? "0" : model.MSISDN;
                     cmd.Parameters.Add("@v_template_id_in", MySqlDbType.VarChar).Value = model.Template;
                     cmd.Parameters.Add("@v_DateRange_In", MySqlDbType.VarChar).Value = model.dateFrom;
@@ -1891,7 +1890,37 @@ namespace Templateprj.DataAccess
                 return "";
             }
         }
+        
 
+        public DataTable getInstantstatuslist()
+        {
+            //web_get_Instant_status_prc
+
+            try
+            {
+
+                using (MySqlCommand cmd = new MySqlCommand("web_get_Instant_status_prc"))
+                {
+
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
+                        var dataTable = new DataTable();
+                        dataAdapter.Fill(dataTable);
+                        return dataTable;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write("DataAccess.Campaign.getstatuslist::Exception::" + ex.Message);
+                return null;
+            }
+        }
         public DataTable getTemplateId()
         {
             //`Web_get_Instant_template_id`(in N_Acc_id int)

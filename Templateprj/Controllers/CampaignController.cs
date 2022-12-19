@@ -457,18 +457,45 @@ namespace Templateprj.Controllers
 
 
         [NoCompress]
-        public void DownloadsampleFile(string id)
-        {
+        //public void DownloadsampleFile(string id)
+        //{
 
-            DataTable dt = _prc.getsamplefilesms(id);
-            if (dt != null)
-            {
-                dt.TableName = "Upload";
-                RKLib.ExportData.Export objExport = new RKLib.ExportData.Export();
-                objExport.ExportDetails(dt, RKLib.ExportData.Export.ExportFormat.CSV, "");
-            }
+            //DataTable dt = _prc.getsamplefilesms(id);
+            //if (dt != null)
+            //{
+            //    dt.TableName = "Upload";
+            //    RKLib.ExportData.Export objExport = new RKLib.ExportData.Export();
+            //    objExport.ExportDetails(dt, RKLib.ExportData.Export.ExportFormat.Excel, "D:\\samplefile\\123.xls");
+            //}
+            //}
+             public virtual ContentResult DownloadSampleFile(string id)
+             {
+                DataTable dt = _prc.getsamplefilesms(id);
+                if (!Directory.Exists(GlobalValues.BULKPath))
+                    Directory.CreateDirectory(GlobalValues.BULKPath);
+                string fileName = GlobalValues.BULKPath + "sampleFile_" + DateTime.Now.ToString("MMddyyyyHHmmss") + ".xlsx";
+                using (ExcelPackage pck = new ExcelPackage())
+                {
 
-        }
+                    ExcelWorksheet workSheet = pck.Workbook.Worksheets.Add("Data");
+                    workSheet.Cells["A1"].LoadFromDataTable(dt, true);
+                    pck.SaveAs(new FileInfo(fileName));
+                }
+                byte[] bytes = System.IO.File.ReadAllBytes(fileName);
+
+                //Convert File to Base64 string and send to Client.
+                string base64 = Convert.ToBase64String(bytes, 0, bytes.Length);
+                try
+                {
+                    System.IO.File.Delete(fileName);
+                }
+                catch { }
+
+                return Content(base64);
+
+             }
+
+    
 
         [NoCompress]
         public virtual ContentResult DownloadCampaignDetailReport(string id)
@@ -479,7 +506,6 @@ namespace Templateprj.Controllers
               string fileName = GlobalValues.BULKPath + "fileexport_"+ DateTime.Now.ToString("MMddyyyyHHmmss") + ".xlsx";
             using (ExcelPackage pck = new ExcelPackage())
             {
-
                 ExcelWorksheet workSheet = pck.Workbook.Worksheets.Add("report1");
                 workSheet.Cells["A1"].LoadFromDataTable(dt, true);
                 pck.SaveAs(new FileInfo(fileName));

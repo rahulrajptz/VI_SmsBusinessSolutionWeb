@@ -1372,8 +1372,6 @@
 
             $("#loading").show();
             $("#divNoData").hide();
-
-            // $("#divTable").html("<table class=\"table table-bordered dataTable dtr-inline \" id=\"tbl_rpt\" role=\"grid\" aria-describedby=\"datatable_info\" style=\"width:100 % !important;\" cellspacing=\"0\"><thead style= \"font-size:11px;width:auto;text-align:center;\" ><tr></tr> </thead ></table >");
             $("input[type=button]").attr("disabled", "disabled");
             $.post("@Url.Action(MVC.InstantSms.Instantsmsreport())", $("form").serialize(), function (resp) {
                 if (jQuery.isEmptyObject(resp.tdata)) {

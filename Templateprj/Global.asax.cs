@@ -31,7 +31,7 @@ namespace Templateprj
         {
             // Code that runs when a new session is started
             if (!Request.IsSecureConnection) return;
-
+            Session.Timeout = 60000;
             var sessionStateSection = (SessionStateSection)ConfigurationManager.GetSection("system.web/sessionState");
             var cookieName = sessionStateSection.CookieName ?? "ASP.NET_SessionId";
             var responseCookie = Response.Cookies[cookieName];

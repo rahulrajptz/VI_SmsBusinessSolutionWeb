@@ -199,7 +199,7 @@ namespace Templateprj.DataAccess
                     cmd.Parameters.Add("@n_Userid_In", MySqlDbType.VarChar, 100).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"]);
                     cmd.Parameters.Add("@v_Newpswd_In", MySqlDbType.VarChar, 100).Value = _EncDec.GetHashSha1(model.NewPassword.Trim());
                     cmd.Parameters.Add("@n_Questid_In", MySqlDbType.Int32).Value = model.SelectedSecurityQuestion;
-                    cmd.Parameters.Add("@v_Answer_In", MySqlDbType.VarChar, 100).Value = _EncDec.EncryptDes(model.Answer.Trim());
+                    cmd.Parameters.Add("@v_Answer_In", MySqlDbType.VarChar, 100).Value = _EncDec.EncryptDes(model.Answer.Trim().ToLower());
                     cmd.Parameters.Add("@n_Appln_Id_In", MySqlDbType.Int32).Value = GlobalValues.AppId;
 
                     cmd.Parameters.Add("@v_Email_Out", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
@@ -377,7 +377,7 @@ namespace Templateprj.DataAccess
 
                     cmd.Parameters.Add("@n_User_Id_In", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"]);
                     cmd.Parameters.Add("@n_Questid_In", MySqlDbType.Int32).Value = model.SelectedSecurityQuestion;
-                    cmd.Parameters.Add("@v_Answer_In", MySqlDbType.VarChar, 100).Value = _EncDec.EncryptDes(model.Answer.Trim());
+                    cmd.Parameters.Add("@v_Answer_In", MySqlDbType.VarChar, 100).Value = _EncDec.EncryptDes(model.Answer.Trim().ToLower());
                     cmd.Parameters.Add("@n_Appln_Id_In", MySqlDbType.Int32).Value = GlobalValues.AppId;
 
                     cmd.Parameters.Add("@n_Status_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
@@ -445,7 +445,7 @@ namespace Templateprj.DataAccess
 
                 cmd.Parameters.Add("@v_username_In", MySqlDbType.VarChar).Value = username.ToLower().Trim();
                 cmd.Parameters.Add("@n_Questid_In", MySqlDbType.Int32).Value = model.SelectedSecurityQuestion;
-                cmd.Parameters.Add("@v_Answer_In", MySqlDbType.VarChar).Value = _EncDec.EncryptDes(model.Answer.Trim());
+                cmd.Parameters.Add("@v_Answer_In", MySqlDbType.VarChar).Value = _EncDec.EncryptDes(model.Answer.Trim().ToLower());
                 if (string.IsNullOrWhiteSpace(model.OldPwd))
                     cmd.Parameters.Add("@v_Old_Pswd_In", MySqlDbType.VarChar).Value = DBNull.Value;
                 else

@@ -81,9 +81,14 @@
         }
     </div>
 </div>
+
 @section scripts{
     <script>
-
+        function preventBack() {
+            window.history.forward();
+        }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
     $(document).ready(function () {
 
         $('.nonedit').css({ 'pointer-events': 'none', 'background-color': 'lightgrey' });    });

@@ -390,6 +390,7 @@
     <Compile Include="Models\Managements\TemplateModel.cs" />
     <Compile Include="Models\ReportsModels.cs" />
     <Compile Include="Models\TestModel.cs" />
+    <Compile Include="Models\TokenAuthenticationInWebAPI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\CustomMultipartFormDataStreamProvider.cs" />
     <Compile Include="ReportsController.generated.cs">
@@ -508,6 +509,10 @@
     <Content Include="Content\flatpickr.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Images\bx_loader.gif" />
+    <Content Include="Content\Images\icons8-airplane-landing.gif" />
+    <Content Include="Content\Images\icons8-sand-timer.gif" />
+    <Content Include="Content\Images\icons8-settings.gif" />
+    <Content Include="Content\Images\icons8-square-loader.gif" />
     <Content Include="Content\Images\loading.gif" />
     <Content Include="Content\Images\Login-Page-image-removebg-preview.png" />
     <Content Include="Content\Images\Login-Page-image.png" />
