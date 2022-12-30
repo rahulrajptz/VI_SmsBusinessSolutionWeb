@@ -185,19 +185,19 @@
                                 <ul class="nav">
                                     <li class="nav-item" style="width: 130px;height:35px">
                                         <a style="font-size:12px;font-weight:bold;" class="nav-link" href="@Url.Action("Account", "Management")">
-                                            <btn_searchi class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></btn_searchi>
+                                            <span class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></span>
                                             ACCOUNT
                                         </a>
                                     </li>
                                     <li class="nav-item " style="width: 140px;height:35px">
                                         <a style="font-size:12px;font-weight:bold;" class="nav-link active" href="@Url.Action("Templates", "Template")">
-                                            <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                            <span class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></span>
                                             TEMPLATES
                                         </a>
                                     </li>
                                     <li class="nav-item arrow" style="width: 150px;height:35px">
                                         <a style="font-size:12px;font-weight:bold;" class="nav-link" href="@Url.Action("SenderIds", "Management")">
-                                            <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                            <span class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></span>
                                             SENDER ID
                                         </a>
                                     </li>
@@ -433,16 +433,13 @@
                                             <div id="fileUploadm2m">
                                                 <div class="row">
                                                     <div class="col" style="text-align:right;">
-
                                                         <a id="samplefiledownlod" style="color:#5f004b;font-size:13px" href="@Url.Action(MVC.Template.Download())"><i class="now-ui-icons files_single-copy-04"></i>Sample Template</a>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-4" style="text-align:left;">
                                                         <span>@Html.Label("Upload Template") </span>
-
                                                         <input style="width:234px;font-size:13px;color:#5f004b;" id="fileToUpload" type="file" name="file" required="required">
-
                                                     </div>
                                                     <div class="col-4">
                                                         <button class="btn-success" id="uploadfileid" style="background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);" type="button">Upload</button>

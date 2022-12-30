@@ -24,9 +24,7 @@ namespace Templateprj.Repositories.Services
             List<SelectListItem> listItemsAll = new List<SelectListItem>();
             listItemsAll.Add(selectListItemAll);
 
-            SelectListItem selectListItems = new SelectListItem { Text = "-All-", Value = "10" };
-            List<SelectListItem> AlllistItems = new List<SelectListItem>();
-            AlllistItems.Add(selectListItems);
+            //List<SelectListItem> AlllistItems = new List<SelectListItem>();
 
             DataTable dtSmstype = _prc.getsmstypelist();
             DataTable dtstatuslist = _prc.getInstantstatuslist();
@@ -37,7 +35,7 @@ namespace Templateprj.Repositories.Services
             return new InstantSmsModel()
             {
                 SmsTypes = dtSmstype.ToSelectList(listItems, "VALUE", "TEXT"),
-                StatusList = dtstatuslist.ToSelectList(AlllistItems, "VALUE", "TEXT"),
+                StatusList = dtstatuslist.ToSelectList(listItemsAll, "VALUE", "TEXT"),
                 TemplateList = dttemplateList.ToSelectList(listItemsAll, "VALUE", "TEXT"),
                 pouptemplateNameList = dspopupData.Tables[0].ToSelectList(listItemsAll, "VALUE", "TEXT"),
                 pouptemplateTypeList = dspopupData.Tables[1].ToSelectList(listItemsAll, "VALUE", "TEXT"),

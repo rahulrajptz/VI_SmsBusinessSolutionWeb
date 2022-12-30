@@ -288,40 +288,41 @@ namespace Templateprj.Controllers
                         return uploadStatus;
                     }
 
-
-                    for (int index = 1; index < dt.Columns.Count; index++)
-                    {
-                        columnname = "col" + index.ToString();
-                        try
-                        {
-                            dt.Columns[index].ColumnName = columnname;
-                        }
-                        catch (Exception)
-                        { }
-                    }
-
-                    for (int index = 1; index < dt.Columns.Count; index++)
-                    {
-                        columnname = "VAR" + index.ToString();
-                        try
-                        {
-                            dt.Columns[index].ColumnName = columnname;
-
-                        }
-                        catch (Exception)
-                        { }
-                    }
                     dt.AcceptChanges();
                     dt.Columns.Add("ROWID");
                     dtBaseSuccess = dt.Clone();
                     dtBasefailure = dt.Clone();
                     dtBaseSuccess.Rows.Clear();
                     dtBasefailure.Rows.Clear();
+                    DataTable dtPartial = dt.Clone();
+                    for (int index = 1; index < dtPartial.Columns.Count-1; index++)
+                    {
+                        columnname = "col" + index.ToString();
+                        try
+                        {
+                            dtPartial.Columns[index].ColumnName = columnname;
+                        }
+                        catch (Exception)
+                        { }
+                    }
+
+                    for (int index = 1; index < dtPartial.Columns.Count-1; index++)
+                    {
+                        columnname = "VAR" + index.ToString();
+                        try
+                        {
+                            dtPartial.Columns[index].ColumnName = columnname;
+
+                        }
+                        catch (Exception)
+                        { }
+                    }
+                  
                     DataColumn[] keyColumns = new DataColumn[1];
                     keyColumns[0] = dtBaseSuccess.Columns["msisdn"];
                     dtBaseSuccess.PrimaryKey = keyColumns;
                     dtBasefailure.Columns.Add("Reason");
-                    DataTable dtPartial = dt.Clone();
+                   
                     int rowIndex = 0;
                     int rowtoCopy = 10000, currentRow = 0;
                     while (rowIndex < dt.Rows.Count)
@@ -351,13 +352,20 @@ namespace Templateprj.Controllers
                                 if (foundRow == null)
                                 {
                                     pos = 4;
-                                    dtPartial.ImportRow(dt.Rows[index]);
+                                    //dtPartial.ImportRow(dt.Rows[index]);
+                                   dataRow = dtPartial.NewRow();
+                                    for (int li_idx = 0; li_idx < dt.Columns.Count; li_idx++)
+                                    {
+                                        dataRow[li_idx] = dt.Rows[index][li_idx];
+
+                                    }
+                                    dtPartial.Rows.Add(dataRow);
                                     pos = 5;
                                     dtPartial.Rows[currentRow]["ROWID"] = index.ToString();
                                     pos = 6;
                                     currentRow++;
                                     pos = 7;
-                                    dtBaseSuccess.ImportRow(dt.Rows[index]);
+                                    dtBaseSuccess.ImportRow(dt.Rows[index]);                                   
                                     successCount++;
                                 }
                                 else
@@ -1028,6 +1036,7 @@ namespace Templateprj.Controllers
         {
             string jsondata = _prc.getcmapigndetailsfromcampid(campaignid);
             return Json(jsondata, JsonRequestBehavior.AllowGet);
+           // return Json(jsondata);
 
         }
 

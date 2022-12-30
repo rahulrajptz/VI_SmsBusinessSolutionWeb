@@ -25,6 +25,12 @@
         table-layout: fixed;
         color: black;
     }
+
+    .dataTables_wrapper .dt-buttons {
+        float: none;
+        text-align: right;
+    }
+
     table.fixed {
         table-layout: fixed;
         width:100%!important;
@@ -117,7 +123,7 @@
 
     a {
         color: gray;
-        /*background-color: #ebecf1;*/
+        background-color: #ebecf1;
     }
 
         a:hover {
@@ -148,10 +154,6 @@
         background-color: #ebecf1;
     }
 
-    /*.navclr {
-        background-color: #ebecf1;
-    }*/
-   
     .cl-black {
         color: #495057 !important;
     }
@@ -182,14 +184,14 @@
                             <ul class="nav">
                                 <li class="nav-item" style="width: 150px;height:35px">
                                     <a style="font-size:12px;font-weight:bold;" id="campaigncreationnavitem" class="nav-link active" onclick="resetfunction()" href="#Instantsmsnav" data-toggle="tab" role="tab" aria-controls="about" aria-selected="true">
-                                        <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                        <span class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></span>
                                         INSTANT SMS
                                     </a>
                                 </li>
 
                                 <li class="nav-item " style="width: 111px;height:35px">
                                     <a style="font-size:12px;font-weight:bold;" id="reportsnavitem" class="nav-link" href="#reportsnav" onclick="resetfunction()" data-toggle="tab" role="tab" aria-controls="account" aria-selected="false">
-                                        <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                        <span class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></span>
                                         REPORTS
                                     </a>
                                 </li>
@@ -302,7 +304,7 @@
 
                                 <div id="dynamicSmsDiv" class="row" style="margin-left:4px;margin-top:4px;width:75% !important;display:none;">
 
-                                    <div class="col-md-12" style="color:#5f004b"><u><b>Define Parameters</b></u><span style="color:red;">[Minimum 3 characters required]</span></div>
+                                    <div class="col-md-12" style="color:#5f004b"><u><b>Define Parameters</b></u><span style="color:red;">*[Minimum 3 characters required]</span></div>
 
                                     <div class="col-md-6" style="color:#5f004b">
                                         From Message Script
@@ -396,68 +398,66 @@
                        name="partsCount"
                        type="hidden"
                        value="" />
-                @*<div class="row">
-                <a class="btn btn-block text-white dropdown-toggle" style="margin-left:5px;height:25px;text-align:left;background-color:#5f004b;font-size:9.2846px;vertical-align:middle;"
-                   data-toggle="collapse" href="#collapseCreateCampaign" role="button" aria-expanded="false">
-                    REPORTS
-                </a>*@
+                   
 
-                <div class="tab-pane navclr" style="background:white;margin-top:40px;" id="reportsnav">
-
-                    <div class="row mt-3">
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                                @Html.Label("Date Range")<span style="color:red;">*</span>
-                                @Html.TextBoxFor(m => m.dateFrom, new { @class = "form-control", style = "background:white", placeholder = "-From & To Dates-", @readonly = "@readonly" })
-                                @*@Html.TextBoxFor(m => m.dateTo, new { @class = "form-control", style = "background:white", required = "required", placeholder = "-To Date-", @readonly = "@readonly" })*@
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                                @Html.Label("MSISDN")
-                                @Html.TextBoxFor(m => m.MSISDN, new { @class = "form-control" })
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                                @Html.Label("TEMPLATES NAME")
-                                @Html.DropDownListFor(m => m.Template, Model.TemplateList, new { @class = "form-control cl-black" })
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                                @Html.Label("STATUS")
-                                @Html.DropDownListFor(m => m.reportStatus, Model.StatusList, new { @class = "form-control cl-black" })
-                            </div>
-                        </div>
-
-                        <div class="row pull-right">
-                            <button type="button" id="btn_search" style="background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);color:white;margin-left:15px;margin-top:15px;">
-                                Search
-                            </button>
-                            @*<button type="button" id="btn_download" style="height:30px;width:60px;background-color:#5f004b;color:white;margin-left:10px;margin-top:16px;" class="btn btn-block">
-                                <i class="fa fa-download" style="font-size:14px;"></i>
-                            </button>*@
-                        </div>
-                    </div>
-
-                    <div class="row" style="margin-top:50px;">
-                        <div class="col-md-12">
-                            <div class="card mt-1" style="border:0px;box-shadow:none;">
-
-
-                                <div class="card-body col-sm-12" style="width:1100px">
-                                    <div class="col-sm-12" id="divTablereport" style="overflow-x:auto !important;">
-                                        <table id="tbl_report" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
-                                    </div>
-                                    <div class="alert alert-info" id="divNoData" style="display:none;">
-                                        <span>No data found for the search</span>
-                                    </div>
-                                    @*<div class="row">
-                                        <div id="loading" class="col-sm-12" style="display:none;text-align:center;" st><img src="~/Content/Images/loading.gif" style="width:100px;height:50px;" /></div>
-                                    </div>*@
+                <div class="tab-pane navclr" style="background:white;" id="reportsnav">
+                    <div class="">
+                        <a class="btn btn-block text-white dropdown-toggle" style="margin-left:5px;height:25px;text-align:left;background-color:gray;font-size:10px;vertical-align:middle;"
+                           data-toggle="collapse" href="#collapseInstantreport" role="button" aria-expanded="false">
+                            REPORTS
+                        </a>
+                        <div class="row" id="collapseInstantreport" style="margin-left:5px;">
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    @Html.Label("Date Range")<span style="color:red;">*</span>
+                                    @Html.TextBoxFor(m => m.dateFrom, new { @class = "form-control", style = "background:white", placeholder = "-From & To Dates-", @readonly = "@readonly" })
+                                    @*@Html.TextBoxFor(m => m.dateTo, new { @class = "form-control", style = "background:white", required = "required", placeholder = "-To Date-", @readonly = "@readonly" })*@
                                 </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    @Html.Label("MSISDN")
+                                    @Html.TextBoxFor(m => m.MSISDN, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    @Html.Label("TEMPLATES NAME")
+                                    @Html.DropDownListFor(m => m.Template, Model.TemplateList, new { @class = "form-control cl-black" })
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    @Html.Label("STATUS")
+                                    @Html.DropDownListFor(m => m.reportStatus, Model.StatusList, new { @class = "form-control cl-black" })
+                                </div>
+                            </div>
 
+                            <div class="row pull-right">
+                                <button type="button" id="btn_search" style="background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);color:white;margin-left:15px;margin-top:15px;">
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row" style="margin-top:50px;">
+                            <div class="col-md-12">
+                                <div class="card mt-1" style="border:0px;box-shadow:none;">
+
+
+                                    <div class="card-body col-sm-12" style="width:1100px">
+                                        <div class="col-sm-12" id="divTablereport" style="overflow-x:auto !important;">
+                                            <table id="tbl_report" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
+                                        </div>
+                                        <div class="alert alert-info" id="divNoData" style="display:none;">
+                                            <span>No data found for the search</span>
+                                        </div>
+                                        @*<div class="row">
+                                            <div id="loading" class="col-sm-12" style="display:none;text-align:center;" st><img src="~/Content/Images/loading.gif" style="width:100px;height:50px;" /></div>
+                                        </div>*@
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -538,7 +538,7 @@
         $(document).ready(function () {
             $("#collapseInstantsms").addClass("show");
         });
-
+        
         function isValidNumber(numbers) {
 
             for (i = 0; i < numbers.length; i++) {
@@ -631,27 +631,6 @@
                 else 
                      ErrorMsg("No SMS to send");    
             });
-
-            //$('#SmsTypeId').on('change', function () {
-
-            //    getSendersBySmsType($('#SmsTypeId').val());
-            //    getTemplatesBySenderAndSMSType($('#SmsTypeId').val(), $('#SenderId').val())
-
-            //});
-            //$(document).on('click', '#templates a', function (e) {
-            //    e.preventDefault(); $(this).tab('show');
-            //    var v = e.target.querySelector('p > input');
-
-            //    $("#TemplateId").val(v.value);
-
-            //    getTemplatesBySenderAndSMSType($('#SmsTypeId').val(),$('#SenderId').val());
-            //});
-               
-            //$('#SenderId').on('change', function () {
-
-            //    getTemplatesBySenderAndSMSType($('#SmsTypeId').val(),$('#SenderId').val());
-
-            //});
 
             $(function () {
                 $("#serchInstant").click(function () {
@@ -748,7 +727,7 @@
 
                     var templateId = $('#TemplateId').val();
                     var smstype = $('#SmsTypeId').val();
-                    var variablecnt;
+                    var Variablcnt;
                     //var variableNames;
                    document.getElementById("SmsContent").innerHTML="";
 
@@ -760,12 +739,12 @@
                              var obj = JSON.parse(minames);
                              if ($('#ContentType').val() == "STATIC") {
                                  document.getElementById("SmsContent").innerHTML = obj[0].templateContent;
-                                 variablecnt = obj[0].variableCount;
+                                 Variablcnt = obj[0].variableCount;
                                  document.getElementById("smscount").innerHTML = obj[0].smsLength;
                              }
                              else if ($('#ContentType').val() == "DYNAMIC") {
                                  document.getElementById("SmsContent").innerHTML = obj[0].templateContent;
-                                    variablecnt = obj[0].variableCount;
+                                    Variablcnt = obj[0].variableCount;
                                  document.getElementById("smscount").innerHTML = obj[0].smsLength;
                              }
                              afterAjax()
@@ -780,7 +759,7 @@
                        var div = document.createElement('div');
                        div.className = "raw";
 
-                       for (i = 0, j = 1; i < variablecnt; i++ , j++) {
+                       for (i = 0, j = 1; i < Variablcnt; i++ , j++) {
 
                            var div = document.createElement('row');
                            div.innerHTML = '<div class="row"><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName" required="required" readonly="readonly" style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable" required="required" type="text" value=""></div></div>';
@@ -902,7 +881,7 @@
                    // var tempid = document.getElementById("part_" + camid).value;
                     var array = parts.split(",");
                     var partscount = array[0];
-                    var variablecnt = array[1];
+                    var Variablcnt = array[1];
                     var unicodestatus = array[3];
                     var sendrId = array[2];
                     //  = $(event).closest('tr').children('td:eq(0)').text();
@@ -935,7 +914,7 @@
                     document.getElementById("TemplateId").value = camid;                
                     const container = document.querySelector('#generated');
                     removeAllChildNodes(container);
-                    for (i = 0, j = 1; i < variablecnt; i++ , j++)
+                    for (i = 0, j = 1; i < Variablcnt; i++ , j++)
                     {
 
                         var div = document.createElement('row');
@@ -964,7 +943,6 @@
             }
             
          function loadtemplateSearchReportInstant() {
-            $("#loading").show();
             var templateName = $("#pouptemplateName").val();
             var templateType = $("#pouptemplateType").val();
            // var templateStatus = $("#pouptemplateStatus").val();
@@ -980,8 +958,6 @@
                       ContentType:ContentType
                   },
                   success: function (resp) {
-
-
                    rpt_datatable = $("#tbl_templateDetails").DataTable({
                        responsive: true,
                         deferRender: true,
@@ -1009,7 +985,7 @@
                                 "width": "50px",
                                 "className": "text-center",
                                 "mRender": function (data, type, full) {
-                                    return '<i class="btn btn-link" id=btnEdit  style="color:blue;font-size:10px;">' + full[1] + '</i>'
+                                    return '<span class="btn btn-link" id=btnEdit  style="color:blue;font-size:10px;">' + full[1] + '</span>'
 
                                 }
                             },
@@ -1097,8 +1073,8 @@
                     + ' <td><i id="icon_alert" class="fa fa-exclamation-circle" style="margin-right:8px;color:red !important"></i><span id="spn_message">' + ReplaceSMSContentWithParameter($('#SmsContent').val(), dvr) + '</span></td>'
                     + '<td> <span id="spn_count">' + $("#smsCount").val() + ' /' + $("#smsLeg").val() + '</span></td>'
                     + '<td class="table-elipse">'
-                    + ' <i class="fa fa-edit text-black-50" data-toggle="collapse" data-target="#demo' + rawNumber + '"></i>'
-                    + ' <i class="fa fa-trash text-black-50" id="btn_remove"  style="margin-left:8px;color:red !important"></i>'
+                    + ' <span class="fa fa-edit text-black-50" data-toggle="collapse" data-target="#demo' + rawNumber + '"></span>'
+                    + ' <span class="fa fa-trash text-black-50" id="btn_remove"  style="margin-left:8px;color:red !important"></span>'
                     + '</td>'
                     + '</tr>'
                     + '<tr id="demo' + rawNumber + '" class="collapse">'
@@ -1167,8 +1143,8 @@
                 str = str + '<span id="spn_message">' + ReplaceSMSContentWithParameter($('#SmsContent').val(), dvr) + '</span></td>'
                     + '<td> <span id="spn_count">' + smsConut.SmsLeg + '/' + smsConut.SmsLength + '</span></td>'
                     + '<td class="table-elipse">'
-                    + ' <i class="fa fa-edit text-black-50" data-toggle="collapse" data-target="#demo' + i + '"></i>'
-                    + ' <i class="fa fa-trash text-black-50" id="btn_remove"  style="margin-left:8px;color:red !important"></i>'
+                    + ' <span class="fa fa-edit text-black-50" data-toggle="collapse" data-target="#demo' + i + '"></span>'
+                    + ' <span class="fa fa-trash text-black-50" id="btn_remove"  style="margin-left:8px;color:red !important"></span>'
                     + '</td>'
                     + '</tr>'
                     + '<tr id="demo' + i + '" class="collapse">'
@@ -1182,7 +1158,7 @@
                     + '<div class= "col-2" style = "text-align:right;margin-left:-35px;" data-toggle="collapse" data-target="#demo' + i + '" >'
 
                     + '<button style="color: green !important;background: seashell;" data-toggle="collapse" data-target="#demo' + i + '" class="btn_hide" aria-expanded="true">'
-                    + ' <i class="fa fa-save text-black-50" style = "color: green!important;"></i>'
+                    + ' <span class="fa fa-save text-black-50" style = "color: green!important;"></span>'
                     + '</button>'
                     + '</div>';
 
@@ -1394,7 +1370,7 @@
                         data: resp.tdata,
                         columns: resp.thead,
                         autoWidth: false,
-                        dom: 'Bfrtip',
+                        dom: 'lfBrtip',
                         buttons: [
                             {
                                 extend: 'excelHtml5',

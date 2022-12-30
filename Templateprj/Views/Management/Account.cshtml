@@ -105,10 +105,10 @@
         color: white!important;
     }
 
-        /*.active:hover {
+        .active:hover {
             background-color: #5f004b;
             color: white;
-        }*/
+        }
 
     .nav-link {
         border-top-right-radius: 10px;
@@ -177,19 +177,19 @@
                             <ul class="nav">
                                 <li class="nav-item" style="width: 130px;height:35px">
                                     <a style="font-size:12px;font-weight:bold;" class="nav-link active" href="@Url.Action("Account", "Management")">
-                                        <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                        <span class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></span>
                                         ACCOUNT
                                     </a>
                                 </li>
                                 <li class="nav-item " style="width: 130px;height:35px">
                                     <a style="font-size:12px;font-weight:bold;" class="nav-link" href="@Url.Action("Templates", "Template")">
-                                        <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                        <span class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></span>
                                         TEMPLATES
                                     </a>
                                 </li>
                                 <li class="nav-item arrow" style="width: 150px;height:35px">
                                     <a style="font-size:12px;font-weight:bold;" class="nav-link" href="@Url.Action("SenderIds", "Management")">
-                                        <i class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></i>
+                                        <span class="now-ui-icons loader_gear sidebar-mini-icon mt-1"></span>
                                         SENDER ID
                                     </a>
                                 </li>
@@ -242,7 +242,7 @@
 
                                             <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("DLT EMAIL ADDRESS", new { @class = "label_side_head" })</div>
                                             <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;" id="divEmailAddress"> @Html.DisplayFor(m => m.DltEmailAddress) </div>
-                                            <div class="col-md-12" style="text-align:right"> <button id="btn_edit" type="button" style="background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);" class="button-edit"><i class="fa fa-edit" style="text-align:left !important"></i> Edit</button> </div>
+                                            <div class="col-md-12" style="text-align:right"> <button id="btn_edit" type="button" style="background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);" class="button-edit"><span class="fa fa-edit" style="text-align:left !important"></span> Edit</button> </div>
 
                                         </div>
 
@@ -266,7 +266,7 @@
                                             <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;">
                                                 @Html.TextBoxFor(m => m.DltEmailAddress, new { @class = "form-control", required = "required", @style = "height: auto !important;background:white;", @rows = "5" })
                                             </div>
-                                            <div class="col-md-12" style="text-align:right"> <button id="btn_save" type="button" class="button-edit"><i class="fa fa-save" style="text-align:left !important"></i> Save</button> </div>
+                                            <div class="col-md-12" style="text-align:right"> <button id="btn_save" type="button" class="button-edit"><span class="fa fa-save" style="text-align:left !important"></span> Save</button> </div>
                                             <div class="row mt-1"></div>
                                             <div class="row mt-1"></div>
                                             <div class="row mt-1"></div>

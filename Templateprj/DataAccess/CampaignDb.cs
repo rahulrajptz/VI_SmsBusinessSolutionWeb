@@ -122,28 +122,29 @@ namespace Templateprj.DataAccess
         private string GetJsonStringtoinsert(DataTable dt)
         {
             try
-            { 
-                int columnCount = dt.Columns.Count;
-                // DataTable dtSchema = dr.GetSchemaTable();
+            {
+                //int columnCount = dt.Columns.Count;
+                //// DataTable dtSchema = dr.GetSchemaTable();
 
-                StringBuilder json = new StringBuilder();
-                string[] tmpHeadRow = new string[columnCount];
+                //StringBuilder json = new StringBuilder();
+                //string[] tmpHeadRow = new string[columnCount];
 
-                json.Append("[");
-                for (int rowIndex = 0; rowIndex < dt.Rows.Count; rowIndex++)
-                {
-                    for (int colIndex = 0; colIndex < columnCount; colIndex++)
-                    {
-                        tmpHeadRow[colIndex] = dt.Columns[colIndex].ColumnName.ToString() + "\":\"" + dt.Rows[rowIndex].ItemArray[colIndex].ToString().Trim();
-                    }
-                    json.Append("{\"" + string.Join("\",\"", tmpHeadRow) + "\"},");
+                //json.Append("[");
+                //for (int rowIndex = 0; rowIndex < dt.Rows.Count; rowIndex++)
+                //{
+                //    for (int colIndex = 0; colIndex < columnCount; colIndex++)
+                //    {
+                //        tmpHeadRow[colIndex] = dt.Columns[colIndex].ColumnName.ToString() + "\":\"" + dt.Rows[rowIndex].ItemArray[colIndex].ToString().Trim();
+                //    }
+                //    json.Append("{\"" + string.Join("\",\"", tmpHeadRow) + "\"},");
 
-                }
-                if (dt.Rows.Count > 0)
-                    json.Length--;
+                //}
+                //if (dt.Rows.Count > 0)
+                //    json.Length--;
+                string json = JsonConvert.SerializeObject(dt, Formatting.Indented);
 
 
-                return json.ToString() + "]";
+              return json;//json.ToString() + "]";
             }
             catch (Exception ex)
             {
@@ -200,41 +201,46 @@ namespace Templateprj.DataAccess
         private string GetJsonString(MySqlDataReader dr)
         {
             try
-            { 
-                int columnCount = dr.FieldCount;
-                DataTable dtSchema = dr.GetSchemaTable();
+            {
+                //int columnCount = dr.FieldCount;
+                //DataTable dtSchema = dr.GetSchemaTable();
 
-                StringBuilder json = new StringBuilder();
-                string[] tmpHeadRow = new string[columnCount];
+                //StringBuilder json = new StringBuilder();
+                //string[] tmpHeadRow = new string[columnCount];
 
-                if (dtSchema != null)
-                {
-                    //for (int i = 0; i < 1; i++)
-                    //{
-                    //    tmpHeadRow[i] = "{\"title\":\"" + dtSchema.Rows[i]["ColumnName"].ToString() + "\", \"visible\":false}";
-                    //}
-                    for (int colIndex = 0; colIndex < columnCount; colIndex++)
-                    {
-                        tmpHeadRow[colIndex] = "{\"title\":\"" + dtSchema.Rows[colIndex]["ColumnName"].ToString() + "\"}";
-                    }
-                }
+                //if (dtSchema != null)
+                //{
+                //    //for (int i = 0; i < 1; i++)
+                //    //{
+                //    //    tmpHeadRow[i] = "{\"title\":\"" + dtSchema.Rows[i]["ColumnName"].ToString() + "\", \"visible\":false}";
+                //    //}
+                //    for (int colIndex = 0; colIndex < columnCount; colIndex++)
+                //    {
+                //        tmpHeadRow[colIndex] = "{\"title\":\"" + dtSchema.Rows[colIndex]["ColumnName"].ToString() + "\"}";
+                //    }
+                //}
 
-                json.Append("{\"thead\":[" + string.Join(",", tmpHeadRow) + "],\"tdata\":[");
+                //json.Append("{\"thead\":[" + string.Join(",", tmpHeadRow) + "],\"tdata\":[");
 
-                if (dr.HasRows)
-                {
-                    while (dr.Read())
-                    {
-                        for (int colIndex = 0; colIndex < columnCount; colIndex++)
-                        {
-                            tmpHeadRow[colIndex] = dr[colIndex].ToString().Trim();
-                        }
-                        json.Append("[\"" + string.Join("\",\"", tmpHeadRow) + "\"],");
-                    }
-                    json.Length--;
-                }
+                //if (dr.HasRows)
+                //{
+                //    while (dr.Read())
+                //    {
+                //        for (int colIndex = 0; colIndex < columnCount; colIndex++)
+                //        {
+                //            tmpHeadRow[colIndex] = dr[colIndex].ToString().Trim();
+                //        }
+                //        json.Append("[\"" + string.Join("\",\"", tmpHeadRow) + "\"],");
+                //    }
+                //    json.Length--;
+                var dataTable = new DataTable();
+                dataTable.Load(dr);
+                string JSONString = string.Empty;
+                JSONString = JsonConvert.SerializeObject(dataTable);
+                return JSONString;
+                //}
 
-                return json.ToString() + "]}";
+                //return json.ToString() + "]}";
             }
             catch (Exception ex)
             {
@@ -728,8 +734,9 @@ namespace Templateprj.DataAccess
                             }
                         }
                         dataTable.Columns.Remove("UnicodeStatus");
-                        return GetJsonStringwithName(dataTable);
-                        
+                         //return GetJsonStringwithName(dataTable);
+                       return GetJsonStringtoinsert(dataTable);
+
                         //response = cmd.Parameters["@V_Out"].Value.ToString();
                         //return response;
                     }
@@ -1149,7 +1156,6 @@ namespace Templateprj.DataAccess
                     cmd.Parameters.Add("@Ln_Campaign_Status", MySqlDbType.Int32).Value = model.listCampaignStatus;
                     cmd.Parameters.Add("@Ln_Campaign_Priority", MySqlDbType.Int32).Value = model.listCampaignPriority;
                     cmd.Parameters.Add("@Ln_Campaign_Type", MySqlDbType.Int32).Value = model.listCampaignType;
-                   // cmd.Parameters.Add("@v_Message", MySqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
@@ -1158,11 +1164,9 @@ namespace Templateprj.DataAccess
                         var dataTable = new DataTable();
                         MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
                         dataAdapter.Fill(dt);
-                      
+                        //return GetJsonStringtoinsert(dt);
                         return GetJsonString(dt);
                     }
-                    //string response = cmd.Parameters["@v_Message"].Value.ToString();
-                    //return response;
                 }
             }
             catch (Exception ex)

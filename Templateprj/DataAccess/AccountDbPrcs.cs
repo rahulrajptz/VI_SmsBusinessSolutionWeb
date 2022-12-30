@@ -360,14 +360,15 @@ namespace Templateprj.DataAccess
 
         }
 
-        public int VerifySecurityAns(VerifySecurityQnModel model)
+        public int VerifySecurityAns(VerifySecurityQnModel model,out string response)
         {
-
+            response = "";
             //`Sec_Verify_Answer`(IN n_User_Id_In bigint,
-            //IN n_Questid_In bigint,
-            //IN v_Answer_In varchar(100),
-            //IN n_Appln_Id_In int,
-            //OUT n_Status_Out int)
+            //    IN n_Questid_In bigint,
+            //    IN v_Answer_In varchar(100),
+            //    IN n_Appln_Id_In int,
+            //    OUT n_Status_Out int,
+            //    OUT V_statusOut varchar(250))
 
             try
             {
@@ -379,8 +380,8 @@ namespace Templateprj.DataAccess
                     cmd.Parameters.Add("@n_Questid_In", MySqlDbType.Int32).Value = model.SelectedSecurityQuestion;
                     cmd.Parameters.Add("@v_Answer_In", MySqlDbType.VarChar, 100).Value = _EncDec.EncryptDes(model.Answer.Trim().ToLower());
                     cmd.Parameters.Add("@n_Appln_Id_In", MySqlDbType.Int32).Value = GlobalValues.AppId;
-
                     cmd.Parameters.Add("@n_Status_Out", MySqlDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@V_statusOut", MySqlDbType.VarChar, 250).Direction = ParameterDirection.Output;
 
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
@@ -388,7 +389,7 @@ namespace Templateprj.DataAccess
                         cmd.Connection = con;
                         cmd.ExecuteScalar();
                     }
-
+                    response = cmd.Parameters["@V_statusOut"].Value.ToString();
                     return Convert.ToInt32(cmd.Parameters["@n_Status_Out"].Value.ToString());
                 }
             }

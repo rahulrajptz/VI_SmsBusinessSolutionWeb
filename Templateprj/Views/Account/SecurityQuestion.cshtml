@@ -67,15 +67,16 @@
                             @Html.TextBoxFor(m => m.Answer, new { @class = "form-control", @onkeypress = "return (event.which!==32)", placeholder = "-Answer-", autocomplete = "off", ondrop = "blur();return false;", oncopy = "return false", onpaste = "return false", oncut = "return false" })
                         </div>
                     </div>
-                    <div class="form-group">
-                        <button type="submit" class="form-control" style="background-color:#5f004b;color:white;padding-bottom:30px;">Submit</button>
-                    </div>
                     @if (ViewBag.ErrorMsg != null)
                     {
                         <div id="message" class="full-width center">
                             <span class="now-ui-icons  text-danger" id="msg"> @ViewBag.ErrorMsg</span><br />
                         </div>
-                    }<br />
+                    }
+                    <div class="form-group">
+                        <button type="submit" class="form-control" style="background-color:#5f004b;color:white;padding-bottom:30px;">Submit</button>
+                    </div>
+                    <br />
                 </div>
             </div>
         }
@@ -89,10 +90,15 @@
         }
         setTimeout("preventBack()", 0);
         window.onunload = function () { null };
-    $(document).ready(function () {
+        jQuery(document).ready(function ($) {
 
-        $('.nonedit').css({ 'pointer-events': 'none', 'background-color': 'lightgrey' });    });
+            if (window.history && window.history.pushState) {
 
+                window.history.pushState("forward", null, "./Login");
+
+            }
+        });
+        
         $(document).ready(function () {
             setTimeout(function () {
                 $("#msg").fadeOut();

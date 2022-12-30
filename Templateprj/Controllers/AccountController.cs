@@ -161,7 +161,8 @@ namespace Templateprj.Controllers
         {
             if (ModelState.IsValid)
             {
-                int status = _prc.VerifySecurityAns(model);
+                string response;
+                int status = _prc.VerifySecurityAns(model,out response);
                 if (status == 1)
                 {
                     Session["PasswordFlag"] = 0;
@@ -177,7 +178,7 @@ namespace Templateprj.Controllers
                 }
                 else
                 {
-                    ViewBag.ErrorMsg = "Wrong Answer!";
+                    ViewBag.ErrorMsg = response;
                 }
             }
             model.SecurityQuestions = _prc.GetSecurityQuestion();
@@ -277,6 +278,7 @@ namespace Templateprj.Controllers
                 {
                     ViewBag.ErrorMsg = "Could not complete request.";
                 }
+                ModelState.Clear();
             }
 
             return View("ChangePassword");

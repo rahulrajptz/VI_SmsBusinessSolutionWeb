@@ -62,7 +62,7 @@
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
-            <div class="card card-lock  @(@isDoubleCard ? "card-double" : "")">
+            <div class="card card-lock  @(@isDoubleCard ? "card-double" : "")" style="width:500px;margin-left:140px;">
                 @if (isDoubleCard)
                 {
                     @*<div class="card-header">
@@ -77,9 +77,9 @@
                 <div class="card-body" style="margin:30px;">
                     <h4 class="card-title text-center" style="color:#660033;">@ViewBag.Head</h4>
                     @*@if (!isDoubleCard)
-        {
-            <span class="card-title hide-on-med-and-down">@ViewBag.Head</span>
-        }*@
+                    {
+                        <span class="card-title hide-on-med-and-down">@ViewBag.Head</span>
+                    }*@
                     <p class="card-subtitle" style="color:#ff3399;">Fill in the details below</p>
                     @if (ViewBag.Head == "Forgot Password")
                     {
