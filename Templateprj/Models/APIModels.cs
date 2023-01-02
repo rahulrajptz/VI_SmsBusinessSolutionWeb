@@ -99,9 +99,196 @@ namespace Templateprj.Models
 
         }
     }
+    //    [{
+    //"process" : "Create_Campaign", "Request_ID" : "UniqueID",
+    //"Campaign_Name" : "Buzibee_Promotion2",
+    //"Campaign_Type" : "service implicit",
+    //"From_Date" : "28/12/2022",
+    //"To_Date" : "31/12/2022",
+    //"From_Time" : "09:00 AM",
+    //"to_Time" : "09:00 PM",
+    //"Template_ID" : "1007489473751090213",
+    //"pingbackurl" : "http://cts.myvi.in?",
+    //"content_type": "Dyamic",
+    //"Number_of_variables": "5",
+    //"Variable1_header": "VarA",
+    //"Variable2_header": "VarB",
+    //"Variable3_header": "VarC",
+    //"Variable4_header": "VarD",
+    //"Variable5_header": "VarE",
+    //"Variable6_header": "",
+    //"Variable7_header": "",
+    //"Variable8_header": "",
+    //"Variable9_header": "",
+    //"Variable10_header": ""
+    //}]
 
+    //    [{
+    //"process" : "Create_Campaign", "Request_ID" : "UniqueID",
+    //"Campaign_Name" : "Buzibee_Promotion15",
+    //"Campaign_Type" : "service implicit",
+    //"From_Date" : "28/12/2022",
+    //"To_Date" : "31/12/2022",
+    //"From_Time" : "09:00 AM",
+    //"to_Time" : "09:00 PM",
+    //"Template_ID" : "1007489473751090213",
+    //"pingbackurl" : "http://cts.myvi.in?",
+    //"content_type": "Dyamic",
+    //"Number_of_variables": "5",
+    //"SMSvariable": [
+    //            {
+    //                "variableName": "VAR1",
+    //                "renameVariable": "VARA"
+    //            },
+    //            {
+    //                "variableName": "VAR2",
+    //                "renameVariable": "VARB"
+    //            },
+    //            {
+    //                "variableName": "VAR3",
+    //                "renameVariable": "VARC"
+    //            },
+    //            {
+    //                "variableName": "VAR4",
+    //                "renameVariable": "VARD"
+    //            },
+    //            {
+    //                "variableName": "VAR5",
+    //                "renameVariable": "VARE"
+    //            }
+    //        ]
+    //}]
+
+    public class campaignmodel
+    {
+
+        public string process { get; set; }
+        public string Request_ID { get; set; }
+        public string Campaign_Name { get; set; }
+        public string Campaign_Type { get; set; }
+        public string From_Date { get; set; }
+        public string To_Date { get; set; }
+        public string From_Time { get; set; }
+        public string to_Time { get; set; }
+        public string Template_ID { get; set; }
+        public string pingbackurl { get; set; }
+        public string content_type { get; set; }
+        public string Number_of_variables { get; set; }
+        public List<SMSvariable> SMSvariable { get; set; }
+
+        //public string Variable1_header { get; set; }
+        //public string Variable2_header { get; set; }
+        //public string Variable3_header { get; set; }
+        //public string Variable4_header { get; set; }
+        //public string Variable5_header { get; set; }
+        //public string Variable6_header { get; set; }
+        //public string Variable7_header { get; set; }
+        //public string Variable8_header { get; set; }
+        //public string Variable9_header { get; set; }
+        //public string Variable10_header { get; set; }
+
+    }
+    public class SMSvariable
+    {
+        public string variableName { get; set; }
+        public string renameVariable { get; set; }
+
+    }
+    //    [{
+    //	"Process": "upload_base_data",
+    //	"RequestID": "234",
+    //	"MasterCampaignID": "256",
+    //	"ContentType": "Dyamic",
+    //	"NumberOfVariables": "5",
+    //	"PingbackUrl": "https://cts.myvi.in",
+    //	"BulkData": [{
+    //			"Msisdn": "7029173043",
+    //			"VAR1": "1234567890",
+    //			"VAR2": "CustID",
+    //			"VAR3": "8888888888",
+    //			"VAR4": "test",
+    //			"VAR5": "test1",
+    //			"VAR6": "",
+    //			"VAR7": "",
+    //			"VAR8": "",
+    //			"VAR9": "",
+    //			"VAR10": ""
+
+    //        },
+    //		{
+    //			"Msisdn": "7029173043",
+    //			"VAR1": "1234567891",
+    //			"VAR2": "CustID1",
+    //			"VAR3": "88888888881",
+    //			"VAR4": "test",
+    //			"VAR5": "test1",
+    //			"VAR6": "",
+    //			"VAR7": "",
+    //			"VAR8": "",
+    //			"VAR9": "",
+    //			"VAR10": ""
+    //		},
+    //		{
+    //			"Msisdn": "7029173043",
+    //			"VAR1": "1234567892",
+    //			"VAR2": "CustID2",
+    //			"VAR3": "88888888882",
+    //			"VAR4": "test",
+    //			"VAR5": "test1",
+    //			"VAR6": "",
+    //			"VAR7": "",
+    //			"VAR8": "",
+    //			"VAR9": "",
+    //			"VAR10": ""
+    //		}
+    //	]
+    //}]
+    public class Insertbulksmsmodel
+    {
+        public string Process { get; set; }
+        public string RequestID { get; set; }
+        public string MasterCampaignID { get; set; }
+        public string ContentType { get; set; }
+        public string NumberOfVariables { get; set; }
+        public string PingbackUrl { get; set; }
+        //public string BulkData { get; set; }
+
+        public List<BulkData> BulkData { get; set; }
+
+
+
+
+    }
+
+    public class BulkData
+    {
+        public string Msisdn { get; set; }
+        public string VAR1 { get; set; }
+        public string VAR2 { get; set; }
+        public string VAR3 { get; set; }
+        public string VAR4 { get; set; }
+        public string VAR5 { get; set; }
+        public string VAR6 { get; set; }
+
+        public string VAR7 { get; set; }
+        public string VAR8 { get; set; }
+
+        public string VAR9 { get; set; }
+
+        public string VAR10 { get; set; }
+
+
+
+
+
+
+    }
     public class Campaign
     {
+
+
+
+
         public string otp { get; set; }
         [Required]
         [Display(Name = "Campaign Name")]
@@ -194,12 +381,12 @@ namespace Templateprj.Models
         public string Validity { get; set; }
         public string DeliveryFlag { get; set; }
 
-                            //                   IN V_Template_Name varchar(1000),
-                            //                    IN N_variable_count int, 
-                            //                    IN N_senderId int, 
-                            //                    IN N_SMS_Type int, 
-                            //                    IN V_validity int, 
-                            //                    IN N_Delivery_Flag int, 
+        //                   IN V_Template_Name varchar(1000),
+        //                    IN N_variable_count int, 
+        //                    IN N_senderId int, 
+        //                    IN N_SMS_Type int, 
+        //                    IN V_validity int, 
+        //                    IN N_Delivery_Flag int, 
     }
     public class SMSTemplateFetch
     {

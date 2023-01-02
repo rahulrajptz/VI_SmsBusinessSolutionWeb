@@ -1,6 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Globalization;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mail;
@@ -12,6 +18,7 @@ using System.Xml.Serialization;
 using Templateprj.DataAccess;
 using Templateprj.Helpers;
 using Templateprj.Models;
+using Templateprj.Models.ApiModels;
 
 namespace Templateprj.Controllers.api
 {
@@ -20,55 +27,285 @@ namespace Templateprj.Controllers.api
     {
         //private readonly MailSender _prcs = new MailSender1();
         private readonly MailSender _prcs = new MailSender();
-
+       
         ApiDbprc _prc = new ApiDbprc();
         //AccountDbPrcs _prcs = new AccountDbPrcs();
         //[ActionName("CreateCampaign")]
-        [Route("CreateCampaign/{apikey}/{type}")]
-        public HttpResponseMessage PostCreateCampaign(string apikey, string type, Campaign campaign)
+        [Route("CreateCampaign/{apikey}")]
+        public HttpResponseMessage PostCreateCampaign(string apikey,[FromBody]campaignmodel[] model)
         {
-            //Campaign campaign = new Campaign();
-            string campId = "";
-            string convertedCode = "";
-            string isUnicode;
-            APIResponse rtnmodel = new APIResponse();
-            if (IsIPValid(apikey.Trim(), ""))
+            var CreateCampaignResponse = new CreateCampaignResponse { };
+            string token = Request.Headers.Authorization.Parameter;
+
+
+            token = token.ToString();
+            string otoken = "";
+            otoken = ConfigurationManager.AppSettings["Token"].ToString() ;
+            //int validityinHr = Convert.ToInt32(ConfigurationManager.AppSettings["TokenValidityInHr"].ToString());
+
+
+           // if (String.Equals(token, otoken))
+           if(token.Equals(otoken))
             {
-                if (Validatecampaign(campaign, out rtnmodel))
+
+                if (model == null)
                 {
-                    isUnicode = _prc.GetUnicodeStatus(campaign.templateid);
-                    if (isUnicode == "1")
+                    return GetString500Response();
+
+                }
+                else {
+                    var length = model.Length;
+                    // var arlist = new ArrayList();
+                    List<campaignmodel> arlist = new List<campaignmodel>();
+
+                    for (int i = 0; i < length; i++)
                     {
-                        convertedCode = ConvertToUnicode(campaign.script);
+                        arlist.Add(model[i]);
+
                     }
-                    string sts = _prc.CreateCampign(apikey, convertedCode, isUnicode, campaign, out string response, out campId);
-                    if (sts == "1")
+                    for (int k = 0; k < length; k++)
                     {
-                        rtnmodel.Status = "Success";
-                        rtnmodel.Message = response;
-                        rtnmodel.CampaignId = campId;
+
+                        if ((arlist[k].Campaign_Name == null) || (arlist[k].Campaign_Name == "") || (arlist[k].Campaign_Type == null) || (arlist[k].Campaign_Type == null) || (arlist[k].From_Date == "") || (arlist[k].From_Date == null) || (arlist[k].To_Date == "") || (arlist[k].To_Date == null) || (arlist[k].From_Time == "") || (arlist[k].From_Time == null) || (arlist[k].to_Time == "") || (arlist[k].to_Time == null) || (arlist[k].Template_ID == "") || (arlist[k].Template_ID ==null) || (arlist[k].pingbackurl == "") || (arlist[k].pingbackurl == null) || (arlist[k].content_type == "") || (arlist[k].content_type == null) || (arlist[k].Request_ID == "") || (arlist[k].Request_ID == null) )
+                        {
+                            string MissingError ="{\"status\":\"406\",\"Message\": \"Please Fill All Field\"}";
+                            //return GetString500ResponsewithMsg(MissingError);
+
+                            return GetString406ResponsewithMsg(MissingError);
+
+                        }
+
+                    }
+                    string json = JsonConvert.SerializeObject(arlist);
+                    var response = _prc.ApiCreateCampaign(apikey, json);
+                    //List<failure> failureRes = new List<failure>();
+                    //var entity = JsonConvert.DeserializeObject<failure>(response);
+                    //if (entity.status == "9")
+                    //{
+                    //    return GetString500Response();
+
+                    //}
+                    if (response == "")
+                    {
+
+                        return GetString500Response();
 
 
                     }
                     else
                     {
-                        rtnmodel.Status = "Failed";
-                        rtnmodel.Message = response;
-                        rtnmodel.CampaignId = "";
+                        return GetStringResponse(response);
+                    }
+
+
+
+
+                }
+
+                //var ostatus = true;
+                // return GetStringResponse(response);
+            }
+            else {
+               // string errormessage = "please enter valid token";
+                // return "please enter valid token";
+                return GetString401Response();
+
+
+            }
+            }
+
+        [Route("InsertBulksms/{apikey}")]
+        public HttpResponseMessage PostInsertBulksms(string apikey, [FromBody]Insertbulksmsmodel[] model)
+        {
+            var CreateCampaignResponse = new CreateCampaignResponse { };
+            string token = Request.Headers.Authorization.Parameter;
+
+
+            token = token.ToString();
+            string otoken = "";
+            otoken = ConfigurationManager.AppSettings["Token"].ToString();
+            //int validityinHr = Convert.ToInt32(ConfigurationManager.AppSettings["TokenValidityInHr"].ToString());
+
+
+            // if (String.Equals(token, otoken))
+            if (token.Equals(otoken))
+            {
+
+                if (model == null)
+                {
+                    return GetString500Response();
+
+                }
+                else
+                {
+                    var length = model.Length;
+                    // var arlist = new ArrayList();
+                    List<Insertbulksmsmodel> arlist = new List<Insertbulksmsmodel>();
+
+                    for (int i = 0; i < length; i++)
+                    {
+                        arlist.Add(model[i]);
+
+                    }
+
+                    // Boolean isvalidate = validateArray(arlist,length);
+                    for (int k = 0; k < length; k++) {
+
+                        if( (arlist[k].BulkData == null)|| (arlist[k].ContentType == "") || (arlist[k].ContentType == null)|| (arlist[k].MasterCampaignID == null) || (arlist[k].MasterCampaignID == "") || (arlist[k].RequestID == null)|| (arlist[k].RequestID == "")|| (arlist[k].PingbackUrl == null)|| (arlist[k].PingbackUrl == ""))
+                        {
+                            //string MissingError = "Please Fill All Field";
+                            string MissingError = "{\"status\":\"406\",\"Message\": \"Please Fill All Field\"}";
+                            //return GetString500ResponsewithMsg(MissingError);
+
+                            return GetString406ResponsewithMsg(MissingError);
+
+                        }
+
+                    }
+                   
+                    string json = JsonConvert.SerializeObject(arlist);
+                    var response = _prc.ApiInsertBulksms(apikey, json);
+                    List<failure> failureRes = new List<failure>();
+                    var entity = JsonConvert.DeserializeObject<failure>(response);
+                    if (entity.Status == "9") {
+                       return GetString500Response();
+                        
+                    }
+                  //  var log = JsonConvert.DeserializeObject<YourObject>(logJson)
+
+
+                                       //  var logJson = JsonConvert.SerializeObject(log);
+                    if (response == "")
+                    {
+
+                        return GetString500Response();
+
+
+                    }
+                    else
+                    {
+                        return GetStringResponse(response);
                     }
                 }
+
+                //var ostatus = true;
+                // return GetStringResponse(response);
             }
             else
             {
-                rtnmodel.Status = "failed";
-                rtnmodel.Message = "Authentication failed!";
-                rtnmodel.CampaignId = "";
+                // string errormessage = "please enter valid token";
+                // return "please enter valid token";
+                return GetString401Response();
+
 
             }
-            // return GetStringResponse(rtnmodel, type.ToLower().Trim());
-            return GetStringResponse(rtnmodel, "json");
         }
+        public class failure {
 
+
+            public string Status { get; set; }
+            public string Message { get; set; }
+            public string Process { get; set; }
+            public string MasterCampaignID { get; set; }
+            public string CampaignCreateddate { get; set; }
+            public string RequestID { get; set; }
+            public string CampaignName { get; set; }
+            public string CampaignType { get; set; }
+            public string FromDate { get; set; }
+            public string ToDate { get; set; }
+            public string FromTime { get; set; }
+            public string ToTime { get; set; }
+            public string TemplateId { get; set; }
+            public string TemplateName { get; set; }
+            public string TemplateMessage { get; set; }
+            public string NumberOfVariables { get; set; }
+            public List<SMSvariable> SMSvariable { get; set; }
+
+        }
+        public class SMSvariable
+        {
+            public string variableName { get; set; }
+            public string renameVariable { get; set; }
+
+        }
+        //public Boolean validateArray(IList arlist,int length) {
+
+        //    bool isvalidate = true;
+        //    for (int k = 0; k < length; k++) {
+        //        if (arlist[k].[RequestID]) {
+
+
+
+
+        //        }
+
+
+
+        //    }
+
+
+
+
+        //    return isvalidate;
+        //}
+
+        //    string campId = "";
+        //string convertedCode = "";
+        //string isUnicode;
+        //APIResponse rtnmodel = new APIResponse();
+        //if (IsIPValid(apikey.Trim(), ""))
+        //{
+        //    if (Validatecampaign(campaign, out rtnmodel))
+        //    {
+        //        isUnicode = _prc.GetUnicodeStatus(campaign.templateid);
+        //        if (isUnicode == "1")
+        //        {
+        //            convertedCode = ConvertToUnicode(campaign.script);
+        //        }
+        //        string sts = _prc.CreateCampign(apikey, convertedCode, isUnicode, campaign, out string response, out campId);
+        //        if (sts == "1")
+        //        {
+        //            rtnmodel.Status = "Success";
+        //            rtnmodel.Message = response;
+        //            rtnmodel.CampaignId = campId;
+
+
+        //        }
+        //        else
+        //        {
+        //            rtnmodel.Status = "Failed";
+        //            rtnmodel.Message = response;
+        //            rtnmodel.CampaignId = "";
+        //        }
+        //    }
+        //}
+        //else
+        //{
+        //    rtnmodel.Status = "failed";
+        //    rtnmodel.Message = "Authentication failed!";
+        //    rtnmodel.CampaignId = "";
+
+        //}
+
+        //return GetStringResponse( "json");
+
+
+        //public List<campaignmodel> Campaignmodel { get; set; }
+
+
+        public class CreateCampaignResponse
+        {
+            public CreateCampaignResponse()
+            {
+
+                this.Token = "";
+                this.responseMsg = new HttpResponseMessage() { StatusCode = System.Net.HttpStatusCode.Unauthorized };
+            }
+
+            public string Token { get; set; }
+            public HttpResponseMessage responseMsg { get; set; }
+
+        }
 
         private bool Validatecampaign(Campaign campaign, out APIResponse aPIResponse)
         {
@@ -513,7 +750,62 @@ namespace Templateprj.Controllers.api
             return resp;
 
         }
+        // Internal Server Error
+        //GetStringeResponse
 
+        //private HttpResponseMessage GetString500ResponsewithMsg(string response)
+        //{
+        //    return new HttpResponseMessage(HttpStatusCode.NotAcceptable) { Content = new StringContent(errordata, System.Text.Encoding.UTF8, "application/json") };
+        //    // return Request.CreateResponse(HttpStatusCode.NotAcceptable,  errordata);
+        //}
+        private HttpResponseMessage GetString406ResponsewithMsg(string errordata)
+        {
+
+            //var resp = new HttpResponseMessage()
+            //{
+            //   Content = new StringContent(errordata)
+            //};
+           // resp.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+           //return resp;
+
+          //var resp = Request.CreateResponse(HttpStatusCode.NotAcceptable, errordata);
+           // Content = new StringContent(errordata)
+            //resp.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            //    HttpStatusCode.NotAcceptable
+            ////   new LoginResponseModel() { LoginSuccessful = true, ErrorMessage = "" }
+            //);
+           // return resp;
+            return new HttpResponseMessage(HttpStatusCode.NotAcceptable) { Content = new StringContent(errordata, System.Text.Encoding.UTF8, "application/json") };
+            // return Request.CreateResponse(HttpStatusCode.NotAcceptable,  errordata);
+        }
+        private HttpResponseMessage GetStringOKResponsewithMsg(string errordata)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK,errordata);
+        }
+        private HttpResponseMessage GetString500Response()
+        {
+            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+        }
+        private HttpResponseMessage GetString500ResponsewithMsg(string errordata)
+        {
+            return Request.CreateResponse(HttpStatusCode.InternalServerError,errordata);
+        }
+
+        private HttpResponseMessage GetString401Response()
+        {
+            return Request.CreateResponse(HttpStatusCode.Unauthorized);
+        }
+        //public HttpResponseMessage Get(int id)
+        //{
+        //    Student stud = GetStudentFromDB(id);
+
+        //    if (stud == null)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.NotFound, id);
+        //    }
+
+        //    return Request.CreateResponse(HttpStatusCode.OK, stud);
+        //}
         private HttpResponseMessage GetStringResponse(string json)
         {
             var resp = new HttpResponseMessage()

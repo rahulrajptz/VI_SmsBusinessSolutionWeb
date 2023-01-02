@@ -1,6 +1,8 @@
 ﻿@model Templateprj.Models.DeatailedReportModel
 @{
-    ViewBag.ActLink = ViewBag.Title = "DetailedReport";
+                /**/
+
+                ViewBag.ActLink = ViewBag.Title = "DetailedReport";
 }
 <style>
     table.dataTable > thead > tr > th {
@@ -11,6 +13,7 @@
         border-right: 0;
         border-bottom: 0;
     }
+
     .form-control {
         border-radius: 10px;
         height: 20px !important;
@@ -19,39 +22,54 @@
         background-color: white !important;
         /*color:#5f004b;*/
     }
+
     table.dataTable thead th, table.dataTable tfoot th {
         font-weight: bold;
         font-size: medium;
     }
+
     label {
         color: #5f004b;
         font-size: 12px;
     }
 </style>
-@using(Html.BeginForm("DetailedReport", "Reports"))
+@using (Html.BeginForm("DetailedReport", "Reports"))
 {
-    <div class="row" style="margin-top:30px;">
+    <div class="row">
         <div class="col s12">
-            <div class="card" style="margin-top:30px; border:0px;box-shadow:none;">
+            <div class="card" style="margin-top:50px;background-color:grey;border-radius:20px;">
                 <div class="card-header">
-                    <div class="card-title" style="font-size:20px;font-weight:bold;">Detailed Report</div>
+                    <div class="col">
+                        <h5 style="color:white;font-weight:bold;">Detailed Report</h5>
+                    </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col s12">
+            <div class="card" style="border:0px;box-shadow:none;">
+                @*<div class="card-header">
+                        <div class="card-title" style="font-size:20px;font-weight:bold;">Detailed Report</div>
+                    </div>*@
                 <div class="card-body">
                     <div class="row">
                         <div class="col s6 col-md-2">
-                            @Html.Label("Campaign Name", new { style="color:#5f004b;font-size:12px;" })
-                            @Html.DropDownListFor(m => m.SelectedId, Model.IdList, new { @class = "form-control", @id = "ddlacnt", style="width:150px;" })
+                            @Html.Label("Campaign Name", new { style = "color:#5f004b;font-size:12px;" })
+                            @Html.DropDownListFor(m => m.SelectedId, Model.IdList, new { @class = "form-control", @id = "ddlacnt", style = "width:150px;" })
                         </div>
                         <div class="col s6 col-md-2">
                             @Html.Label("From Date", new { style = "color:#5f004b;font-size:12px;" })
-                            @Html.TextBoxFor(m => m.fromdate, new { @class ="form-control mask-date", style = "width:150px;" })
+                            @Html.TextBoxFor(m => m.fromdate, new { @class = "form-control mask-date", style = "width:150px;", placeholder = "-FROM DATE-" })
                         </div>
                         <div class="col s6 col-md-2">
                             @Html.Label("To Date", new { style = "color:#5f004b;font-size:12px;" })
-                            @Html.TextBoxFor(m => m.todate, new { @class ="form-control mask-date", style = "width:150px;" })
+                            @Html.TextBoxFor(m => m.todate, new { @class = "form-control mask-date", style = "width:150px;", placeholder = "-TO DATE-" })
                         </div>
                         <div class="col s6 col-md-2" @*style="padding-left:500px"*@>
-                            <input type="button" id="btn_download" class="btn fa fa-download"  value="Download" style="margin-top:15px; background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);color:white;"/>
+                            <input type="button" id="btn_download" class="btn fa fa-download" value="Download" style="margin-top:15px; background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);color:white;" />
                             @*<button type="submit" class=" btn btn-primary not-close" id="search" name="search" formmethod="post" value="search"></button>*@
                         </div>
                     </div>
@@ -60,22 +78,22 @@
         </div>
     </div>
     @*<div class="row">
-        <div class="col s12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="loaders col-sm-12" id="loading" style="align-content:center"> <img src="~/assets/img/loading.gif" alt="Loading..." /></div>
-                    <div class="col-md-12">
-                        <div class="responsive-table" id="divTable">
-                            <div class="col-sm-12">
-                                <table id="tbl_rpt" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="loaders col-sm-12" id="loading" style="align-content:center"> <img src="~/assets/img/loading.gif" alt="Loading..." /></div>
+                        <div class="col-md-12">
+                            <div class="responsive-table" id="divTable">
+                                <div class="col-sm-12">
+                                    <table id="tbl_rpt" class="table-striped table-bordered dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="width:100% !important;" cellspacing="0"></table>
+                                </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>*@
+        </div>*@
 
 }
 @section scripts{
@@ -103,7 +121,7 @@
             $("#loading").hide();
 
             var dropval = $("#ddlacnt option:selected").val();
-           
+
             if (dropval == "") {
                 $("#btn_download").attr("disabled", "disabled");
                 //e.preventDefault();
@@ -137,7 +155,7 @@
         });
         $("#ddlacnt").change(function (e) {
             var drop = $("#ddlacnt option:selected").val();
-           
+
             if (drop == "") {
                 $("#btn_download").attr("disabled", "disabled");
                 //e.preventDefault();
@@ -147,7 +165,7 @@
                 $("#btn_download").removeAttr("disabled", "disabled");
             }
         });
-        
+
         $("#fromdate").flatpickr({
             dateFormat: "d/m/Y",
             maxDate: "today",

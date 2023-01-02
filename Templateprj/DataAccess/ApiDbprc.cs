@@ -16,6 +16,92 @@ namespace Templateprj.DataAccess
 
 
         MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr);
+        public string ApiInsertBulksms(string apikey, string json)
+        {
+
+            //`Api_Insert_Bulk_SMS`(IN in_api_key varchar(50),
+            // IN v_data longtext, /* SMS script*/
+            // OUT response_out longtext)
+            string statusOut = "";
+            //Deliverystatus = "";
+            try
+            {
+
+                using (MySqlCommand cmd = new MySqlCommand("Api_Insert_Bulk_SMS"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@in_api_key", MySqlDbType.VarChar, 50).Value = apikey;
+                    cmd.Parameters.Add("@v_data", MySqlDbType.LongText).Value = json;
+
+
+                    cmd.Parameters.Add("@response_out", MySqlDbType.LongText).Direction = ParameterDirection.Output;
+
+                    using (con)
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        cmd.ExecuteNonQuery();
+                    }
+                    statusOut = cmd.Parameters["@response_out"].Value.ToString();
+
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MySqlConnection.ClearPool(con);
+                con.Close();
+                LogWriter.Write($"APIDbPrc.SMSDelivery::MysqlException ::{ ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write($"DataAccess.APIDbPrcs.SMSDelivery::Exception ::{ ex.Message}");
+            }
+
+            return statusOut;
+        }
+        public string ApiCreateCampaign(string apikey, string json)
+        {
+
+            //`Api_Create_Campaign`(IN in_api_key varchar(50),
+            //  IN v_data longtext, /* SMS script*/
+            //     OUT response_out longtext)
+            string statusOut = "";
+            //Deliverystatus = "";
+            try
+            {
+
+                using (MySqlCommand cmd = new MySqlCommand("Api_Create_Campaign"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@in_api_key", MySqlDbType.VarChar, 50).Value = apikey;
+                    cmd.Parameters.Add("@v_data", MySqlDbType.LongText).Value = json;
+
+
+                    cmd.Parameters.Add("@response_out", MySqlDbType.LongText).Direction = ParameterDirection.Output;
+
+                    using (con)
+                    {
+                        con.Open();
+                        cmd.Connection = con;
+                        cmd.ExecuteNonQuery();
+                    }
+                    statusOut = cmd.Parameters["@response_out"].Value.ToString();
+
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MySqlConnection.ClearPool(con);
+                con.Close();
+                LogWriter.Write($"APIDbPrc.SMSDelivery::MysqlException ::{ ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write($"DataAccess.APIDbPrcs.SMSDelivery::Exception ::{ ex.Message}");
+            }
+
+            return statusOut;
+        }
         public string CreateCampign(string key, string convertedCode, string isUnicode, Campaign campaign, out string response, out string campID)
         {
             string status = APIDataInsert(key, campaign.campname, campaign.fromdt, campaign.todt, campaign.fromtime, campaign.totime, campaign.senderid, campaign.templateid, campaign.type,
@@ -200,7 +286,7 @@ namespace Templateprj.DataAccess
 
         }
 
-        public string CreateSenderid(string apikey, Senderid Senderid, out string mail, out string companyname, out string msg,out string refid)
+        public string CreateSenderid(string apikey, Senderid Senderid, out string mail, out string companyname, out string msg, out string refid)
         {
             string statusOut = "-1";
             mail = "";
@@ -618,21 +704,21 @@ namespace Templateprj.DataAccess
                  * OUT v_Status_Out varchar(400),OUT v_Message_Out varchar(2000),OUT n_Template_Id bigint(21))*/
 
                 //// `Api_sms_template_Insert_prc`(IN n_Api_Key varchar(50), 
-                            //                    IN v_Script_In varchar(4000), 
-                            //                    IN n_Unicode int, 
-                            //                    IN v_Url varchar(500), 
-                            //                    IN n_tid varchar(21), 
-                            //                    IN V_Template_Name varchar(1000),
-                            //                    IN N_variable_count int, 
-                            //                    IN N_senderId int, 
-                            //                    IN N_SMS_Type int, 
-                            //                    IN V_validity int, 
-                            //                    IN N_Delivery_Flag int, 
-                            //                    OUT v_Email_Out varchar(1000), 
-                            //                    OUT v_Company_Name varchar(400), 
-                            //                    OUT v_Status_Out varchar(400), 
-                            //                    OUT v_Message_Out varchar(2000), 
-                            //                    OUT n_Template_Id bigint(21))
+                //                    IN v_Script_In varchar(4000), 
+                //                    IN n_Unicode int, 
+                //                    IN v_Url varchar(500), 
+                //                    IN n_tid varchar(21), 
+                //                    IN V_Template_Name varchar(1000),
+                //                    IN N_variable_count int, 
+                //                    IN N_senderId int, 
+                //                    IN N_SMS_Type int, 
+                //                    IN V_validity int, 
+                //                    IN N_Delivery_Flag int, 
+                //                    OUT v_Email_Out varchar(1000), 
+                //                    OUT v_Company_Name varchar(400), 
+                //                    OUT v_Status_Out varchar(400), 
+                //                    OUT v_Message_Out varchar(2000), 
+                //                    OUT n_Template_Id bigint(21))
 
                 using (MySqlCommand cmd = new MySqlCommand("Api_sms_template_Insert_prc"))
                 {
@@ -649,7 +735,7 @@ namespace Templateprj.DataAccess
                     cmd.Parameters.Add("@n_Unicode", MySqlDbType.Int32).Value = script.Unicodestatus;
                     cmd.Parameters.Add("@v_Url", MySqlDbType.VarChar).Value = script.Pingbackurl;
                     cmd.Parameters.Add("@n_tid", MySqlDbType.VarChar).Value = script.DLTtemplateid;
-                    cmd.Parameters.Add("@V_Template_Name", MySqlDbType.VarChar,1000).Value = script.TemplateName;
+                    cmd.Parameters.Add("@V_Template_Name", MySqlDbType.VarChar, 1000).Value = script.TemplateName;
                     cmd.Parameters.Add("@N_variable_count", MySqlDbType.Int32).Value = script.VariableCount;
                     cmd.Parameters.Add("@N_senderId", MySqlDbType.Int32).Value = script.SenderId;
                     cmd.Parameters.Add("@N_SMS_Type", MySqlDbType.Int32).Value = script.SMSType;
@@ -935,11 +1021,11 @@ namespace Templateprj.DataAccess
                     cmd.Parameters.Add("@c_totime", MySqlDbType.VarChar).Value = totime.Trim();
                     if (isUnicode == "0")
                     {
-                        cmd.Parameters.Add("@c_parameters", MySqlDbType.VarChar,2000).Value = script.Trim();
+                        cmd.Parameters.Add("@c_parameters", MySqlDbType.VarChar, 2000).Value = script.Trim();
                     }
                     else
                     {
-                        cmd.Parameters.Add("@c_parameters", MySqlDbType.VarChar,2000).Value = convertedCode.Trim();
+                        cmd.Parameters.Add("@c_parameters", MySqlDbType.VarChar, 2000).Value = convertedCode.Trim();
                     }
                     cmd.Parameters.Add("@v_customer_url", MySqlDbType.VarChar).Value = pingbackurl;
 

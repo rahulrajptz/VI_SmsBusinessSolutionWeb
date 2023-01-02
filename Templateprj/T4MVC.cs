@@ -777,6 +777,10 @@ namespace Links
             public static string Url() { return T4MVCHelpers.ProcessVirtualPath(UrlPath); }
             public static string Url(string fileName) { return T4MVCHelpers.ProcessVirtualPath(UrlPath + "/" + fileName); }
             public static readonly string bx_loader_gif = Url("bx_loader.gif");
+            public static readonly string icons8_airplane_landing_gif = Url("icons8-airplane-landing.gif");
+            public static readonly string icons8_sand_timer_gif = Url("icons8-sand-timer.gif");
+            public static readonly string icons8_settings_gif = Url("icons8-settings.gif");
+            public static readonly string icons8_square_loader_gif = Url("icons8-square-loader.gif");
             public static readonly string loading_gif = Url("loading.gif");
             public static readonly string Login_Page_image_removebg_preview_png = Url("Login-Page-image-removebg-preview.png");
             public static readonly string Login_Page_image_png = Url("Login-Page-image.png");
@@ -788,6 +792,8 @@ namespace Links
             public static readonly string smslinkicon_png = Url("smslinkicon.png");
             public static readonly string vi_png = Url("vi.png");
             public static readonly string Vi12_PNG = Url("Vi12.PNG");
+            public static readonly string vi2image_png = Url("vi2image.png");
+            public static readonly string viimage_png = Url("viimage.png");
         }
     
         public static readonly string ionicons_min_css = Url("ionicons.min.css");
