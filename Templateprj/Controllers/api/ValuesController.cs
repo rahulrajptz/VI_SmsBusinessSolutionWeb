@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Globalization;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -25,97 +26,13 @@ namespace Templateprj.Controllers.api
     [RoutePrefix("Values")]
     public class ValuesController : ApiController
     {
-        //private readonly MailSender _prcs = new MailSender1();
+
         private readonly MailSender _prcs = new MailSender();
-       
+
         ApiDbprc _prc = new ApiDbprc();
-        //AccountDbPrcs _prcs = new AccountDbPrcs();
-        //[ActionName("CreateCampaign")]
+
         [Route("CreateCampaign/{apikey}")]
-        public HttpResponseMessage PostCreateCampaign(string apikey,[FromBody]campaignmodel[] model)
-        {
-            var CreateCampaignResponse = new CreateCampaignResponse { };
-            string token = Request.Headers.Authorization.Parameter;
-
-
-            token = token.ToString();
-            string otoken = "";
-            otoken = ConfigurationManager.AppSettings["Token"].ToString() ;
-            //int validityinHr = Convert.ToInt32(ConfigurationManager.AppSettings["TokenValidityInHr"].ToString());
-
-
-           // if (String.Equals(token, otoken))
-           if(token.Equals(otoken))
-            {
-
-                if (model == null)
-                {
-                    return GetString500Response();
-
-                }
-                else {
-                    var length = model.Length;
-                    // var arlist = new ArrayList();
-                    List<campaignmodel> arlist = new List<campaignmodel>();
-
-                    for (int i = 0; i < length; i++)
-                    {
-                        arlist.Add(model[i]);
-
-                    }
-                    for (int k = 0; k < length; k++)
-                    {
-
-                        if ((arlist[k].Campaign_Name == null) || (arlist[k].Campaign_Name == "") || (arlist[k].Campaign_Type == null) || (arlist[k].Campaign_Type == null) || (arlist[k].From_Date == "") || (arlist[k].From_Date == null) || (arlist[k].To_Date == "") || (arlist[k].To_Date == null) || (arlist[k].From_Time == "") || (arlist[k].From_Time == null) || (arlist[k].to_Time == "") || (arlist[k].to_Time == null) || (arlist[k].Template_ID == "") || (arlist[k].Template_ID ==null) || (arlist[k].pingbackurl == "") || (arlist[k].pingbackurl == null) || (arlist[k].content_type == "") || (arlist[k].content_type == null) || (arlist[k].Request_ID == "") || (arlist[k].Request_ID == null) )
-                        {
-                            string MissingError ="{\"status\":\"406\",\"Message\": \"Please Fill All Field\"}";
-                            //return GetString500ResponsewithMsg(MissingError);
-
-                            return GetString406ResponsewithMsg(MissingError);
-
-                        }
-
-                    }
-                    string json = JsonConvert.SerializeObject(arlist);
-                    var response = _prc.ApiCreateCampaign(apikey, json);
-                    //List<failure> failureRes = new List<failure>();
-                    //var entity = JsonConvert.DeserializeObject<failure>(response);
-                    //if (entity.status == "9")
-                    //{
-                    //    return GetString500Response();
-
-                    //}
-                    if (response == "")
-                    {
-
-                        return GetString500Response();
-
-
-                    }
-                    else
-                    {
-                        return GetStringResponse(response);
-                    }
-
-
-
-
-                }
-
-                //var ostatus = true;
-                // return GetStringResponse(response);
-            }
-            else {
-               // string errormessage = "please enter valid token";
-                // return "please enter valid token";
-                return GetString401Response();
-
-
-            }
-            }
-
-        [Route("InsertBulksms/{apikey}")]
-        public HttpResponseMessage PostInsertBulksms(string apikey, [FromBody]Insertbulksmsmodel[] model)
+        public HttpResponseMessage PostCreateCampaign(string apikey, [FromBody]campaignmodel[] model)
         {
             var CreateCampaignResponse = new CreateCampaignResponse { };
             string token = Request.Headers.Authorization.Parameter;
@@ -124,10 +41,7 @@ namespace Templateprj.Controllers.api
             token = token.ToString();
             string otoken = "";
             otoken = ConfigurationManager.AppSettings["Token"].ToString();
-            //int validityinHr = Convert.ToInt32(ConfigurationManager.AppSettings["TokenValidityInHr"].ToString());
 
-
-            // if (String.Equals(token, otoken))
             if (token.Equals(otoken))
             {
 
@@ -139,7 +53,278 @@ namespace Templateprj.Controllers.api
                 else
                 {
                     var length = model.Length;
-                    // var arlist = new ArrayList();
+
+                    List<campaignmodel> arlist = new List<campaignmodel>();
+
+                    for (int i = 0; i < length; i++)
+                    {
+                        arlist.Add(model[i]);
+
+                    }
+                    for (int k = 0; k < length; k++)
+                    {
+
+                        if ((arlist[k].Campaign_Name == null) || (arlist[k].Campaign_Name == "") || (arlist[k].Campaign_Type == null) || (arlist[k].Campaign_Type == null) || (arlist[k].From_Date == "") || (arlist[k].From_Date == null) || (arlist[k].To_Date == "") || (arlist[k].To_Date == null) || (arlist[k].From_Time == "") || (arlist[k].From_Time == null) || (arlist[k].to_Time == "") || (arlist[k].to_Time == null) || (arlist[k].Template_ID == "") || (arlist[k].Template_ID == null) || (arlist[k].pingbackurl == "") || (arlist[k].pingbackurl == null) || (arlist[k].content_type == "") || (arlist[k].content_type == null) || (arlist[k].Request_ID == "") || (arlist[k].Request_ID == null))
+                        {
+                            string MissingError = "{\"status\":\"406\",\"Message\": \"Please Fill All Fields\"}";
+
+                            return GetString406ResponsewithMsg(MissingError);
+
+                        }
+                        if (string.IsNullOrWhiteSpace(arlist[k].Campaign_Name))
+                        {
+                            string whitespaceError = "{\"status\":\"406\",\"Message\": \"Please Enter Valid Campaign Name \"}";
+
+                            return GetString406ResponsewithMsg(whitespaceError);
+
+
+
+                        }
+                        if (string.IsNullOrWhiteSpace(arlist[k].Campaign_Type) || string.IsNullOrWhiteSpace(arlist[k].From_Date) || string.IsNullOrWhiteSpace(arlist[k].To_Date) || string.IsNullOrWhiteSpace(arlist[k].From_Time) || string.IsNullOrWhiteSpace(arlist[k].to_Time) || string.IsNullOrWhiteSpace(arlist[k].Template_ID) || string.IsNullOrWhiteSpace(arlist[k].pingbackurl) || string.IsNullOrWhiteSpace(arlist[k].content_type))
+                        {
+                            string whitespaceError = "{\"status\":\"406\",\"Message\": \"Avoid WhiteSpaces \"}";
+
+                            return GetString406ResponsewithMsg(whitespaceError);
+
+
+
+                        }
+                        var fromdate = arlist[k].From_Date;
+
+                        if (ValidateDate(fromdate))
+                        {
+
+                            string fromdateError = "{\"status\":\"406\",\"Message\": \"From date should be in dd/M/yyyy format \"}";
+
+                            return GetString406ResponsewithMsg(fromdateError);
+                        }
+                        var todate = arlist[k].To_Date;
+                        if (ValidateDate(todate))
+                        {
+                            string todateError = "{\"status\":\"406\",\"Message\": \"To date should be in dd/M/yyyy format \"}";
+
+                            return GetString406ResponsewithMsg(todateError);
+
+                        }
+                        var fromtime = arlist[k].From_Time;
+                        if (ValidateTime(fromtime))
+                        {
+
+                            string fromtimeError = "{\"status\":\"406\",\"Message\": \" From time  should be in hr:min AM/PM format \"}";
+
+                            return GetString406ResponsewithMsg(fromtimeError);
+                        }
+                        var totime = arlist[k].to_Time;
+                        if (ValidateTime(totime))
+                        {
+                            string fromtimeError = "{\"status\":\"406\",\"Message\": \" To time  should be in hr:min AM/PM format \"}";
+
+                            return GetString406ResponsewithMsg(fromtimeError);
+                        }
+
+
+                        string fromDate = arlist[k].From_Date;
+                        string toDate = arlist[k].To_Date;
+                        string fromTime = arlist[k].From_Time;
+                        string toTime = arlist[k].to_Time;
+                        int status = checkEndTimeValidity(toDate + " " + toTime, fromDate + " " + fromTime, true);
+                        if (status != 1)
+                        {
+                            string dateError = "{\"status\":\"406\",\"Message\": \" Check Date And Time  \"}";
+
+                            return GetString406ResponsewithMsg(dateError);
+
+
+                        }
+
+
+                        string contype = arlist[k].content_type;
+                        contype = contype.Trim().ToLower();
+
+
+                        if (contype == "dynamic")
+                        {
+
+                            string varcount = arlist[k].Number_of_variables;
+                            if (varcount == "0")
+                            {
+
+                                string dynamicvar0Error = "{\"status\":\"406\",\"Message\": \"Variable Count Should Greater Than Zero For Dynamic Type \"}";
+
+                                return GetString406ResponsewithMsg(dynamicvar0Error);
+
+
+                            }
+                            var countlen = varcount.Length;
+                            for (int i = 0; i < varcount.Length; i++)
+                            {
+                                char c = varcount[i];
+                                if (c < '0' || c > '9')
+                                {
+                                    string varcountError = "{\"status\":\"406\",\"Message\": \"Add Valid Variable Count \"}";
+
+                                    return GetString406ResponsewithMsg(varcountError);
+                                }
+
+                            }
+
+                        }
+                        if (contype == "static")
+                        {
+
+                            string varcount = arlist[k].Number_of_variables;
+
+                            if (varcount != "0")
+                            {
+
+                                string dynamicvar0Error = "{\"status\":\"406\",\"Message\": \"Variable Count Should Be Zero For Static Type \"}";
+
+                                return GetString406ResponsewithMsg(dynamicvar0Error);
+
+                            }
+
+                        }
+
+                        if (contype == "dynamic")
+                        {
+                            var len_1 = arlist[k].SMSvariable.Count.ToString();
+                            var varcount1 = arlist[k].Number_of_variables;
+                            if (len_1 != varcount1)
+                            {
+                                string contenttypeError = "{\"status\":\"406\",\"Message\": \"No of variables and Sms variable count should be same \"}";
+
+                                return GetString406ResponsewithMsg(contenttypeError);
+
+                            }
+                        }
+                        if (contype != "static" && contype != "dynamic")
+                        {
+
+                            string contenttypeError = "{\"status\":\"406\",\"Message\": \"Content Type Must Static or Dynamic \"}";
+
+                            return GetString406ResponsewithMsg(contenttypeError);
+
+                        }
+
+
+
+                        //var am_pm2 = strlist4[2];
+                        if (contype == "dynamic")
+                        {
+                            var len = arlist[k].SMSvariable.Count;
+                            for (int x = 0; x < len; x++)
+                            {
+
+                                var var1length = arlist[k].SMSvariable[x].variableName.ToString();
+                                if (ValidateLength(var1length))
+                                {
+                                    string varengthError = "{\"status\":\"406\",\"Message\": \"Add Valid variableName(maximum length should not exceed 14 character and minimum length should have atleast 2 character) \"}";
+
+                                    return GetString406ResponsewithMsg(varengthError);
+
+                                }
+
+                                var var2length = arlist[k].SMSvariable[x].renameVariable.ToString();
+
+                                if (ValidateLength(var2length))
+                                {
+                                    string varengthError = "{\"status\":\"406\",\"Message\": \"Add Valid variableName(maximum length should not exceed 14 character and minimum length should have atleast 2 character) \"}";
+
+                                    return GetString406ResponsewithMsg(varengthError);
+                                }
+                            }//sms variable iteration...
+
+                        }
+                        var s1 = arlist[k].Campaign_Name;
+                        string hexString = hex(s1);
+                        arlist[k].Campaign_Name = hexString;
+
+                    } //model iteration
+                    string json = JsonConvert.SerializeObject(arlist);
+                    var response = _prc.ApiCreateCampaign(apikey, json);
+
+                    if (response == "")
+                    {
+
+                        return GetString500Response();
+
+
+                    }
+                    else if (response == "[{}]")
+                    {
+
+                        string emptyres = "{\"status\":\"failure\",\"Message\": \"Check Template ID\"}";
+
+
+                        return GetString500ResponsewithMsg(emptyres);
+
+                    }
+                    else
+                    {
+                        return GetStringResponse(response);
+                    }
+
+                }
+
+            }
+            else
+            {
+
+                return GetString401Response();
+
+            }
+        }
+        public int checkEndTimeValidity(string endTime, string starttime, bool isCurrentDate)
+        {
+            CultureInfo enUS = new CultureInfo("en-US");
+            DateTime endDate, startDate, compDate;
+            endDate = DateTime.ParseExact(endTime, "dd/M/yyyy h:mm tt", CultureInfo.InvariantCulture);
+            startDate = DateTime.ParseExact(starttime, "dd/M/yyyy h:mm tt", CultureInfo.InvariantCulture);
+            if (isCurrentDate)
+                compDate = DateTime.Now;
+            else
+                compDate = startDate;
+            //    compDate = DateTime.ParseExact(comparetime, "dd/M/yyyy h:mm tt", CultureInfo.InvariantCulture);
+            if (startDate >= endDate)
+                return 5;
+            else if (isCurrentDate && compDate.AddHours(4) > endDate)
+                return 7;
+            else if (startDate < compDate)
+            {
+                return 6;
+            }
+            else if (endDate < compDate)
+            {
+
+                return 4;
+            }
+            else
+                return 1;
+        }
+
+        [Route("InsertBulksms/{apikey}")]
+        public HttpResponseMessage PostInsertBulksms(string apikey, [FromBody]Insertbulksmsmodel[] model)
+        {
+            var CreateCampaignResponse = new CreateCampaignResponse { };
+            string token = Request.Headers.Authorization.Parameter;
+
+
+            token = token.ToString();
+            string otoken = "";
+            otoken = ConfigurationManager.AppSettings["Token"].ToString();
+
+            if (token.Equals(otoken))
+            {
+
+                if (model == null)
+                {
+                    return GetString500Response();
+
+                }
+                else
+                {
+                    var length = model.Length;
+
                     List<Insertbulksmsmodel> arlist = new List<Insertbulksmsmodel>();
 
                     for (int i = 0; i < length; i++)
@@ -148,59 +333,422 @@ namespace Templateprj.Controllers.api
 
                     }
 
-                    // Boolean isvalidate = validateArray(arlist,length);
-                    for (int k = 0; k < length; k++) {
 
-                        if( (arlist[k].BulkData == null)|| (arlist[k].ContentType == "") || (arlist[k].ContentType == null)|| (arlist[k].MasterCampaignID == null) || (arlist[k].MasterCampaignID == "") || (arlist[k].RequestID == null)|| (arlist[k].RequestID == "")|| (arlist[k].PingbackUrl == null)|| (arlist[k].PingbackUrl == ""))
+                    for (int k = 0; k < length; k++)
+                    {
+                        var len = arlist[k].BulkData.Count;
+                        if ((arlist[k].BulkData == null) || (arlist[k].ContentType == "") || (arlist[k].ContentType == null) || (arlist[k].MasterCampaignID == null) || (arlist[k].MasterCampaignID == "") || (arlist[k].RequestID == null) || (arlist[k].RequestID == "") || (arlist[k].PingbackUrl == null) || (arlist[k].PingbackUrl == ""))
                         {
-                            //string MissingError = "Please Fill All Field";
+
                             string MissingError = "{\"status\":\"406\",\"Message\": \"Please Fill All Field\"}";
-                            //return GetString500ResponsewithMsg(MissingError);
+
 
                             return GetString406ResponsewithMsg(MissingError);
 
                         }
+                        if (string.IsNullOrWhiteSpace(arlist[k].ContentType) || string.IsNullOrWhiteSpace(arlist[k].MasterCampaignID) || string.IsNullOrWhiteSpace(arlist[k].RequestID) || string.IsNullOrWhiteSpace(arlist[k].PingbackUrl))
+                        {
+                            string whitespaceError = "{\"status\":\"406\",\"Message\": \"Avoid WhiteSpaces \"}";
 
-                    }
-                   
+                            return GetString406ResponsewithMsg(whitespaceError);
+
+                        }
+
+
+                        string contype = arlist[k].ContentType;
+                        contype = contype.Trim().ToLower();
+                        if (contype == "dynamic")
+                        {
+
+                            string varcount = arlist[k].NumberOfVariables;
+                            if (varcount == "0")
+                            {
+
+                                string dynamicvar0Error = "{\"status\":\"406\",\"Message\": \"Variable Count Should Greater Than Zero For Dynamic Type \"}";
+
+                                return GetString406ResponsewithMsg(dynamicvar0Error);
+
+
+                            }
+
+                        }
+                        if (contype == "static")
+                        {
+
+                            string varcount = arlist[k].NumberOfVariables;
+
+                            if (varcount != "0")
+                            {
+
+                                string dynamicvar0Error = "{\"status\":\"406\",\"Message\": \"Variable Count Should Be Zero For Static Type \"}";
+
+                                return GetString406ResponsewithMsg(dynamicvar0Error);
+
+                            }
+
+                            var countlen = varcount.Length;
+                            for (int i = 0; i < varcount.Length; i++)
+                            {
+                                char c = varcount[i];
+                                if (c < '0' || c > '9')
+                                {
+                                    string varcountError = "{\"status\":\"406\",\"Message\": \"Add Valid Variable Count \"}";
+
+                                    return GetString406ResponsewithMsg(varcountError);
+                                }
+
+                            }
+
+
+                        }
+                        if (contype != "static" && contype != "dynamic")
+                        {
+
+                            string contenttypeError = "{\"status\":\"406\",\"Message\": \"Content Type Must Static or Dynamic \"}";
+
+                            return GetString406ResponsewithMsg(contenttypeError);
+
+                        }
+
+                        string varlengthError = "{\"status\":\"406\",\"Message\": \"Add Valid variableName(maximum length should not exceed 32 character and minimum length should have atleast 2 character) for \"}";
+
+                        //string varvalidateError = "{\"status\":\"406\",\"Message\": \"Avoid special characters like newline, new tab, {,}, ... etc in ";
+                        for (int m = 0; m < len; m++)
+                        {
+
+
+
+                            if ((arlist[k].BulkData[m].Msisdn == null) || (arlist[k].BulkData[m].Msisdn == ""))
+                            {
+
+                                string MissingError = "{\"status\":\"406\",\"Message\": \"Add Valid Msisdn\"}";
+
+                                return GetString406ResponsewithMsg(MissingError);
+
+                            }
+                            if (string.IsNullOrWhiteSpace(arlist[k].BulkData[m].Msisdn))
+                            {
+                                string whitespaceError = "{\"status\":\"406\",\"Message\": \"Add Valid Msisdn \"}";
+
+                                return GetString406ResponsewithMsg(whitespaceError);
+
+
+
+                            }
+
+                            var msisdn = arlist[k].BulkData[m].Msisdn.ToString();
+                            var mlen = msisdn.Length;
+                            if (mlen >= 14)
+                            {
+                                string msisdnlengthError = "{\"status\":\"406\",\"Message\": \"Add Valid Msisdn \"}";
+
+                                return GetString406ResponsewithMsg(msisdnlengthError);
+
+                            }
+                            if (mlen < 10)
+                            {
+                                string msisdnlengthError = "{\"status\":\"406\",\"Message\": \"Add Valid Msisdn (min 10 digit) \"}";
+
+                                return GetString406ResponsewithMsg(msisdnlengthError);
+
+
+                            }
+
+                            for (int i = 0; i < msisdn.Length; i++)
+                            {
+                                char c = msisdn[i];
+                                if (c < '0' || c > '9')
+                                {
+                                    string msisdnlengthError = "{\"status\":\"406\",\"Message\": \"Add Valid Msisdn (msisdn must numbers)\"}";
+
+                                    return GetString406ResponsewithMsg(msisdnlengthError);
+                                }
+
+                            }
+
+                            List<string> varArray = new List<string>();
+
+
+                            var var1 = arlist[k].BulkData[m].VAR1.ToString();
+                            var var2 = arlist[k].BulkData[m].VAR2.ToString();
+                            var var3 = arlist[k].BulkData[m].VAR3.ToString();
+                            var var4 = arlist[k].BulkData[m].VAR4.ToString();
+                            var var5 = arlist[k].BulkData[m].VAR5.ToString();
+                            var var6 = arlist[k].BulkData[m].VAR6.ToString();
+                            var var7 = arlist[k].BulkData[m].VAR7.ToString();
+                            var var8 = arlist[k].BulkData[m].VAR8.ToString();
+                            var var9 = arlist[k].BulkData[m].VAR9.ToString();
+                            var var10 = arlist[k].BulkData[m].VAR10.ToString();
+
+                            varArray.Add(var1);
+                            varArray.Add(var2);
+                            varArray.Add(var3);
+                            varArray.Add(var4);
+                            varArray.Add(var5);
+                            varArray.Add(var6);
+                            varArray.Add(var7);
+                            varArray.Add(var8);
+                            varArray.Add(var9);
+                            varArray.Add(var10);
+
+
+                            var leng = varArray.Count;
+
+
+
+                            for (int n = 0; n < leng; n++)
+                            {
+
+                                if (varArray[n] != "")
+                                {
+
+                                    if (ValidateLength(varArray[n]))
+                                    {
+                                        string var = "VAR" + n + 1;
+                                        string jsonvalidateError = varlengthError + var;
+                                        return GetString406ResponsewithMsg(jsonvalidateError);
+
+                                    }
+                                }
+                            }
+
+
+
+                            for (int y = 0; y < leng; y++)
+                            {
+                                var s1 = varArray[y];
+                                string hexString = hex(s1);
+
+                                varArray[y] = hexString;
+                            }
+
+                            List<string> uniArray = new List<string>();
+                            uniArray.Add(var1);
+                            uniArray.Add(var2);
+                            uniArray.Add(var3);
+                            uniArray.Add(var4);
+                            uniArray.Add(var5);
+                            uniArray.Add(var6);
+                            uniArray.Add(var7);
+                            uniArray.Add(var8);
+                            uniArray.Add(var9);
+                            uniArray.Add(var10);
+                            for (int v = 0; v < leng; v++)
+                            {
+                                var s1 = varArray[v];
+                                //bool isUnicode = System.Text.ASCIIEncoding.GetEncoding(0).GetString(System.Text.ASCIIEncoding.GetEncoding(0).GetBytes(s1)) != s1;
+                                //if (isUnicode) {
+                                var unicode = GetSingleUnicodeHex(s1);
+
+                                uniArray[v] = unicode;
+
+
+
+                            }
+
+
+
+                            arlist[k].BulkData[m].VAR1 = varArray[0];
+                            arlist[k].BulkData[m].VAR2 = varArray[1];
+                            arlist[k].BulkData[m].VAR3 = varArray[2];
+                            arlist[k].BulkData[m].VAR4 = varArray[3];
+                            arlist[k].BulkData[m].VAR5 = varArray[4];
+                            arlist[k].BulkData[m].VAR6 = varArray[5];
+                            arlist[k].BulkData[m].VAR7 = varArray[6];
+                            arlist[k].BulkData[m].VAR8 = varArray[7];
+                            arlist[k].BulkData[m].VAR9 = varArray[8];
+                            arlist[k].BulkData[m].VAR10 = varArray[9];
+
+
+                            arlist[k].BulkData[m].VARU1 = uniArray[0];
+                            arlist[k].BulkData[m].VARU2 = uniArray[1];
+                            arlist[k].BulkData[m].VARU3 = uniArray[2];
+                            arlist[k].BulkData[m].VARU4 = uniArray[3];
+                            arlist[k].BulkData[m].VARU5 = uniArray[4];
+                            arlist[k].BulkData[m].VARU6 = uniArray[5];
+                            arlist[k].BulkData[m].VARU7 = uniArray[6];
+                            arlist[k].BulkData[m].VARU8 = uniArray[7];
+                            arlist[k].BulkData[m].VARU9 = uniArray[8];
+                            arlist[k].BulkData[m].VARU10 = uniArray[9];
+
+
+                        }//bulk datalist iteration...
+
+
+                    }//model list iteration...
+
                     string json = JsonConvert.SerializeObject(arlist);
                     var response = _prc.ApiInsertBulksms(apikey, json);
                     List<failure> failureRes = new List<failure>();
                     var entity = JsonConvert.DeserializeObject<failure>(response);
-                    if (entity.Status == "9") {
-                       return GetString500Response();
-                        
+                    if (entity.Status == "9")
+                    {
+                        return GetString500Response();
+
                     }
-                  //  var log = JsonConvert.DeserializeObject<YourObject>(logJson)
 
-
-                                       //  var logJson = JsonConvert.SerializeObject(log);
                     if (response == "")
                     {
 
                         return GetString500Response();
-
-
                     }
+
+                    else if (response == "[{}]")
+                    {
+
+                        string emptyres = "{\"status\":\"Failure\",\"Message\": \"Check Template ID\"}";
+
+
+                        return GetString500ResponsewithMsg(emptyres);
+                    }
+
                     else
                     {
                         return GetStringResponse(response);
                     }
                 }
-
-                //var ostatus = true;
-                // return GetStringResponse(response);
             }
             else
             {
-                // string errormessage = "please enter valid token";
-                // return "please enter valid token";
+
                 return GetString401Response();
+            }
+        }
+
+        //public Boolean ValidateVAR(string str) {
+        //    bool s1 = false;
+        //    var specialChars = new[] { '\"', '\n', '\t', '{', '}', '\\', '\r' };
+
+        //    foreach (var specialChar in specialChars.Where(str.Contains))
+        //    {
+        //        s1 = true;
+        //          return s1;
+        //    }
+
+        //    return s1;
+        //}
+        public static string GetSingleUnicodeHex(string strTextMsg)
+        {
+            byte[] s1 = UTF8Encoding.Unicode.GetBytes(strTextMsg);
+            string strUnicode = "";
+            string strTmp1 = "";
+            string strTmp2 = "";
+
+            for (int i = 0; i < s1.Length; i += 2)
+            {
+                strTmp1 = int.Parse(s1[i + 1].ToString()).ToString("x");
+                if (strTmp1.Length == 1)
+                    strTmp1 = "0" + strTmp1;
+
+                strTmp2 = int.Parse(s1[i].ToString()).ToString("x");
+                if (strTmp2.Length == 1)
+                    strTmp2 = "0" + strTmp2;
+
+                strUnicode += strTmp1 + strTmp2;
+            }
+            return strUnicode;
+        }
+        public static string hex(string decString)
+        {
+            byte[] bytes = Encoding.Default.GetBytes(decString);
+            string hexString = BitConverter.ToString(bytes);
+            hexString = hexString.Replace("-", "");
+            return hexString;
+        }
+
+        public Boolean ValidateDate(string date)
+        {
+            bool res = false;
+            String[] spearator = { "/" };
+
+
+            // using the method
+            String[] strlist = date.Split(spearator,
+                 StringSplitOptions.RemoveEmptyEntries);
+            if (strlist.Length != 3)
+            {
+                res = true;
+                return res;
+
+            }
+            else
+            {
+
+
+                var day1 = strlist[0];
+                var month1 = strlist[1];
+                var year1 = strlist[2];
+                return res;
+
+            }
+
+
+        }
+
+
+        public Boolean ValidateTime(string time)
+        {
+
+            bool res = false;
+            String[] spearator = { ":" };
+
+
+            // using the method
+            String[] strlist = time.Split(spearator,
+                 StringSplitOptions.RemoveEmptyEntries);
+            if (strlist.Length != 2)
+            {
+                res = true;
+                return res;
+
+            }
+            var hr1 = strlist[0];
+            var min1 = strlist[1];
+
+            string[] seperatorq = { " " };
+            String[] strlistq = min1.Split(seperatorq,
+                StringSplitOptions.RemoveEmptyEntries);
+            if (strlistq.Length != 2)
+            {
+                res = true;
+                return res;
 
 
             }
+            else
+            {
+
+                return res;
+
+
+            }
+
+
         }
-        public class failure {
+        public Boolean ValidateLength(string var)
+        {
+
+            bool res = false;
+            var mlen = var.Length;
+            if (mlen >= 32)
+            {
+                res = true;
+                return res;
+            }
+            if (mlen < 2)
+            {
+                res = true;
+                return res;
+
+
+            }
+            return res;
+        }
+
+
+
+        public class failure
+        {
 
 
             public string Status { get; set; }
@@ -228,26 +776,7 @@ namespace Templateprj.Controllers.api
             public string renameVariable { get; set; }
 
         }
-        //public Boolean validateArray(IList arlist,int length) {
 
-        //    bool isvalidate = true;
-        //    for (int k = 0; k < length; k++) {
-        //        if (arlist[k].[RequestID]) {
-
-
-
-
-        //        }
-
-
-
-        //    }
-
-
-
-
-        //    return isvalidate;
-        //}
 
         //    string campId = "";
         //string convertedCode = "";
@@ -630,7 +1159,6 @@ namespace Templateprj.Controllers.api
             {
                 returnIp = null;
             }
-            //  LogWritter.Write("AccountController : ApiController.GetClientIp :: " + returnIp);
 
             return returnIp;
         }
@@ -750,37 +1278,17 @@ namespace Templateprj.Controllers.api
             return resp;
 
         }
-        // Internal Server Error
-        //GetStringeResponse
 
-        //private HttpResponseMessage GetString500ResponsewithMsg(string response)
-        //{
-        //    return new HttpResponseMessage(HttpStatusCode.NotAcceptable) { Content = new StringContent(errordata, System.Text.Encoding.UTF8, "application/json") };
-        //    // return Request.CreateResponse(HttpStatusCode.NotAcceptable,  errordata);
-        //}
         private HttpResponseMessage GetString406ResponsewithMsg(string errordata)
         {
 
-            //var resp = new HttpResponseMessage()
-            //{
-            //   Content = new StringContent(errordata)
-            //};
-           // resp.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-           //return resp;
 
-          //var resp = Request.CreateResponse(HttpStatusCode.NotAcceptable, errordata);
-           // Content = new StringContent(errordata)
-            //resp.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            //    HttpStatusCode.NotAcceptable
-            ////   new LoginResponseModel() { LoginSuccessful = true, ErrorMessage = "" }
-            //);
-           // return resp;
             return new HttpResponseMessage(HttpStatusCode.NotAcceptable) { Content = new StringContent(errordata, System.Text.Encoding.UTF8, "application/json") };
-            // return Request.CreateResponse(HttpStatusCode.NotAcceptable,  errordata);
+
         }
         private HttpResponseMessage GetStringOKResponsewithMsg(string errordata)
         {
-            return Request.CreateResponse(HttpStatusCode.OK,errordata);
+            return Request.CreateResponse(HttpStatusCode.OK, errordata);
         }
         private HttpResponseMessage GetString500Response()
         {
@@ -788,24 +1296,16 @@ namespace Templateprj.Controllers.api
         }
         private HttpResponseMessage GetString500ResponsewithMsg(string errordata)
         {
-            return Request.CreateResponse(HttpStatusCode.InternalServerError,errordata);
+            //return Request.CreateResponse(HttpStatusCode.InternalServerError,errordata);
+            return new HttpResponseMessage(HttpStatusCode.InternalServerError) { Content = new StringContent(errordata, System.Text.Encoding.UTF8, "application/json") };
+
         }
 
         private HttpResponseMessage GetString401Response()
         {
             return Request.CreateResponse(HttpStatusCode.Unauthorized);
         }
-        //public HttpResponseMessage Get(int id)
-        //{
-        //    Student stud = GetStudentFromDB(id);
 
-        //    if (stud == null)
-        //    {
-        //        return Request.CreateResponse(HttpStatusCode.NotFound, id);
-        //    }
-
-        //    return Request.CreateResponse(HttpStatusCode.OK, stud);
-        //}
         private HttpResponseMessage GetStringResponse(string json)
         {
             var resp = new HttpResponseMessage()
@@ -839,7 +1339,7 @@ namespace Templateprj.Controllers.api
         [ActionName("PostDeliveryFetch")]
         public HttpResponseMessage DeliveryFetch(string ApiKey, DeliveryFetch deliveryfetch)
         {
-            //string status = "";
+
             APIRespnse rtnmodel = new APIRespnse();
             DataSet s = _prc.SMSdelivery1(ApiKey, deliveryfetch);
             string postData = s.Tables[0].Rows[0].ItemArray[0].ToString();
@@ -857,8 +1357,7 @@ namespace Templateprj.Controllers.api
             }
             else
             {
-                //rtnmodel.Status = "Failed";
-                //rtnmodel.Message = "Some error occurred!";
+
                 return GetStringResponse(postData);
             }
 
@@ -884,8 +1383,7 @@ namespace Templateprj.Controllers.api
             }
             else
             {
-                //rtnmodel.Status = "Failed";
-                //rtnmodel.Message = "Some error occurred!";
+
                 return GetStringResponse(postData);
             }
 
@@ -895,7 +1393,7 @@ namespace Templateprj.Controllers.api
         {
             //string status = "";
             APIResponsesenderid rtnmodel = new APIResponsesenderid();
-            string sts = _prc.CreateSenderid(ApiKey, Senderid, out string mail, out string compnyname, out string msg,out string refid);
+            string sts = _prc.CreateSenderid(ApiKey, Senderid, out string mail, out string compnyname, out string msg, out string refid);
             string[] mailsplits = mail.Split(',');
             if (sts == "1")
             {
@@ -1032,7 +1530,7 @@ namespace Templateprj.Controllers.api
                                                 "<p> <strong><em><a href='" + url + "'>" + " SMSCampaign" + "</a></strong></em>" +
                                                 " .</p>" +
                                                 "<p>Sincerly,<br />" +
-                                                //"Prudent Technologies Private Ltd.<br />" +
+                                                  //"Prudent Technologies Private Ltd.<br />" +
                                                   "<img src =cid:Logo /></p>" +
                                                 "<img id='logo' alt='Prudent' src=cid:Logo width='auto' height='auto' />";
                     mail.Body = mailcontent;

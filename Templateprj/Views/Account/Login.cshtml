@@ -1,7 +1,7 @@
 ﻿@model Templateprj.Models.LoginModel
 @{
     ViewBag.Title = "Login";
-
+    //string errorMessage = ViewBag.ErrorMsg;
     Layout = "~/Views/Account/_Layout.cshtml";
 }
 
@@ -10,7 +10,11 @@
         margin-top: 0;
         margin-bottom: 0rem;
     }
-    </style>
+
+    .error {
+        border: 1px solid red;
+    }
+</style>
 
 <div class="app-body" style="background-color: #F7F8FC;">
     <main class="main d-flex align-items-center">
@@ -80,6 +84,7 @@
                                             <div id="msg" class="form-group alert alert-danger text-white">
                                                 @ViewBag.ErrorMsg
                                             </div>
+
                                         }
                                     </div>
 
@@ -100,12 +105,12 @@
                                     @*<div class="form-group d-flex">
 
 
-                    @Html.ActionLink("Forgot Password ?", MVC.Account.ForgotPassword(), new { @class = "link footer-link text-left" })
+                                            @Html.ActionLink("Forgot Password ?", MVC.Account.ForgotPassword(), new { @class = "link footer-link text-left" })
 
-                    <button type="submit" class="btn btn-block btn-primary">Login</button>
-                    <button type="submit" class="btn btn-block btn-primary" routerLink="/register">Register</button>
+                                            <button type="submit" class="btn btn-block btn-primary">Login</button>
+                                            <button type="submit" class="btn btn-block btn-primary" routerLink="/register">Register</button>
 
-                </div>*@
+                                        </div>*@
                                 }
                             </div>
                         </div>
@@ -124,7 +129,7 @@
         setTimeout("preventBack()", 0);
         window.onunload = function () { null };
 
-		$(document).ready(function () {
+        $(document).ready(function () {
 			@if (TempData["MsgBody"] != null)
             {
 			<text>alert("@TempData["MsgBody"].ToString()", "@TempData["MsgHead"].ToString()");</text>
@@ -138,41 +143,31 @@
 
                 var x = document.getElementById("Password");
                 if ($(this).hasClass('fa-eye-slash')) {
-
                     $(this).removeClass('fa-eye-slash');
-
                     $(this).addClass('fa-eye');
-
-
                     x.type = "text";
-
-
-                } else {
-
+                }
+                else {
                     $(this).removeClass('fa-eye');
-
                     $(this).addClass('fa-eye-slash');
-
                     x.type = "Password";
                 }
+
             });
 
-            //$(".btn").click(function () {
-            //    if ($("#Password").val() == "" || $("#Username").val() == "" || $("#Password").val() == null || $("#Username").val() == null ) { }
-            //    else {
-            //        var val = $("#Password").val();
-            //        var enval = SHA256(val);
-            //        $("#Password").val(enval);
-            //        $("#Password").hide();
-            //        $("#password_fake").show();
-            //    }
-            //});
-
-        });
-        $(document).ready(function () {
-            setTimeout(function () {
-                $("#msg").fadeOut();
-            }, 2000);
+            $(document).ready(function () {
+                setTimeout(function () {
+                    $("#msg").fadeOut();
+                }, 2000);
+            });
         });
     </script>
+
+    @*@if (errorMessage != null)
+        {
+            <script>
+                document.getElementById("Username").classList.add("error");
+                document.getElementById("Password").classList.add("error");
+            </script>
+        }*@
 }

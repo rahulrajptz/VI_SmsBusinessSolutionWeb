@@ -205,7 +205,7 @@
                 <div class="tab-pane show active navclr" id="Instantsmsnav">
                     <div style="margin-top:5px;background:white" class="col-md-12">
                         <p>
-                            <a class="btn btn-block text-white dropdown-toggle" style="margin-left:5px;height:25px;text-align:left;background-color:grey;font-size:10px;vertical-align:middle;"
+                            <a class="btn btn-block text-white dropdown-toggle" style="margin-left:5px;height:25px;text-align:left;background-color:grey;font-size:10px;vertical-align:middle;font-weight:bold;"
                                data-toggle="collapse" href="#collapseInstantsms" role="button" aria-expanded="false">
                                 INSTANT SMS
                             </a>
@@ -267,7 +267,7 @@
                                             @Html.Label("Sender:", new { style = "margin-left:15px;" })
 
                                             @Html.TextAreaFor(m => m.SenderId, new { @class = " form-control", required = "required", @style = "display:none;width:80px; height: auto !important;background:white;", @readonly = "readonly", @rows = "1" })
-                                            <div class="col-md" style="">
+                                            <div class="col-md">
                                                 <span id="bindsenderName" style="color:black;"></span>
                                             </div>
 
@@ -275,7 +275,7 @@
                                             @Html.HiddenFor(m => m.unicodeStatus, new { Value = "-1" })
                                             @Html.HiddenFor(m => m.TemplateId, new { Value = "-1" })
 
-                                            <div class="col-md" style="">
+                                            <div class="col-md">
                                                 @*<span id="bindtemplatetype"></span>*@
                                                 @Html.TextAreaFor(m => m.ContentType, new { @class = "form-control nonedit", required = "required", @style = "width:80px;border: none;outline: none;color:black;height: auto !important; ", @readonly = "readonly", @rows = "1" })
                                             </div>
@@ -283,7 +283,7 @@
 
                                             <div class="row">*@
                                             @Html.Label("Template Name:", new { style = "margin-left:15px;" })
-                                            <div class="col-md" style="">
+                                            <div class="col-md-4">
                                                 @*<span id="bindtemplatetype"></span>*@
                                                 <span id="bindtemplatename" style="color:black;"></span>
                                             </div>
@@ -329,7 +329,7 @@
                             </div>
                             <div id="testsmsdiv" class="row" style="display:none">
 
-                                <a class="btn btn-block text-white dropdown-toggle" style="margin-left:5px;height:25px;text-align:left;background-color:grey;font-size:10px;vertical-align:middle;"
+                                <a class="btn btn-block text-white dropdown-toggle" style="margin-left:5px;height:25px;text-align:left;background-color:grey;font-size:10px;vertical-align:middle;font-weight:bold;"
                                    data-toggle="collapse" href="#collapseTestSms" role="button" aria-expanded="false">
                                     SEND SMS
                                 </a>
@@ -402,7 +402,7 @@
 
                 <div class="tab-pane navclr" style="background:white;" id="reportsnav">
                     <div class="">
-                        <a class="btn btn-block text-white dropdown-toggle" style="margin-left:5px;height:25px;text-align:left;background-color:gray;font-size:10px;vertical-align:middle;"
+                        <a class="btn btn-block text-white dropdown-toggle" style="margin-left:5px;height:25px;text-align:left;background-color:gray;font-size:10px;vertical-align:middle;font-weight:bold;"
                            data-toggle="collapse" href="#collapseInstantreport" role="button" aria-expanded="false">
                             REPORTS
                         </a>
@@ -904,7 +904,6 @@
                         $('#dynamicSmsDiv').show();
                     }
                     document.getElementById("bindsenderName").innerHTML = data.eq(0).text();
-
                     document.getElementById("ContentType").innerHTML = data.eq(2).text();
                     document.getElementById("smscount").innerHTML = data.eq(5).text() + '/' + partscount;//$(event).closest('tr').children('td:eq(7)').text() + '';
                     document.getElementById("bindtemplatename").innerHTML = data.eq(1).text();;
@@ -942,7 +941,7 @@
                 }
             }
             
-         function loadtemplateSearchReportInstant() {
+         @*function loadtemplateSearchReportInstant() {
             var templateName = $("#pouptemplateName").val();
             var templateType = $("#pouptemplateType").val();
            // var templateStatus = $("#pouptemplateStatus").val();
@@ -1050,7 +1049,7 @@
 
                 }
             });
-        }
+        }*@
 
         function constructNewRows(dvr, rawNumber) {
 
@@ -1349,8 +1348,8 @@
             $("#loading").show();
             $("#divNoData").hide();
             $("input[type=button]").attr("disabled", "disabled");
-            $.post("@Url.Action(MVC.InstantSms.Instantsmsreport())", $("form").serialize(), function (resp) {
-                if (jQuery.isEmptyObject(resp.tdata)) {
+            $.post("@Url.Action(MVC.InstantSms.Instantsmsreport())", $("form").serialize(), function (data) {
+                if (jQuery.isEmptyObject(data)) {
 
                     $("#divNoData span").text(" No data available");
                     //$("#divNoData").show();
@@ -1360,6 +1359,7 @@
                     ErrorMsg('No data available');
                 }
                 else {
+                    data = JSON.parse(data); 
                     $("#tbl_report").show();
                     $("#divTable").show();
                     rpt_datatable = $("#tbl_report").DataTable({
@@ -1367,8 +1367,18 @@
                         deferRender: true,
                         "destroy": true,
                         searching: false,
-                        data: resp.tdata,
-                        columns: resp.thead,
+                        data: data,
+                        columns: [
+                            { "data": "MSISDN", "title": "MSISDN" },
+                            { "data": "SENDER", "title": "SENDER" },
+                            { "data": "MESSAGE ID", "title": "MESSAGE ID", },
+                            { "data": "TEMPLATE ID", "title": "TEMPLATE ID" },
+                            { "data": "SMS", "title": "SMS" },
+                            { "data": "LENGTH", "title": "LENGTH" },
+                            { "data": "SMS BILLABLE COUNT", "title": "SMS BILLABLE COUNT" },
+                            { "data": "STATUS", "title": "STATUS" },
+                            { "data": "FAILURE CODE", "title": "FAILURE CODE" }
+                        ],
                         autoWidth: false,
                         dom: 'lfBrtip',
                         buttons: [
@@ -1446,6 +1456,129 @@
             $('#sendbutton').hide();
             $("#tblEntAttributes tbody").html("");
            
+        }
+
+        function loadtemplateSearchReportInstant() {
+            var templateName = $("#pouptemplateName").val();
+            var templateType = $("#pouptemplateType").val();
+           // var templateStatus = $("#pouptemplateStatus").val();
+            var ContentType = $("#poupContentType").val();
+
+              $.ajax({
+               url: "@Url.Action(MVC.Campaign.getcampaignSearchReport())",
+                type: 'GET',
+                  data: {
+                      templateName:templateName,
+                      templateType:templateType,
+                      //templateStatus:templateStatus,
+                      ContentType:ContentType
+                  },
+                  success: function (data) {
+                      data = JSON.parse(data); 
+
+                   rpt_datatable = $("#tbl_templateDetails").DataTable({
+                       responsive: true,
+                        deferRender: true,
+                        "destroy": true,
+                        data: data,
+                       columns: [
+                           { "data": "Tm_id", "title": "Tm_id" },
+                           {
+                               "data": "SENDER", "title": "SENDER",
+                               render: function (data, type, row, meta) {
+
+                                   id = row["Tm_id"];
+                                   id1 = row["SENDER"];
+                                   id6 = row["TEMPLATE TYPE"];
+                                   return '<span class="btn btn-link" id=btnEdit  style="color:blue;font-size:10px;">' + id1 + '</span><input class="wrapperDivHidden" id="tempid" type="hidden" value="' + id + '" />'
+                               }
+                           },
+                           { "data": "NAME", "title": "NAME" },
+                           { "data": "TYPE", "title": "TYPE" },
+                           { "data": "STATUS", "title": "STATUS", },
+                           { "data": "MESSAGE", "title": "MESSAGE" },
+                           { "data": "TEMPLATE TYPE", "title": "TEMPLATE TYPE" },
+                           {
+                               "data": "LENGTH", "title": "LENGTH",
+                               render: function (data, type, row, meta) {
+                                   id = row["Tm_id"];
+                                   id7 = row["LENGTH"];
+                                   id11 = row["val"];
+                                   return '<span style="text=align:center;"id="">' + id7 + '</span><input id="part_' + id + '" type="hidden" value="' + id11 + '" />';
+                               }
+                           },
+                           { "data": "1", "title": "1" },
+                           { "data": "2T", "title": "2T" },
+                           { "data": "Sender_id", "title": "Sender_id" },
+                           { "data": "val", "title": "val" }
+                       ],
+                       autoWidth: false,
+                       searching: false,
+
+                        'columnDefs': [
+                            {
+                                "targets": [0,4,8,9,10,11],
+                                "className": "text-center",
+                                 "visible": false,
+                                "searchable": false
+                            },
+                            {
+                                "targets": [1, 2, 3, 5, 6, 7],
+                                "className": "text-center"
+                            },
+                            {
+                                "targets": 1,
+                                "width": "50px",
+                                "className": "text-center"
+                            },
+                            //{
+                            //    "targets": 2,
+                            //    "width": "10%",
+                            //    "className": "text-center",
+                            //    "mRender": function (data, type, full) {
+                            //        return '<span style="text=align:center;"id="">' + full[2] + '</span><input class="wrapperDivHidden" id="tempid" type="hidden" value="' + full[0] + '" />'
+                            //       // return '<i class="btn btn-link" class="templateId" data-id=' + full[0]+'  style="color:blue;font-size:10px;">' + full[2] + '</i>'
+
+                            //    }
+                            //},
+                            {
+                                "targets": 5, 
+                                "className": "text-center",
+                                "width": "42%"
+
+                            },
+                            {
+                                "targets": 7, // char count
+                                "className": "hide-column"
+                            }                           
+                       ],
+
+                       order: [],
+                        fnInitComplete: function (o) {
+                            $("#loading").hide();
+                            $("input[type=button]").removeAttr("disabled");
+                        },
+                    });
+                }
+
+            }).fail(function (xhr, status, error) {
+                $("#loading").hide();
+                $("input[type=button]").removeAttr("disabled");
+                if (xhr.status == 401) {
+                    alert("Click to continue", "Session Timedout", function () {
+                        closing = false;
+                        window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                    })
+                }
+                else if (xhr.status == 507) {
+                    $("#divNoData span").text(" Result is too large.");
+                    $("#divNoData").show();
+                    $("input[type=button]").removeAttr("disabled");
+                } else {
+                    alert("Unable to fetch data from server", "Failed");
+
+                }
+            });
         }
 
     </script>

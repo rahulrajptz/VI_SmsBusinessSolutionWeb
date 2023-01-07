@@ -478,7 +478,7 @@
                 <div id="testsmsdiv" style="display:none">
                     <div style="margin-top:0px;background:white" class="col-md-12">
                         <p>
-                            <a class="btn btn-block text-white dropdown-toggle" style="width:1000px;height:25px;text-align:left;background-color:grey;font-size:9.2846px"
+                            <a class="btn btn-block text-white dropdown-toggle" style="width:1000px;height:25px;text-align:left;background-color:grey;font-size:10px;font-weight:bold;"
                                data-toggle="collapse" href="#collapseTestSms" role="button" aria-expanded="false">
                                 TEST SMS
                             </a>
@@ -486,26 +486,19 @@
                         <div class="collapse  ml-5" id="collapseTestSms" style="width: 88%;">
 
                             <div class="row col-md-9 ml-3" id="SMSTestingCompleteDiv">
-                                <div>
+                                <div class="col-md-5" style="font-size:14px;">
 
                                     <div class="form-group">
-
                                         @Html.Label("Test Numbers", new { style = "font-weight:bold;font-size:12px" })<span style="color:red;">*[country code mandatory]</span>
-
                                     </div>
 
                                     <div class="form-group" id="variablesnameid">
                                         <label style="font-size:12px;"><b><u>Variables</u></b></label>
-
                                     </div>
 
                                     <div id="generatelabel" class="mt-2">
 
-
                                     </div>
-
-
-
                                 </div>
 
                                 <div class="form-group">
@@ -520,7 +513,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group" style="margin-left:2px;">
 
                                     @Html.TextBoxFor(m => m.SMSTest[1].mobileNumber, new { @class = " form-control NumFld", required = "required", MaxLength = "12", MinLength = "8" })
                                     @Html.ValidationMessageFor(m => m.SMSTest[1].mobileNumber)
@@ -529,15 +522,11 @@
 
                                         </div>
                                     </div>
-
-
                                 </div>
 
                                 <div class="row">
-
                                     <div class="col-12 mt-2">
                                         <button type="button" style="margin-left:700px;color:white; background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);border-radius:20px;" id="createsms">Create</button>
-
                                     </div>
 
                                 </div>
@@ -547,10 +536,8 @@
 
                                     </div>
                                     <div class="row">
-                                        <div class="form-group mt-3" style="margin-left:147px"> SMS Count: <span id="smscountmessage1"></span></div>
-
-                                        <div class="form-group mt-3" style="margin-left:127px"> SMS Count: <span id="smscountmessage2"></span></div>
-
+                                        <div class="form-group mt-3" style="margin-left:147px;color:#5f004b;"> SMS Count: <span id="smscountmessage1"></span></div>
+                                        <div class="form-group mt-3" style="margin-left:180px;color:#5f004b;"> SMS Count: <span id="smscountmessage2"></span></div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
@@ -563,12 +550,9 @@
                                         </div>
                                     </div>
 
-
-
                                     <div class="row">
                                         <div class="col-md-4">
                                             @Html.TextAreaFor(m => m.SMSTest[1].message, new { @class = "form-control", @readonly = "@readonly", @style = "height: auto !important;background:white;width:211px;margin-left:45px", @rows = "5" })
-
                                         </div>
                                     </div>
 
@@ -594,7 +578,7 @@
 
                 <div class="row ml-3 mt-4" style="width:900px;">
 
-                    <div>
+                    <div class="col-md-2">
                         @Html.Label("Campaign Name")
                         <div class="form-group">
                             @Html.DropDownListFor(m => m.listcampaignName, Model.listcampaignNameList, new { @class = "form-control cl-black" })
@@ -679,8 +663,8 @@
 
             </div>
 
-            <div class="tab-pane navclr" style="background:white;margin-top:50px;" id="uploadbasenav">
-                <div style="margin-top:5px;" class="col-md-12">
+            <div class="tab-pane navclr" style="background:white;" id="uploadbasenav">
+                <div class="col-md-12">
                     <div class="row col-md-6 ml-4 mt-3">
 
                         <div class="col-md-4">
@@ -696,7 +680,7 @@
                     </div>
                     <p>
 
-                        <a class="btn btn-block text-white dropdown-toggle" style="width:1000px;height:25px;text-align:left;background-color:grey;font-size:9.2846px"
+                        <a class="btn btn-block text-white dropdown-toggle" style="width:1000px;height:25px;text-align:left;background-color:grey;font-size:10px;font-weight:bold;"
                            data-toggle="collapse" href="#collapseCampaignDetails" role="button" aria-expanded="false">
                             CAMPAIGN DETAILS
                         </a>
@@ -714,7 +698,7 @@
                                         <div class="form-group col-md-3">
                                             <span id="bindcampaignname" style="color:black;"></span>
                                         </div>
-                                        <div class="col-md-2" style="margin-left:65px;">
+                                        <div class="col-md-2" style="margin-left:80px;">
                                             @Html.Label("Type:")
                                         </div>
                                         <div class="form-group" style="margin-left: -30px;">
@@ -729,7 +713,7 @@
                                         <div class="col-md-2" style="margin-left:-51px">
                                             <span id="bindfromdate" style="color:black;"></span>
                                         </div>
-                                        <div class="col-md-2" style="margin-left:80px">
+                                        <div class="col-md-2" style="margin-left:95px">
                                             @Html.Label("To Date:")
                                         </div>
                                         <div class="col-md-2" style="margin-left: -30px;">
@@ -743,7 +727,7 @@
                                         <div class="col-md-3" style="margin-left:-51px">
                                             <span id="bindfromtime" style="color:black;"></span>
                                         </div>
-                                        <div class="col-md-3" style="margin-left:44px">
+                                        <div class="col-md-3" style="margin-left:59px">
                                             @Html.Label("To Time:")
                                         </div>
                                         <div class="col-md-3" style="margin-left:-65px;">
@@ -773,10 +757,6 @@
                                         </div>
                                     </div>
 
-
-                                    @*<div class="row">
-                                            <div class="col-md offset-5"></div>
-                                        </div>*@
                                     <div class="row">
                                         <div class="col-md-5">
                                             @Html.Label("Message Content:")
@@ -796,14 +776,12 @@
 
 
                 <div class="col-md-12" id="Uploadingdiv">
-                    <p>
-
-
-                        <a class="btn btn-block text-white dropdown-toggle" style="width:1000px;height:25px;text-align:left;background-color:grey;font-size:9.2846px"
+                  
+                        <a class="btn btn-block text-white dropdown-toggle" style="width:1000px;height:25px;text-align:left;background-color:grey;font-size:10px;font-weight:bold;"
                            data-toggle="collapse" href="#collapseupload" role="button" aria-expanded="false">
                             BASE UPLOAD
                         </a>
-                    </p>
+                 
                     <div class="collapse  ml-5" id="collapseupload" style="width: 88%;">
                         <div class="row">
                             <div class="col-md-4" id="starttypeDiv">
@@ -841,7 +819,7 @@
                         <div class="row">
 
                             <div id="fileUploadm2m">
-                                <div class="d-flex">
+                                <div class="d-flex ml-3">
                                     <span class="mt-3">@Html.Label("Upload Base", new { style = "width:75px" }) </span>
 
                                     <div style="margin-left:20px">
@@ -877,7 +855,7 @@
 
                 <div class="row ml-3 mt-3" style="width:900px;">
 
-                    <div>
+                    <div class="col-md-2">
                         @Html.Label("Campaign Name")
                         <div class="form-group">
                             @Html.DropDownListFor(m => m.statuscampaignName, Model.statuscampaignNameList, new { @class = "form-control cl-black" })
@@ -943,7 +921,7 @@
             <div class="tab-pane navclr" id="campaignreportsnav" style="background-color:white;margin-top:50px;">
                 <div class="row ml-3 mt-3" style="width:900px;">
 
-                    <div>
+                    <div class="col-md-2">
                         @Html.Label("Campaign Name")
                         <div class="form-group">
                             @Html.DropDownListFor(m => m.reportcampaignName, Model.reportcampaignNameList, new { @class = "form-control cl-black" })
@@ -1014,7 +992,7 @@
                             <button id="closebtnupload" data-dismiss="modal">X</button>
                         </div>
 
-                        <div id="modal-content" class="row ml-3 mt-4" style="height:550px;width:800px;">
+                        <div id="modal-content" class="row ml-3 mt-4 text-break" style="height:550px;width:800px;">
 
 
                             <div class="modal-body" id="modalTable" style="overflow-y:auto; overflow-x:auto; width:800px;height:400px;">
@@ -1740,12 +1718,10 @@
         $('#SaveCampaignnew').on('click', function () {
 
             var a = $("#Idform").val();
-
             var jsondata;
 
             if ($("#Idform").valid()) {
                 var data2 = $("#Idform").serialize();
-
                 $("#SMSTestingCompleteDiv").hide()
                 $('#sendsmsdiv').hide();
                     $.ajax({
@@ -1769,7 +1745,7 @@
                                 $("#testsmsdiv").hide();
                                 SuccessMsg(jsondata.response);
                                  getcampigndrowpdown();
-                                getcampigndropdownList();
+                               // getcampigndropdownList();
                                 getcampignlistdropdownList();
                                 $("#collapseupload").addClass("show");
                                 $("#smstemplatediv").hide();
@@ -1783,9 +1759,6 @@
                                 $('#CampaignCreationButtondiv').hide();
 
                                 document.getElementById("campaignName").readOnly = false;
-                               // resetfunction();
-                              //  $('select[id^="uploadCampaignName"] option[value=' + $("#campaignId").val() + ']').attr("selected", "selected");
-                              //  geteachcampaigndetails($('#uploadCampaignName').val());
                                 $("#campaignId").val(null);
                                 $("input[id=btnShow]").removeAttr("disabled");
                                 redirectToBaseupload();
@@ -2409,11 +2382,12 @@
                                   },
                                   {
                                       "targets": [0, 1, 2, 4, 5, 6],
-                                      "width": "5%",
+                                      //"width": "5%",
                                       "className":"text-center"
                                   },
                                   {
                                       "targets": 3,
+                                      "width": "35%",
                                       "className": "text-center"
                                   },
                               ],
@@ -2597,6 +2571,7 @@
              });
 
         }
+
         function Base64ToBytes(base64) {
             var s = window.atob(base64);
             var bytes = new Uint8Array(s.length);
@@ -3085,7 +3060,7 @@
 
         $('#upload').on('click', function () {
 
-            console.log("called");
+            //console.log("called");
             //document.getElementById("campaignlistnavitem").classList.remove("active");
             //document.getElementById("uploadlistnavitem").classList.add("active");
 
@@ -3208,8 +3183,8 @@
 
         function getCamapignDetailsforUpload() {
 
-            if ($('#uploadCampaignName').val()!= " ") {
-
+            if ($('#uploadCampaignName').val() != " ")
+            {
                 $("#collapseCampaignDetails").addClass("show");
                 $("#Uploadingdiv").show();
                 $("#collapseupload").addClass("show");
@@ -3219,12 +3194,20 @@
                 $("#collapseCampaignDetails").removeClass("show");
                 $("#collapseupload").removeClass("show");
                 $("#Uploadingdiv").hide();
-
+                document.getElementById("bindcampaignname").innerHTML = "";
+                document.getElementById("bindcampaigntype").innerHTML = "";
+                document.getElementById("bindfromdate").innerHTML = "";
+                document.getElementById("bindtodate").innerHTML = "";
+                document.getElementById("bindfromtime").innerHTML = "";
+                document.getElementById("bindtotime").innerHTML = "";
+                document.getElementById("bindsenderid").innerHTML = "";
+                document.getElementById("bindtemplateid").innerHTML = "";
+                document.getElementById("bindmsgcontent").innerHTML = "";
             }
         }
 
-        $('#uploadCampaignName').on('change', function () {
-
+        $('#uploadCampaignName').on('change', function ()
+        {
             getCamapignDetailsforUpload();
         });
 
@@ -3243,13 +3226,14 @@
                     //console.log(minames);
                     $("#uploadCampaignName").html("");
                     $("#uploadCampaignName").append(
-                            $('<option></option>').val('').html('-Select-'));
+                        $('<option></option>').val('').html('-Select-'));
                         $.each(minames, function (i, minames) {
                             $("#uploadCampaignName").append(
                                 $('<option></option>').val(minames.VALUE).html(minames.TEXT));
                     });
-
-
+                    //$("#uploadCampaignName option:contains(" + $('#uploadCampaignName').val() + ")").attr('selected', 'selected');
+                    getCamapignDetailsforUpload();
+                    
                  }
              }).fail(function (xhr, status, error) {
                  $("#loading").hide();
@@ -3273,7 +3257,7 @@
 
         }
 
-        function getcampigndropdownList() {
+        @*function getcampigndropdownList() {
              $.ajax({
                 url: "@Url.Action(MVC.Campaign.getcampaignnames())",
                 type: 'GET',
@@ -3307,7 +3291,7 @@
                  }
              });
 
-        }
+        }*@
 
         function gettemplatenameList() {
              $.ajax({
@@ -3353,8 +3337,10 @@
                  success: function (minames) {
                      $("#statuscampaignName").val(null);
                      $("#reportcampaignName").val(null);
-
+                     $("#listcampaignName").val(null);
                      $.each(minames, function (i, minames) {
+                         $("#listcampaignName").append(
+                             $('<option></option>').val(minames.VALUE).html(minames.TEXT));
                          $("#statuscampaignName").append(
                              $('<option></option>').val(minames.VALUE).html(minames.TEXT));
                          $("#reportcampaignName").append(
@@ -3425,7 +3411,8 @@
                     $("input[type=button]").removeAttr("disabled");
                 }
                 else {
-                    alert("Please select Campaign Name", "Failed");
+                    //alert("Please select Campaign Name", "Failed");
+                    alert("Unable to download data", "Failed");
 
                 }
             });
@@ -3440,11 +3427,7 @@
                 type: 'GET',
                 data: { campaignid: campaignid},
                 success: function (minames) {
-
-                   console.log(minames);
                      var obj = JSON.parse(minames);
-                  //console.log(obj);
-                    //alert(obj[0].VariableCount);
                     if (obj[0].VariableCount== "")
                         obj[0].VariableCount = 0;
                     $('#templatevariablecnt').val(obj[0].VariableCount);
@@ -3483,7 +3466,7 @@
                 }
                 else {
                     alert("Please select Campaign Name", "Failed");
-
+                  
                 }
             });
 
@@ -3565,7 +3548,7 @@
             });
         });
 
-         function loadtemplateSearchReport() {
+         @*function loadtemplateSearchReport11() {
 
              $("#loading").show();
             var templateName = $("#pouptemplateName").val();
@@ -3672,7 +3655,7 @@
                 }
               });
 
-         }
+         }*@
 
         $('#uploadfileid').on('click', function () {
             $("#loadingupload").show();
@@ -3762,6 +3745,128 @@
 
 
         });
+
+        function loadtemplateSearchReport() {
+
+             $("#loading").show();
+            var templateName = $("#pouptemplateName").val();
+            var templateType = $("#pouptemplateType").val();
+           // var templateStatus = $("#pouptemplateStatus").val();
+            var ContentType = $("#poupContentType").val();
+
+              $.ajax({
+               url: "@Url.Action(MVC.Campaign.getcampaignSearchReport())",
+                type: 'GET',
+                  data: {
+                      templateName:templateName,
+                      templateType:templateType,
+                      //templateStatus:templateStatus,
+                      ContentType:ContentType
+                  },
+                  success: function (data) {
+                   data = JSON.parse(data);
+                   rpt_datatable = $("#tbl_templateDetails").DataTable({
+                       responsive: true,
+                        deferRender: true,
+                       "destroy": true,
+                       searching: false,
+                        data: data,
+                       columns: [
+                           { "data": "Tm_id", "title": "Tm_id" },
+                           {
+                               "data": "SENDER", "title": "SENDER",
+                               render: function (data, type, row, meta) {
+
+                                   id = row["Tm_id"];
+                                   id1 = row["SENDER"];
+                                   id6 = row["TEMPLATE TYPE"];
+                                   return '<span onclick="getTamplateDetails(this)"  class="btn btn-link" id=' + id + ' style="color:blue;font-size:10px;">' + id1 + ' </span><input type="hidden" name="' + id6 + '"/>';
+                               }
+                           },
+                           { "data": "NAME", "title": "NAME" },
+                           { "data": "TYPE", "title": "TYPE" },
+                           { "data": "STATUS", "title": "STATUS",},
+                           { "data": "MESSAGE", "title": "MESSAGE" },
+                           { "data": "TEMPLATE TYPE", "title": "TEMPLATE TYPE" },
+                           {
+                               "data": "LENGTH", "title": "LENGTH",
+                               render: function (data, type, row, meta) {
+                                   id = row["Tm_id"];
+                                   id7 = row["LENGTH"];
+                                   id11 = row["val"];
+                                   return '<span style="text=align:center;"id="">' + id7 + '</span><input id="part_' + id + '" type="hidden" value="' + id11 + '" />';
+                               }
+                           },
+                           { "data": "1", "title": "1" },
+                           { "data": "2T", "title": "2T" },
+                           { "data": "Sender_id", "title": "Sender_id" },
+                           { "data": "val", "title": "val" }
+                       ],
+                       autoWidth: false,
+                        'columnDefs': [
+                            {
+                                "targets": [0,4,8,9,10,11],
+                                "className": "text-center",
+                                 "visible": false,
+                                "searchable": false,
+
+                            },
+                            {
+                                "targets": [1, 2, 3, 5, 6, 7],
+                                "className": "text-center",
+                            },
+                            {
+                                "targets": 1,
+                                "width": "10%",
+                                
+                            },
+
+                            {
+                                "targets": 5,
+                                "width": "42%",
+                                "className": "text-center"
+
+                            },
+                            {
+                                "targets": 7,
+                                "className": "hide-column",
+                                "className": "text-center"
+
+                            },
+
+                       ],
+
+                       order: [],
+                        fnInitComplete: function (o) {
+                            $("#loading").hide();
+                            $("input[type=button]").removeAttr("disabled");
+                        },
+                   });
+                  }
+
+              }).fail(function (xhr, status, error) {
+                $("#loading").hide();
+                $("input[type=button]").removeAttr("disabled");
+                if (xhr.status == 401) {
+                    alert("Click to continue", "Session Timedout", function () {
+                        closing = false;
+                        window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                    })
+                }
+                else if (xhr.status == 507) {
+                    $("#divNoData span").text(" Result is too large.");
+                    $("#divNoData").show();
+                    $("input[type=button]").removeAttr("disabled");
+                }
+                else
+                {
+                    alert("Unable to fetch data from server", "Failed");
+
+                }
+              });
+
+         }
+
 
     </script>
 }

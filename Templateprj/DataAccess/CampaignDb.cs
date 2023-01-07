@@ -141,10 +141,8 @@ namespace Templateprj.DataAccess
                 //}
                 //if (dt.Rows.Count > 0)
                 //    json.Length--;
-                string json = JsonConvert.SerializeObject(dt, Formatting.Indented);
-
-
-              return json;//json.ToString() + "]";
+                string json = JsonConvert.SerializeObject(dt, Formatting.Indented);             
+                return json;//json.ToString() + "]";
             }
             catch (Exception ex)
             {
@@ -1059,6 +1057,7 @@ namespace Templateprj.DataAccess
                     
                     cmd.CommandType = CommandType.StoredProcedure;                   
                     cmd.Parameters.Add("@N_scm_id", MySqlDbType.Int64).Value = (CampaignId != null && CampaignId != "") ? Convert.ToInt64(CampaignId) : 0;
+
                     cmd.Parameters.Add("@v_Data", MySqlDbType.LongText).Value = GetJsonStringtoinsert(dt);
                     cmd.Parameters.Add("@n_user_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["UserID"].ToString());
                     cmd.Parameters.Add("@n_acc_id", MySqlDbType.Int32).Value = Convert.ToInt32(HttpContext.Current.Session["AccountID"].ToString());
@@ -1474,7 +1473,10 @@ namespace Templateprj.DataAccess
                             if (dataTable.Columns.Contains("UNICODE_STATUS"))
                                 dataTable.Columns.Remove("UNICODE_STATUS");
                         }
-                        return GetJsonString(dataTable);
+                        //return GetJsonString(dataTable);
+                        string json = JsonConvert.SerializeObject(dataTable);
+                        return json;
+
                     }
                 }
             }
@@ -1883,7 +1885,9 @@ namespace Templateprj.DataAccess
                                 dataTable.Columns.Remove("UNICODE_STATUS");
                             dataTable.Columns.Remove("val");
                         }
-                        return GetJsonString(dataTable);
+                        //return GetJsonString(dataTable);
+                        string json = JsonConvert.SerializeObject(dataTable);
+                        return json;
                     }
 
                 }

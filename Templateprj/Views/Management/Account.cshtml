@@ -212,16 +212,16 @@
                                     <div class="card-body">
                                         <div class="row gy-5">
                                             <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px; ">@Html.Label("CUSTOMER NAME", new { @class = "label_side_head" })</div>
-                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;"> @Html.DisplayFor(m => m.CustomerName, new { @style = "margin-left:4px;" })  </div>
+                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;color:black;"> @Html.DisplayFor(m => m.CustomerName, new { style = "margin-left:4px;" })  </div>
 
                                             <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("ACCOUNT NUMBER", new { @class = "label_side_head" })  </div>
-                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;"> @Html.DisplayFor(m => m.AccountNumber)  </div>
+                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;color:black;"> @Html.DisplayFor(m => m.AccountNumber)  </div>
 
                                             <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("BILLING NUMBER", new { @class = "label_side_head" })  </div>
-                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;"> @Html.DisplayFor(m => m.BillingNumber)  </div>
+                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;color:black;"> @Html.DisplayFor(m => m.BillingNumber)  </div>
 
                                             <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("PRINICIPAL ENTITY ID", new { @class = "label_side_head" })  </div>
-                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;"> @Html.DisplayFor(m => m.PrincipalEntityId)  </div>
+                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;color:black;"> @Html.DisplayFor(m => m.PrincipalEntityId)  </div>
                                         </div>
                                         <div class="row mt-1"></div>
                                         <div class="row mt-1"></div>
@@ -232,39 +232,39 @@
                                         <div class="row mt-1"></div>
                                         <div class="row" id="rw_view">
                                             <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("DLT REGISTERED ACCOUNT NAME", new { @class = "label_side_head" })</div>
-                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;" id="divDltAccount"> @Html.DisplayFor(m => m.DltRegisteredAccount)</div>
+                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;color:black;" id="divDltAccount"> @Html.DisplayFor(m => m.DltRegisteredAccount)</div>
 
                                             <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("ACCOUNT EXPIRY", new { @class = "label_side_head" }) </div>
-                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;" id="divAccountExpiry"> @Html.DisplayFor(m => m.AccountExpiry, new { id = "accExpiryView" }) </div>
+                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;color:black;" id="divAccountExpiry"> @Html.DisplayFor(m => m.AccountExpiry, new { id = "accExpiryView" }) </div>
 
                                             <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("DLT ADDRESS DETAILS", new { @class = "label_side_head" }) </div>
-                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;" id="divDltAddress"> @Html.DisplayFor(m => m.DltAddressDetails) </div>
+                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;color:black;" id="divDltAddress"> @Html.DisplayFor(m => m.DltAddressDetails) </div>
 
                                             <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("DLT EMAIL ADDRESS", new { @class = "label_side_head" })</div>
-                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;" id="divEmailAddress"> @Html.DisplayFor(m => m.DltEmailAddress) </div>
+                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;color:black;" id="divEmailAddress"> @Html.DisplayFor(m => m.DltEmailAddress) </div>
                                             <div class="col-md-12" style="text-align:right"> <button id="btn_edit" type="button" style="background:linear-gradient(90deg,#0077b3 0,#0099e6 60%,#0077b3);" class="button-edit"><span class="fa fa-edit" style="text-align:left !important"></span> Edit</button> </div>
 
                                         </div>
 
                                         <div class="row" id="rw_edit" style="display:none;">
                                             <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("DLT REGISTERED ACCOUNT NAME", new { @class = "label_side_head" }) <span style="color:red">*</span>  </div>
-                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;">
-                                                @Html.TextBoxFor(m => m.DltRegisteredAccount, new { @class = "form-control", required = "required", @style = "height: auto !important;background:white;", @rows = "5" })
+                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;color:black;">
+                                                @Html.TextBoxFor(m => m.DltRegisteredAccount, new { @class = "form-control", required = "required", @style = "height: auto !important;", @rows = "5" })
                                             </div>
 
                                             <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("ACCOUNT EXPIRY", new { @class = "label_side_head" }) <span style="color:red">*</span> </div>
-                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;">
-                                                @Html.TextBoxFor(m => m.AccountExpiry, new { @class = "form-control", required = "required", @style = "height: auto !important;background:white;", @rows = "5" })
+                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;color:black;">
+                                                @Html.TextBoxFor(m => m.AccountExpiry, new { @class = "form-control", required = "required", @style = "height: auto !important;", @rows = "5" })
                                             </div>
 
                                             <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("DLT ADDRESS DETAILS", new { @class = "label_side_head" }) <span style="color:red">*</span> </div>
-                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;">
-                                                @Html.TextBoxFor(m => m.DltAddressDetails, new { @class = "form-control", required = "required", @style = "height: auto !important;background:white;", @rows = "5" })
+                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;color:black;">
+                                                @Html.TextBoxFor(m => m.DltAddressDetails, new { @class = "form-control", required = "required", @style = "height: auto !important;", @rows = "5" })
                                             </div>
 
                                             <div class="col-lg-6 col-md-6 col-6" style="padding-top:4px;">@Html.Label("DLT EMAIL ADDRESS", new { @class = "label_side_head" }) <span style="color:red">*</span> </div>
-                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;">
-                                                @Html.TextBoxFor(m => m.DltEmailAddress, new { @class = "form-control", required = "required", @style = "height: auto !important;background:white;", @rows = "5" })
+                                            <div class="col-lg-6 col-md-6 col-6" style="text-align:left;padding:4px;color:black;">
+                                                @Html.TextBoxFor(m => m.DltEmailAddress, new { @class = "form-control", required = "required", @style = "height: auto !important;", @rows = "5" })
                                             </div>
                                             <div class="col-md-12" style="text-align:right"> <button id="btn_save" type="button" class="button-edit"><span class="fa fa-save" style="text-align:left !important"></span> Save</button> </div>
                                             <div class="row mt-1"></div>

@@ -5,6 +5,7 @@ using Templateprj.DataAccess;
 using Templateprj.Helpers;
 using Templateprj.Models;
 using CaptchaMvc.HtmlHelpers;
+using System.Web;
 
 namespace Templateprj.Controllers
 {
@@ -28,6 +29,7 @@ namespace Templateprj.Controllers
         [HttpGet]
         [AuthorizeUser]
         public string KeepALive(string id) => "";
+        
         [HttpGet]
         [AllowAnonymous]
         public virtual ActionResult Login()
@@ -51,8 +53,6 @@ namespace Templateprj.Controllers
             if (ModelState.IsValid)
             {
                 int nextAction = _prc.Login(model,out string response);
-              
-
                 switch (nextAction)
                 {
                     case -9:

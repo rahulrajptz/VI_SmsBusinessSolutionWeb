@@ -269,26 +269,24 @@ namespace Templateprj.Models
         public string VAR4 { get; set; }
         public string VAR5 { get; set; }
         public string VAR6 { get; set; }
-
         public string VAR7 { get; set; }
         public string VAR8 { get; set; }
-
         public string VAR9 { get; set; }
-
         public string VAR10 { get; set; }
-
-
-
-
-
-
+        public string VARU1 { get; set; }
+        public string VARU2 { get; set; }
+        public string VARU3 { get; set; }
+        public string VARU4 { get; set; }
+        public string VARU5 { get; set; }
+        public string VARU6 { get; set; }
+        public string VARU7 { get; set; }
+        public string VARU8 { get; set; }
+        public string VARU9 { get; set; }
+        public string VARU10 { get; set; }
+        
     }
     public class Campaign
     {
-
-
-
-
         public string otp { get; set; }
         [Required]
         [Display(Name = "Campaign Name")]
@@ -319,8 +317,8 @@ namespace Templateprj.Models
         [Required]
         [Display(Name = "TemplateID")]
         public string templateid { get; set; }
-        [Required]
 
+        [Required]
         public string script { get; set; }
         public string pingbackurl { get; set; }
     }
