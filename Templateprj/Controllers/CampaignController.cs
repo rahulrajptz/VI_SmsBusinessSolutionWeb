@@ -270,6 +270,7 @@ namespace Templateprj.Controllers
             int firstTime = 1;
             dt = ConverttoDataTable(filename, fileExtension);
             int pos = 0, status = 0, packetcnt = 0, baseCount = 0, successCount = 0, failedCount = 0;
+            var s1 = "";
             try
             {
                 string columnname = "";
@@ -357,8 +358,11 @@ namespace Templateprj.Controllers
                                     for (int li_idx = 0; li_idx < dt.Columns.Count; li_idx++)
                                     {
                                         dataRow[li_idx] = dt.Rows[index][li_idx];
-                                        dataRow[li_idx] = dataRow[li_idx].ToString().Replace("\"","\\\"");
-                                        dataRow[li_idx] = dataRow[li_idx].ToString().Replace("'", "''");
+                                        //dataRow[li_idx] = dataRow[li_idx].ToString().Replace("\"","\\\"");
+                                        //dataRow[li_idx] = dataRow[li_idx].ToString().Replace("'", "''");
+                                        s1 = dataRow[li_idx].ToString();
+                                        string hexString = hex(s1);
+                                        dataRow[li_idx] = hexString;
                                     }
                                     dtPartial.Rows.Add(dataRow);
                                     pos = 5;
@@ -464,6 +468,13 @@ namespace Templateprj.Controllers
             return uploadStatus;
         }
 
+        public static string hex(string decString)
+        {
+            byte[] bytes = Encoding.Default.GetBytes(decString);
+            string hexString = BitConverter.ToString(bytes);
+            hexString = hexString.Replace("-", "");
+            return hexString;
+        }
 
         [NoCompress]
         //public void DownloadsampleFile(string id)
@@ -729,6 +740,7 @@ namespace Templateprj.Controllers
         public virtual ActionResult CreatebulksmsCampaign(SMSCampaignModel model)
         {
             string jsondata = "";
+           
             //int checkStatus = checkEndTimeValidity(model.fromDate + " " + model.fromTime, System.DateTime.Now.ToString("dd/M/yyyy h:mm tt"), false);
             //if (checkStatus != 1)
             //    return Json("{\"status\":\"3\",\"response\":\"error\"}", JsonRequestBehavior.AllowGet);
@@ -870,6 +882,13 @@ namespace Templateprj.Controllers
             string responsejson = "";
             model.SMSTest[0].DBMessage = model.SMSTest[0].message;
             model.SMSTest[1].DBMessage = model.SMSTest[1].message;
+            if (model.SMSvariable != null && model.SMSvariable.Count > 0)
+            {
+                for (int indx = 0; indx < model.SMSvariable.Count; indx++)
+                {
+                    model.SMSvariable[indx].renameVariable = hex(model.SMSvariable[indx].renameVariable);
+                }
+            }
             if (model.unicodeStatus == "8")
            {
 
@@ -941,7 +960,13 @@ namespace Templateprj.Controllers
                 convertedCode = ConvertToUnicode(model.smsContent);
                 model.smsContent = convertedCode;
             }
-
+            if (model.SMSvariable != null && model.SMSvariable.Count > 0)
+            {
+                for (int indx = 0; indx < model.SMSvariable.Count; indx++)
+                {
+                    model.SMSvariable[indx].renameVariable = hex(model.SMSvariable[indx].renameVariable);
+                }
+            }
             string jsondata = CreateJson(model);
             string jsontodb = "[" + jsondata + "]";
             string status = _prc.saveCampaign(jsontodb, out string response);

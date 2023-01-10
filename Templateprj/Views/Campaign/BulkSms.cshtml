@@ -3231,7 +3231,7 @@
                             $("#uploadCampaignName").append(
                                 $('<option></option>').val(minames.VALUE).html(minames.TEXT));
                     });
-                    //$("#uploadCampaignName option:contains(" + $('#CampaignName').val() + ")").attr('selected', 'selected');
+                    $("#uploadCampaignName option:contains(" + $('#CampaignName').val() + ")").attr('selected', 'selected');
                     getCamapignDetailsforUpload();
                     
                  }
@@ -3421,6 +3421,10 @@
 
 
         function geteachcampaigndetails(campaignid) {
+            if (campaignid == "") {
+                resetfunctionUpload();
+                return;
+            }
 
             $.ajax({
                 url: "@Url.Action(MVC.Campaign.getcampaigndetailsfromid())",
