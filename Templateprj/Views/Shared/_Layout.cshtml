@@ -180,14 +180,15 @@
             fnTimeOut();
         });
         });
-        function keepAlive() {
+        @*function keepAlive() {
             $.ajax({
                 type: "GET",
                 url:'@Url.Action("Keepalive", "Home")',
                 async: true
             })
         }
-        setInterval(keepAlive, 300000);
+        setInterval(keepAlive, 300000);*@
+
         //var time = document.getElementById("time");
         //function changeTime() {
         //    var date = new Date().toLocaleString("en-IN", {
@@ -199,7 +200,7 @@
         //setInterval(changeTime, 1000);
 
 
-        var mybutton = document.getElementById("myBtn");
+       // var mybutton = document.getElementById("myBtn");
 
 
         //$(document).scroll(function () {

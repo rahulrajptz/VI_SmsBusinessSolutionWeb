@@ -1585,9 +1585,7 @@
                         type: 'POST',
                         data: data2,
                         success: function (e) {
-
-
-
+                            
                             jsondata = JSON.parse(e);
                             if (jsondata.status == 7) {
                                 ErrorMsg("The To Time should be 4 hours more than the current time ");
@@ -1599,6 +1597,10 @@
                             //}
                             else if (jsondata.status == 5) {
                                 ErrorMsg("The To Time should be greater than From Time ");
+                                //resetfunction();
+                            }
+                            else if (jsondata.status == 0) {
+                                ErrorMsg(jsondata.response);
                                 //resetfunction();
                             }
                             else {
@@ -1660,6 +1662,9 @@
                             else if (jsondata.status == 5)
                             {
                                 ErrorMsg("The To Time should be greater than From Time ");
+                            }
+                            else if (jsondata.status == 0) {
+                                ErrorMsg(jsondata.response);
                             }
                             else
                             {
@@ -3231,7 +3236,7 @@
                             $("#uploadCampaignName").append(
                                 $('<option></option>').val(minames.VALUE).html(minames.TEXT));
                     });
-                    $("#uploadCampaignName option:contains(" + $('#CampaignName').val() + ")").attr('selected', 'selected');
+                    $("#uploadCampaignName option:contains(" + $('#campaignName').val() + ")").attr('selected', 'selected');
                     getCamapignDetailsforUpload();
                     
                  }
@@ -3425,11 +3430,10 @@
                 resetfunctionUpload();
                 return;
             }
-
             $.ajax({
                 url: "@Url.Action(MVC.Campaign.getcampaigndetailsfromid())",
                 type: 'GET',
-                data: { campaignid: campaignid},
+                data: { campaignid: campaignid },
                 success: function (minames) {
                      var obj = JSON.parse(minames);
                     if (obj[0].VariableCount== "")

@@ -355,7 +355,7 @@
                                         <div class="d-flex flex-row-reverse" style="width:100%">
 
                                             <button id="btn_add" style="background-color:white !important;float:right !important;margin-right:25px;">
-                                                <i class="fa fa-plus" aria-hidden="true" style="color:green;"></i>
+                                                <span class="fa fa-plus" aria-hidden="true" style="color:green;"></span>
                                             </button>
                                         </div>
                                         <div class="table-responsive">
@@ -621,6 +621,24 @@
                                     ErrorMsg("Failed to send the sms");
                                 }
                             }
+                        }).fail(function (xhr, status, error) {
+                            $("#loading").hide();
+                            $("input[type=button]").removeAttr("disabled");
+                            if (xhr.status == 401) {
+                                alert("Click to continue", "Session Timedout", function () {
+                                    closing = false;
+                                    window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                                })
+                            }
+                            else if (xhr.status == 507) {
+                                $("#divNoData span").text(" Result is too large.");
+                                $("#divNoData").show();
+                                $("input[type=button]").removeAttr("disabled");
+                            }
+                            else {
+                                alert("Unable to fetch data from server", "Failed");
+
+                            }
                         });
 
                     }
@@ -748,7 +766,25 @@
                                  document.getElementById("smscount").innerHTML = obj[0].smsLength;
                              }
                              afterAjax()
-                        }
+                         }
+                     }).fail(function (xhr, status, error) {
+                         $("#loading").hide();
+                         $("input[type=button]").removeAttr("disabled");
+                         if (xhr.status == 401) {
+                             alert("Click to continue", "Session Timedout", function () {
+                                 closing = false;
+                                 window.location = JSON.parse(xhr.responseText).LogOnUrl;
+                             })
+                         }
+                         else if (xhr.status == 507) {
+                             $("#divNoData span").text(" Result is too large.");
+                             $("#divNoData").show();
+                             $("input[type=button]").removeAttr("disabled");
+                         }
+                         else {
+                             alert("Unable to fetch data from server", "Failed");
+
+                         }
                     });
 
                    function afterAjax() {
@@ -915,7 +951,6 @@
                     removeAllChildNodes(container);
                     for (i = 0, j = 1; i < Variablcnt; i++ , j++)
                     {
-
                         var div = document.createElement('row');
                         div.innerHTML = '<div class="row" style="margin-top:10px;" ><div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__variableName" name="SMSvariable[' + i + '].variableName"   readonly="readonly" MaxLength="12"  MinLength="3" style="background:white;" type="text" value="VAR' + j + '"></div>  <div class="col-md-6"><input class=" form-control" id="SMSvariable_' + i + '__renameVariable" name="SMSvariable[' + i + '].renameVariable" required="required" MaxLength="12" MinLength="3" type="text" value=""></div></div>';
                         document.getElementById("generated").appendChild(div);

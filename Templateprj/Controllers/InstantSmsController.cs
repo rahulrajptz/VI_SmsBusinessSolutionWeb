@@ -35,10 +35,25 @@ namespace Templateprj.Controllers
             return View(model);
         }
 
+        public static string hex(string decString)
+        {
+            byte[] bytes = Encoding.Default.GetBytes(decString);
+            string hexString = BitConverter.ToString(bytes);
+            hexString = hexString.Replace("-", "");
+            return hexString;
+        }
+
         [HttpPost]
         public virtual ActionResult SendInstatntSms(InstantSmsCommand model)
         {
             // model.DBMessage=GetSingleUnicodeHex(model.Messages[0].)
+            if (model.Variables != null && model.Variables.Count > 0)
+            {
+                for (int indx = 0; indx < model.Variables.Count; indx++)
+                {
+                    model.Variables[indx].Value = hex(model.Variables[indx].Value);
+                }
+            }
             if (model.unicodeStatus == "8")
             {
                 for (int index = 0; index < model.Messages.Count; index++)
@@ -65,7 +80,6 @@ namespace Templateprj.Controllers
         {
             if (query.unicodeStatus == "8")
             {
-
                 query.DBMessage = GetSingleUnicodeHex(query.SMSContent);
                 return Json(JsonConvert.SerializeObject(_instantserviceRepo.GetSmsContent(query.DBMessage, query.TemplateId)), JsonRequestBehavior.AllowGet);
             }
@@ -78,8 +92,6 @@ namespace Templateprj.Controllers
         [HttpPost]
         public virtual ActionResult Instantsmsreport(InstantSmsModel model)
         {
-
-
             int status = 1;
             string json = _prc.getinstantsmsreport(model);
             // string json = "{\"thead\": [{\"title\": \"Campaign ID\"}, {\"title\": \"Campaign Name\"}, {\"title\": \"Campaign Type\"}, {\"title\": \"Created Date\"}, {\"title\": \"Start Date & Time\"}, {\"title\": \"From Date\"}, {\"title\": \"To Date\"}, {\"title\": \"From Time\"}, {\"title\": \"To Time\"}, {\"title\": \"Status\"}, {\"title\": \"Upload Base\"}, {\"title\": \"Test  Report\"}],\"tdata\": [[\"7288806665\", \"AP\", \"IMI MOBILES\", \"404071719557642\", \"test\", \"Get\", \"Active\", \"2017-11-15 14:27:24\",\"Normal\", \"Yes\", \"0\", \"CDR Configured\"],[\"9505270111\", \"AP\", \"IMI MOBILES\", \"404071713625143\", \"asd\", \"Get\", \"Active\",\"2018-01-12 14:06:40\", \"Normal\", \"Yes\", \"1\", \"CDR Configured\"]]}";

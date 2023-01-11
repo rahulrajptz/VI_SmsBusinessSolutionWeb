@@ -889,11 +889,24 @@ namespace Templateprj.Controllers
                     model.SMSvariable[indx].renameVariable = hex(model.SMSvariable[indx].renameVariable);
                 }
             }
+
             if (model.unicodeStatus == "8")
-           {
+            {
 
                model.SMSTest[0].DBMessage = GetSingleUnicodeHex(model.SMSTest[0].message);
                model.SMSTest[1].DBMessage = GetSingleUnicodeHex(model.SMSTest[1].message);
+            }
+            if (model.SMSTest != null && model.SMSTest.Count > 0)
+            {
+                for (int indx = 0; indx < model.SMSTest.Count; indx++)
+                {
+                    for(int indx1=0;indx1<model.SMSTest[indx].variableData.Count; indx1++)
+                    {
+                        model.SMSTest[indx].variableData[indx1].variableContent = hex(model.SMSTest[indx].variableData[indx1].variableContent);
+                        model.SMSTest[indx].variableData[indx1].variableLabel = hex(model.SMSTest[indx].variableData[indx1].variableLabel);
+
+                    }
+                }
             }
             string jsondata = CreateJson(model);
             string jsontodb = "[" + jsondata + "]";
@@ -965,6 +978,18 @@ namespace Templateprj.Controllers
                 for (int indx = 0; indx < model.SMSvariable.Count; indx++)
                 {
                     model.SMSvariable[indx].renameVariable = hex(model.SMSvariable[indx].renameVariable);
+                }
+            }
+            if (model.SMSTest != null && model.SMSTest.Count > 0)
+            {
+                for (int indx = 0; indx < model.SMSTest.Count; indx++)
+                {
+                    for (int indx1 = 0; indx1 < model.SMSTest[indx].variableData.Count; indx1++)
+                    {
+                        model.SMSTest[indx].variableData[indx1].variableContent = hex(model.SMSTest[indx].variableData[indx1].variableContent);
+                        model.SMSTest[indx].variableData[indx1].variableLabel = hex(model.SMSTest[indx].variableData[indx1].variableLabel);
+
+                    }
                 }
             }
             string jsondata = CreateJson(model);

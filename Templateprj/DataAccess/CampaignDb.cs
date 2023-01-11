@@ -687,10 +687,8 @@ namespace Templateprj.DataAccess
                 using (MySqlCommand cmd = new MySqlCommand("Web_Get_Campaign_details"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@Ln_Campaign_Id", MySqlDbType.Int32).Value = id/*Convert.ToInt32(HttpContext.Current.Session["id"].ToString())*/;
+                    cmd.Parameters.Add("@Ln_Campaign_Id", MySqlDbType.Int32).Value = id;/*Convert.ToInt32(HttpContext.Current.Session["id"].ToString())*/
                     //cmd.Parameters.Add("@V_Out", MySqlDbType.Text).Direction = ParameterDirection.Output;
-
-                    // DataTable dt = new DataTable();
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {
                         con.Open();
@@ -698,45 +696,30 @@ namespace Templateprj.DataAccess
                         MySqlDataAdapter dataAdapter = new MySqlDataAdapter { SelectCommand = cmd };
                         var dataTable = new DataTable();
                         dataAdapter.Fill(dataTable);
-                        //string text = "";
-                        //string subtxt = "";
                         string SMSData = "";
                         foreach (DataRow row in dataTable.Rows)
                         {
 
                             string unicodeStatus = row["UnicodeStatus"].ToString();
                             string SMSContent = row["smsContent"].ToString();
-                            //string template = row["template"].ToString();
                             if (unicodeStatus == "8")
                             {                              
 
                                 if (SMSContent.Trim() != "")
                                 {
-                                    //  correctString = str.Replace("[PARAMETER]", "005B0050004100520041004D0045005400450052005D");
                                     SMSData = "\\u" + Regex.Replace(SMSContent, ".{4}", "$0\\u");
                                     SMSData = Regex.Unescape(SMSData.Substring(0, SMSData.Length - 2));
-                                  //  string TemplateData = "\\u" + Regex.Replace(template, ".{4}", "$0\\u");
-                                    //TemplateData = Regex.Unescape(TemplateData.Substring(0, TemplateData.Length - 2));
-                                    //row["template"] = TemplateData.ToString();
                                     row["smsContent"] = SMSData.ToString();
                                 }
-                                //response = "[{\"campaignName\":\"" + row["campaignName"] + "\",\"campaignType\":\"" + row["campaignType"] + "\",\"fromDate\":\"" + row["fromDate"] + "\",\"toDate\":\"" + row["toDate"] + "\",\"fromTime\":\"" + row["fromTime"] + "\",\"toTime\":\"" + row["toTime"] + "\",\"senderId\":\"" + row["senderId"] + "\", \"templateId\":\"" + row["template"] + "\",\"smsContent\":\"" + row["smsContent"] + "\"}]";                                
                             }
                             else
                             {
                                 SMSData = SMSContent.Replace("\r\n", "");
                                 row["smsContent"] = SMSData;
-                                
-                                //response = cmd.Parameters["@V_Out"].Value.ToString();
-                                //return response;
                             }
                         }
                         dataTable.Columns.Remove("UnicodeStatus");
-                         //return GetJsonStringwithName(dataTable);
                        return GetJsonStringtoinsert(dataTable);
-
-                        //response = cmd.Parameters["@V_Out"].Value.ToString();
-                        //return response;
                     }
                 }
             }
@@ -1099,7 +1082,7 @@ namespace Templateprj.DataAccess
 
             try
             {
-                using (MySqlCommand cmd = new MySqlCommand("Web_Campaign_Create"))
+                using (MySqlCommand cmd = new MySqlCommand("Web_Campaign_Create_vidhu"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@n_Acc_id", MySqlDbType.Int32).Value = HttpContext.Current.Session["AccountID"].ToString();
@@ -1107,9 +1090,7 @@ namespace Templateprj.DataAccess
                     cmd.Parameters.Add("@v_data", MySqlDbType.Text).Value = json;
                     cmd.Parameters.Add("@Ln_Status", MySqlDbType.Int32).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("@Lv_Response", MySqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
-
-
-
+                    
                     DataTable dt = new DataTable();
                     using (MySqlConnection con = new MySqlConnection(GlobalValues.ConnStr))
                     {

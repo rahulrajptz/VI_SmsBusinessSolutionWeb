@@ -158,23 +158,47 @@ namespace Templateprj.Models
     //            }
     //        ]
     //}]
+    public class Create_Response
+    {
+        public string Status { get; set; }
+        public string Message { get; set; }
+        // public string Process { get; set; }
+        public string MasterCampaignID { get; set; }
+        public string CampaignCreateddate { get; set; }
+        public string RequestID { get; set; }
+        public string CampaignName { get; set; }
+        public string CampaignType { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public string FromTime { get; set; }
 
+        public string ToTime { get; set; }
+        public string TemplateId { get; set; }
+        public string TemplateName { get; set; }
+        public string TemplateMessage { get; set; }
+        public string NumberOfVariables { get; set; }
+        public string Header { get; set; }
+        public string Unicode { get; set; }
+
+
+
+    }
     public class campaignmodel
     {
 
-        public string process { get; set; }
-        public string Request_ID { get; set; }
-        public string Campaign_Name { get; set; }
-        public string Campaign_Type { get; set; }
-        public string From_Date { get; set; }
-        public string To_Date { get; set; }
-        public string From_Time { get; set; }
-        public string to_Time { get; set; }
-        public string Template_ID { get; set; }
+        //  public string process { get; set; }
+        public string RequestID { get; set; }
+        public string CampaignName { get; set; }
+        //public string Campaign_Type { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public string FromTime { get; set; }
+        public string ToTime { get; set; }
+        public string TemplateID { get; set; }
         public string pingbackurl { get; set; }
-        public string content_type { get; set; }
-        public string Number_of_variables { get; set; }
-        public List<SMSvariable> SMSvariable { get; set; }
+        //public string content_type { get; set; }
+        //public string Number_of_variables { get; set; }
+        //public List<SMSvariable> SMSvariable { get; set; }
 
         //public string Variable1_header { get; set; }
         //public string Variable2_header { get; set; }
@@ -245,18 +269,14 @@ namespace Templateprj.Models
     //}]
     public class Insertbulksmsmodel
     {
-        public string Process { get; set; }
+        //public string Process { get; set; }
         public string RequestID { get; set; }
         public string MasterCampaignID { get; set; }
-        public string ContentType { get; set; }
-        public string NumberOfVariables { get; set; }
-        public string PingbackUrl { get; set; }
+        // public string ContentType { get; set; }
+        //public string NumberOfVariables { get; set; }
+        //public string PingbackUrl { get; set; }
         //public string BulkData { get; set; }
-
         public List<BulkData> BulkData { get; set; }
-
-
-
 
     }
 
@@ -269,10 +289,14 @@ namespace Templateprj.Models
         public string VAR4 { get; set; }
         public string VAR5 { get; set; }
         public string VAR6 { get; set; }
+
         public string VAR7 { get; set; }
         public string VAR8 { get; set; }
+
         public string VAR9 { get; set; }
+
         public string VAR10 { get; set; }
+
         public string VARU1 { get; set; }
         public string VARU2 { get; set; }
         public string VARU3 { get; set; }
@@ -283,10 +307,14 @@ namespace Templateprj.Models
         public string VARU8 { get; set; }
         public string VARU9 { get; set; }
         public string VARU10 { get; set; }
-        
+
     }
     public class Campaign
     {
+
+
+
+
         public string otp { get; set; }
         [Required]
         [Display(Name = "Campaign Name")]
@@ -317,8 +345,8 @@ namespace Templateprj.Models
         [Required]
         [Display(Name = "TemplateID")]
         public string templateid { get; set; }
-
         [Required]
+
         public string script { get; set; }
         public string pingbackurl { get; set; }
     }
@@ -378,13 +406,6 @@ namespace Templateprj.Models
         public string SMSType { get; set; }
         public string Validity { get; set; }
         public string DeliveryFlag { get; set; }
-
-        //                   IN V_Template_Name varchar(1000),
-        //                    IN N_variable_count int, 
-        //                    IN N_senderId int, 
-        //                    IN N_SMS_Type int, 
-        //                    IN V_validity int, 
-        //                    IN N_Delivery_Flag int, 
     }
     public class SMSTemplateFetch
     {
