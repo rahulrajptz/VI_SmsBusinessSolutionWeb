@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using Templateprj.Helpers;
 
 namespace Templateprj.Models.Managements
 {
@@ -31,6 +32,13 @@ namespace Templateprj.Models.Managements
                     //  string correctString = "";
                     if (_templateMessage.Trim() != "")
                     {
+                        int replacementIndex = 0;
+                        string b = Regex.Replace(_templateMessage, "{#var#}", match =>
+                        {
+                            replacementIndex++;
+                            return $"[VAR{replacementIndex}]";
+                        });
+
                         _templateMessage = "\\u" + Regex.Replace(_templateMessage, ".{4}", "$0\\u");
                         _templateMessage = Regex.Unescape(_templateMessage.Substring(0, _templateMessage.Length - 2));
                     }
@@ -46,6 +54,15 @@ namespace Templateprj.Models.Managements
                 _templateMessage = value;
             }
         }
+
+        public string TemplateMessageHex
+        {
+            get
+            {
+                return this.TemplateMessage.ConvertToHex();
+            }
+        }
+
         public int? ConsentType { get; set; }
         public string Reason { get; set; }
         public int? ContentType { get; set; }

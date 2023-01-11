@@ -1,12 +1,13 @@
 ﻿namespace Templateprj.Helpers
 {
+    using System;
     using System.Text;
 
     public static class StringHelper
     {
-        public static string ConvertToUnicode(this string CodeforConversion)
+        public static string ConvertToUnicode(this string codeforConversion)
         {
-            byte[] unibyte = Encoding.Unicode.GetBytes(CodeforConversion.Trim());
+            byte[] unibyte = Encoding.Unicode.GetBytes(codeforConversion.Trim());
             string uniString = string.Empty;
             string tmp = string.Empty;
             int i = 0;
@@ -24,6 +25,14 @@
                 }
             }
             return uniString;
+        }
+
+        public static string ConvertToHex(this string codeforConversion)
+        {
+            byte[] bytes = Encoding.Default.GetBytes(codeforConversion);
+            string hexString = BitConverter.ToString(bytes);
+            hexString = hexString.Replace("-", "");
+            return hexString;
         }
     }
 }
